@@ -14,7 +14,7 @@ abstract class Easol_BaseEntity extends CI_Model{
 
     public function __construct()
     {
-        $this->load->model();
+
         parent::__construct();
     }
 
