@@ -29,6 +29,7 @@ class Home extends Easol_Controller {
                         [
                             'LoginId'   =>      $staff->LoginId,
                             'StaffUSI'  =>      $staff->StaffUSI,
+                            'StaffUSI'  =>      $authentication->Roleid,
                             'logged_in' => TRUE,
 
                         ]
