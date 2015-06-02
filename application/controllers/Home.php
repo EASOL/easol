@@ -10,7 +10,7 @@ class Home extends Easol_Controller {
     public function index()
 	{
         $this->load->
-        $this->load->model('entities/edfi/Staff','Staff');
+        $this->load->model('entities/edfi/Staff');
 
         $this->Staff->findAll();
 
