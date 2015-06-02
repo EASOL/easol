@@ -53,6 +53,12 @@
                     <li>
                         <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
                     </li>
+                    <?php if($this->session->userdata('logged_in')== true)
+                    { ?>
+                    <li>
+                        <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                    </li>
+                    <?php } ?>
                 </ul>
 
             </div>

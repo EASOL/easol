@@ -40,4 +40,9 @@ class Home extends Easol_Controller {
         }
 		$this->render("login");
 	}
+
+    public function logout(){
+        $this->session->sess_destroy();
+        redirect('/');
+    }
 }
