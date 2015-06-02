@@ -7,9 +7,17 @@
  * Time: 9:02 PM
  */
 
-abstract class Easol_BaseEntity {
+abstract class Easol_BaseEntity extends CI_Model{
+
 
     public $tablePrefix='';
+
+    public function __construct()
+    {
+        $this->load->model();
+        parent::__construct();
+    }
+
 
     /**
      * return table name
@@ -22,4 +30,9 @@ abstract class Easol_BaseEntity {
      * @return array
      */
     public abstract function labels();
+
+    public function findAll(){
+        $this->db->get($this->getTableName());
+
+    }
 }

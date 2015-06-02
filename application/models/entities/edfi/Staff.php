@@ -7,7 +7,8 @@
  * Time: 9:53 PM
  */
 
-class Staff extends Easol_BaseEntity {
+require_once APPPATH.'/core/Easol_BaseEntity.php';
+class Staff extends Easol_baseentity {
 
     /**
      * labels for the database fields
