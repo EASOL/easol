@@ -43,6 +43,7 @@ class Staff extends Easol_baseentity {
         ];
     }
 
+
     /**
      * return table name
      * @return string
