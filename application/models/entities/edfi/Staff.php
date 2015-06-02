@@ -52,4 +52,5 @@ class Staff extends Easol_baseentity {
     {
         return "edfi.staff";
     }
+
 }

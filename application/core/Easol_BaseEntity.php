@@ -12,6 +12,8 @@ abstract class Easol_BaseEntity extends CI_Model{
 
     public $tablePrefix='';
 
+    public $isNewRecord= true;
+
     public function __construct()
     {
 
@@ -31,8 +33,24 @@ abstract class Easol_BaseEntity extends CI_Model{
      */
     public abstract function labels();
 
+    /**
+     * select all row
+     * @return array
+     */
     public function findAll(){
-        $this->db->get($this->getTableName());
+        return $this->db->get($this->getTableName());
+
+    }
+
+    /**
+     * find single row
+     * @param array $params
+     * @return object
+     */
+    public function findOne($params=[]){
+        $query = $this->db->get_where($this->getTableName(), $params);
+
+        return $query->row();
 
     }
 }

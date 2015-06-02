@@ -9,11 +9,35 @@ class Home extends Easol_Controller {
      */
     public function index()
 	{
+        if($this->session->userdata('logged_in')== true)
+        {
+            return redirect('/dashboard');
+        }
 
-        $this->load->model('entities/edfi/Staff');
+        if(isset($_POST['login']) && $data=$this->input->post('login')) {
 
-        $this->Staff->findAll();
+            $this->load->model('entities/edfi/Staff');
+            /* @var $this ->Staff Staff */
+            $staff = $this->Staff->findOne(['LoginId' => $data['username']]);
+            if($staff) {
 
+                $this->load->model('entities/easol/StaffAuthentication','authentication');
+                $authentication=$this->authentication->findOne(['StaffUSI' => $staff->StaffUSI]);
+                if($authentication && $authentication->Password== sha1($data['password'])){
+                    $this->session->sess_expiration =   '1200';
+                    $this->session->set_userdata(
+                        [
+                            'LoginId'   =>      $staff->LoginId,
+                            'StaffUSI'  =>      $staff->StaffUSI,
+                            'logged_in' => TRUE,
+
+                        ]
+                    );
+                    return redirect('/dashboard');
+                }
+            }
+            return $this->render("login",['message' => 'Invalid username/password']);
+        }
 		$this->render("login");
 	}
 }
