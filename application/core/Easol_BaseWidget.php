@@ -20,7 +20,10 @@ abstract class Easol_BaseWidget extends CI_Model {
      * @param $view
      * @param array $param
      */
-    public function render($view,$param=[]){
+    public function render($view,$params=[]){
+
+        $this->load->view("../widgets/".get_called_class().'/'.$view,$params);
+
 
     }
 

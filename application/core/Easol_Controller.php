@@ -18,6 +18,7 @@ class Easol_Controller extends CI_Controller {
      */
     public function __construct()
     {
+        $this->initiateRequiredClass();
         parent::__construct();
     }
 
@@ -28,7 +29,7 @@ class Easol_Controller extends CI_Controller {
      * @param bool $return
      */
     public function render($view,$params=[],$return=false){
-        $this->load->helper('url');
+
         ob_start();
         $this->load->view(get_called_class().'/'.$view,$params);
         $content= ob_get_contents();
@@ -43,6 +44,15 @@ class Easol_Controller extends CI_Controller {
         }
         else
             echo $content;
+
+    }
+
+    /**
+     * Include all required classes
+     */
+    private function initiateRequiredClass()
+    {
+        //require_once APPPATH.'/core/Easol_Widget.php';
 
     }
 
