@@ -11,7 +11,7 @@ class Schools extends Easol_Controller {
      */
     public function index()
 	{
-        $query= $this->db->query(
+        $schoolQuery= $this->db->query(
             "SELECT EducationOrganization.EducationOrganizationId,
                   EducationOrganization.NameOfInstitution, EducationOrganizationAddress.City
                   FROM edfi.EducationOrganization
@@ -22,6 +22,10 @@ class Schools extends Easol_Controller {
                   WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2"
         );
 
-		$this->render("index");
+
+
+
+
+		$this->render("index",['schoolQuery'=>$schoolQuery]);
 	}
 }

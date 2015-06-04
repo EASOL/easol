@@ -13,16 +13,22 @@ class DataTable extends Easol_BaseWidget {
     /**
      * Run the widget functionality
      */
+    public $query;
 
-    public $column=[
-        'column'    =>  'name',
-        'type'      =>  'text'
+    /*
+     *  ['column'    =>  'name',
+     *  'type'      =>  'text',
+     *  'title'      =>  'title'
+     *  ]
+     */
+    public $columns= [
+
     ];
 
 
     public function run()
     {
 
-        $this->render("view");
+        $this->render("view",['query'=>$this->query,'columns' => $this->columns ]);
     }
 }
