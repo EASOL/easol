@@ -10,7 +10,7 @@ require_once APPPATH.'/core/Easol_BaseWidget.php';
 
 class Pagination extends Easol_BaseWidget {
 
-    public $totalPage=null;
+    public $totalElements=null;
     public $pageSize=null;
     public $currentPage=0;
 
@@ -20,10 +20,10 @@ class Pagination extends Easol_BaseWidget {
     public function run()
     {
 
-        if($this->totalPage==null)
+        if($this->totalElements==null)
             throw new ErrorException("Total Page Not Set!!");
         if($this->pageSize==null)
             throw new ErrorException("Page Size Not Set!!");
-        $this->render("view",['totalPage' => $this->totalPage,'pageSize'=>$this->pageSize,'currentPage'=>$this->currentPage]);
+        $this->render("view",['totalElements' => $this->totalElements,'pageSize'=>$this->pageSize,'currentPage'=>$this->currentPage]);
     }
 }

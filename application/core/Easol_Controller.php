@@ -66,8 +66,11 @@ class Easol_Controller extends CI_Controller {
             if(Easol_AuthorizationRoles::hasAccess($allowedRoles)){
                 return true;
             }
+            return redirect('home/accessdenied');
+
         }
-        return redirect('home/accessdenied');
+        return redirect('home');
+
 
     }
 
