@@ -11,11 +11,17 @@ class AuthorizationRoles extends CI_Model {
 
     protected static $roles=[];
 
+    protected static $loggedIn = false;
+
     /**
      * default constructor
      */
     public function __construct(){
         $this->getRoles();
+        if($this->session->userdata('logged_in')== true)
+        {
+            self::$loggedIn=true;
+        }
         parent::__construct();
     }
 
@@ -36,7 +42,7 @@ class AuthorizationRoles extends CI_Model {
 
     /**
      * return the role id based on the role type name
-     * @param $name
+     * @param string $name
      * @return int
      */
     public static function getRoleIdByName($name){
@@ -45,7 +51,30 @@ class AuthorizationRoles extends CI_Model {
         return null;
     }
 
-    public static function hasAccess(){}
+    /**
+     * check the request is authorize
+     * @param array $allowedRules
+     * @return bool
+     */
+    public static function hasAccess($allowedRules=[]){
+        if(self::isLoggedIn()){
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * return if the current user logged in
+     * @param bool $loggedInRedirect
+     * @return bool
+     */
+    public static function isLoggedIn($loggedInRedirect=true){
+        if($loggedInRedirect && !self::$loggedIn){
+                return redirect('/');
+        }
+        return self::$loggedIn;
+    }
 
 
 }
