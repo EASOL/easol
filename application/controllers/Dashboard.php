@@ -10,6 +10,7 @@ class Dashboard extends Easol_Controller {
     public function index()
 	{
 
+
 		$this->render("index");
 	}
 }

@@ -7,21 +7,19 @@
  * Time: 1:59 AM
  */
 
-class AuthorizationRoles extends CI_Model {
+class Easol_AuthorizationRoles extends CI_Model {
 
     protected static $roles=[];
 
-    protected static $loggedIn = false;
 
     /**
      * default constructor
      */
     public function __construct(){
+
+
         $this->getRoles();
-        if($this->session->userdata('logged_in')== true)
-        {
-            self::$loggedIn=true;
-        }
+
         parent::__construct();
     }
 
@@ -29,10 +27,9 @@ class AuthorizationRoles extends CI_Model {
      * Initialize RoleTypes
      */
     public function getRoles(){
-        $this->load->model('entities/easol/RoleType','authentication');
-        $obj= new RoleType();
+        $this->load->model('entities/easol/Easol_RoleType','Easol_RoleType');
 
-        $roles=$obj->findAll();
+        $roles=$this->Easol_RoleType->findAll();
 
         foreach($roles->result() as $role){
             self::$roles[$role->RoleTypeName]=$role->RoleTypeId;
@@ -53,28 +50,27 @@ class AuthorizationRoles extends CI_Model {
 
     /**
      * check the request is authorize
-     * @param array $allowedRules
+     * @param array $allowedRoles
      * @return bool
+     * @internal param array $allowedRules
      */
-    public static function hasAccess($allowedRules=[]){
-        if(self::isLoggedIn()){
-            return true;
+    public static function hasAccess($allowedRoles=[]){
+
+        if(!Easol_Authentication::userdata('RoleId'))
+            return false;
+
+        foreach($allowedRoles as $role){
+            if(array_key_exists($role, self::$roles) && self::$roles[$role]==Easol_Authentication::userdata('RoleId')){
+
+                return true;
+
+            }
         }
+
         return false;
-
     }
 
-    /**
-     * return if the current user logged in
-     * @param bool $loggedInRedirect
-     * @return bool
-     */
-    public static function isLoggedIn($loggedInRedirect=true){
-        if($loggedInRedirect && !self::$loggedIn){
-                return redirect('/');
-        }
-        return self::$loggedIn;
-    }
+
 
 
 }

@@ -8,6 +8,9 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property  session
+ */
 class Easol_Controller extends CI_Controller {
     protected $layout='layout/default/main';
 
@@ -57,13 +60,15 @@ class Easol_Controller extends CI_Controller {
     }
 
 
-    protected function authorize($loginRequired=true,$allowedRoles=[]){
-        if($loginRequired){
-            if($this->session->userdata('logged_in')!= true)
-            {
-                return redirect('/');
+    protected function authorize($allowedRoles=[]){
+
+        if(Easol_Authentication::isLoggedIn()){
+            if(Easol_AuthorizationRoles::hasAccess($allowedRoles)){
+                return true;
             }
         }
+        return redirect('home/accessdenied');
+
     }
 
 }

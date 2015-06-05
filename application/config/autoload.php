@@ -137,5 +137,5 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array('Easol_Widget','AuthorizationRoles');
+$autoload['model'] = array('Easol_Widget','Easol_Authentication','Easol_AuthorizationRoles');
 

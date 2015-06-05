@@ -8,7 +8,7 @@
  */
 
 require_once APPPATH.'/core/Easol_BaseEntity.php';
-class Staff extends Easol_baseentity {
+class Edfi_Staff extends Easol_baseentity {
 
     /**
      * labels for the database fields

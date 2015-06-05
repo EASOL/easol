@@ -7,7 +7,7 @@
  * Time: 9:53 PM
  */
 require_once APPPATH.'/core/Easol_BaseEntity.php';
-class StaffAuthentication extends Easol_BaseEntity {
+class Easol_StaffAuthentication extends Easol_BaseEntity {
 
     /**
      * labels for the database fields

@@ -8,7 +8,7 @@
  */
 
 require_once APPPATH.'/core/Easol_BaseEntity.php';
-class RoleType extends Easol_BaseEntity {
+class Easol_RoleType extends Easol_BaseEntity {
 
     /**
      * return table name
