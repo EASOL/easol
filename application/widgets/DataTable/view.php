@@ -36,9 +36,7 @@ if ($query->num_rows() > 0 && count($columns) > 0)
                         ?>
                         <tr>
                             <?php
-
                             foreach($columns as $column){
-
                                 $colType='text';
                                 if(is_array($column)){
                                     $colName = $column['name'];
@@ -47,17 +45,13 @@ if ($query->num_rows() > 0 && count($columns) > 0)
                                 }
                                 else
                                     $colName = $column;
-
                                 ?>
                                 <td>
                                     <?php if(isset($row->$colName)) { ?>
                                             <?php
                                             if($colType=='url'){
-
-                                                //to do: fix url anonymous function
-                                                //print_r($column['url']);
                                                 ?>
-                                                <a href="#"><?= $row->$colName ?></a>
+                                                <a href="<?= $column['url']($row) ?>"><?= $row->$colName ?></a>
                                                 <?php
 
                                             }

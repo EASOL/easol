@@ -11,6 +11,8 @@ class Schools extends Easol_Controller {
      */
     public function index()
 	{
+        $this->authorize(true,[1,2]);
+
         $schoolQuery= $this->db->query(
             "SELECT EducationOrganization.EducationOrganizationId,
                   EducationOrganization.NameOfInstitution, EducationOrganizationAddress.City

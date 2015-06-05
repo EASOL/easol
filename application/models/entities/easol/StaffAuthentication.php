@@ -6,7 +6,7 @@
  * Date: 6/2/2015
  * Time: 9:53 PM
  */
-
+require_once APPPATH.'/core/Easol_BaseEntity.php';
 class StaffAuthentication extends Easol_BaseEntity {
 
     /**

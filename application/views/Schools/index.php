@@ -14,7 +14,7 @@
                         ['name' => 'EducationOrganizationId', 'title' => 'Education Organization Id','type' => 'url',
                             'url' =>
                                 function($model){
-                                    return $model->url;
+                                    return $model->EducationOrganizationId;
                                 }
                         ],
                         ['name' => 'NameOfInstitution', 'title' => 'Name of Institution' ],

@@ -56,4 +56,14 @@ class Easol_Controller extends CI_Controller {
 
     }
 
+
+    protected function authorize($loginRequired=true,$allowedRoles=[]){
+        if($loginRequired){
+            if($this->session->userdata('logged_in')!= true)
+            {
+                return redirect('/');
+            }
+        }
+    }
+
 }
