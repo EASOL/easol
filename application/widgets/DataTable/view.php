@@ -72,6 +72,19 @@ if ($query->num_rows() > 0 && count($columns) > 0)
                 </tbody>
             </table>
         </div>
+
+
         <?php
     }
+?>
+<?php Easol_Widget::show("Pagination",
+    [
+        'totalPage' => 10,
+        'pageSize' => 10
+
+    ]
+
+) ?>
+
+
 

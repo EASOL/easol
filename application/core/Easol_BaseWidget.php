@@ -9,6 +9,8 @@
 
 abstract class Easol_BaseWidget extends CI_Model {
 
+    public $htmlOptions=[];
+
 
     /**
      * Run the widget functionality
