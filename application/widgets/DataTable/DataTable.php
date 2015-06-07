@@ -15,6 +15,8 @@ class DataTable extends Easol_BaseWidget {
      */
     public $query;
 
+    public $pagination=null;
+
     /*
      *  ['column'    =>  'name',
      *  'type'      =>  'text',
@@ -28,7 +30,16 @@ class DataTable extends Easol_BaseWidget {
 
     public function run()
     {
+        if($this->pagination!=null){
 
-        $this->render("view",['query'=>$this->query,'columns' => $this->columns ]);
+        }
+
+        $dbQuery= $this->db->query($this->query);
+
+        $this->render("view",[
+            'query' =>  $dbQuery,
+            'columns'   =>    $this->columns,
+            'pagination'    => $this->pagination
+        ]);
     }
 }

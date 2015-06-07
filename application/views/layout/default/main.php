@@ -27,39 +27,41 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
-                <ul class="nav" id="main-menu" style="padding-top: 80px;">
-                    <li>
-                        <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grade Reporting</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Class Reporting</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
-                    </li>
+                <?php if(Easol_Authentication::isLoggedIn()) { ?>
+                    <ul class="nav" id="main-menu" style="padding-top: 80px;">
+                        <li>
+                            <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grade Reporting</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Class Reporting</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
+                        </li>
 
-                    <li>
-                        <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
-                    </li>
-                    <?php if($this->session->userdata('logged_in')== true)
-                    { ?>
-                    <li>
-                        <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
-                    </li>
-                    <?php } ?>
-                </ul>
+                        <li>
+                            <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
+                        </li>
+                        <?php if($this->session->userdata('logged_in')== true)
+                        { ?>
+                        <li>
+                            <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                <?php } ?>
 
             </div>
 

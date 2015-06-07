@@ -9,20 +9,21 @@
 ?>
 <nav>
     <ul class="pagination">
-        <li>
+       <?php /* <li>
             <a href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
+        */ ?>
+        <?php for($i=1;$i<=$noOfPage; $i++){ ?>
+            <li <?php if($i==$currentPage) echo 'class="active"'; ?>><a href="<?= site_url(str_replace("@pageNo",$i,$url)) ?>"><?= $i ?></a></li>
+        <?php } ?>
+        <?php /*
         <li>
             <a href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
+        */ ?>
     </ul>
 </nav>

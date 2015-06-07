@@ -8,7 +8,8 @@
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTable",
             [
-                'query' => $schoolQuery,
+                'query' => $query,
+                'pagination' => $pagination,
                 'columns'   =>
                     [
                         ['name' => 'EducationOrganizationId', 'title' => 'Education Organization Id','type' => 'url',

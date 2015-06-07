@@ -12,7 +12,8 @@ class Pagination extends Easol_BaseWidget {
 
     public $totalElements=null;
     public $pageSize=null;
-    public $currentPage=0;
+    public $currentPage=1;
+    public $url="";
 
     /**
      * Run the widget functionality
@@ -24,6 +25,9 @@ class Pagination extends Easol_BaseWidget {
             throw new ErrorException("Total Page Not Set!!");
         if($this->pageSize==null)
             throw new ErrorException("Page Size Not Set!!");
-        $this->render("view",['totalElements' => $this->totalElements,'pageSize'=>$this->pageSize,'currentPage'=>$this->currentPage]);
+
+        $noOfPage =ceil($this->totalElements/$this->pageSize);
+
+        $this->render("view",['noOfPage' => $noOfPage,'currentPage'=>$this->currentPage,'url' => $this->url]);
     }
 }
