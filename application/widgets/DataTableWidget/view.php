@@ -78,7 +78,7 @@ if ($query->num_rows() > 0 && count($columns) > 0)
     }
 ?>
 <?php if($pagination!=null){ ?>
-    <?php Easol_Widget::show("Pagination",$pagination) ?>
+    <?php Easol_Widget::show("PaginationWidget",$pagination) ?>
 <?php } ?>
 
 

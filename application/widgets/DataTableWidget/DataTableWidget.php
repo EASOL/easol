@@ -8,7 +8,7 @@
  */
 require_once APPPATH.'/core/Easol_BaseWidget.php';
 
-class DataTable extends Easol_BaseWidget {
+class DataTableWidget extends Easol_BaseWidget {
 
     /**
      * Run the widget functionality

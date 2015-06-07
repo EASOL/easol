@@ -6,7 +6,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <?php Easol_Widget::show("DataTable",
+        <?php Easol_Widget::show("DataTableWidget",
             [
                 'query' => $query,
                 'pagination' => $pagination,
