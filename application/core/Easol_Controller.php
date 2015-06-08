@@ -78,6 +78,10 @@ class Easol_Controller extends CI_Controller {
     }
 
 
+    /**
+     * Access Rules. Should be overridden
+     * @return array
+     */
     protected function accessRules(){
         return [];
     }
