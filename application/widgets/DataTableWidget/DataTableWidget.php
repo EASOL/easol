@@ -31,10 +31,12 @@ class DataTableWidget extends Easol_BaseWidget {
     public function run()
     {
         if($this->pagination!=null){
+            $this->query.='  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
+            $dbQuery= $this->db->query($this->query,[abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'],$this->pagination['pageSize']]);
 
         }
-
-        $dbQuery= $this->db->query($this->query);
+        else
+            $dbQuery= $this->db->query($this->query);
 
         $this->render("view",[
             'query' =>  $dbQuery,

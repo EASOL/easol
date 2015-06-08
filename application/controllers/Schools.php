@@ -39,7 +39,7 @@ class Schools extends Easol_Controller {
                   INNER JOIN edfi.EducationOrganizationAddress
                   ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId
                   WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2
-                  ORDER BY EducationOrganization.EducationOrganizationId OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY
+                  ORDER BY EducationOrganization.EducationOrganizationId
                   ";
 
         $totalCount=$this->db->query(
@@ -60,7 +60,7 @@ class Schools extends Easol_Controller {
             'pagination'  =>
             [
                 'totalElements' => $totalCount->tot,
-                'pageSize' => 2,
+                'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
                 'currentPage' => $id,
                 'url'   =>  'schools/index/@pageNo'
             ]
