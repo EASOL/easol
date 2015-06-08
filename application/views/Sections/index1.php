@@ -12,16 +12,18 @@
                     [
                         'NameOfInstitution' =>
                             [
-                                'database'  =>  true,
                                 'entity'    =>  'entities/edfi/Edfi_School',
-                                'query'     =>  "SELECT * FROM edfi.EducationOrganization",
-                                'column'    =>  'NameOfInstitution',
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.EducationOrganization"),
+                                'searchColumn'    =>  'edfi.EducationOrganization.EducationOrganizationId',
+                                'textColumn'=>  'NameOfInstitution',
+                                'indexColumn'=>  'EducationOrganizationId',
                                 'label'     =>  'Name of Institution',
-                                'type'      =>  'dropdown'
+                                'type'      =>  'dropdown',
+                                'access'    =>  ['System Administrator','Data Administrator'],
+                                'default'   => ''
                             ],
                         'Year'  =>
                             [
-                                'database'  =>  'false',
                                 'range'     =>
                                     [
                                         'type'  =>  'dynamic',

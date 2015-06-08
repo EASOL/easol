@@ -10,6 +10,12 @@
 if ($query->num_rows() > 0 && count($columns) > 0)
     {
         ?>
+        <?php if($filter!=null) { ?>
+        <div class="row" style="padding-bottom: 40px">
+            <?php  Easol_Widget::show("DataFilterWidget", $filter) ?>
+        </div>
+        <div class="clearfix"></div>
+        <?php }    ?>
         <div class="dataTableGrid">
             <table class="table">
                 <thead>

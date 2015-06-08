@@ -8,10 +8,41 @@
  */
 ?>
 <div class="row">
-    <div class="col-md-12">
-        <?php foreach($fields as $key => $field){ ?>
+    <form action="" method="get" class="form-inline">
+        <div class="col-md-12">
+            <?php foreach($fields as $key => $field){ ?>
+                <div class="form-group">
+                    <label for="filter-<?= $key ?>"><?= $field['label'] ?></label>
+                    <?php if($field['type']=='dropdown') { ?>
+                        <select class="form-control" name="filter[<?= $key ?>]">
+                            <?php
+                                if(isset($field['query'])){
+                                    foreach($field['query']->result() as $row){
+                                        ?>
+                                            <option value="<?= $row->$field['indexColumn'] ?>" <?php if($row->$field['indexColumn']==$field['default']) echo 'selected' ?>><?= $row->$field['textColumn'] ?></option>
+                                        <?php
+                                    }
+                                }
+                                elseif(isset($field['range'])){
+                                    if($field['range']['type']=='dynamic'){
+                                        for($i=$field['range']['start'];$i<=$field['range']['end'];$i+=$field['range']['increament']){
+                                        ?>
+                                            <option value="<?= $i ?>" <?php if($i==$field['default']) echo 'selected' ?>><?= $i ?></option>
+                                        <?php
+                                        }
 
-        <?php } ?>
-    </div>
+                                    }
+                                }
+                            ?>
+
+                        </select>
+                <?php } ?>
+                </div>
+
+
+            <?php } ?>
+            <button type="submit" class="btn btn-default">Filter</button>
+        </div>
+    </form>
 
 </div>

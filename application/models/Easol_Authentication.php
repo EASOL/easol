@@ -17,6 +17,8 @@ class Easol_Authentication extends CI_Model {
         self::$userInfo=$this->session->userdata();
         if($this->session->userdata('logged_in')== true)
         {
+            self::$userInfo['__ci_last_regenerate']=time();
+            $this->session->set_userdata(self::$userInfo);
             self::$loggedIn=true;
         }
 
@@ -38,6 +40,8 @@ class Easol_Authentication extends CI_Model {
      * @return mixed
      */
     public static function userdata($field=""){
+
+
         if($field=="")
             return self::$userInfo;
         if(array_key_exists($field,self::$userInfo)){

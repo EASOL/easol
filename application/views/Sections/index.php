@@ -10,6 +10,7 @@
             [
                 'query' => $query,
                 'pagination' => $pagination,
+                'filter'    =>  $filter,
                 'columns'   =>
                     [
                         ['name' => 'SchoolId', 'title' => 'SchoolId','type' => 'url',
