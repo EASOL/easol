@@ -32,14 +32,16 @@
                         <li>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li>
+                                <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
+                            </li>
+                        <?php } ?>
                         <li>
-                            <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
+                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grades</a>
                         </li>
                         <li>
-                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grade Reporting</a>
-                        </li>
-                        <li>
-                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Class Reporting</a>
+                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Sections</a>
                         </li>
                         <li>
                             <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
@@ -48,12 +50,16 @@
                         <li>
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
-                        <li>
-                            <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
-                        </li>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li>
+                                <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
+                            </li>
+                        <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                         <li>
                             <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
                         </li>
+                        <?php } ?>
                         <?php if($this->session->userdata('logged_in')== true)
                         { ?>
                         <li>

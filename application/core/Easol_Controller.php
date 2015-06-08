@@ -23,6 +23,8 @@ class Easol_Controller extends CI_Controller {
     {
         $this->initiateRequiredClass();
         parent::__construct();
+
+        $this->processAccessRules();
     }
 
     /**
@@ -60,18 +62,37 @@ class Easol_Controller extends CI_Controller {
     }
 
 
+    /**
+     * @param array | string $allowedRoles
+     * $allowedRoles * for grant all access, @ for all logged in users, [] for specific user
+     * @return bool|void
+     */
     protected function authorize($allowedRoles=[]){
 
-        if(Easol_Authentication::isLoggedIn()){
-            if(Easol_AuthorizationRoles::hasAccess($allowedRoles)){
-                return true;
-            }
-            return redirect('home/accessdenied');
+        if($allowedRoles=='@' && !Easol_Authentication::isLoggedIn())
+            return redirect('home');
+        if(Easol_AuthorizationRoles::hasAccess($allowedRoles))
+            return true;
+        return redirect('home/accessdenied');
 
+    }
+
+
+    protected function accessRules(){
+        return [];
+    }
+
+    protected function processAccessRules(){
+
+        if(array_key_exists($this->router->fetch_method(),$this->accessRules())){
+            return $this->authorize($this->accessRules()[$this->router->fetch_method()]);
         }
-        return redirect('home');
 
+        if(array_key_exists('default',$this->accessRules())){
+            return $this->authorize($this->accessRules()['default']);
+        }
 
+        return $this->authorize("@");
     }
 
 }

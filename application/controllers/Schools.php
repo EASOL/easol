@@ -4,6 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Schools extends Easol_Controller {
 
 
+    protected function accessRules(){
+        return [
+            "index"     =>  ['System Administrator','Data Administrator'],
+        ];
+    }
+
 
 
     /**
@@ -12,7 +18,6 @@ class Schools extends Easol_Controller {
     public function index($id=1)
 	{
 
-        $this->authorize(['System Administrator','Data Administrator']);
         /*
         $schoolQuery= $this->db->query(
             "SELECT EducationOrganization.EducationOrganizationId,
@@ -34,6 +39,7 @@ class Schools extends Easol_Controller {
                   INNER JOIN edfi.EducationOrganizationAddress
                   ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId
                   WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2
+                  ORDER BY EducationOrganization.EducationOrganizationId OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY
                   ";
 
         $totalCount=$this->db->query(

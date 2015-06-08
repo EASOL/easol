@@ -5,6 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends Easol_Controller {
 
 
+    protected function accessRules(){
+        return [
+            "index"     =>  "*",
+            "logout"    =>  "@",
+            "accessdenied"  =>  "@"
+        ];
+    }
     /**
      * index page
      */
@@ -54,7 +61,7 @@ class Home extends Easol_Controller {
     /**
      * access denied page
      */
-    public function accessDenied(){
+    public function accessdenied(){
         $this->render("access-denied");
     }
 }

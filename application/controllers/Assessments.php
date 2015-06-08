@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Assessments extends Easol_Controller {
 
 
+    protected function accessRules(){
+        return [
+            "index"     =>  "@",
+        ];
+    }
     /**
      * index action
      */

@@ -51,10 +51,16 @@ class Easol_AuthorizationRoles extends CI_Model {
     /**
      * check the request is authorize
      * @param array $allowedRoles
+     * $allowedRoles * for grant all access, @ for all logged in users, [] for specific user
      * @return bool
-     * @internal param array $allowedRules
      */
     public static function hasAccess($allowedRoles=[]){
+        if(!is_array($allowedRoles)){
+            if($allowedRoles=='*')
+                return true;
+            if($allowedRoles=='@' && Easol_Authentication::isLoggedIn())
+                return true;
+        }
 
         if(!Easol_Authentication::userdata('RoleId'))
             return false;
