@@ -10,6 +10,7 @@
             [
                 'query' => $query,
                 'pagination' => $pagination,
+                'colOrderBy'    =>  'EducationOrganizationId',
                 'columns'   =>
                     [
                         ['name' => 'EducationOrganizationId', 'title' => 'Education Organization Id','type' => 'url',

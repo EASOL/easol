@@ -28,7 +28,6 @@ class Schools extends Easol_Controller {
                   INNER JOIN edfi.EducationOrganizationAddress
                   ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId
                   WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2
-                  ORDER BY EducationOrganization.EducationOrganizationId
                   ";
 
         $totalCount=$this->db->query(

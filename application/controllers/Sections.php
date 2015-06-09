@@ -28,7 +28,7 @@ class Sections extends Easol_Controller {
                  edfi.StudentSectionAssociation.TermTypeId = edfi.Section.TermTypeId AND
                  edfi.StudentSectionAssociation.SchoolYear = edfi.Section.SchoolYear /*@filter*/
                  GROUP BY edfi.Section.SchoolId, edfi.Section.SchoolYear, edfi.Section.UniqueSectionCode, edfi.Section.LocalCourseCode, edfi.Section.ClassPeriodName, edfi.Section.ClassroomIdentificationCode
-                 ORDER BY edfi.Section.SchoolId
+
                   ";
 
         $totalCount=$this->db->query(
@@ -56,14 +56,14 @@ class Sections extends Easol_Controller {
                             [
                                 'entity'    =>  'entities/edfi/Edfi_School',
                                 'query'     =>  $this->db->query("SELECT * FROM edfi.EducationOrganization"),
-                                'searchColumn'    =>  'edfi.Section.SchoolId',
+                                'searchColumn'    =>  'SchoolId',
                                 'searchColumnType'  => 'int',
                                 'textColumn'=>  'NameOfInstitution',
                                 'indexColumn'=>  'EducationOrganizationId',
                                 'label'     =>  'Name of Institution',
                                 'type'      =>  'dropdown',
                                 'access'    =>  ['System Administrator','Data Administrator'],
-                                'default'   => ''
+                                'default'   => $this->input->get('filter[NameOfInstitution]')
                             ],
                         'Year'  =>
                             [
@@ -74,9 +74,9 @@ class Sections extends Easol_Controller {
                                         'end'   =>  date('Y'),
                                         'increament'    =>  1,
                                     ],
-                                'searchColumn'    =>  'edfi.Section.SchoolYear',
+                                'searchColumn'    =>  'SchoolYear',
                                 'searchColumnType'  => 'int',
-                                'default'   =>  date('Y'),
+                                'default'   =>  ($this->input->get('filter[Year]')==null) ? date('Y') : $this->input->get('filter[Year]'),
                                 'label'     =>  'Year',
                                 'type'      =>  'dropdown'
 

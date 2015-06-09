@@ -23,6 +23,7 @@ class DataTableWidget extends Easol_BaseWidget {
      *  'title'      =>  'title'
      *  ]
      */
+    public $colOrderBy=null;
     public $columns= [
 
     ];
@@ -32,23 +33,37 @@ class DataTableWidget extends Easol_BaseWidget {
 
     public function run()
     {
+
         if($this->filter!=null && array_key_exists('filter',$_GET)){ /*@filter*/
-            $queryAddition=' ';
+            $queryAddition=[];
+
             foreach($this->filter['fields'] as $key => $field){
                 if($field['type']=='dropdown' && $this->input->get('filter['.$key.']')!=""){
-                    $queryAddition.=" AND ".$field['searchColumn']."=".$this->db->escape($this->input->get('filter['.$key.']'))." ";
+                    $queryAddition[]=$field['searchColumn']."=".$this->db->escape($this->input->get('filter['.$key.']'))." ";
 
                 }
-            }
 
-            $this->query=str_replace('/*@filter*/',$queryAddition,$this->query);
+            }
+            $this->query= "SELECT * FROM (".$this->query.") as a WHERE ".implode(' AND ', $queryAddition) ;
+
+            //$this->query=str_replace('/*@filter*/',$queryAddition,$this->query);
 
             //die($this->query);
 
 
         }
         if($this->pagination!=null){
-            $this->query.='  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
+            $totalCount=$this->db->query(
+                "SELECT  count(*) as tot FROM
+            (".$this->query.") b"
+            )->row();
+
+            //die(print_r($totalCount));
+
+
+            $this->pagination['totalElements']  =   $totalCount->tot;
+            $this->query.='ORDER BY '.$this->colOrderBy.'  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
+
             $dbQuery= $this->db->query($this->query,[abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'],$this->pagination['pageSize']]);
 
         }

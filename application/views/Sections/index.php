@@ -11,6 +11,7 @@
                 'query' => $query,
                 'pagination' => $pagination,
                 'filter'    =>  $filter,
+                'colOrderBy'    =>  'SchoolId',
                 'columns'   =>
                     [
                         ['name' => 'SchoolId', 'title' => 'SchoolId','type' => 'url',

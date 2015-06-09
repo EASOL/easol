@@ -20,14 +20,10 @@ class PaginationWidget extends Easol_BaseWidget {
      */
     public function run()
     {
-
-        if($this->totalElements==null)
-            throw new ErrorException("Total Page Not Set!!");
         if($this->pageSize==null)
             throw new ErrorException("Page Size Not Set!!");
 
         $noOfPage =ceil($this->totalElements/$this->pageSize);
-
         $this->render("view",['noOfPage' => $noOfPage,'currentPage'=>$this->currentPage,'url' => $this->url]);
     }
 }

@@ -6,16 +6,18 @@
  * Date: 6/3/2015
  * Time: 3:44 PM
  */
-
+?>
+<?php if($filter!=null) { ?>
+    <div class="row" style="padding-bottom: 40px">
+        <?php  Easol_Widget::show("DataFilterWidget", $filter) ?>
+    </div>
+    <div class="clearfix"></div>
+<?php }    ?>
+<?php
 if ($query->num_rows() > 0 && count($columns) > 0)
     {
         ?>
-        <?php if($filter!=null) { ?>
-        <div class="row" style="padding-bottom: 40px">
-            <?php  Easol_Widget::show("DataFilterWidget", $filter) ?>
-        </div>
-        <div class="clearfix"></div>
-        <?php }    ?>
+
         <div class="dataTableGrid">
             <table class="table">
                 <thead>
@@ -58,7 +60,7 @@ if ($query->num_rows() > 0 && count($columns) > 0)
                                             if($colType=='url'){
                                                 ?>
                                                 <a href="<?= $column['url']($row) ?>"><?= $row->$colName ?></a>
-                                                <?php
+                                            <?php
 
                                             }
                                             else {
