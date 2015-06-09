@@ -37,6 +37,11 @@
                                 <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
                             </li>
                         <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li>
+                                <a href="<?= site_url("/student") ?>"><i class="fa fa-edit"></i> Students</a>
+                            </li>
+                        <?php } ?>
                         <li>
                             <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grades</a>
                         </li>

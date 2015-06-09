@@ -56,16 +56,22 @@ if ($query->num_rows() > 0 && count($columns) > 0)
                                 ?>
                                 <td>
                                     <?php if(isset($row->$colName)) { ?>
+                                        <?php
+                                            $value=$row->$colName;
+                                            if(isset($column['value'])){
+                                                $value=$column['value']($row);
+                                            }
+                                        ?>
                                             <?php
                                             if($colType=='url'){
                                                 ?>
-                                                <a href="<?= $column['url']($row) ?>"><?= $row->$colName ?></a>
+                                                <a href="<?= $column['url']($row) ?>"><?= $value ?></a>
                                             <?php
 
                                             }
                                             else {
                                             ?>
-                                            <?= $row->$colName ?>
+                                            <?= $value ?>
                                             <?php } ?>
                                     <?php } ?>
 
