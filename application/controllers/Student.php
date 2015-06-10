@@ -78,4 +78,10 @@ inner join edfi.GradeLevelType on
             ]
         ]);
 	}
+
+    public function overview($id=null){
+
+
+        $this->render("overview");
+    }
 }
