@@ -16,7 +16,7 @@
         </li>
         */ ?>
         <?php for($i=1;$i<=$noOfPage; $i++){ ?>
-            <li <?php if($i == $currentPage) echo 'class="active"'; ?>><a href="<?= site_url(str_replace("@pageNo",$i,$url)) ?>?<?= $_SERVER['QUERY_STRING'] ?>"><?= $i ?></a></li>
+            <li <?php if($i == $currentPage) echo 'class="active"'; ?>><a href="<?= site_url(str_replace("@pageNo",$i,$url)) ?><?= (trim($_SERVER['QUERY_STRING'])!="") ? "?".$_SERVER['QUERY_STRING'] : "" ?>"><?= $i ?></a></li>
         <?php } ?>
         <?php /*
         <li>

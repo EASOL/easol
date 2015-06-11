@@ -33,12 +33,15 @@ class Home extends Easol_Controller {
 
                 if($authentication && $authentication->Password== sha1($data['password'])){
                     $this->session->sess_expiration =   '1200';
+
+
                     $this->session->set_userdata(
                         [
                             'LoginId'   =>      $staff->LoginId,
                             'StaffUSI'  =>      $staff->StaffUSI,
                             'RoleId'  =>      $authentication->RoleId,
                             'logged_in' => TRUE,
+
 
                         ]
                     );

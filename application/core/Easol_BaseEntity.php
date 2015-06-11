@@ -37,7 +37,9 @@ abstract class Easol_BaseEntity extends CI_Model{
      * select all row
      * @return array
      */
-    public function findAll(){
+    public function findAll($params=[]){
+        if(count($params)>0)
+            return $this->db->get_where($this->getTableName(), $params);
         return $this->db->get($this->getTableName());
 
     }

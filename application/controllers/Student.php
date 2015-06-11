@@ -30,8 +30,6 @@ inner join edfi.GradeLevelType on
                   ";
 
 
-
-
 		$this->render("index",[
             'query' => $query,
             'filter' =>[
@@ -45,8 +43,9 @@ inner join edfi.GradeLevelType on
                                 'searchColumnType'  => 'int',
                                 'textColumn'=>  'NameOfInstitution',
                                 'indexColumn'=>  'EducationOrganizationId',
-                                'label'     =>  'Name of Institution',
+                                'label'     =>  'School',
                                 'type'      =>  'dropdown',
+                                'bindDatabase'  => true,
                                 'access'    =>  ['System Administrator','Data Administrator'],
                                 'default'   => $this->input->get('filter[NameOfInstitution]')
                             ],
@@ -63,8 +62,22 @@ inner join edfi.GradeLevelType on
                                 'searchColumnType'  => 'int',
                                 'default'   =>  ($this->input->get('filter[Year]')==null) ? date('Y') : $this->input->get('filter[Year]'),
                                 'label'     =>  'Year',
-                                'type'      =>  'dropdown'
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => true,
 
+                            ],
+                        'Result'    =>
+                            [
+                                'range'     =>
+                                    [
+                                        'type'  =>  'set',
+                                        'set'   =>  [10,25,50,100,200,500]
+                                    ],
+                                'default'   =>  50,
+                                'label'     =>  'Results',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => false,
+                                'fieldType' => 'pageSize'
                             ]
 
                     ]
