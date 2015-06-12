@@ -41,7 +41,8 @@ class Sections extends Easol_Controller {
                             'NameOfInstitution' =>
                                 [
                                     'entity' => 'entities/edfi/Edfi_School',
-                                    'query' => $this->db->query("SELECT * FROM edfi.EducationOrganization"),
+                                    'query' => $this->db->query("SELECT NameOfInstitution, EducationOrganizationId FROM edfi.EducationOrganization
+INNER JOIN edfi.School on School.SchoolId = EducationOrganization.EducationOrganizationId"),
                                     'searchColumn' => 'SchoolId',
                                     'searchColumnType' => 'int',
                                     'textColumn' => 'NameOfInstitution',
