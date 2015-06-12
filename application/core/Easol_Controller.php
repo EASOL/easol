@@ -27,18 +27,21 @@ class Easol_Controller extends CI_Controller {
         $this->processAccessRules();
     }
 
+
     /**
      * Render method, renders view file and put it in the layout
      * @param $view
      * @param array $params
      * @param bool $return
+     * @return string | null
      */
     public function render($view,$params=[],$return=false){
 
+
+        $content= $this->renderPartial($view, $params, true);
+
+
         ob_start();
-        $this->load->view(get_called_class().'/'.$view,$params);
-        $content= ob_get_contents();
-        ob_clean();
         if($this->layout!=null){
             $this->load->view($this->layout,
                 [
@@ -50,6 +53,26 @@ class Easol_Controller extends CI_Controller {
         else
             echo $content;
 
+        $content= ob_get_contents();
+        ob_clean();
+
+        if($return){
+            return $content;
+        }
+        echo $content;
+
+    }
+
+    public function renderPartial($view,$params=[],$return=false){
+        ob_start();
+        $this->load->view(get_called_class().'/'.$view,$params);
+        $content= ob_get_contents();
+        ob_clean();
+
+        if($return){
+            return $content;
+        }
+        echo $content;
     }
 
     /**

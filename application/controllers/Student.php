@@ -116,9 +116,15 @@ inner join edfi.GradeLevelType on
 
 
 
-        $this->render("profile",
+        $this->render("profile_layout",
             [
-                'student'   =>  $student
+                'tabContent'   =>  $this->renderPartial("profile",
+                        [
+                            'student'   => $student
+                        ],
+                    true
+                    ),
+                'student'   => $student
             ]
             );
     }
