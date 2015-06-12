@@ -111,6 +111,7 @@ class Easol_Controller extends CI_Controller {
 
     protected function processAccessRules(){
 
+
         if(array_key_exists($this->router->fetch_method(),$this->accessRules())){
             return $this->authorize($this->accessRules()[$this->router->fetch_method()]);
         }

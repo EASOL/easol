@@ -29,39 +29,39 @@
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
                 <?php if(Easol_Authentication::isLoggedIn()) { ?>
                     <ul class="nav" id="main-menu" style="padding-top: 80px;">
-                        <li>
+                        <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                            <li>
+                            <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                            <li>
+                            <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-edit"></i> Students</a>
                             </li>
                         <?php } ?>
-                        <li>
+                        <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grades</a>
                         </li>
-                        <li>
+                        <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Sections</a>
                         </li>
-                        <li>
+                        <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
                         </li>
 
-                        <li>
+                        <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                            <li>
+                            <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                        <li>
+                        <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
                         </li>
                         <?php } ?>
