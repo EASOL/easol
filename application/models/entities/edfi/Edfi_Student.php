@@ -138,6 +138,35 @@ where StudentElectronicMail.StudentUSI = ?",
             ]);
     }
 
+    public function getSections(){
+        return $this->db->query("select StudentSectionAssociation.ClassPeriodName, StudentSectionAssociation.ClassroomIdentificationCode,
+ StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, TermType.Description,
+StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname
+from edfi.StudentSectionAssociation
+inner join edfi.[Section] on
+     StudentSectionAssociation.SchoolId = [Section].SchoolId and
+     StudentSectionAssociation.SchoolYear = [Section].SchoolYear and
+     StudentSectionAssociation.LocalCourseCode = [Section].LocalCourseCode and
+     StudentSectionAssociation.ClassroomIdentificationCode = [Section].ClassroomIdentificationCode and
+     StudentSectionAssociation.TermTypeId = [Section].TermTypeId AND
+		 StudentSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
+inner join edfi.TermType ON
+     StudentSectionAssociation.TermTypeId = TermType.TermTypeId
+left join edfi.StaffSectionAssociation on
+     StaffSectionAssociation.SchoolId = [Section].SchoolId and
+     StaffSectionAssociation.SchoolYear = [Section].SchoolYear and
+     StaffSectionAssociation.LocalCourseCode = [Section].LocalCourseCode and
+     StaffSectionAssociation.ClassroomIdentificationCode = [Section].ClassroomIdentificationCode and
+     StaffSectionAssociation.TermTypeId = [Section].TermTypeId AND
+     StaffSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
+left join edfi.Staff ON
+     Staff.StaffUSI = StaffSectionAssociation.StaffUSI
+where StudentUSI = ?",
+            [
+                $this->StudentUSI
+            ]);
+    }
+
 
     /**
      * return table name
