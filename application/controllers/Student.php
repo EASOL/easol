@@ -20,7 +20,7 @@ class Student extends Easol_Controller {
 
 
 
-        $query= "select StudentSchoolAssociation.SchoolId, Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.Description, StudentSchoolAssociation.EntryDate from edfi.StudentSchoolAssociation
+        $query= "select StudentSchoolAssociation.SchoolId, Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.Description,GradeLevelType.GradeLevelTypeId, StudentSchoolAssociation.EntryDate from edfi.StudentSchoolAssociation
 inner join edfi.Student on
      StudentSchoolAssociation.StudentUSI = Student.StudentUSI
 inner join edfi.GradeLevelDescriptor on
@@ -37,7 +37,6 @@ inner join edfi.GradeLevelType on
                     [
                         'NameOfInstitution' =>
                             [
-                                'entity'    =>  'entities/edfi/Edfi_School',
                                 'query'     =>  $this->db->query("SELECT * FROM edfi.EducationOrganization"),
                                 'searchColumn'    =>  'SchoolId',
                                 'searchColumnType'  => 'int',
@@ -46,26 +45,36 @@ inner join edfi.GradeLevelType on
                                 'label'     =>  'School',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => true,
-                                'access'    =>  ['System Administrator','Data Administrator'],
-                                'default'   => $this->input->get('filter[NameOfInstitution]')
+                                'default'   => $this->input->get('filter[NameOfInstitution]'),
+                                'prompt'    => 'All Schools'
                             ],
-                        'Year'  =>
+                        'GradeLevel' =>
                             [
-                                'range'     =>
-                                    [
-                                        'type'  =>  'dynamic',
-                                        'start' =>  2000,
-                                        'end'   =>  date('Y'),
-                                        'increament'    =>  1,
-                                    ],
-                                'searchColumn'    =>  'SchoolYear',
-                                'searchColumnType'  => 'int',
-                                'default'   =>  ($this->input->get('filter[Year]')==null) ? date('Y') : $this->input->get('filter[Year]'),
-                                'label'     =>  'Year',
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType"),
+                                'searchColumn'    =>  'GradeLevelTypeId',
+                                'textColumn'=>  'Description',
+                                'indexColumn'=>  'GradeLevelTypeId',
+                                'label'     =>  'Grade Level',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => true,
+                                'prompt'    => 'All Grade Levels',
+                                'default'   => $this->input->get('filter[GradeLevel]'),
 
                             ],
+                        'Cohort' =>
+                            [
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.CohortType"),
+                                'searchColumn'    =>  'CohortTypeId',
+                                'textColumn'=>  'ShortDescription',
+                                'indexColumn'=>  'CohortTypeId',
+                                'label'     =>  'Grade Level',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => false,
+                                'prompt'    => 'All Grade Levels',
+                                'default'   => $this->input->get('filter[Cohort]'),
+
+                            ],
+
                         'Result'    =>
                             [
                                 'range'     =>

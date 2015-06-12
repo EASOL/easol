@@ -17,7 +17,7 @@ class Sections extends Easol_Controller {
 	{
 
 
-        if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {
+
 
 
             $query = "SELECT edfi.Section.SchoolId, edfi.Section.SchoolYear, edfi.Section.LocalCourseCode, edfi.Section.UniqueSectionCode, count(*) as StudentCount
@@ -83,63 +83,5 @@ class Sections extends Easol_Controller {
                     ]
             ]);
 
-        } else if(Easol_AuthorizationRoles::hasAccess(['School Administrator','Educator'])) {
-
-            $query = "SELECT NameOfInstitution, EducationOrganizationId FROM edfi.EducationOrganization
-INNER JOIN edfi.School on School.SchoolId = EducationOrganization.EducationOrganizationId
-                  ";
-
-         //   die(print_r($this->db->query($query)));
-
-            $this->render("index_educator", [
-                'query' => $query,
-                'filter' => [
-                    'fields' =>
-                        [
-                            'NameOfInstitution' =>
-                                [
-                                    'entity' => 'entities/edfi/Edfi_School',
-                                    'query' => $this->db->query("SELECT * FROM edfi.EducationOrganization"),
-                                    'searchColumn' => 'SchoolId',
-                                    'searchColumnType' => 'int',
-                                    'textColumn' => 'NameOfInstitution',
-                                    'indexColumn' => 'EducationOrganizationId',
-                                    'label' => 'Name of Institution',
-                                    'type' => 'dropdown',
-                                    'bindDatabase' => true,
-                                    'access' => ['System Administrator', 'Data Administrator'],
-                                    'default' => $this->input->get('filter[NameOfInstitution]'),
-                                    'prompt' => 'All Schools'
-                                ],
-                            'Year' =>
-                                [
-                                    'range' =>
-                                        [
-                                            'type' => 'dynamic',
-                                            'start' => 2000,
-                                            'end' => date('Y'),
-                                            'increament' => 1,
-                                        ],
-                                    'searchColumn' => 'SchoolYear',
-                                    'searchColumnType' => 'int',
-                                    'default' => ($this->input->get('filter[Year]') == null) ? date('Y') : $this->input->get('filter[Year]'),
-                                    'label' => 'Year',
-                                    'type' => 'dropdown',
-                                    'bindDatabase' => true,
-                                    'prompt' => 'All Year'
-
-                                ]
-
-                        ]
-
-                ],
-                'pagination' =>
-                    [
-                        'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
-                        'currentPage' => $id,
-                        'url' => 'sections/index/@pageNo'
-                    ]
-            ]);
-        }
 	}
 }

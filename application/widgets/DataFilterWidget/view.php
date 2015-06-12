@@ -52,7 +52,9 @@
 
 
             <?php } ?>
+
             <button type="submit" class="btn btn-default">Filter</button>
+
         </div>
     </form>
 
