@@ -55,4 +55,34 @@ abstract class Easol_BaseEntity extends CI_Model{
         return $query->row();
 
     }
+
+    /**
+     * find single row
+     * @param array $params
+     * @return object
+     */
+    public function findOneBySql($sql,$params){
+        $query = $this->db->query($sql, $params);
+
+        return $query->row();
+
+    }
+
+    public function hydrate($obj){
+        $this->isNewRecord = false;
+
+        if(!is_array($obj)){
+            $ret = new static;
+            foreach ($ret->labels() as $key => $value)
+            {
+                if(isset($obj->$key))
+                    $ret->{$key} = $obj->$key;
+                else
+                    $ret->{$key} = null;
+            }
+
+            return $ret;
+        }
+    }
+
 }

@@ -17,7 +17,7 @@
                         ['name' => 'StudentUSI', 'title' => 'Student Name','type' => 'url',
                             'url' =>
                                 function($model){
-                                    return 'student/overview/'.$model->StudentUSI;
+                                    return 'student/profile/'.$model->StudentUSI;
                                 },
                             'value' =>
                                 function($model){
