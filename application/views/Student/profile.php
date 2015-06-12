@@ -1,3 +1,6 @@
+<?php
+/* @var $student Edfi_Student */
+?>
 <div class="col-md-8">
     <table class="table">
         <tr>

@@ -13,7 +13,7 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" <?php if($tab=='overview') echo  'class="active"'; ?>><a href="<?= site_url('student/profile/'.$student->StudentUSI) ?>" aria-controls="overview" role="tab">Overview</a></li>
-        <li role="presentation" <?php if($tab=='profile') echo  'class="active"'; ?>><a href="<?= site_url('student/contacts/'.$student->StudentUSI) ?>" aria-controls="contacts" role="tab">Contacts</a></li>
+        <li role="presentation" <?php if($tab=='contacts') echo  'class="active"'; ?>><a href="<?= site_url('student/contacts/'.$student->StudentUSI) ?>" aria-controls="contacts" role="tab">Contacts</a></li>
         <li role="presentation" <?php if($tab=='sections') echo  'class="active"'; ?>><a href="<?= site_url('student/section/'.$student->StudentUSI) ?>" aria-controls="sections" role="tab" data-toggle="tab">Sections</a></li>
         <li role="presentation" <?php if($tab=='grades') echo  'class="active"'; ?>><a href="<?= site_url('student/grades/'.$student->StudentUSI) ?>" aria-controls="grades" role="tab" data-toggle="tab">Grades</a></li>
         <li role="presentation" <?php if($tab=='attendance') echo  'class="active"'; ?>><a href="<?= site_url('student/attendance/'.$student->StudentUSI) ?>" aria-controls="attendance" role="tab" data-toggle="tab">Attendance</a></li>

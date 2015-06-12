@@ -100,6 +100,45 @@ edfi.LimitedEnglishProficiencyDescriptor on LimitedEnglishProficiencyType.Limite
     }
 
 
+    public function getAddresses(){
+        return $this->db->query("select AddressType.Description  as Type, StreetNumberName, ApartmentRoomSuiteNumber, City, StateAbbreviationType.Description as State, PostalCode from edfi.StudentAddress
+inner join edfi.AddressType on AddressType.addresstypeid = StudentAddress.AddressTypeId
+inner join edfi.StateAbbreviationType on StateAbbreviationType.StateAbbreviationTypeId = StudentAddress.StateAbbreviationTypeId
+where StudentUSI = ?",
+            [
+                $this->StudentUSI
+            ]);
+    }
+
+    public function getParents(){
+        return $this->db->query("select Parent.PersonalTitlePrefix, Parent.FirstName, Parent.LastSurname, RelationType.Description as Role, StudentParentAssociation.PrimaryContactStatus, StudentParentAssociation.LivesWith, StudentParentAssociation.EmergencyContactStatus from edfi.StudentParentAssociation
+inner join edfi.RelationType on RelationType.RelationTypeId = StudentParentAssociation.RelationTypeId
+inner join edfi.Parent on Parent.ParentUSI = StudentParentAssociation.ParentUSI
+where StudentUSI = ?",
+            [
+                $this->StudentUSI
+            ]);
+    }
+
+    public function getTelephones(){
+        return $this->db->query("select StudentTelephone.TelephoneNumber, TelephoneNumberType.Description as telephonetype  from edfi.StudentTelephone
+left join edfi.TelephoneNumberType on StudentTelephone.telephonenumbertypeid = TelephoneNumberType.TelephoneNumberTypeId
+where StudentTelephone.StudentUSI =  ?",
+            [
+                $this->StudentUSI
+            ]);
+    }
+
+    public function getEmailAddresses(){
+        return $this->db->query("select ElectronicMailType.Description as emailType, StudentElectronicMail.ElectronicMailAddress from edfi.StudentElectronicMail
+inner join edfi.ElectronicMailType on ElectronicMailType.ElectronicMailTypeId = StudentElectronicMail.ElectronicMailTypeId
+where StudentElectronicMail.StudentUSI = ?",
+            [
+                $this->StudentUSI
+            ]);
+    }
+
+
     /**
      * return table name
      * @return string

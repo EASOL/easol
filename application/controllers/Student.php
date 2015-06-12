@@ -129,4 +129,32 @@ inner join edfi.GradeLevelType on
             ]
             );
     }
+    /**
+     * Student Contact Page
+     * @param null $id
+     */
+    public function contacts($id=null){
+        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+
+        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+
+
+
+        $student = $this->Edfi_Student->hydrate($this->Edfi_Student->findOne(['StudentUSI' => $id]));
+
+
+
+        $this->render("profile_layout",
+            [
+                'tabContent'   =>  $this->renderPartial("contacts",
+                    [
+                        'student'   => $student
+                    ],
+                    true
+                ),
+                'student'   => $student,
+                'tab'   =>  'contacts'
+            ]
+        );
+    }
 }
