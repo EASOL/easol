@@ -124,7 +124,8 @@ inner join edfi.GradeLevelType on
                         ],
                     true
                     ),
-                'student'   => $student
+                'student'   => $student,
+                'tab'   =>  'overview'
             ]
             );
     }
