@@ -217,4 +217,66 @@ inner join edfi.GradeLevelType on
             ]
         );
     }
+
+    /**
+     * Student Attendance Page
+     * @param null $id
+     */
+    public function attendance($id=null){
+        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+
+        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+
+
+
+        $student = $this->Edfi_Student->hydrate($this->Edfi_Student->findOne(['StudentUSI' => $id]));
+
+
+
+
+
+        $this->render("profile_layout",
+            [
+                'tabContent'   =>  $this->renderPartial("attendance",
+                    [
+                        'student'   => $student
+                    ],
+                    true
+                ),
+                'student'   => $student,
+                'tab'   =>  'attendance'
+            ]
+        );
+    }
+
+    /**
+     * Student Assessments Page
+     * @param null $id
+     */
+    public function assessments($id=null){
+        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+
+        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+
+
+
+        $student = $this->Edfi_Student->hydrate($this->Edfi_Student->findOne(['StudentUSI' => $id]));
+
+
+
+
+
+        $this->render("profile_layout",
+            [
+                'tabContent'   =>  $this->renderPartial("assessments",
+                    [
+                        'student'   => $student
+                    ],
+                    true
+                ),
+                'student'   => $student,
+                'tab'   =>  'assessments'
+            ]
+        );
+    }
 }

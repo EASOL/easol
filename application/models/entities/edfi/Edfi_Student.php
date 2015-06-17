@@ -181,6 +181,30 @@ ORDER BY Grade.BeginDate DESC",
 
     }
 
+    public function getAssessments(){
+
+        return $this->db->query("SELECT StudentAssessment.AssessmentTitle,
+StudentAssessment.Version, StudentAssessment.AdministrationDate, StudentAssessmentScoreResult.Result, AcademicSubjectType.CodeValue
+as AcademicSubject, GradeLevelType.CodeValue as GradeLevel FROM edfi.StudentAssessment
+INNER JOIN edfi.StudentAssessmentScoreResult ON edfi.StudentAssessmentScoreResult.StudentUSI = edfi.StudentAssessment.StudentUSI
+AND edfi.StudentAssessmentScoreResult.AssessmentTitle = edfi.StudentAssessment.AssessmentTitle
+AND edfi.StudentAssessmentScoreResult.AdministrationDate = edfi.StudentAssessment.AdministrationDate
+AND edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId = edfi.StudentAssessment.AssessedGradeLevelDescriptorId
+INNER JOIN edfi.AcademicSubjectDescriptor
+ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessment.AcademicSubjectDescriptorId
+INNER JOIN edfi.AcademicSubjectType
+ON edfi.AcademicSubjectType.AcademicSubjectTypeId = edfi.AcademicSubjectDescriptor.AcademicSubjectTypeId
+INNER JOIN edfi.GradeLevelDescriptor
+ON edfi.GradeLevelDescriptor.GradeLevelDescriptorId = edfi.StudentAssessment.AssessedGradeLevelDescriptorId
+INNER JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor.GradeLevelTypeId
+WHERE edfi.StudentAssessmentScoreResult.StudentUSI = ?
+ORDER BY AdministrationDate DESC",
+            [
+                $this->StudentUSI
+            ]);
+
+    }
+
 
     /**
      * return table name
