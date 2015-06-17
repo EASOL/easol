@@ -168,6 +168,20 @@ where StudentUSI = ?",
     }
 
 
+    public function getGrades(){
+
+        return $this->db->query("SELECT Grade.LocalCourseCode, Course.CourseTitle, TermType.CodeValue as Term, Grade.SchoolYear, Grade.LetterGradeEarned, Grade.NumericGradeEarned FROM edfi.Grade
+INNER JOIN edfi.Course ON edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode
+INNER JOIN edfi.TermType ON edfi.TermType.TermTypeId = edfi.Grade.TermTypeId
+WHERE StudentUSI=?
+ORDER BY Grade.BeginDate DESC",
+            [
+                $this->StudentUSI
+            ]);
+
+    }
+
+
     /**
      * return table name
      * @return string

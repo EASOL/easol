@@ -18,6 +18,7 @@ class Sections extends Easol_Controller {
 
 
 
+        if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
 
 
             $query = "SELECT edfi.Section.SchoolId, edfi.Section.SchoolYear, edfi.Section.LocalCourseCode, edfi.Section.UniqueSectionCode, count(*) as StudentCount
@@ -83,6 +84,9 @@ INNER JOIN edfi.School on School.SchoolId = EducationOrganization.EducationOrgan
                         'url' => 'sections/index/@pageNo'
                     ]
             ]);
+        }
+        else {
 
+        }
 	}
 }
