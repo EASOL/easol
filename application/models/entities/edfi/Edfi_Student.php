@@ -205,6 +205,17 @@ ORDER BY AdministrationDate DESC",
 
     }
 
+    public function getCohorts(){
+
+        return $this->db->query("SELECT edfi.Cohort.Id, edfi.Cohort.CohortIdentifier FROM edfi.StudentCohortAssociation
+INNER JOIN edfi.Cohort ON edfi.StudentCohortAssociation.CohortIdentifier = edfi.Cohort.CohortIdentifier AND edfi.StudentCohortAssociation.EducationOrganizationId = edfi.Cohort.EducationOrganizationId
+WHERE StudentUSI = ?",
+            [
+                $this->StudentUSI
+            ]);
+
+    }
+
 
     /**
      * return table name
