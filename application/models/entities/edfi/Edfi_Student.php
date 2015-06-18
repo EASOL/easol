@@ -170,10 +170,14 @@ where StudentUSI = ?",
 
     public function getGrades(){
 
-        return $this->db->query("SELECT Grade.LocalCourseCode, Course.CourseTitle, TermType.CodeValue as Term, Grade.SchoolYear, Grade.LetterGradeEarned, Grade.NumericGradeEarned FROM edfi.Grade
+        return $this->db->query("SELECT Grade.LocalCourseCode, Course.CourseTitle, Grade.ClassPeriodName, TermType.CodeValue as Term, Grade.SchoolYear, Grade.LetterGradeEarned, Grade.NumericGradeEarned
+FROM edfi.Grade
+INNER JOIN edfi.GradingPeriod ON GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId
+INNER JOIN edfi.StudentSectionAssociation ON StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName
+INNER JOIN edfi.Section ON Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode
 INNER JOIN edfi.Course ON edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode
 INNER JOIN edfi.TermType ON edfi.TermType.TermTypeId = edfi.Grade.TermTypeId
-WHERE StudentUSI=?
+WHERE StudentSectionAssociation.StudentUSI=?
 ORDER BY Grade.BeginDate DESC",
             [
                 $this->StudentUSI

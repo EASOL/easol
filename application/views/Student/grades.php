@@ -4,15 +4,16 @@
 <div class="col-md-12">
     <br>
     <h3>Course Grades</h3><br>
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Course Code</th>
                 <th>Title</th>
                 <th>Term</th>
+                <th>Period Name</th>
                 <th>School Year</th>
-                <th>Letter Grade</th>
-                <th>Numeric Grade</th>
+                <th>Grade</th>
+
             </tr>
         </thead>
         <tbody>
@@ -21,9 +22,18 @@
                 <td><?= $grade->LocalCourseCode ?></td>
                 <td><?= $grade->CourseTitle ?></td>
                 <td><?= $grade->Term ?></td>
+                <td><?= $grade->ClassPeriodName ?></td>
                 <td><?= $grade->SchoolYear ?></td>
-                <td><?= $grade->LetterGradeEarned ?></td>
-                <td><?= $grade->NumericGradeEarned ?></td>
+                <td>
+                    <?php
+                        if($grade->NumericGradeEarned!=null && $grade->LetterGradeEarned!=null)
+                            echo $grade->LetterGradeEarned.'('.$grade->NumericGradeEarned.')';
+                        elseif($grade->LetterGradeEarned!=null)
+                            echo $grade->LetterGradeEarned;
+                        else echo $grade->NumericGradeEarned;
+
+                    ?>
+                </td>
             </tr>
         <?php } ?>
         </tbody>
