@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <th><?= $student->labels()['HispanicLatinoEthnicity'] ?></th>
-            <td><?= $student->HispanicLatinoEthnicity  ?></td>
+            <td><?= ($student->HispanicLatinoEthnicity == 1) ? "Yes" : "No" ?></td>
         </tr>
         <tr>
             <th><?= $student->labels()['EconomicDisadvantaged'] ?></th>
