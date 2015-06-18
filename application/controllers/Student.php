@@ -61,7 +61,7 @@ inner join edfi.GradeLevelType on
                                 'default'   => $this->input->get('filter[GradeLevel]'),
 
                             ],
-                        'Cohort' =>
+                      /*  'Cohort' =>
                             [
                                 'query'     =>  $this->db->query("SELECT * FROM edfi.CohortType"),
                                 'searchColumn'    =>  'CohortTypeId',
@@ -74,7 +74,7 @@ inner join edfi.GradeLevelType on
                                 'default'   => $this->input->get('filter[Cohort]'),
 
                             ],
-
+*/
                         'Result'    =>
                             [
                                 'range'     =>
