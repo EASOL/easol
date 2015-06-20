@@ -12,6 +12,27 @@
         <div class="col-md-12">
             <?php foreach($fields as $key => $field){ ?>
                 <?php if( array_key_exists('access',$field) && !Easol_AuthorizationRoles::hasAccess($field['access'])) continue; ?>
+                <?php if($field['type']=='dataSort'){ ?>
+                <div class="form-group">
+                <label for="filter-<?= $key ?>"><?= $field['label'] ?></label>
+                <select class="form-control" name="filter[<?= $key ?>][column]">
+                    <?php foreach($field['columns'] as $colKey => $colValue){ ?>
+                        <option <?= ($colKey==$field['defaultColumn']) ? "selected" : ""  ?> value="<?= $colKey ?>"><?= $colValue ?></option>
+                    <?php } ?>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter-<?= $key ?>-type"><?= $field['sortTypeLabel'] ?></label>
+                    <select class="form-control" name="filter[<?= $key ?>][type]">
+                        <?php foreach($field['sortTypes'] as $sortTypeKey => $sortTypeValue) { ?>
+                            <option <?= ($colKey==$field['defaultSortType']) ? "selected" : ""  ?> value="<?= $sortTypeKey ?>"><?= $sortTypeValue ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+
+                    <?php continue; ?>
+                <?php } ?>
+
                 <div class="form-group">
                     <label for="filter-<?= $key ?>"><?= $field['label'] ?></label>
                     <?php if($field['type']=='dropdown') { ?>

@@ -87,6 +87,32 @@ inner join edfi.GradeLevelType on
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
                                 'fieldType' => 'pageSize'
+                            ],
+                        'Sort'    =>
+                            [
+                                'label'     =>  'Sort Column',
+                                'type'      =>  'dataSort',
+                                'bindDatabase'  => false,
+                                'fieldType' => 'dataSort',
+                                'columns'   =>
+                                    [
+                                        'SchoolId' => 'School ID',
+                                        'StudentUSI' => 'Student USI',
+                                        'FirstName' => 'First Name',
+                                        'LastSurname' => 'Last Name',
+                                        'Description' => 'Description',
+                                        'GradeLevelTypeId' => 'Grade Level',
+                                        'EntryDate' => 'Entry Date'
+                                    ],
+                                'defaultColumn'    =>  $this->input->get('filter[Sort][column]'),
+                                'sortTypes' =>
+                                    [
+                                        'ASC' => 'Ascending',
+                                        'DESC' => 'Descending'
+                                    ],
+                                'defaultSortType'   =>  'ASC',
+                                'sortTypeLabel' =>  'Sort Type'
+
                             ]
 
                     ]
