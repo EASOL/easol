@@ -31,8 +31,14 @@ class DataTableWidget extends Easol_BaseWidget {
     public $filter=null;
 
 
+    /**
+     * Run the data table widget codes and display it
+     */
     public function run()
     {
+
+        $filterOrderBy=[];
+
 
         if($this->filter!=null && array_key_exists('filter',$_GET)){ /*@filter*/
             $queryAddition=[];
@@ -46,6 +52,12 @@ class DataTableWidget extends Easol_BaseWidget {
                 elseif(array_key_exists('fieldType',$field)){
                     if($field['fieldType']=='pageSize'){
                         $this->pagination['pageSize']   = $field['range']['set'][$this->input->get('filter['.$key.']')];
+                    }
+                    elseif($field['fieldType']=='dataSort'){
+                        if(array_key_exists($this->input->get('filter['.$key.'][column]'),$field['columns']) && array_key_exists($this->input->get('filter['.$key.'][type]'),$field['sortTypes'])){
+                            $filterOrderBy[] =$this->input->get('filter['.$key.'][column]').' '.$this->input->get('filter['.$key.'][type]');
+                        }
+                        //$filterOrderBy[]=
                     }
                 }
 
@@ -70,7 +82,17 @@ class DataTableWidget extends Easol_BaseWidget {
 
 
             $this->pagination['totalElements']  =   $totalCount->tot;
-            $this->query.=' ORDER BY '.$this->colOrderBy.'  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
+        }
+
+        if(count($filterOrderBy)>0){
+            $this->query .= ' ORDER BY '.implode(" , ",$filterOrderBy).' ';
+        }
+        else
+            $this->query .= ' ORDER BY '.$this->colOrderBy.' ';
+        if($this->pagination!=null){
+
+
+            $this->query.='  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
 
             $dbQuery= $this->db->query($this->query,[abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'],$this->pagination['pageSize']]);
 
