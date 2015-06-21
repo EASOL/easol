@@ -36,7 +36,7 @@
 }
 #u3 {
   position:absolute;
-  left:10px;
+  left:0px;
   top:0px;
   width:200px;
   height:665px;
@@ -58,7 +58,7 @@
 }
 #u5 {
   position:absolute;
-  left:10px;
+  left:0px;
   top:0px;
   width:195px;
   height:87px;
@@ -80,7 +80,7 @@
 }
 #u7 {
   position:absolute;
-  left:205px;
+  left:195px;
   top:0px;
   width:2px;
   height:189px;
@@ -102,7 +102,7 @@
 }
 #u9 {
   position:absolute;
-  left:205px;
+  left:195px;
   top:189px;
   width:2px;
   height:449px;
@@ -124,7 +124,7 @@
 }
 #u11 {
   position:absolute;
-  left:20px;
+  left:10px;
   top:10px;
   width:190px;
   height:70px;

@@ -29,7 +29,7 @@
 #u2 {
   position:absolute;
   left:2px;
-  top:324px;
+  top:325px;
   width:196px;
   word-wrap:break-word;
 }
@@ -39,7 +39,7 @@
   top:87px;
   width:195px;
   height:578px;
-  font-family:'Verdana Regular', 'Verdana';
+  font-family:'Verdana', 'Verdana Regular', 'Verdana';
   font-weight:400;
   font-style:normal;
   text-align:left;
@@ -236,7 +236,7 @@
   top:0px;
   width:174px;
   height:22px;
-  font-family:'Arial Regular', 'Arial';
+  font-family:'ArialMT', 'Arial Regular', 'Arial';
   font-weight:400;
   font-style:normal;
   font-size:13px;
@@ -264,7 +264,7 @@
 #u24 {
   position:absolute;
   left:2px;
-  top:4px;
+  top:6px;
   width:56px;
   word-wrap:break-word;
 }
@@ -272,9 +272,9 @@
   position:absolute;
   left:13px;
   top:129px;
-  width:172px;
+  width:169px;
   height:16px;
-  font-family:'Arial Bold', 'Arial';
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -282,14 +282,14 @@
   position:absolute;
   left:0px;
   top:0px;
-  width:172px;
+  width:169px;
   height:16px;
 }
 #u26 {
   position:absolute;
   left:0px;
   top:0px;
-  width:172px;
+  width:169px;
   white-space:nowrap;
 }
 #u27 {
@@ -310,7 +310,7 @@
 #u28 {
   position:absolute;
   left:2px;
-  top:4px;
+  top:6px;
   width:56px;
   word-wrap:break-word;
 }
@@ -340,9 +340,9 @@
   position:absolute;
   left:242px;
   top:23px;
-  width:164px;
+  width:163px;
   height:38px;
-  font-family:'Helvetica';
+  font-family:'Helvetica', 'Helvetica';
   font-weight:400;
   font-style:normal;
 }
@@ -350,14 +350,14 @@
   position:absolute;
   left:0px;
   top:0px;
-  width:164px;
+  width:163px;
   height:38px;
 }
 #u32 {
   position:absolute;
   left:0px;
   top:0px;
-  width:164px;
+  width:163px;
   white-space:nowrap;
 }
 #u33 {
@@ -373,7 +373,7 @@
   top:0px;
   width:312px;
   height:34px;
-  font-family:'Arial Bold', 'Arial';
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -397,7 +397,7 @@
   top:0px;
   width:145px;
   height:34px;
-  font-family:'Arial Bold', 'Arial';
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -421,7 +421,7 @@
   top:0px;
   width:136px;
   height:34px;
-  font-family:'Arial Bold', 'Arial';
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -445,7 +445,7 @@
   top:0px;
   width:76px;
   height:34px;
-  font-family:'Arial Bold', 'Arial';
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -469,7 +469,7 @@
   top:0px;
   width:71px;
   height:34px;
-  font-family:'Arial Bold', 'Arial';
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -1161,9 +1161,9 @@
   position:absolute;
   left:520px;
   top:94px;
-  width:79px;
-  height:16px;
-  font-family:'Arial Bold', 'Arial';
+  width:75px;
+  height:15px;
+  font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';
   font-weight:700;
   font-style:normal;
 }
@@ -1171,14 +1171,14 @@
   position:absolute;
   left:0px;
   top:0px;
-  width:79px;
-  height:16px;
+  width:75px;
+  height:15px;
 }
 #u106 {
   position:absolute;
   left:0px;
   top:0px;
-  width:79px;
+  width:75px;
   white-space:nowrap;
 }
 #u107 {
@@ -1194,7 +1194,7 @@
   top:0px;
   width:137px;
   height:22px;
-  font-family:'Arial Regular', 'Arial';
+  font-family:'ArialMT', 'Arial Regular', 'Arial';
   font-weight:400;
   font-style:normal;
   font-size:13px;
@@ -1208,9 +1208,9 @@
   position:absolute;
   left:688px;
   top:94px;
-  width:25px;
-  height:14px;
-  font-family:'.Helvetica Neue DeskInterface Bold', '.Helvetica Neue DeskInterface';
+  width:28px;
+  height:15px;
+  font-family:'.HelveticaNeueDeskInterface-Bold', '.Helvetica Neue DeskInterface Bold', '.Helvetica Neue DeskInterface';
   font-weight:700;
   font-style:normal;
   font-size:12px;
@@ -1220,14 +1220,14 @@
   position:absolute;
   left:0px;
   top:0px;
-  width:25px;
-  height:14px;
+  width:28px;
+  height:15px;
 }
 #u109 {
   position:absolute;
   left:0px;
   top:0px;
-  width:25px;
+  width:28px;
   white-space:nowrap;
 }
 #u110 {
@@ -1243,7 +1243,7 @@
   top:0px;
   width:76px;
   height:22px;
-  font-family:'Arial Regular', 'Arial';
+  font-family:'ArialMT', 'Arial Regular', 'Arial';
   font-weight:400;
   font-style:normal;
   font-size:13px;
@@ -1266,7 +1266,7 @@
   top:0px;
   width:100px;
   height:25px;
-  font-family:'Arial Regular', 'Arial';
+  font-family:'ArialMT', 'Arial Regular', 'Arial';
   font-weight:400;
   font-style:normal;
   font-size:13px;
@@ -1300,8 +1300,8 @@
   position:absolute;
   left:250px;
   top:570px;
-  width:209px;
-  height:16px;
+  width:210px;
+  height:15px;
   text-decoration:underline;
   color:#008000;
 }
@@ -1309,23 +1309,23 @@
   position:absolute;
   left:0px;
   top:0px;
-  width:209px;
-  height:16px;
+  width:210px;
+  height:15px;
 }
 #u115 {
   position:absolute;
   left:0px;
   top:0px;
-  width:209px;
+  width:210px;
   white-space:nowrap;
 }
 #u116 {
   position:absolute;
   left:824px;
   top:94px;
-  width:41px;
-  height:14px;
-  font-family:'.Helvetica Neue DeskInterface Bold', '.Helvetica Neue DeskInterface';
+  width:47px;
+  height:15px;
+  font-family:'.HelveticaNeueDeskInterface-Bold', '.Helvetica Neue DeskInterface Bold', '.Helvetica Neue DeskInterface';
   font-weight:700;
   font-style:normal;
   font-size:12px;
@@ -1335,14 +1335,14 @@
   position:absolute;
   left:0px;
   top:0px;
-  width:41px;
-  height:14px;
+  width:47px;
+  height:15px;
 }
 #u117 {
   position:absolute;
   left:0px;
   top:0px;
-  width:41px;
+  width:47px;
   white-space:nowrap;
 }
 #u118 {
@@ -1358,7 +1358,7 @@
   top:0px;
   width:46px;
   height:22px;
-  font-family:'Arial Regular', 'Arial';
+  font-family:'ArialMT', 'Arial Regular', 'Arial';
   font-weight:400;
   font-style:normal;
   font-size:13px;
