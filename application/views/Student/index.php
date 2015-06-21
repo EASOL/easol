@@ -25,7 +25,8 @@
                                 }
                         ],
                         ['name' => 'Description', 'title' => 'Grade Level' ]
-                    ]
+                    ],
+                'downloadCSV' => true
             ]
 
         ) ?>

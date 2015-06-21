@@ -12,6 +12,13 @@
         <?php  Easol_Widget::show("DataFilterWidget", $filter) ?>
     </div>
     <div class="clearfix"></div>
+    <?php if($downloadCSV==true){ ?>
+        <div class="pull-right">
+            <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button><i class="fa fa-download"> </i> Download CSV</button></a>
+        </div>
+        <div class="clearfix"></div>
+    <?php } ?>
+
 <?php }    ?>
 <?php
 if ($query->num_rows() > 0 && count($columns) > 0)
@@ -94,5 +101,6 @@ if ($query->num_rows() > 0 && count($columns) > 0)
 <?php if($pagination!=null){ ?>
     <?php Easol_Widget::show("PaginationWidget",$pagination) ?>
 <?php } ?>
+
 
 

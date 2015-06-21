@@ -30,6 +30,8 @@ class DataTableWidget extends Easol_BaseWidget {
 
     public $filter=null;
 
+    public $downloadCSV = false;
+
 
     /**
      * Run the data table widget codes and display it
@@ -72,7 +74,7 @@ class DataTableWidget extends Easol_BaseWidget {
 
 
         }
-        if($this->pagination!=null){
+        if($this->pagination!=null && $this->input->get("downloadcsv")!='y'){
             $totalCount=$this->db->query(
                 "SELECT  count(*) as tot FROM
             (".$this->query.") as b"
@@ -89,7 +91,7 @@ class DataTableWidget extends Easol_BaseWidget {
         }
         else
             $this->query .= ' ORDER BY '.$this->colOrderBy.' ';
-        if($this->pagination!=null){
+        if($this->pagination!=null  && $this->input->get("downloadcsv")!='y'){
 
 
             $this->query.='  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
@@ -100,13 +102,31 @@ class DataTableWidget extends Easol_BaseWidget {
         else
             $dbQuery= $this->db->query($this->query);
 
+        if( $this->downloadCSV==true && $this->input->get("downloadcsv")=='y'){
+            Easol_Flag::$downloadFile =true;
 
+            ob_clean();
+
+            header("Content-type: text/csv");
+            header("Content-Disposition: attachment; filename=".$this->router->fetch_class().'_'.$this->router->fetch_method().'_'.date('Y_m_d_h:i_a').".csv");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+
+            $this->render("csvdownload",[
+                'query'     =>  $dbQuery,
+                'columns'   =>  $this->columns,
+
+            ]);
+            die();
+        }
 
         $this->render("view",[
             'query'     =>  $dbQuery,
             'columns'   =>  $this->columns,
             'pagination'    =>  $this->pagination,
-            'filter'    =>  $this->filter
+            'filter'    =>  $this->filter,
+            'downloadCSV' => $this->downloadCSV
+
         ]);
     }
 }
