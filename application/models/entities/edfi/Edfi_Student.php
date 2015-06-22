@@ -185,6 +185,10 @@ ORDER BY Grade.BeginDate DESC",
 
     }
 
+    public function getAttendance(){
+        return '';
+    }
+
     public function getAssessments(){
 
         return $this->db->query("SELECT StudentAssessment.AssessmentTitle,

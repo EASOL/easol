@@ -92,10 +92,18 @@ class Easol_Controller extends CI_Controller {
      */
     protected function authorize($allowedRoles=[]){
 
+
         if($allowedRoles=='@' && !Easol_Authentication::isLoggedIn())
             return redirect('home');
-        if(Easol_AuthorizationRoles::hasAccess($allowedRoles))
-            return true;
+        if(Easol_AuthorizationRoles::hasAccess($allowedRoles)){
+            if(!($this->router->fetch_class()=='schools' && $this->router->fetch_method() == 'choose') && Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) && Easol_Authentication::userdata('SchoolId') == false  )
+            {
+                return redirect('schools/choose');
+            }
+            else return true;
+        }
+
+
         return redirect('home/accessdenied');
 
     }

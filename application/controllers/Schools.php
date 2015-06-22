@@ -54,4 +54,37 @@ class Schools extends Easol_Controller {
             ]
         ]);
 	}
+
+    public function choose(){
+
+
+
+        $schools= $this->db->query("SELECT EducationOrganization.EducationOrganizationId,
+                  EducationOrganization.NameOfInstitution, EducationOrganizationAddress.City
+                  FROM edfi.EducationOrganization
+                  INNER JOIN edfi.School
+                  ON edfi.School.SchoolId = edfi.EducationOrganization.EducationOrganizationId
+                  INNER JOIN edfi.EducationOrganizationAddress
+                  ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId
+                  WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2
+                  ");
+
+        if(isset($_POST['school'])){
+            foreach($schools->result() as $school){
+                if($_POST['school']== $school->EducationOrganizationId){
+                    $userdata=Easol_Authentication::userdata();
+                    $userdata['__ci_last_regenerate']=time();
+                    $userdata['SchoolId'] = $_POST['school'];
+                    $this->session->set_userdata($userdata);
+                    $this->session->set_flashdata('message', 'School Selected as '. $school->NameOfInstitution);
+                    $this->session->set_flashdata('type', 'success');
+                    redirect('dashboard');
+
+                }
+            }
+        }
+
+        $this->render('choose',['schools' => $schools]);
+
+    }
 }
