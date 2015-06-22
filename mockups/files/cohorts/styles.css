@@ -810,3 +810,12 @@
   width:512px;
   word-wrap:break-word;
 }
+#u70 {
+  position:absolute;
+  left:242px;
+  top:206px;
+  width:148px;
+  height:116px;
+  overflow:hidden;
+  background-image:url('../../resources/images/transparent.gif');
+}

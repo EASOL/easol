@@ -363,6 +363,10 @@
           <p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">INNER JOIN edfi.Cohort ON </span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">&nbsp; &nbsp;&nbsp; Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">WHERE </span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">StudentCohortAssociation.EducationOrganizationId = [ School Id ]</span><span style="font-family:'ArialMT', 'Arial';font-weight:400;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">GROUP BY StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription</span></p>
         </div>
       </div>
+
+      <!-- Unnamed (Hot Spot) -->
+      <div id="u70" class="ax_hot_spot">
+      </div>
     </div>
   </body>
 </html>
