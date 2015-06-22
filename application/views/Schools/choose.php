@@ -13,8 +13,8 @@
     <form class="form form-inline" action="" method="post">
         <div class="form-group">
             <select name="school">
-                <?php  foreach($schools->result() as $school) { ?>
-                    <option value="<?= $school->EducationOrganizationId ?>"><?= $school->NameOfInstitution ?></option>
+                <?php  foreach($schools as $school) { ?>
+                    <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                 <?php } ?>
             </select>
         </div>

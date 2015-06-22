@@ -44,7 +44,7 @@ class Edfi_Staff extends Easol_baseentity {
     }
 
     public function getAssociatedSchool(){
-        $this->load->model("entities/edfi/Edfi_School");
+       $this->load->model("entities/edfi/Edfi_School");
        $school= new Edfi_School();
 
     }

@@ -30,9 +30,18 @@
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
                 <?php if(Easol_Authentication::isLoggedIn()) { ?>
                     <ul class="nav" id="main-menu" style="padding-top: 80px;">
-                        <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
-                            School Name
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                        <li>
+                            <form action="<?= site_url("schools/choose") ?>" method="post">
+                                <select name="school" onchange="this.form.submit()" style="font-size: 12px">
+                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
+                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                    <?php } ?>
+                                </select>
+                            </form>
+
                         </li>
+                        <?php } ?>
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
