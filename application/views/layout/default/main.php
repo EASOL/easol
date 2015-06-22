@@ -24,11 +24,15 @@
 <body>
     <div id="wrapper">
         <!--/. NAV TOP  -->
+
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
                 <?php if(Easol_Authentication::isLoggedIn()) { ?>
                     <ul class="nav" id="main-menu" style="padding-top: 80px;">
+                        <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
+                            School Name
+                        </li>
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>

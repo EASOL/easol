@@ -5,4 +5,3 @@
     Deny from all
 </IfModule>
 
-#test write access
