@@ -26,10 +26,12 @@ class Home extends Easol_Controller {
 
             $this->load->model('entities/edfi/Edfi_Staff','Edfi_Staff');
             /* @var $this->Staff Edfi_Staff */
-            $staff = $this->Edfi_Staff->findOne(['LoginId' => $data['username']]);
+            // = $this->Edfi_Staff->findOne(['LoginId' => $data['username']]);
+            $staff = $this->Edfi_Staff->hydrate($this->Edfi_Staff->findOne(['LoginId' => $data['username']]));
             if($staff) {
                 $this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
                 $authentication=$this->easol_authentication->findOne(['StaffUSI' => $staff->StaffUSI]);
+                $staff->getAssociatedSchool();
 
                 if($authentication && $authentication->Password== sha1($data['password'])){
                     $this->session->sess_expiration =   '1200';
