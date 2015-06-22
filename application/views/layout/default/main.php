@@ -13,11 +13,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><?= $title ?></title>
     <!-- Bootstrap Styles-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/bootstrap.css') ?>" rel="stylesheet"/>
     <!-- FontAwesome Styles-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/font-awesome.css') ?>" rel="stylesheet"/>
     <!-- Custom Styles-->
-    <link href="assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/custom-styles.css') ?>" rel="stylesheet"/>
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 </head>
@@ -27,33 +27,52 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
-                <ul class="nav" id="main-menu" style="padding-top: 80px;">
-                    <li>
-                        <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grade Reporting</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Class Reporting</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
-                    </li>
+                <?php if(Easol_Authentication::isLoggedIn()) { ?>
+                    <ul class="nav" id="main-menu" style="padding-top: 80px;">
+                        <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        </li>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
+                                <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
+                            </li>
+                        <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
+                                <a href="<?= site_url("/student") ?>"><i class="fa fa-edit"></i> Students</a>
+                            </li>
+                        <?php } ?>
+                        <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grades</a>
+                        </li>
+                        <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Sections</a>
+                        </li>
+                        <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
+                        </li>
 
-                    <li>
-                        <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
-                    </li>
-                </ul>
+                        <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
+                        </li>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
+                                <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
+                            </li>
+                        <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                        <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
+                        </li>
+                        <?php } ?>
+                        <?php if($this->session->userdata('logged_in')== true)
+                        { ?>
+                        <li>
+                            <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                <?php } ?>
 
             </div>
 
@@ -81,13 +100,13 @@
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
+    <script src="<?= site_url('assets/js/jquery-1.10.2.js') ?>"></script>
     <!-- Bootstrap Js -->
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- Metis Menu Js -->
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
     <!-- Custom Js -->
-    <script src="assets/js/custom-scripts.js"></script>
+    <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
 
 
 </body>
