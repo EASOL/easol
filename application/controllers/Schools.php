@@ -58,6 +58,8 @@ class Schools extends Easol_Controller {
     public function choose(){
 
 
+        //this is a test commit
+
 
         $schools= $this->db->query("SELECT EducationOrganization.EducationOrganizationId,
                   EducationOrganization.NameOfInstitution, EducationOrganizationAddress.City
