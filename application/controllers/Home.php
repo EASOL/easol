@@ -31,22 +31,25 @@ class Home extends Easol_Controller {
             if($staff) {
                 $this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
                 $authentication=$this->easol_authentication->findOne(['StaffUSI' => $staff->StaffUSI]);
-                $staff->getAssociatedSchool();
+
+
 
                 if($authentication && $authentication->Password== sha1($data['password'])){
                     $this->session->sess_expiration =   '1200';
-
-
-                    $this->session->set_userdata(
-                        [
+                    $data=[
                             'LoginId'   =>      $staff->LoginId,
                             'StaffUSI'  =>      $staff->StaffUSI,
                             'RoleId'  =>      $authentication->RoleId,
                             'logged_in' => TRUE,
+                        ];
 
+                        $school=$staff->getAssociatedSchool();
+                    if($school!=null){
+                        $data['SchoolId'] = $school->EducationOrganizationId;
+                        $data['SchoolName'] = $school->NameOfInstitution;
+                    }
 
-                        ]
-                    );
+                    $this->session->set_userdata($data);
                     return redirect('/dashboard');
                 }
             }

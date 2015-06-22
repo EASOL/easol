@@ -61,7 +61,7 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param array $params
      * @return object
      */
-    public function findOneBySql($sql,$params){
+    public function findOneBySql($sql,$params=[]){
         $query = $this->db->query($sql, $params);
 
         return $query->row();

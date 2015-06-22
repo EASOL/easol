@@ -41,6 +41,10 @@
                             </form>
 
                         </li>
+                        <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
+                                <li>
+                                    <?= Easol_Authentication::userdata('SchoolName') ?>
+                                </li>
                         <?php } ?>
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
