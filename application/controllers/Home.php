@@ -42,11 +42,12 @@ class Home extends Easol_Controller {
                             'RoleId'  =>      $authentication->RoleId,
                             'logged_in' => TRUE,
                         ];
-
-                        $school=$staff->getAssociatedSchool();
-                    if($school!=null){
-                        $data['SchoolId'] = $school->EducationOrganizationId;
-                        $data['SchoolName'] = $school->NameOfInstitution;
+                    if($authentication->RoleId==3 || $authentication->RoleId==4) {
+                        $school = $staff->getAssociatedSchool();
+                        if ($school != null) {
+                            $data['SchoolId'] = $school->EducationOrganizationId;
+                            $data['SchoolName'] = $school->NameOfInstitution;
+                        }
                     }
 
                     $this->session->set_userdata($data);
