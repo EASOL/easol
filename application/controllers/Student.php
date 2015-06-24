@@ -35,6 +35,7 @@ WHERE
                   ";
 
 
+
         $this->render("index",[
             'query' => $query,
             'colOrderBy' => ['GradeLevelType.Description','Student.FirstName','Student.LastSurname','Student.StudentUSI','StudentCohortAssociation.CohortIdentifier'],
@@ -126,13 +127,14 @@ WHERE
                                 'fieldType' => 'dataSort',
                                 'columns'   =>
                                     [
-                                        'SchoolId' => 'School ID',
+                                        /*'SchoolId' => 'School ID',
                                         'StudentUSI' => 'Student USI',
                                         'FirstName' => 'First Name',
                                         'LastSurname' => 'Last Name',
-                                        'Description' => 'Description',
-                                        'GradeLevelTypeId' => 'Grade Level',
-                                        'EntryDate' => 'Entry Date'
+                                        'Description' => 'Description', */
+                                        'FirstName' => 'Name',
+                                        'GradeLevelType.Description' => 'Grade Level',
+                                        'StudentCohortAssociation.CohortIdentifier' => 'Cohort',
                                     ],
                                 'defaultColumn'    =>  $this->input->get('filter[Sort][column]'),
                                 'sortTypes' =>
@@ -140,7 +142,7 @@ WHERE
                                         'ASC' => 'Ascending',
                                         'DESC' => 'Descending'
                                     ],
-                                'defaultSortType'   =>  'ASC',
+                                'defaultSortType'   =>  (!$this->input->get('filter[Sort][type]')) ? "ASC" : $this->input->get('filter[Sort][type]'),
                                 'sortTypeLabel' =>  'Sort Type'
 
                             ]

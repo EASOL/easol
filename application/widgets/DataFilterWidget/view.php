@@ -24,8 +24,8 @@
                 <div class="form-group">
                     <label for="filter-<?= $key ?>-type"><?= $field['sortTypeLabel'] ?></label>
                     <select class="form-control" name="filter[<?= $key ?>][type]">
-                        <?php foreach($field['sortTypes'] as $sortTypeKey => $sortTypeValue) { ?>
-                            <option <?= ($colKey==$field['defaultSortType']) ? "selected" : ""  ?> value="<?= $sortTypeKey ?>"><?= $sortTypeValue ?></option>
+                        <?php foreach($field['sortTypes'] as $sortTypeKey => $sortTypeValue) {  ?>
+                            <option <?= ($sortTypeKey==$field['defaultSortType']) ? "selected" : ""  ?> value="<?= $sortTypeKey ?>"><?= $sortTypeValue ?></option>
                         <?php } ?>
                     </select>
                 </div>
