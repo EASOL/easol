@@ -24,6 +24,7 @@ class DataTableWidget extends Easol_BaseWidget {
      *  ]
      */
     public $colOrderBy=null;
+    public $colGroupBy=null;
     public $columns= [
 
     ];
@@ -62,9 +63,17 @@ class DataTableWidget extends Easol_BaseWidget {
                 }
 
                 foreach ($this->filter['fields'] as $key => $field) {
-                    if (array_key_exists('fieldType', $field) && $field['fieldType'] == 'dataSort') {
-                        if (array_key_exists($this->input->get('filter[' . $key . '][column]'), $field['columns']) && array_key_exists($this->input->get('filter[' . $key . '][type]'), $field['sortTypes'])) {
-                            $filterOrderBy[] = $this->input->get('filter[' . $key . '][column]') . ' ' . $this->input->get('filter[' . $key . '][type]');
+                    if (array_key_exists('fieldType', $field)) {
+                        if ($field['fieldType'] == 'pageSize') {
+                           //$this->pagination['pageSize'] = $field['range']['set'][($this->input->get('filter[' . $key . ']') && $this->input->get('filter[' . $key . ']') < sizeof($field['range']['set']) && $this->input->get('filter[' . $key . ']') >=0 ) ? $this->input->get('filter[' . $key . ']')  :0];
+                           if(array_key_exists($field['default'],$field['range']['set'])){
+                            $this->pagination['pageSize'] = $field['range']['set'][$field['default']];
+                           }
+                        } elseif ($field['fieldType'] == 'dataSort') {
+                        } elseif ($field['fieldType'] == 'dataSort') {
+                            if (array_key_exists($this->input->get('filter[' . $key . '][column]'), $field['columns']) && array_key_exists($this->input->get('filter[' . $key . '][type]'), $field['sortTypes'])) {
+                                $filterOrderBy[] = $this->input->get('filter[' . $key . '][column]') . ' ' . $this->input->get('filter[' . $key . '][type]');
+                            }
                         }
                     }
                 }
@@ -99,6 +108,11 @@ class DataTableWidget extends Easol_BaseWidget {
 
             }
         }
+
+        if($this->colGroupBy!=null && is_array($this->colGroupBy)){
+            $this->query.=' GROUP BY '.implode(",",$this->colGroupBy);
+
+        }
         if($this->pagination!=null && $this->input->get("downloadcsv")!='y'){
             //die(print_r($bindValues));
             $totalCount=$this->db->query(
@@ -128,6 +142,9 @@ class DataTableWidget extends Easol_BaseWidget {
             $this->query.='  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY';
             $bindValues[]= abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'];
             $bindValues[]= $this->pagination['pageSize'];
+
+
+
             $dbQuery= $this->db->query($this->query,$bindValues);
            //$dbQuery= $this->db->query($this->query,[abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'],$this->pagination['pageSize']]);
 

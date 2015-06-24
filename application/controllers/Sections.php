@@ -21,39 +21,54 @@ class Sections extends Easol_Controller {
         if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
 
 
-            $query = "SELECT edfi.Section.SchoolId, edfi.Section.SchoolYear, edfi.Section.LocalCourseCode, edfi.Section.UniqueSectionCode, count(*) as StudentCount
-                 FROM edfi.Section
-                 LEFT JOIN edfi.StudentSectionAssociation
-                 ON edfi.StudentSectionAssociation.SchoolId = edfi.Section.SchoolId AND edfi.StudentSectionAssociation.ClassPeriodName = edfi.Section.ClassPeriodName AND
-                 edfi.StudentSectionAssociation.ClassroomIdentificationCode = edfi.Section.ClassroomIdentificationCode AND
-                 edfi.StudentSectionAssociation.LocalCourseCode = edfi.Section.LocalCourseCode AND
-                 edfi.StudentSectionAssociation.TermTypeId = edfi.Section.TermTypeId AND
-                 edfi.StudentSectionAssociation.SchoolYear = edfi.Section.SchoolYear /*@filter*/
-                 GROUP BY edfi.Section.SchoolId, edfi.Section.SchoolYear, edfi.Section.UniqueSectionCode, edfi.Section.LocalCourseCode, edfi.Section.ClassPeriodName, edfi.Section.ClassroomIdentificationCode
-
+            $query = "SELECT StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term,
+[Section].SchoolYear, Course.CourseTitle, [Section].LocalCourseCode,
+[Section].UniqueSectionCode, [Section].ClassPeriodName, count(*) as StudentCount FROM edfi.[Section]
+LEFT JOIN edfi.StudentSectionAssociation ON
+StudentSectionAssociation.SchoolId = Section.SchoolId AND StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND
+StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
+StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND
+StudentSectionAssociation.TermTypeId = Section.TermTypeId AND
+StudentSectionAssociation.SchoolYear = Section.SchoolYear
+LEFT JOIN edfi.StaffSectionAssociation ON
+StaffSectionAssociation.SchoolId = Section.SchoolId AND StaffSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND
+StaffSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
+StaffSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND
+StaffSectionAssociation.TermTypeId = Section.TermTypeId AND
+StaffSectionAssociation.SchoolYear = Section.SchoolYear
+LEFT JOIN edfi.Staff ON
+Staff.StaffUSI = StaffSectionAssociation.StaffUSI
+INNER JOIN edfi.TermType ON TermType.TermTypeId = Section.TermTypeId
+INNER JOIN edfi.Course ON Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId
+WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                   ";
 
 
             $this->render("index", [
                 'query' => $query,
+                'colOrderBy' => ['StaffSectionAssociation.StaffUSI'],
+                'colGroupBy' => ['StaffSectionAssociation.StaffUSI','Staff.FirstName','Staff.LastSurname','TermType.CodeValue','[Section].SchoolYear','[Section].UniqueSectionCode',
+                    'Course.CourseTitle','[Section].LocalCourseCode','[Section].ClassPeriodName','[Section].ClassroomIdentificationCode','[Section].ClassPeriodName'],
                 'filter' => [
+                    'dataBind' => true,
+                    'bindIndex' => ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']],
+                    'queryWhere' => false,
                     'fields' =>
                         [
-                            'NameOfInstitution' =>
+                            'Term' =>
                                 [
-                                    'entity' => 'entities/edfi/Edfi_School',
-                                    'query' => $this->db->query("SELECT NameOfInstitution, EducationOrganizationId FROM edfi.EducationOrganization
-INNER JOIN edfi.School on School.SchoolId = EducationOrganization.EducationOrganizationId"),
-                                    'searchColumn' => 'SchoolId',
+
+                                    'query' => $this->db->query("SELECT TermTypeId, CodeValue FROM edfi.TermType"),
+                                    'searchColumn' => 'TermTypeId',
                                     'searchColumnType' => 'int',
-                                    'textColumn' => 'NameOfInstitution',
-                                    'indexColumn' => 'EducationOrganizationId',
-                                    'label' => 'Name of Institution',
+                                    'textColumn' => 'CodeValue',
+                                    'indexColumn' => 'TermTypeId',
+                                    'queryBuilderColumn' => '[Section].TermTypeId',
+                                    'label' => 'Term',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
-                                    'access' => ['System Administrator', 'Data Administrator'],
-                                    'default' => $this->input->get('filter[NameOfInstitution]'),
-                                    'prompt' => 'All Schools'
+                                    'default' => $this->input->get('filter[Term]'),
+                                    'prompt' => 'All Terms'
                                 ],
                             'Year' =>
                                 [
@@ -66,13 +81,62 @@ INNER JOIN edfi.School on School.SchoolId = EducationOrganization.EducationOrgan
                                         ],
                                     'searchColumn' => 'SchoolYear',
                                     'searchColumnType' => 'int',
-                                    'default' => ($this->input->get('filter[Year]') == null) ? date('Y') : $this->input->get('filter[Year]'),
-                                    'label' => 'Year',
+                                    'queryBuilderColumn' => '[Section].SchoolYear',
+                                    'default' => ($this->input->get('filter[Year]') == null) ? "" : $this->input->get('filter[Year]'),
+                                    'label' => 'School Year',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
                                     'prompt' => 'All Year'
 
-                                ]
+                                ],
+                            'Course' =>
+                                [
+                                    'query' => $this->db->query("SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle"),
+                                    'searchColumn' => 'CourseCode',
+                                    'searchColumnType' => 'int',
+                                    'textColumn' => 'CourseTitle',
+                                    'indexColumn' => 'CourseCode',
+                                    'queryBuilderColumn' => 'edfi.Course.CourseCode',
+                                    'label' => 'Course',
+                                    'type' => 'dropdown',
+                                    'bindDatabase' => true,
+                                    'default' => $this->input->get('filter[Course]'),
+                                    'prompt' => 'All Courses'
+                                ],
+                            'Educator' =>
+                                [
+                                    'query' => $this->db->query("SELECT
+                                                edfi.Staff.StaffUSI,
+                                                CONCAT (edfi.Staff.FirstName,' ',
+                                                edfi.Staff.LastSurname) as FullName
+                                                FROM edfi.Staff
+                                                LEFT JOIN edfi.StaffSchoolAssociation
+                                                ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
+                                                ORDER By FirstName, LastSurname"),
+                                    'searchColumn' => 'StaffUSI',
+                                    'searchColumnType' => 'int',
+                                    'textColumn' => 'FullName',
+                                    'indexColumn' => 'StaffUSI',
+                                    'queryBuilderColumn' => 'edfi.StaffSectionAssociation.StaffUSI',
+                                    'label' => 'Course',
+                                    'type' => 'dropdown',
+                                    'bindDatabase' => true,
+                                    'default' => $this->input->get('filter[Educator]'),
+                                    'prompt' => 'All Educators'
+                                ],
+                            'Result'    =>
+                                [
+                                    'range'     =>
+                                        [
+                                            'type'  =>  'set',
+                                            'set'   =>  [10,25,50,100,200,500]
+                                        ],
+                                    'default'   =>  (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
+                                    'label'     =>  'Results',
+                                    'type'      =>  'dropdown',
+                                    'bindDatabase'  => false,
+                                    'fieldType' => 'pageSize'
+                                ],
 
                         ]
 

@@ -234,7 +234,7 @@ inner join edfi.GradeLevelType on
                                         'type'  =>  'set',
                                         'set'   =>  [10,25,50,100,200,500]
                                     ],
-                                'default'   =>  50,
+                                'default'   =>   (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,

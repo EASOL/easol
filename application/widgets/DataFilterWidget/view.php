@@ -10,7 +10,7 @@
 <div class="row">
     <form action="" method="get" class="form-inline">
         <div class="col-md-12">
-            <?php foreach($fields as $key => $field){ ?>
+            <?php /* die(print_r($fields)); */ foreach($fields as $key => $field){ ?>
                 <?php if( array_key_exists('access',$field) && !Easol_AuthorizationRoles::hasAccess($field['access'])) continue; ?>
                 <?php if($field['type']=='dataSort'){ ?>
                 <div class="form-group">
@@ -51,6 +51,7 @@
                                 elseif(isset($field['range'])){
                                     if($field['range']['type']=='dynamic'){
                                         for($i=$field['range']['start'];$i<=$field['range']['end'];$i+=$field['range']['increament']){
+
                                         ?>
                                             <option value="<?= $i ?>" <?php if($i==$field['default']) echo 'selected' ?>><?= $i ?></option>
                                         <?php
@@ -59,7 +60,7 @@
                                     } elseif($field['range']['type']=='set'){
                                         foreach($field['range']['set'] as $key => $value){
                                             ?>
-                                            <option value="<?= $key ?>" <?php if($value==$field['default']) echo 'selected' ?>><?= $value ?></option>
+                                            <option value="<?= $key ?>" <?php if($key==$field['default']) echo 'selected' ?>><?= $value ?></option>
                                         <?php
                                         }
 
