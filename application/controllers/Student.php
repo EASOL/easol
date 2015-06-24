@@ -11,11 +11,158 @@ class Student extends Easol_Controller {
     }
 
 
+    /**
+     * index action
+     * @param int $id
+     */
+    public function index($id=1)
+    {
+
+
+
+        $query= "SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.Description, StudentCohortAssociation.CohortIdentifier from edfi.StudentSchoolAssociation
+INNER JOIN edfi.Student ON
+     StudentSchoolAssociation.StudentUSI = Student.StudentUSI
+INNER JOIN edfi.GradeLevelDescriptor ON
+     StudentSchoolAssociation.EntryGradeLevelDescriptorId = GradeLevelDescriptor.GradeLevelDescriptorId
+INNER JOIN edfi.GradeLevelType ON
+     GradeLevelDescriptor.GradeLevelTypeId = GradeLevelType.GradeLevelTypeId
+LEFT JOIN edfi.StudentCohortAssociation ON
+      StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
+WHERE
+     StudentSchoolAssociation.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
+
+                  ";
+
+
+        $this->render("index",[
+            'query' => $query,
+            'colOrderBy' => ['GradeLevelType.Description','Student.FirstName','Student.LastSurname','Student.StudentUSI','StudentCohortAssociation.CohortIdentifier'],
+            'filter' =>[
+                'dataBind' => true,
+                'bindIndex' => ['GradeLevel' => ['glue'=>'and'],'Year' => ['glue'=>'and'],'Cohort' => ['glue'=>'and'] ],
+                'bindSort' => ['Sort'],
+                'queryWhere' => false,
+                'fields' =>
+                    [
+                      /*  'NameOfInstitution' =>
+                            [
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.EducationOrganization"),
+                                'searchColumn'    =>  'SchoolId',
+                                'searchColumnType'  => 'int',
+                                'textColumn'=>  'NameOfInstitution',
+                                'indexColumn'=>  'EducationOrganizationId',
+                                'label'     =>  'School',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => true,
+                                'default'   => (!$this->input->get('filter[NameOfInstitution]')) ? Easol_Authentication::userdata('SchoolId') : $this->input->get('filter[NameOfInstitution]'),
+                                'prompt'    => 'All Schools'
+                            ], */
+                        'Year' =>
+                            [
+                                'range' =>
+                                    [
+                                        'type' => 'dynamic',
+                                        'start' => 2000,
+                                        'end' => date('Y'),
+                                        'increament' => 1,
+                                    ],
+                                'searchColumn' => 'SchoolYear',
+                                'searchColumnType' => 'int',
+                                'queryBuilderColumn'=>  'StudentSchoolAssociation.SchoolYear',
+                                'default' => ($this->input->get('filter[Year]') == null) ? 2011 : $this->input->get('filter[Year]'),
+                                'label' => 'Year',
+                                'type' => 'dropdown',
+                                'bindDatabase' => true,
+                                'prompt' => 'All Year'
+
+                            ],
+                        'GradeLevel' =>
+                            [
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType"),
+                                'searchColumn'    =>  'GradeLevelTypeId',
+                                'textColumn'=>  'Description',
+                                'indexColumn'=>  'Description',
+                                'queryBuilderColumn'=>  'GradeLevelType.Description',
+                                'label'     =>  'Grade Level',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => true,
+                                'prompt'    => 'All Grade Levels',
+                                'default'   => (!$this->input->get('filter[GradeLevel]')) ? "" : $this->input->get('filter[GradeLevel]'),
+
+                            ],
+                          'Cohort' =>
+                              [
+                                  'query'     =>  $this->db->query("SELECT DISTINCT edfi.StudentCohortAssociation.CohortIdentifier FROM edfi.StudentCohortAssociation"),
+                                  'searchColumn'    =>  'CohortTypeId',
+                                  'textColumn'=>  'CohortIdentifier',
+                                  'indexColumn'=>  'CohortIdentifier',
+                                  'queryBuilderColumn'=>  'StudentCohortAssociation.CohortIdentifier',
+                                  'label'     =>  'Cohort',
+                                  'type'      =>  'dropdown',
+                                  'bindDatabase'  => false,
+                                  'prompt'    => 'All Cohorts',
+                                  'default'   => $this->input->get('filter[Cohort]'),
+
+                              ],
+                          'Result'    =>
+                            [
+                                'range'     =>
+                                    [
+                                        'type'  =>  'set',
+                                        'set'   =>  [10,25,50,100,200,500]
+                                    ],
+                                'default'   =>  50,
+                                'label'     =>  'Results',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => false,
+                                'fieldType' => 'pageSize'
+                            ],
+                        'Sort'    =>
+                            [
+                                'label'     =>  'Sort Column',
+                                'type'      =>  'dataSort',
+                                'bindDatabase'  => false,
+                                'fieldType' => 'dataSort',
+                                'columns'   =>
+                                    [
+                                        'SchoolId' => 'School ID',
+                                        'StudentUSI' => 'Student USI',
+                                        'FirstName' => 'First Name',
+                                        'LastSurname' => 'Last Name',
+                                        'Description' => 'Description',
+                                        'GradeLevelTypeId' => 'Grade Level',
+                                        'EntryDate' => 'Entry Date'
+                                    ],
+                                'defaultColumn'    =>  $this->input->get('filter[Sort][column]'),
+                                'sortTypes' =>
+                                    [
+                                        'ASC' => 'Ascending',
+                                        'DESC' => 'Descending'
+                                    ],
+                                'defaultSortType'   =>  'ASC',
+                                'sortTypeLabel' =>  'Sort Type'
+
+                            ]
+
+                    ]
+
+            ],
+            'pagination'  =>
+                [
+                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
+                    'currentPage' => $id,
+                    'url'   =>  'student/index/@pageNo'
+                ]
+        ]);
+    }
+
 
     /**
      * index action
      */
-    public function index($id=1)
+
+    public function index1($id=1)
 	{
 
 
@@ -33,6 +180,9 @@ inner join edfi.GradeLevelType on
 		$this->render("index",[
             'query' => $query,
             'filter' =>[
+                'dataBind' => true,
+                'bindIndex' => ['NameOfInstitution','GradeLevel'],
+                'bindSort' => ['Sort'],
                 'fields' =>
                     [
                         'NameOfInstitution' =>

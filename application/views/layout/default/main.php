@@ -49,11 +49,11 @@
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                        <?php /* if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
                             </li>
-                        <?php } ?>
+                        <?php } /* */ ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-edit"></i> Students</a>

@@ -11,7 +11,7 @@
                 'query' => $query,
                 'filter'  =>  $filter,
                 'pagination' => $pagination,
-                'colOrderBy'    =>  'StudentUSI',
+                'colOrderBy'    =>  $colOrderBy,
                 'columns'   =>
                     [
                         ['name' => 'StudentUSI', 'title' => 'Student Name','type' => 'url',
@@ -24,7 +24,8 @@
                                     return $model->FirstName.' '.$model->LastSurname;
                                 }
                         ],
-                        ['name' => 'Description', 'title' => 'Grade Level' ]
+                        ['name' => 'Description', 'title' => 'Grade Level' ],
+                        ['name' => 'CohortIdentifier', 'title' => 'Cohort' ]
                     ],
                 'downloadCSV' => true
             ]
