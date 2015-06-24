@@ -60,4 +60,10 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication
                 ]
         ]);
 	}
+
+    public function students($cohortIdentifier=0){
+       echo $cohortIdentifier;
+
+        return $this->render("students");
+    }
 }

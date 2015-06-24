@@ -16,7 +16,7 @@
                 'columns'   =>
                     [
 
-                        ['name' => 'CohortIdentifier', 'title' => 'Name'],
+                        ['name' => 'CohortIdentifier', 'title' => 'Name','type'=>'url','url' => function($model){ return site_url('cohorts/students/'.$model->CohortIdentifier); }],
                         ['name' => 'CohortDescription', 'title' => 'Description'],
                         ['name' => 'StudentCount', 'title' => 'Students' ]
 
