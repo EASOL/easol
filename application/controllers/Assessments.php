@@ -15,9 +15,6 @@ class Assessments extends Easol_Controller {
     public function index($id=1)
 	{
 
-
-
-
         $query = "SELECT AssessmentTitle, Version, AdministrationDate,
 AVG(CAST(StudentAssessmentScoreResult.Result as INT)) as AverageResult,
 COUNT(*) as StudentCount FROM edfi.StudentAssessmentScoreResult
@@ -63,7 +60,7 @@ WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
                                         'type'  =>  'set',
                                         'set'   =>  [10,25,50,100,200,500]
                                     ],
-                                'default'   =>  (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
+                                'default'   =>  (!$this->input->get('filter[Result]')) ? 2 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,

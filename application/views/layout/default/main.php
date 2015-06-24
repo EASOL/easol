@@ -72,6 +72,9 @@
                         <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
+                        <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-table"></i> Cohorts</a>
+                        </li>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
