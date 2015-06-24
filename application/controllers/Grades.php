@@ -65,7 +65,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'searchColumnType' => 'int',
                                     'textColumn' => 'CodeValue',
                                     'indexColumn' => 'TermTypeId',
-                                    'queryBuilderColumn' => '[Section].TermTypeId',
+                                    'queryBuilderColumn' => 'TermType.TermTypeId',
                                     'label' => 'Term',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
@@ -83,7 +83,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                         ],
                                     'searchColumn' => 'SchoolYear',
                                     'searchColumnType' => 'int',
-                                    'queryBuilderColumn' => '[Section].SchoolYear',
+                                    'queryBuilderColumn' => 'Grade.SchoolYear',
                                     'default' => ($this->input->get('filter[Year]') == null) ? "" : $this->input->get('filter[Year]'),
                                     'label' => 'School Year',
                                     'type' => 'dropdown',
@@ -98,14 +98,14 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'searchColumnType' => 'int',
                                     'textColumn' => 'CourseTitle',
                                     'indexColumn' => 'CourseCode',
-                                    'queryBuilderColumn' => 'edfi.Course.CourseCode',
+                                    'queryBuilderColumn' => 'Course.CourseCode',
                                     'label' => 'Course',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
                                     'default' => $this->input->get('filter[Course]'),
                                     'prompt' => 'All Courses'
                                 ],
-                            'GradeLevel' =>
+                           /* 'GradeLevel' =>
                                 [
                                     'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType"),
                                     'searchColumn'    =>  'GradeLevelTypeId',
@@ -118,7 +118,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'prompt'    => 'All Grade Levels',
                                     'default'   => (!$this->input->get('filter[GradeLevel]')) ? "" : $this->input->get('filter[GradeLevel]'),
 
-                                ],
+                                ], */
                             'Educator' =>
                                 [
                                     'query' => $this->db->query("SELECT
@@ -133,8 +133,8 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'searchColumnType' => 'int',
                                     'textColumn' => 'FullName',
                                     'indexColumn' => 'StaffUSI',
-                                    'queryBuilderColumn' => 'edfi.StaffSectionAssociation.StaffUSI',
-                                    'label' => 'Course',
+                                    'queryBuilderColumn' => 'edfi.Staff.StaffUSI',
+                                    'label' => 'Educator',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
                                     'default' => $this->input->get('filter[Educator]'),
@@ -161,7 +161,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                     [
                         'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
                         'currentPage' => $id,
-                        'url' => 'sections/index/@pageNo'
+                        'url' => 'grades/index/@pageNo'
                     ]
             ]);
         }

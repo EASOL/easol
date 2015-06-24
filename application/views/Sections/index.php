@@ -21,7 +21,8 @@
                         ['name' => 'Term', 'title' => 'Term'],
                         ['name' => 'FirstName', 'title' => 'Educator','value' => function($model){ return $model->FirstName.' '.$model->LastSurname;  }],
                         ['name' => 'StudentCount', 'title' => 'Students' ]
-                    ]
+                    ],
+                'downloadCSV' => true
             ]
 
         ) ?>

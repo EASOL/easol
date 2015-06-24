@@ -559,4 +559,9 @@ font-size: 19px;
 .dataTableGrid .table thead tr{
     border-bottom: 1px solid black;
 }
+.grade_color span{
+    width: 40px;
+    display: block;
+    float: left;
+}
 
