@@ -114,6 +114,8 @@ class DataTableWidget extends Easol_BaseWidget {
 
         }
         if($this->pagination!=null && $this->input->get("downloadcsv")!='y'){
+
+
             //die(print_r($bindValues));
             $totalCount=$this->db->query(
                 "SELECT  count(*) as tot FROM
@@ -146,6 +148,7 @@ class DataTableWidget extends Easol_BaseWidget {
 
 
             $dbQuery= $this->db->query($this->query,$bindValues);
+
            //$dbQuery= $this->db->query($this->query,[abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'],$this->pagination['pageSize']]);
 
         }

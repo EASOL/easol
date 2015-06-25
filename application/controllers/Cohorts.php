@@ -61,9 +61,36 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication
         ]);
 	}
 
-    public function students($cohortIdentifier=0){
-       echo $cohortIdentifier;
+    /**
+     * @param int $cohortIdentifier
+     * @return null|string
+     */
+    public function students($cohortIdentifier=0,$id=1){
 
-        return $this->render("students");
+
+        $this->load->model("entities/edfi/Edfi_Cohort",'Edfi_Cohort');
+        $cohort = $this->Edfi_Cohort->findOneBySql("select Cohort.CohortIdentifier, Cohort.CohortDescription from edfi.Cohort
+WHERE Cohort.CohortIdentifier = ? and Cohort.EducationOrganizationId = ? ",[$cohortIdentifier,Easol_Authentication::userdata('SchoolId')]);
+
+        $query="SELECT Student.FirstName, Student.LastSurname FROM edfi.StudentCohortAssociation
+INNER JOIN edfi.Student ON Student.StudentUSI = StudentCohortAssociation.StudentUSI
+WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Authentication::userdata('SchoolId')." and StudentCohortAssociation.CohortIdentifier = '".$cohort->CohortIdentifier."'
+
+ ";
+
+        //die($query);
+
+        return $this->render("students",['cohort'=>$cohort,
+            'query' => $query,
+            'colOrderBy' => ['Student.FirstName','Student.LastSurname'],
+            'pagination' =>
+                [
+                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
+                    'currentPage' => $id,
+                    'url' => 'cohorts/students/'.$cohort->CohortIdentifier.'/@pageNo'
+                ]
+
+
+        ]);
     }
 }
