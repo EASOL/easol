@@ -112,7 +112,8 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                                 FROM edfi.Staff
                                                 LEFT JOIN edfi.StaffSchoolAssociation
                                                 ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
-                                                ORDER By FirstName, LastSurname"),
+                                                WHERE StaffSchoolAssociation.SchoolId = ?
+                                                ORDER By FirstName, LastSurname",[Easol_Authentication::userdata('SchoolId')]),
                                     'searchColumn' => 'StaffUSI',
                                     'searchColumnType' => 'int',
                                     'textColumn' => 'FullName',
