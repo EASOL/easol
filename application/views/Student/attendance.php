@@ -7,25 +7,26 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Period</th>
                 <th>Course Code</th>
-                <th>Title</th>
-                <th>Term</th>
-                <th>School Year</th>
-                <th>Letter Grade</th>
-                <th>Numeric Grade</th>
+                <th>Section Code</th>
+                <th>Present</th>
+                <th>Tardy</th>
+                <th>Absent</th>
             </tr>
         </thead>
         <tbody>
-        <?php foreach($student->getGrades()->result() as $grade){ ?>
+        <?php  foreach($student->getAttendance() as $attendance){ ?>
             <tr>
-                <td><?= $grade->LocalCourseCode ?></td>
-                <td><?= $grade->CourseTitle ?></td>
-                <td><?= $grade->Term ?></td>
-                <td><?= $grade->SchoolYear ?></td>
-                <td><?= $grade->LetterGradeEarned ?></td>
-                <td><?= $grade->NumericGradeEarned ?></td>
+                <td><?= $attendance->ClassPeriodName ?></td>
+                <td><?= $attendance->LocalCourseCode ?></td>
+                <td><?= $attendance->UniqueSectionCode ?></td>
+                <td><?= $attendance->CodeValue ?></td>
+                <td><?= $attendance->CodeValue ?></td>
+
+                <td><?= $attendance->Days ?></td>
             </tr>
-        <?php } ?>
+        <?php }  ?>
         </tbody>
 
     </table>
