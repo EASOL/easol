@@ -4,7 +4,7 @@
 <div class="col-md-12">
     <br>
     <h3>Attendance</h3><br>
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Period</th>
@@ -21,10 +21,10 @@
                 <td><?= $attendance->ClassPeriodName ?></td>
                 <td><?= $attendance->LocalCourseCode ?></td>
                 <td><?= $attendance->UniqueSectionCode ?></td>
-                <td><?= $attendance->CodeValue ?></td>
-                <td><?= $attendance->CodeValue ?></td>
+                <td><?= ($attendance->CodeValue=='In Attendance') ? $attendance->Days : "" ?></td>
+                <td><?= ($attendance->CodeValue=='Tardy') ? $attendance->Days : "" ?></td>
+                <td><?= ($attendance->CodeValue=='Excused Absence' || $attendance->CodeValue=='Unexcused Absence') ? $attendance->Days : "" ?></td>
 
-                <td><?= $attendance->Days ?></td>
             </tr>
         <?php }  ?>
         </tbody>

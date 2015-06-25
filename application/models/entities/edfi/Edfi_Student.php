@@ -239,9 +239,6 @@ GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSection
         if($termId && $schoolYear) {
             $query = str_replace(['[StudentUSI]', '[TermTypeId]', '[SchoolYear]'], [$this->StudentUSI, $termId, $schoolYear], $query);
 
-            // die($query);
-
-
             return $this->db->query($query,
                 [
                     $this->StudentUSI
