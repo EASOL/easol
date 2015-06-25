@@ -72,7 +72,7 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication
         $cohort = $this->Edfi_Cohort->findOneBySql("select Cohort.CohortIdentifier, Cohort.CohortDescription from edfi.Cohort
 WHERE Cohort.CohortIdentifier = ? and Cohort.EducationOrganizationId = ? ",[$cohortIdentifier,Easol_Authentication::userdata('SchoolId')]);
 
-        $query="SELECT Student.FirstName, Student.LastSurname FROM edfi.StudentCohortAssociation
+        $query="SELECT Student.FirstName, Student.LastSurname,Student.StudentUSI FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Student ON Student.StudentUSI = StudentCohortAssociation.StudentUSI
 WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Authentication::userdata('SchoolId')." and StudentCohortAssociation.CohortIdentifier = '".$cohort->CohortIdentifier."'
 

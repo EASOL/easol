@@ -28,7 +28,11 @@
                 'columns'   =>
                     [
 
-                        ['name' => 'FirstName', 'title' => 'Student Name', 'value' => function($model){return $model->FirstName.' '.$model->LastSurname;}],
+                        ['name' => 'FirstName', 'title' => 'Student Name',
+                            'value' => function($model){return $model->FirstName.' '.$model->LastSurname;},
+                            'type' => 'url',
+                            'url' => function($model){return site_url('student/profile/'.$model->StudentUSI); }
+                        ],
 
                     ],
                 'downloadCSV' => true
