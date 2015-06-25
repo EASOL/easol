@@ -49,7 +49,7 @@ WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
                                 'label' => 'Administration Year',
                                 'type' => 'dropdown',
                                 'bindDatabase' => true,
-                                'prompt' => 'All Year'
+                                'prompt' => 'All Years'
 
                             ],
 
