@@ -24,7 +24,7 @@
 
                     ],
                 'downloadCSV' => true,
-                'view' => 'attendance'
+                'view' => 'Attendance/index'
             ]
 
         ) ?>
