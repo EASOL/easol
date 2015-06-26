@@ -51,7 +51,7 @@ class Home extends Easol_Controller {
                     }
 
                     $this->session->set_userdata($data);
-                    return redirect('/dashboard');
+                    return redirect('/student');
                 }
             }
             return $this->render("login",['message' => 'Invalid username/password']);
