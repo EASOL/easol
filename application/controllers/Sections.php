@@ -86,7 +86,7 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'label' => 'School Year',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
-                                    'prompt' => 'All Year'
+                                    'prompt' => 'All Years'
 
                                 ],
                             'Course' =>

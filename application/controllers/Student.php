@@ -75,7 +75,7 @@ WHERE
                                 'label' => 'Year',
                                 'type' => 'dropdown',
                                 'bindDatabase' => true,
-                                'prompt' => 'All Year'
+                                'prompt' => 'All Years'
 
                             ],
                         'GradeLevel' =>

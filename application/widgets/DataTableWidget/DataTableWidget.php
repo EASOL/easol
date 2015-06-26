@@ -34,6 +34,9 @@ class DataTableWidget extends Easol_BaseWidget {
     public $downloadCSV = false;
 
 
+    public $view="view.php";
+
+
     /**
      * Run the data table widget codes and display it
      */
@@ -173,7 +176,7 @@ class DataTableWidget extends Easol_BaseWidget {
             die();
         }
 
-        $this->render("view",[
+        $this->render($this->view,[
             'query'     =>  $dbQuery,
             'columns'   =>  $this->columns,
             'pagination'    =>  $this->pagination,
