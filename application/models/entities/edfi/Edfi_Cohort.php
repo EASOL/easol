@@ -48,4 +48,12 @@ class Edfi_Cohort extends Easol_baseentity {
         return "edfi.Cohort";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

@@ -55,4 +55,13 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
             "Value"  =>  "Value"
         ];
     }
+
+    /**
+     * Return primary key of the table
+     * @return null | string
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

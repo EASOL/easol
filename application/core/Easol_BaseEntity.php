@@ -85,4 +85,44 @@ abstract class Easol_BaseEntity extends CI_Model{
         }
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | string
+     */
+    public abstract function getPrimaryKey();
+
+    /**
+     * Save data to database
+     */
+    public function save(){
+        if($this->getPrimaryKey()==null){
+            throw new \Exception("Primary Key Not Set!!");
+        }
+        //insert operation
+        if($this->isNewRecord){
+           //$this->insert
+        }
+        //update operation
+        else {
+
+        }
+    }
+
+    private function data(){
+
+        $ret=[];
+
+        foreach($this->labels() as $key => $value){
+            if($key!=$this->getPrimaryKey()){
+                if(!property_exists($this,$key)){
+                    throw new Exception("Property Does not Exists");
+                }
+                $ret[$key]=$value;
+            }
+        }
+
+    }
+
+
+
 }

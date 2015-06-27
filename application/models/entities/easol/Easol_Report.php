@@ -16,7 +16,7 @@ class Easol_RoleType extends Easol_BaseEntity {
      */
     public function getTableName()
     {
-        return  "EASOL.RoleType";
+        return  "EASOL.Report";
     }
 
     /**
@@ -26,17 +26,25 @@ class Easol_RoleType extends Easol_BaseEntity {
     public function labels()
     {
         return [
-            "RoleTypeId"    =>  "Role Type ID",
-            "RoleTypeName"  =>  "Role Type Name"
+            "ReportId"    =>  "Report Id",
+            "ReportName"  =>  "Report Name",
+            "ReportCategoryId"  =>  "Report Category",
+            "CommandText"  =>  "Command Text",
+            "ReportDisplayId"  =>  "ReportDisplayId",
+            "CreatedBy"  =>  "Created By",
+            "CreatedOn"  =>  "CreatedOn",
+            "UpdatedBy"  =>  "UpdatedBy",
+            "UpdatedOn"  =>  "UpdatedOn",
+            "SchoolId"  =>  "SchoolId",
         ];
     }
 
     /**
      * Return primary key of the table
-     * @return null | int
+     * @return null | string
      */
     public function getPrimaryKey()
     {
-        // TODO: Implement getPrimaryKey() method.
+        return "ReportId";
     }
 }

@@ -52,4 +52,12 @@ class Edfi_School extends Easol_baseentity {
         return "edfi.School";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

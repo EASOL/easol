@@ -66,4 +66,12 @@ WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2 AND StaffSchoolAssociati
         return "edfi.staff";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

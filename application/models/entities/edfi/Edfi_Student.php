@@ -294,4 +294,12 @@ WHERE StudentUSI = ?",
         return "edfi.student";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | string
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

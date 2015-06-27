@@ -39,4 +39,12 @@ class Edfi_RaceType extends Easol_baseentity {
         return "edfi.RaceType";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }
