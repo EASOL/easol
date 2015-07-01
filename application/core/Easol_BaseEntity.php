@@ -20,6 +20,8 @@ abstract class Easol_BaseEntity extends CI_Model{
     {
 
         parent::__construct();
+
+
     }
 
     /**
@@ -85,7 +87,22 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param array $params
      * @return object
      */
+    public function findAllBySql($sql,$params=[]){
+        $query = $this->db->query($sql, $params);
+
+        return $query->result();
+
+    }
+
+    /**
+     * find single row
+     * @param array $params
+     * @return object
+     */
     public function findOne($params=[]){
+        if(!is_array($params)){
+            $params = [$this->getPrimaryKey()=>$params];
+        }
         $query = $this->db->get_where($this->getTableName(), $params);
 
         return $query->row();
@@ -118,6 +135,21 @@ abstract class Easol_BaseEntity extends CI_Model{
             }
 
             return $ret;
+        }
+        else {
+            $retArr = [];
+            foreach($obj as $o) {
+                $ret = new static;
+                foreach ($ret->labels() as $key => $value) {
+                    if (isset($o->$key))
+                        $ret->{$key} = $o->$key;
+                    else
+                        $ret->{$key} = null;
+                }
+                $retArr[] = $ret;
+            }
+
+            return $retArr;
         }
     }
 

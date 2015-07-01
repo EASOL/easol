@@ -43,6 +43,8 @@ class Edfi_School extends Easol_baseentity {
     }
 
 
+
+
     /**
      * return table name
      * @return string

@@ -14,9 +14,10 @@ class Reports extends Easol_Controller {
      */
     public function index()
 	{
+        $this->load->model('entities/easol/Easol_Report');
+        $report = new Easol_Report();
 
-
-		$this->render("index");
+		$this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
 	}
 
     /**

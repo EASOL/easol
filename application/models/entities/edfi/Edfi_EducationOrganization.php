@@ -8,11 +8,12 @@
  */
 
 require_once APPPATH.'/core/Easol_BaseEntity.php';
-class Edfi_Cohort extends Easol_baseentity {
+class Edfi_EducationOrganization extends Easol_baseentity {
 
     private $sex;
     private $race;
     private $limitedEnglishProficiency;
+
 
     /**
      * labels for the database fields
@@ -22,12 +23,11 @@ class Edfi_Cohort extends Easol_baseentity {
     {
         return [
             'EducationOrganizationId'       => 'EducationOrganizationId',
-            'CohortIdentifier'              => 'CohortIdentifier',
-            'CohortDescription'             => 'CohortDescription',
-            'CohortTypeId'                  => 'CohortTypeId',
-            'CohortScopeTypeId'             => 'CohortScopeTypeId',
-            'AcademicSubjectDescriptorId'   => 'AcademicSubjectDescriptorId',
-
+            'StateOrganizationId'              => 'StateOrganizationId',
+            'NameOfInstitution'             => 'NameOfInstitution',
+            'ShortNameOfInstitution'                  => 'ShortNameOfInstitution',
+            'WebSite'             => 'WebSite',
+            'OperationalStatusTypeId'   => 'OperationalStatusTypeId',
             'Id'                    =>  'Id',
             'LastModifiedDate'      =>  'LastModifiedDate',
             'CreateDate'            =>  'CreateDate'
@@ -45,7 +45,7 @@ class Edfi_Cohort extends Easol_baseentity {
      */
     public function getTableName()
     {
-        return "edfi.Cohort";
+        return "edfi.EducationOrganization";
     }
 
     /**
@@ -54,6 +54,6 @@ class Edfi_Cohort extends Easol_baseentity {
      */
     public function getPrimaryKey()
     {
-        return 'Id';
+        return 'EducationOrganizationId';
     }
 }

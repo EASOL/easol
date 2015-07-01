@@ -57,10 +57,6 @@ class Schools extends Easol_Controller {
 
     public function choose(){
 
-
-        //this is a test commit
-
-
         $schools= $this->Edfi_School->getAllSchools();
 
         if(isset($_POST['school'])){

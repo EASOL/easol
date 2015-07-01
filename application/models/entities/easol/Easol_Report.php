@@ -16,6 +16,11 @@ require_once APPPATH.'/core/Easol_BaseEntity.php';
  */
 class Easol_Report extends Easol_BaseEntity {
 
+    private $category = null;
+    private $school = null;
+    private $displayType = null;
+    private $accessTypes = null;
+
     /**
      * return table name
      * @return string
@@ -72,5 +77,51 @@ class Easol_Report extends Easol_BaseEntity {
     public function getPrimaryKey()
     {
         return "ReportId";
+    }
+
+
+    public function getCategory(){
+        if($this->category==null) {
+            $this->load->model('entities/easol/Easol_ReportCategory');
+            $category = new Easol_ReportCategory();
+            $this->category = $category->findOne(['ReportCategoryId' => $this->ReportCategoryId]);
+        }
+        return $this->category;
+    }
+
+    public function getSchool(){
+
+        if($this->school==null) {
+            $this->load->model('entities/edfi/Edfi_EducationOrganization');
+            $school = new Edfi_EducationOrganization();
+            $this->school = $school->hydrate($school->findOne($this->SchoolId));
+        }
+        return $this->school;
+    }
+
+    public function getDisplayType(){
+
+        if($this->displayType==null) {
+            $this->load->model('entities/easol/Easol_ReportDisplay');
+            $displayType = new Easol_ReportDisplay();
+            $this->displayType = $displayType->hydrate($displayType->findOne($this->ReportDisplayId));
+        }
+        return $this->displayType;
+    }
+
+    public function getAccessTypes(){
+
+        if($this->accessTypes==null) {
+            $this->accessTypes = [];
+            $this->load->model('entities/easol/Easol_ReportAccess');
+            $accessType = new Easol_ReportAccess();
+
+            $this->accessTypes = $accessType->findAllBySql("SELECT EASOL.RoleType.* FROM EASOL.ReportAccess, EASOL.RoleType WHERE EASOL.RoleType.RoleTypeId=EASOL.ReportAccess.RoleTypeId AND EASOL.ReportAccess.ReportId=?",[$this->ReportId]);
+
+
+        }
+
+        return $this->accessTypes;
+
     }
 }
