@@ -17,28 +17,39 @@
             <thead>
                 <tr>
                     <th>Report Name</th>
-                    <th>Display Type</th>
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><th>Display Type</th> <?php } ?>
                     <th>Category</th>
-                    <th>School</th>
-                    <th>Access</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+
+                        <th>School</th>
+                        <th>Access</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+                    <?php } ?>
+
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($reports as $report){ ?>
                 <tr>
                     <td><?= $report->ReportName ?></td>
-                    <td><?= $report->getDisplayType()->DisplayName ?></td>
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?= $report->getDisplayType()->DisplayName ?></td><?php } ?>
                     <td><?= $report->getCategory()->ReportCategoryName ?></td>
-                    <td><?= $report->getSchool()->NameOfInstitution ?></td>
-                    <td><?php
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                        <td><?= $report->getSchool()->NameOfInstitution ?></td>
+                        <td><?php
                         foreach($report->getAccessTypes() as $access){
                             echo '<span> '.$access->RoleTypeName.'</span> ';
                         }
                         ?></td>
-                    <td>[ <a href="<?= site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a> ]</td>
-                    <td>[ <a href="<?= site_url('reports/delete/'.$report->ReportId) ?>"><span class="fa fa-trash-o"></span></a> ]</td>
+
+                        <td>[ <a href="<?= site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a> ]</td>
+                        <td>[ <a href="<?= site_url('reports/delete/'.$report->ReportId) ?>"><span class="fa fa-trash-o"></span></a> ]</td>
+                    <?php } ?>
+
+
+
                 </tr>
                 <?php } ?>
 

@@ -5,7 +5,8 @@ class Reports extends Easol_Controller {
 
     protected function accessRules(){
         return [
-            "index"     =>  ['System Administrator','Data Administrator'],
+           // "index"     =>  ['@'],
+            //"index"     =>  ['System Administrator','Data Administrator'],
         ];
     }
 
