@@ -37,8 +37,8 @@
                             echo '<span> '.$access->RoleTypeName.'</span> ';
                         }
                         ?></td>
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <td>[ <a href="<?= site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a> ]</td>
+                    <td>[ <a href="<?= site_url('reports/delete/'.$report->ReportId) ?>"><span class="fa fa-trash-o"></span></a> ]</td>
                 </tr>
                 <?php } ?>
 
