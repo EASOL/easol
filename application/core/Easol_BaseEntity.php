@@ -14,10 +14,46 @@ abstract class Easol_BaseEntity extends CI_Model{
 
     public $isNewRecord= true;
 
+    public $errors = [];
+
     public function __construct()
     {
 
         parent::__construct();
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @throws Exception
+     */
+    public function __set($name,$value){
+
+        if(!property_exists($this,$name)){
+            if(array_key_exists($name,$this->labels())){
+                $this->{$name} = $value;
+            }
+            else
+                throw new Exception("Value Cannot be set, column does not exists");
+        }
+        else
+            $this->{$name} = $value;
+
+
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name){
+        if(!property_exists($this,$name)){
+            if(array_key_exists($name,$this->labels())){
+                $this->{$name} = "";
+                return $this->$name;
+            }
+        }
+        return parent::__get($name);
     }
 
 
@@ -92,34 +128,103 @@ abstract class Easol_BaseEntity extends CI_Model{
     public abstract function getPrimaryKey();
 
     /**
+     * @return array
+     */
+    public function validationRules(){
+        return [];
+    }
+
+    public function excludedColumns(){
+        return [
+            'CreatedOn' => '',
+            'UpdatedOn' => ''
+        ];
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function populateForm($data=[]){
+        foreach($this->validationRules() as $key => $value){
+            if(array_key_exists($key,$data)){
+                $this->$key = $data[$key];
+            }
+        }
+
+        return true;
+    }
+
+
+    public function beforeSave(){
+
+        if($this->isNewRecord){
+            if(array_key_exists('CreatedBy',$this->labels())){
+                $this->CreatedBy=Easol_Authentication::userdata("StaffUSI");
+
+            }
+            if(array_key_exists('CreatedOn',$this->labels())){
+                $this->db->set('CreatedOn', 'GETDATE()', FALSE);
+
+            }
+
+        }
+
+        if(array_key_exists('UpdatedBy',$this->labels())){
+            $this->UpdatedBy=Easol_Authentication::userdata("StaffUSI");
+
+        }
+        if(array_key_exists('UpdatedOn',$this->labels())){
+            $this->db->set('UpdatedOn', 'GETDATE()', FALSE);
+
+
+        }
+
+
+    }
+
+
+    /**
      * Save data to database
      */
     public function save(){
+        $this->beforeSave();
         if($this->getPrimaryKey()==null){
             throw new \Exception("Primary Key Not Set!!");
         }
+        $data = $this->entryData();
+
+        //print_r($data);
         //insert operation
+
         if($this->isNewRecord){
-           //$this->insert
+           if($this->db->insert($this->getTableName(),$data)) {
+               $this->{$this->getPrimaryKey()} = $this->db->insert_id();
+               return true;
+           }
         }
         //update operation
         else {
-
+            // to-do:
         }
     }
 
-    private function data(){
+
+
+    private function entryData(){
 
         $ret=[];
 
         foreach($this->labels() as $key => $value){
             if($key!=$this->getPrimaryKey()){
-                if(!property_exists($this,$key)){
-                    throw new Exception("Property Does not Exists");
+                if(!property_exists($this,$key) || array_key_exists($key,$this->excludedColumns())){
+                    continue;
                 }
-                $ret[$key]=$value;
+                $ret[$key]=$this->$key;
             }
         }
+
+        return $ret;
 
     }
 

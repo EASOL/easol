@@ -8,7 +8,13 @@
  */
 
 require_once APPPATH.'/core/Easol_BaseEntity.php';
-class Easol_RoleType extends Easol_BaseEntity {
+
+/**
+ * example of basic @param usage
+ * @param int $ReportId
+ * @param $ReportName string
+ */
+class Easol_Report extends Easol_BaseEntity {
 
     /**
      * return table name
@@ -18,6 +24,8 @@ class Easol_RoleType extends Easol_BaseEntity {
     {
         return  "EASOL.Report";
     }
+
+
 
     /**
      * labels for the database fields
@@ -30,12 +38,30 @@ class Easol_RoleType extends Easol_BaseEntity {
             "ReportName"  =>  "Report Name",
             "ReportCategoryId"  =>  "Report Category",
             "CommandText"  =>  "Command Text",
-            "ReportDisplayId"  =>  "ReportDisplayId",
+            "ReportDisplayId"  =>  "Display Type",
             "CreatedBy"  =>  "Created By",
             "CreatedOn"  =>  "CreatedOn",
             "UpdatedBy"  =>  "UpdatedBy",
             "UpdatedOn"  =>  "UpdatedOn",
             "SchoolId"  =>  "SchoolId",
+        ];
+    }
+
+    public function beforeSave(){
+        $this->SchoolId = Easol_Authentication::userdata("SchoolId");
+        parent::beforeSave();
+    }
+
+    /**
+     * @return array
+     */
+    public function validationRules(){
+        return [
+            'ReportName' => ['string','Required'],
+            'ReportCategoryId' => ['int','Required'],
+            'CommandText' => ['string','Required'],
+            'ReportDisplayId' => ['int','Required'],
+            'ReportDisplayId' => ['int','Required'],
         ];
     }
 
