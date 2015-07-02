@@ -45,7 +45,7 @@
                         ?></td>
 
                         <td>[ <a href="<?= site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a> ]</td>
-                        <td>[ <a href="<?= site_url('reports/delete/'.$report->ReportId) ?>"><span class="fa fa-trash-o"></span></a> ]</td>
+                        <td>[ <a href="#" onclick="if(confirm('Do you want to delete this report? ')) window.location=' <?= site_url('reports/delete/'.$report->ReportId) ?>'; return false"><span class="fa fa-trash-o"></span></a> ]</td>
                     <?php } ?>
 
 

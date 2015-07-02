@@ -124,4 +124,17 @@ class Reports extends Easol_Controller {
             throw new \Exception("Invalid report Id");
 
     }
+
+    public function delete($id= null){
+        if($id==null)
+            throw new \Exception("Invalid report Id");
+        $this->db->delete('EASOL.Report', array('ReportId' => $id));
+
+        $this->session->set_flashdata('message', 'Report Successfully deleted');
+        $this->session->set_flashdata('type', 'success');
+
+        return  redirect(site_url("reports"));
+
+
+    }
 }
