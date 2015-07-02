@@ -121,11 +121,17 @@ abstract class Easol_BaseEntity extends CI_Model{
 
     }
 
+    /**
+     * Populate retrieved data with the class
+     * @param $obj
+     * @return static
+     */
     public function hydrate($obj){
         $this->isNewRecord = false;
 
         if(!is_array($obj)){
             $ret = new static;
+            $ret->isNewRecord = false;
             foreach ($ret->labels() as $key => $value)
             {
                 if(isset($obj->$key))
@@ -140,6 +146,7 @@ abstract class Easol_BaseEntity extends CI_Model{
             $retArr = [];
             foreach($obj as $o) {
                 $ret = new static;
+                $ret->isNewRecord = false;
                 foreach ($ret->labels() as $key => $value) {
                     if (isset($o->$key))
                         $ret->{$key} = $o->$key;
@@ -231,14 +238,24 @@ abstract class Easol_BaseEntity extends CI_Model{
 
         if($this->isNewRecord){
            if($this->db->insert($this->getTableName(),$data)) {
+               $this->isNewRecord = false;
                $this->{$this->getPrimaryKey()} = $this->db->insert_id();
                return true;
            }
         }
         //update operation
         else {
-            // to-do:
+            if($this->getPrimaryKey()==null)
+                throw new \Exception("Primary Key not Defined!");
+            $this->db->where($this->getPrimaryKey(),$this->{$this->getPrimaryKey()});
+            if($this->db->update($this->getTableName(),$data)) {
+
+                return true;
+
+            }
         }
+
+        return false;
     }
 
 

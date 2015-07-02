@@ -55,4 +55,73 @@ class Reports extends Easol_Controller {
         //$report->save();
         $this->render("create",['model' => $model]);
     }
+
+
+    /**
+     * @param null | int $id
+     * @throws Exception
+     */
+    public function edit($id=null){
+        if($id==null)
+            throw new \Exception("Invalid report Id");
+
+        $this->load->model('entities/easol/Easol_Report');
+
+        $model= new Easol_Report();
+        $model= $model->hydrate($model->findOne($id));
+
+       // die(print_r($model));
+        //die(print_r($this->input->post('access[access]')));
+        if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
+            if($model->save()){
+
+                $this->load->model('entities/easol/Easol_ReportAccess');
+/*
+                foreach($this->input->post('access[access]') as $access){
+                    $displayAccess = new Easol_ReportAccess();
+                    $displayAccess->ReportId = $model->ReportId;
+                    $displayAccess->RoleTypeId = $access;
+                    $displayAccess->save();
+                }
+*/
+
+                $aRoles=[];
+                foreach($model->getAccessTypes() as $role){
+                    if(!in_array($role->RoleTypeId,$this->input->post('access[access]'))){
+                        $this->db->delete('EASOL.ReportAccess', array('ReportId' => $model->ReportId,'RoleTypeId'=>$role->RoleTypeId));
+                    }
+                    $aRoles[] = $role->RoleTypeId;
+                }
+
+                foreach($this->input->post('access[access]') as $access){
+                    if(in_array($access,$aRoles))
+                        continue;
+                    $displayAccess = new Easol_ReportAccess();
+                    $displayAccess->ReportId = $model->ReportId;
+                    $displayAccess->RoleTypeId = $access;
+                    $displayAccess->save();
+                }
+
+
+                $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
+                $this->session->set_flashdata('type', 'success');
+
+                return  redirect(site_url("reports/edit/".$model->ReportId));
+
+            }
+
+        }
+        // $report->ReportName = "Report";
+        /* echo $report->ReportName."sdd";
+         echo $report->ReportName."sdd"; */
+        //$report->save();
+        $this->render("edit",['model' => $model]);
+
+    }
+
+    public function view($id= null){
+        if($id==null)
+            throw new \Exception("Invalid report Id");
+
+    }
 }

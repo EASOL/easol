@@ -8,7 +8,7 @@
  */
 /* @var $model Easol_Report */
 ?>
-<div class="col-md-6">
+<div class="col-md-8">
     <form action="" method="post" class="form-horizontal">
 
 
@@ -28,7 +28,7 @@
                     $reportCategories= new Easol_ReportCategory();
                         foreach($reportCategories->findAll()->result() as $reportCategory){
                             ?>
-                            <option value="<?= $reportCategory->ReportCategoryId ?>"><?= $reportCategory->ReportCategoryName ?></option>
+                            <option value="<?= $reportCategory->ReportCategoryId ?>" <?= ($model->ReportCategoryId==$reportCategory->ReportCategoryId) ? "selected" : "" ?>><?= $reportCategory->ReportCategoryName ?></option>
                         <?php
                         }
 
@@ -40,7 +40,7 @@
         <div class="form-group">
             <label for="CommandText" class="col-sm-4 control-label"><?= $model->labels()['CommandText'] ?></label>
             <div class="col-sm-8">
-                <textarea class="form-control" id="CommandText" name="report[CommandText]" rows="3" required><?= $model->CommandText ?></textarea>
+                <textarea class="form-control" id="CommandText" name="report[CommandText]" rows="14" required><?= $model->CommandText ?></textarea>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     $reportDisplayType= new Easol_ReportDisplay();
                     foreach($reportDisplayType->findAll()->result() as $reportDisplay){
                         ?>
-                        <option value="<?= $reportDisplay->ReportDisplayId ?>"><?= $reportDisplay->DisplayName ?></option>
+                        <option value="<?= $reportDisplay->ReportDisplayId ?>" <?= ($model->ReportDisplayId==$reportDisplay->ReportDisplayId) ? "selected" : "" ?> ><?= $reportDisplay->DisplayName ?></option>
                     <?php
                     }
 
@@ -68,9 +68,25 @@
                 <select multiple class="form-control" id="access" name="access[access][]" >
                     <?php
                     $objRoles= new Easol_RoleType();
+
+                    $assignedRoles = $model->getAccessTypes();
+                    $aRoles = [];
+
+                    foreach($assignedRoles as $aRole){
+                        $aRoles[]=$aRole->RoleTypeId;
+                    }
+
+
                     foreach($objRoles->findAll()->result() as $role){
+                    ?>
+                        <?php if($model->isNewRecord){ ?>
+                            <option value="<?= $role->RoleTypeId ?>" <?php if(is_array($this->input->post('access[access]')) && in_array($role->RoleTypeId,$this->input->post('access[access]'))) echo "selected" ?>  ><?= $role->RoleTypeName ?></option>
+                        <?php }
+
+                        else {
                         ?>
-                        <option value="<?= $role->RoleTypeId ?>" <?php if(is_array($this->input->post('access[access]')) && in_array($role->RoleTypeId,$this->input->post('access[access]'))) echo "selected" ?>  ><?= $role->RoleTypeName ?></option>
+                            <option value="<?= $role->RoleTypeId ?>" <?php if(in_array($role->RoleTypeId,$aRoles)) echo "selected" ?>  ><?= $role->RoleTypeName ?></option>
+                        <?php } ?>
                     <?php
                     }
                     ?>
@@ -78,7 +94,7 @@
             </div>
         </div>
         <div class="form-group pull-right">
-            <button type="submit" class="btn btn-default">Save</button>
+            <button type="submit" class="btn btn-default"><?= ($model->isNewRecord) ? "Save" : "Update" ?></button>
         </div>
 
     </form>
