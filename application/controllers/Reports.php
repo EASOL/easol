@@ -122,6 +122,12 @@ class Reports extends Easol_Controller {
     public function view($id= null){
         if($id==null)
             throw new \Exception("Invalid report Id");
+        $this->load->model('entities/easol/Easol_Report');
+
+        $model= new Easol_Report();
+        $model= $model->hydrate($model->findOne($id));
+
+       // return $this->render();
 
     }
 
@@ -136,5 +142,25 @@ class Reports extends Easol_Controller {
         return  redirect(site_url("reports"));
 
 
+    }
+
+    public function createCategory(){
+        $this->load->model('entities/easol/Easol_ReportCategory');
+
+        $model = new Easol_ReportCategory();
+        if($this->input->post('ReportCategory') && $model->populateForm($this->input->post('ReportCategory'))){
+
+
+            if($model->save()){
+                $this->session->set_flashdata('message', 'Category : '.$model->ReportCategoryName.' Successfully added');
+                $this->session->set_flashdata('type', 'success');
+
+                return  redirect(site_url("reports"));
+
+            }
+        }
+
+
+        return $this->render("createcategory",['model' => $model]);
     }
 }

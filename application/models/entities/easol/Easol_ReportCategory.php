@@ -47,4 +47,14 @@ class Easol_ReportCategory extends Easol_BaseEntity {
     {
         return "ReportCategoryId";
     }
+
+    /**
+     * @return array
+     */
+    public function validationRules(){
+        return [
+            'ReportCategoryName' => ['string','Required']
+        ];
+    }
+
 }
