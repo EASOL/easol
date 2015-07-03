@@ -127,6 +127,25 @@ class Reports extends Easol_Controller {
         $model= new Easol_Report();
         $model= $model->hydrate($model->findOne($id));
 
+        switch($model->ReportDisplayId){
+
+            case 1:
+                return $this->render("display-table",['model' => $model]);
+                break;
+            case 2:
+                return $this->render("display-bar-chart",['model' => $model]);
+                break;
+            case 3:
+                return $this->render("display-pie-chart",['model' => $model]);
+                break;
+            case 4:
+                return $this->render("display-stacked-bar-chart",['model' => $model]);
+                break;
+            default:
+                throw new \Exception("Invalid Report Display type..");
+
+        }
+
        // return $this->render();
 
     }
@@ -155,7 +174,7 @@ class Reports extends Easol_Controller {
                 $this->session->set_flashdata('message', 'Category : '.$model->ReportCategoryName.' Successfully added');
                 $this->session->set_flashdata('type', 'success');
 
-                return  redirect(site_url("reports"));
+                return  redirect(site_url("reports/create"));
 
             }
         }
