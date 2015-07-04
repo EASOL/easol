@@ -124,4 +124,8 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->accessTypes;
 
     }
+
+    public function getReportData(){
+        return $this->findAllBySql($this->CommandText);
+    }
 }

@@ -18,6 +18,11 @@
     <link href="<?= site_url('assets/css/font-awesome.css') ?>" rel="stylesheet"/>
     <!-- Custom Styles-->
     <link href="<?= site_url('assets/css/custom-styles.css') ?>" rel="stylesheet"/>
+    <?php if($this->router->class=='reports' && $this->router->method =='view') { ?>
+        <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
+        <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
+        <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
+    <?php } ?>
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 </head>
