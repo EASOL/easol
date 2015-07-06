@@ -43,21 +43,11 @@ foreach($model->getReportData() as $key => $value){
 
         <div id="pieChart" class='with-3d-shadow with-transitions'>
 
-        <svg id="test1" class="mypiechart"></svg>
-        <?php /* <svg id="test2" class="mypiechart"></svg> */ ?>
+        <svg id="pieChartDisp" class="mypiechart"></svg>
 
         <script>
-            var testdata = <?= json_encode($jsonData) ?>;
-            var testdata2 = <?= json_encode($jsonData) ?>;
-             /* var testdata2 = [
-                {key: "One", y: 5},
-                {key: "Two", y: 2},
-                {key: "Three", y: 9},
-                {key: "Four", y: 7},
-                {key: "Five", y: 4},
-                {key: "Six", y: 3},
-                {key: "Seven", y: 0.5}
-            ]; */
+            var chartData = <?= json_encode($jsonData) ?>;
+
             var height = 350;
             var width = 350;
             nv.addGraph(function() {
@@ -66,18 +56,13 @@ foreach($model->getReportData() as $key => $value){
                     .y(function(d) { return d.y })
                     .width(width)
                     .height(height);
-                d3.select("#test1")
-                    .datum(testdata2)
+                d3.select("#pieChartDisp")
+                    .datum(chartData)
                     .transition().duration(1200)
                     .attr('width', width)
                     .attr('height', height)
                     .call(chart);
-                // update chart data values randomly
-                /* setInterval(function() {
-                    testdata2[0].y = Math.floor(Math.random() * 10);
-                    testdata2[1].y = Math.floor(Math.random() * 10);
-                    chart.update();
-                }, 4000); /* */
+
                 return chart;
             });
 
