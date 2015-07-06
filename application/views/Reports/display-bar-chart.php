@@ -45,6 +45,7 @@ foreach($model->getReportData() as $data){
                 height: 100%;
                 width: 100%;
             }
+
         </style>
 
         <div id="chart1">
@@ -67,6 +68,10 @@ foreach($model->getReportData() as $data){
                         .showValues(true)
                         .duration(250)
                     ;
+               // chart.xAxis.y
+                chart.yAxis.tickFormat(d3.format(',.2f'));
+                chart.yAxis.axisLabel('<?= $axisY ?>');
+                chart.xAxis.axisLabel('<?= $axisX ?>').axisLabelDistance(-6);
                 d3.select('#chart1 svg')
                     .datum(historicalBarChart)
                     .call(chart);
@@ -75,8 +80,8 @@ foreach($model->getReportData() as $data){
             });
         </script>
         <div>
-            <h3><span class="fa fa-arrow-right"></span> Axis-X : <?= $axisX ?></h3>
-            <h3><span class="fa fa-arrow-up"></span> Axis-Y : <?= $axisY ?></h3>
+            <h3><span class="fa fa-arrow-right"></span> <?= $axisX ?></h3>
+            <h3><span class="fa fa-arrow-up"></span> <?= $axisY ?></h3>
         </div>
         <br>
         <br>
