@@ -43,6 +43,8 @@ class Easol_Report extends Easol_BaseEntity {
             "ReportName"  =>  "Report Name",
             "ReportCategoryId"  =>  "Report Category",
             "CommandText"  =>  "Command Text",
+            "LabelX"  =>  "X Axis Label",
+            "LabelY"  =>  "Y Axis Label",
             "ReportDisplayId"  =>  "Display Type",
             "CreatedBy"  =>  "Created By",
             "CreatedOn"  =>  "CreatedOn",
@@ -65,6 +67,8 @@ class Easol_Report extends Easol_BaseEntity {
             'ReportName' => ['string','Required'],
             'ReportCategoryId' => ['int','Required'],
             'CommandText' => ['string','Required'],
+            'LabelX' => ['string','Required'],
+            'LabelY' => ['string','Required'],
             'ReportDisplayId' => ['int','Required'],
         ];
     }
@@ -126,9 +130,10 @@ class Easol_Report extends Easol_BaseEntity {
 
     public function getReportData(){
 
-        if($this->ReportDisplayId==2)
+        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
             return $this->findAllBySql($this->CommandText);
         if($this->ReportDisplayId==3)
             return $this->findOneBySql($this->CommandText);
+
     }
 }
