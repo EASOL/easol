@@ -66,7 +66,6 @@ class Easol_Report extends Easol_BaseEntity {
             'ReportCategoryId' => ['int','Required'],
             'CommandText' => ['string','Required'],
             'ReportDisplayId' => ['int','Required'],
-            'ReportDisplayId' => ['int','Required'],
         ];
     }
 
@@ -126,6 +125,10 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function getReportData(){
-        return $this->findAllBySql($this->CommandText);
+
+        if($this->ReportDisplayId==2)
+            return $this->findAllBySql($this->CommandText);
+        if($this->ReportDisplayId==3)
+            return $this->findOneBySql($this->CommandText);
     }
 }
