@@ -119,7 +119,7 @@ class Reports extends Easol_Controller {
 
     }
 
-    public function view($id= null){
+    public function view($id=null, $pageNo=1){
         if($id==null)
             throw new \Exception("Invalid report Id");
         $this->load->model('entities/easol/Easol_Report');
@@ -130,7 +130,7 @@ class Reports extends Easol_Controller {
         switch($model->ReportDisplayId){
 
             case 1:
-                return $this->render("display-table",['model' => $model]);
+                return $this->render("display-table",['model' => $model,'pageNo' => $pageNo]);
                 break;
             case 2:
                 return $this->render("display-bar-chart",['model' => $model]);

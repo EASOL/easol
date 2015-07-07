@@ -49,13 +49,13 @@
         <div class="form-group">
             <label for="LabelX" class="col-md-4 control-label"><?= $model->labels()['LabelX'] ?></label>
             <div class="col-md-8">
-                <input type="text" class="form-control" id="LabelX" name="report[LabelX]" value="<?= $model->LabelX ?>" required>
+                <input type="text" class="form-control" id="LabelX" name="report[LabelX]" value="<?= $model->LabelX ?>" >
             </div>
         </div>
         <div class="form-group">
             <label for="LabelY" class="col-md-4 control-label"><?= $model->labels()['LabelY'] ?></label>
             <div class="col-md-8">
-                <input type="text" class="form-control" id="LabelY" name="report[LabelY]" value="<?= $model->LabelY ?>" required>
+                <input type="text" class="form-control" id="LabelY" name="report[LabelY]" value="<?= $model->LabelY ?>" >
             </div>
         </div>
 
