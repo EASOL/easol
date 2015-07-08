@@ -43,9 +43,9 @@ class DataTableWidget extends Easol_BaseWidget {
     public function run()
     {
 
-        $filterOrderBy=[];
+        $filterOrderBy = [];
 
-        $bindValues=[];
+        $bindValues = [];
         //die(print_r($this->filter['bindIndex']));
 
         //$queryBuilder
