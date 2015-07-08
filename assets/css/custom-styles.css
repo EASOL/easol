@@ -83,6 +83,7 @@ position: fixed;
 .navbar-side {
   z-index: 1;
   position: fixed;
+  background: #eeeeee;
   /* width: 260px; */
   /* top: 80px; */
 }
@@ -537,6 +538,7 @@ line-height: 1.428571429;
     .navbar-side {
         z-index: 1;
         width: 210px;
+        background: #eeeeee;
     }
 
    .navbar {

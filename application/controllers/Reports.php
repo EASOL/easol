@@ -133,13 +133,13 @@ class Reports extends Easol_Controller {
                 return $this->render("display-table",['model' => $model,'pageNo' => $pageNo]);
                 break;
             case 2:
-                return $this->render("display-bar-chart",['model' => $model]);
+                return $this->render("display-bar-chart",['model' => $model,'pageNo' => $pageNo]);
                 break;
             case 3:
-                return $this->render("display-pie-chart",['model' => $model]);
+                return $this->render("display-pie-chart",['model' => $model,'pageNo' => $pageNo]);
                 break;
             case 4:
-                return $this->render("display-stacked-bar-chart",['model' => $model]);
+                return $this->render("display-stacked-bar-chart",['model' => $model,'pageNo' => $pageNo]);
                 break;
             default:
                 throw new \Exception("Invalid Report Display type..");
