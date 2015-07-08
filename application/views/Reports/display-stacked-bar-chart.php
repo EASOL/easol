@@ -5,10 +5,15 @@ $jsonData=[];
 $_i=0;
 $axisX="";
 $axisY="";
+$_colums=[];
 foreach($model->getReportData() as $data){
     $_j=0;
     $_k=0;
     foreach($data as $key => $property){
+        if($_i==0){
+
+            $_columns[] = $key;
+        }
         if($_j==0){
             $jsonData[$_i]["key"] = $property;
         }
@@ -23,7 +28,6 @@ foreach($model->getReportData() as $data){
     $_i++;
 }
 
-//die(print_r($jsonData));
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -84,11 +88,28 @@ foreach($model->getReportData() as $data){
                 return chart;
             });
         </script>
-        <br>
-        <br>
-        <br>
-        <br>
+
     </div>
 
 
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <?php Easol_Widget::show("DataTableWidget",
+            [
+                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", $model->CommandText),
+                'pagination' => [
+
+                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
+                    'currentPage' => $pageNo,
+                    'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
+                ],
+                'colOrderBy'    =>  [$_columns[0]],
+                'columns'   => $_columns,
+                'downloadCSV' => true
+            ]
+
+        ) ?>
+    </div>
 </div>

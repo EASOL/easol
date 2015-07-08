@@ -10,7 +10,7 @@ foreach($model->getReportData() as $data){
     $_j=0;
     foreach($data as $key => $property){
         if($_i==0){
-            $axisY = $key;
+
             $_columns[] = $key;
         }
         if($_j==0){
