@@ -6,15 +6,15 @@ $jsonData=[];
 $_i=0;
 $axisX="";
 $axisY="";
-//die(print_r($model->getReportData()));
+$_colums=[];
 foreach($model->getReportData() as $key => $value){
+    $_columns[] = $key;
     $jsonData[$_i]['key'] = $key;
     $jsonData[$_i]['y'] = $value;
     $_i++;
 }
-/* */
 
-//die(json_encode($jsonData));
+//die(print_r($_columns));
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -36,7 +36,7 @@ foreach($model->getReportData() as $key => $value){
             #pieChart {
                 margin: 0px;
                 padding: 0px;
-                height: 100%;
+               /* height: 100%; */
                 width: 100%;
             }
         </style>
@@ -48,7 +48,7 @@ foreach($model->getReportData() as $key => $value){
         <script>
             var chartData = <?= json_encode($jsonData) ?>;
 
-            var height = 350;
+            var height = 150;
             var width = 350;
             nv.addGraph(function() {
                 var chart = nv.models.pieChart()
@@ -68,11 +68,27 @@ foreach($model->getReportData() as $key => $value){
 
         </script>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
+
     </div>
 
 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <?php Easol_Widget::show("DataTableWidget",
+            [
+                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", $model->CommandText),
+                'pagination' => [
+
+                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
+                    'currentPage' => $pageNo,
+                    'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
+                ],
+                'colOrderBy'    =>  [$_columns[0]],
+                'columns'   => $_columns,
+                'downloadCSV' => true
+            ]
+
+        ) ?>
+    </div>
 </div>
