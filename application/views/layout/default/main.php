@@ -91,6 +91,11 @@
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
+                                <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-edit"></i> Data Management</a>
+                            </li>
+                        <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                         <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
                         </li>
