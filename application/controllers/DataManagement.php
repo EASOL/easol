@@ -20,26 +20,38 @@ class DataManagement extends Easol_Controller {
 		$this->render("index");
 	}
 
-    public function choose(){
+    public function showAllTable(){
 
-        $schools= $this->Edfi_School->getAllSchools();
+        $msg = [];
+        $msg['status']['type'] = 'success';
+        $msg['status']['msg'] = '';
 
-        if(isset($_POST['school'])){
-            foreach($schools as $school){
-                if($_POST['school']== $school->EducationOrganizationId){
-                    $userdata=Easol_Authentication::userdata();
-                    $userdata['__ci_last_regenerate']=time();
-                    $userdata['SchoolId'] = $_POST['school'];
-                    $this->session->set_userdata($userdata);
-                    $this->session->set_flashdata('message', 'School Selected as '. $school->NameOfInstitution);
-                    $this->session->set_flashdata('type', 'success');
-                    redirect('/student');
+        if(!isset($_POST['tableType'])){
+            $msg['status']['type'] = 'failed';
+            $msg['status']['msg'] = 'Table Type Not Set';
+        }
+        else{
+            $this->load->model('DataManagementQueries');
+            switch($_POST['tableType']){
+                case 'object':
+                    $msg['objects'] = DataManagementQueries::getObjectsList(false);
+                    break;
+                case 'association':
+                    $msg['objects'] = DataManagementQueries::getAssociationsList(false);
+                    break;
+                case 'type':
+                    $msg['objects'] = DataManagementQueries::getTypesList(false);
+                    break;
+                case 'descriptor':
+                    $msg['objects'] = DataManagementQueries::getDescriptorsList(false);
+                    break;
+                default:
+                    $msg['status']['type'] = 'failed';
+                    $msg['status']['msg'] = 'Invalid Table Type';
 
-                }
             }
         }
 
-        $this->render('choose',['schools' => $schools]);
-
+        echo json_encode($msg);
     }
 }

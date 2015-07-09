@@ -17,7 +17,7 @@ $this->load->model("DataManagementQueries");
 <div class="row">
     <div class="col-md-4">
 
-        <div class="panel panel-default"  id="dm_association">
+        <div class="panel panel-default dm_tables"  id="dm_object">
             <div class="panel-heading">Objects</div>
             <div class="panel-body">
                 <select class="form-control" size="10">
@@ -27,10 +27,11 @@ $this->load->model("DataManagementQueries");
 
                 </select>
             </div>
-            <div class="panel-footer" style="text-align: right">Show All</div>
+            <div class="panel-footer" style="text-align: right"><a href="#">Show All</a></div>
+
         </div>
 
-        <div class="panel panel-default" id="dm_association">
+        <div class="panel panel-default dm_tables" id="dm_association">
             <div class="panel-heading">Associations</div>
             <div class="panel-body">
                 <select class="form-control" size="10">
@@ -40,10 +41,11 @@ $this->load->model("DataManagementQueries");
 
                 </select>
             </div>
-            <div class="panel-footer" style="text-align: right">Show All</div>
+            <div class="panel-footer" style="text-align: right"><a href="#">Show All</a></div>
+
         </div>
 
-        <div class="panel panel-default" id="dm_type">
+        <div class="panel panel-default dm_tables" id="dm_type">
             <div class="panel-heading">Types</div>
             <div class="panel-body">
                 <select class="form-control" size="10">
@@ -53,10 +55,10 @@ $this->load->model("DataManagementQueries");
 
                 </select>
             </div>
-            <div class="panel-footer" style="text-align: right">Show All</div>
+            <div class="panel-footer" style="text-align: right"><a href="#">Show All</a></div>
         </div>
 
-        <div class="panel panel-default" id="dm_descriptor">
+        <div class="panel panel-default dm_tables" id="dm_descriptor">
             <div class="panel-heading">Descriptors</div>
             <div class="panel-body">
                 <select class="form-control" size="10">
@@ -66,7 +68,7 @@ $this->load->model("DataManagementQueries");
 
                 </select>
             </div>
-            <div class="panel-footer" style="text-align: right">Show All</div>
+            <div class="panel-footer" style="text-align: right"><a href="#">Show All</a></div>
         </div>
 
     </div>

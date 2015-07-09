@@ -18,14 +18,16 @@
     <link href="<?= site_url('assets/css/font-awesome.css') ?>" rel="stylesheet"/>
     <!-- Custom Styles-->
     <link href="<?= site_url('assets/css/custom-styles.css?v=2') ?>" rel="stylesheet"/>
+    <script type="text/javascript">
+        var Easol_SiteUrl = "<?= site_url('/') ?>"
+    </script>
+
     <?php if($this->router->class=='reports' && $this->router->method =='view') { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
     <?php } ?>
-    <?php if($this->router->class=='datamanagement') { ?>
-        <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php } ?>
+
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 </head>
@@ -133,8 +135,13 @@
     <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- Metis Menu Js -->
     <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
+   <?php /*
     <!-- Custom Js -->
     <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
+ */ ?>
+    <?php if($this->router->class=='datamanagement') { ?>
+        <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
+    <?php } ?>
 
 
 </body>
