@@ -57,11 +57,12 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
    // $( ".dm_tables .panel-body select" ).on( "change", function() {
         $(document).on("change", ".dm_tables .panel-body select", function(){
+            var selectedTable = this.value;
         $.ajax({
             dataType: "json",
             method: "POST",
             url: Easol_SiteUrl+"datamanagement/showalltableinfo",
-            data: { tableName: this.value},
+            data: { tableName: selectedTable},
             cache: false,
             beforeSend: function(  ) {
                 $('#loading-img').show();
@@ -77,14 +78,17 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     alert(msg['status']['msg']);
                 }
                 else if(msg['status']['type']=='success'){
-
-                    htmlData='<table class="table table-bordered">';
+                    htmlData="<br><h2>"+selectedTable+"</h2><br><br>";
+                    htmlData+="<h3>Download Template</h3><br>";
+                    htmlData+='<a href="#" class="download_csv">'+selectedTable+'.csv</a>';
+                    htmlData+="<h4>Table Metadata</h4><br>";
+                    htmlData+='<table class="table table-bordered" id="table_inf_table">';
                     htmlData+='<thead>';
                     htmlData+='<tr>' +
-                    '<th>Column Name</th>' +
-                    '<th>Nullable</th>' +
-                    '<th>Data Type</th>' +
-                    '<th>Maximum Length</th>' +
+                    '<td>Column Name</td>' +
+                    '<td>Nullable</td>' +
+                    '<td>Data Type</td>' +
+                    '<td>Maximum Length</td>' +
                     '</tr>';
                     htmlData+='</thead>';
 
@@ -121,6 +125,59 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             });
     });
 
+   // $(".download_csv").on('click', function (event) {
+    $(document).on("click", ".download_csv", function(event){
+        // CSV
+        exportTableToCSV.apply(this, [$('#table_inf_table'), 'export.csv']);
+
+        // IF CSV, don't do event.preventDefault() or return false
+        // We actually need this to be a typical hyperlink
+    });
+
 
 
 });
+
+
+function exportTableToCSV($table, filename) {
+
+    var $rows = $table.find('tr:has(td)'),
+
+    // Temporary delimiter characters unlikely to be typed by keyboard
+    // This is to avoid accidentally splitting the actual contents
+        tmpColDelim = String.fromCharCode(11), // vertical tab character
+        tmpRowDelim = String.fromCharCode(0), // null character
+
+    // actual delimiter characters for CSV format
+        colDelim = '","',
+        rowDelim = '"\r\n"',
+
+    // Grab text from table into CSV formatted string
+        csv = '"' + $rows.map(function (i, row) {
+                var $row = $(row),
+                    $cols = $row.find('td');
+
+                return $cols.map(function (j, col) {
+                    var $col = $(col),
+                        text = $col.text();
+
+                    return text.replace(/"/g, '""'); // escape double quotes
+
+                }).get().join(tmpColDelim);
+
+            }).get().join(tmpRowDelim)
+                .split(tmpRowDelim).join(rowDelim)
+                .split(tmpColDelim).join(colDelim) + '"',
+
+    // Data URI
+        csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+    $(this)
+        .attr({
+            'download': filename,
+            'href': csvData,
+            'target': '_blank'
+        });
+}
+
+
