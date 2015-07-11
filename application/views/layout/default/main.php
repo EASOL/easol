@@ -147,7 +147,7 @@
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <?php } ?>
-
+    <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
 
 </body>
 </html>

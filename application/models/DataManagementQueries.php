@@ -34,4 +34,12 @@ class DataManagementQueries extends CI_Model {
     public static function getDescriptorsList($display=false){
         return self::$dbObj->query("SELECT * FROM EASOL.[Schema] WHERE TableType='Descriptor' ".(($display==true) ? " AND Display=1 " : "")." ORDER BY TableName")->result();
     }
+
+    public static function getTableDetails($tableName){
+
+        return self::$dbObj->query("SELECT COLUMN_NAME, IS_NULLABLE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = ?
+ORDER BY ORDINAL_POSITION",[$tableName])->result();
+
+    }
 }

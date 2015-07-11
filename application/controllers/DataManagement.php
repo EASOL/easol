@@ -54,4 +54,21 @@ class DataManagement extends Easol_Controller {
 
         echo json_encode($msg);
     }
+
+    public function ShowAllTableInfo(){
+        $msg = [];
+        $msg['status']['type'] = 'success';
+        $msg['status']['msg'] = '';
+        if(!isset($_POST['tableName'])){
+            $msg['status']['type'] = 'failed';
+            $msg['status']['msg'] = 'Table Name Not Set';
+        }
+        else{
+            $this->load->model('DataManagementQueries');
+            $msg['objects'] = DataManagementQueries::getTableDetails($_POST['tableName']);
+
+        }
+
+        echo json_encode($msg);
+    }
 }

@@ -8,6 +8,7 @@
  */
 $this->load->model("DataManagementQueries");
 ?>
+
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header">Data Management</h1>
@@ -22,7 +23,7 @@ $this->load->model("DataManagementQueries");
             <div class="panel-body">
                 <select class="form-control" size="10">
                     <?php foreach(DataManagementQueries::getObjectsList() as $obj) {  ?>
-                    <option value="<?= $obj->ID ?>"><?= $obj->TableName ?></option>
+                    <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
 
                 </select>
@@ -36,7 +37,7 @@ $this->load->model("DataManagementQueries");
             <div class="panel-body">
                 <select class="form-control" size="10">
                     <?php foreach(DataManagementQueries::getAssociationsList() as $obj) {  ?>
-                        <option value="<?= $obj->ID ?>"><?= $obj->TableName ?></option>
+                        <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
 
                 </select>
@@ -50,7 +51,7 @@ $this->load->model("DataManagementQueries");
             <div class="panel-body">
                 <select class="form-control" size="10">
                     <?php foreach(DataManagementQueries::getTypesList() as $obj) {  ?>
-                        <option value="<?= $obj->ID ?>"><?= $obj->TableName ?></option>
+                        <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
 
                 </select>
@@ -63,7 +64,7 @@ $this->load->model("DataManagementQueries");
             <div class="panel-body">
                 <select class="form-control" size="10">
                     <?php foreach(DataManagementQueries::getDescriptorsList() as $obj) {  ?>
-                        <option value="<?= $obj->ID ?>"><?= $obj->TableName ?></option>
+                        <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
 
                 </select>
@@ -73,6 +74,23 @@ $this->load->model("DataManagementQueries");
 
     </div>
     <div class="col-md-8" id="ajxRes">
+        <div id="ajxTabDisplay" style="display: none">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#table_info" aria-controls="table_info" role="tab" data-toggle="tab">Table Information</a></li>
+                <li role="presentation"><a href="#table_browse" aria-controls="table_browse" role="tab" data-toggle="tab">Browse Data</a></li>
+                <li role="presentation"><a href="#table_upload" aria-controls="table_upload" role="tab" data-toggle="tab">Upload Data</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="table_info"></div>
+                <div role="tabpanel" class="tab-pane" id="table_browse">.s..</div>
+                <div role="tabpanel" class="tab-pane" id="table_upload">.fv..</div>
+            </div>
+
+        </div>
 
     </div>
 
