@@ -128,7 +128,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
    // $(".download_csv").on('click', function (event) {
     $(document).on("click", ".download_csv", function(event){
         // CSV
-        exportTableToCSV.apply(this, [$('#table_inf_table'), 'export.csv']);
+        exportTableToCSV.apply(this, [$('#table_inf_table'), $('.download_csv').text()]);
 
         // IF CSV, don't do event.preventDefault() or return false
         // We actually need this to be a typical hyperlink
