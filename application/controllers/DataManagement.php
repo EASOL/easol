@@ -55,7 +55,7 @@ class DataManagement extends Easol_Controller {
         echo json_encode($msg);
     }
 
-    public function ShowAllTableInfo(){
+    public function ShowTableInfo(){
         $msg = [];
         $msg['status']['type'] = 'success';
         $msg['status']['msg'] = '';
@@ -66,9 +66,42 @@ class DataManagement extends Easol_Controller {
         else{
             $this->load->model('DataManagementQueries');
             $msg['objects'] = DataManagementQueries::getTableDetails($_POST['tableName']);
-
         }
-
         echo json_encode($msg);
+    }
+
+    public function showTableDetails(){
+
+        $msg = [];
+        $msg['status']['type'] = 'success';
+        $msg['status']['msg'] = '';
+        if(!isset($_POST['tableName']) || !isset($_POST['start']) || !isset($_POST['pageSize'])){
+            $msg['status']['type'] = 'failed';
+            $msg['status']['msg'] = 'Table Name Not Set';
+        }
+        else{
+            $this->load->model('DataManagementQueries');
+            $msg['total'] = DataManagementQueries::getTableDataCount($_POST['tableName'])->total;
+            $msg['objects'] = DataManagementQueries::getTableData($_POST['tableName'],$_POST['start'],$_POST['pageSize']);
+        }
+        echo json_encode($msg);
+
+    }
+
+    public function downloadTableData($tableName=null){
+        if($tableName==null)
+            throw new \Exception("Table not Set");
+
+
+        $this->load->model('DataManagementQueries');
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=".$tableName);
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData(str_replace("_data.csv","",$tableName)) ]);
+
+
+
     }
 }

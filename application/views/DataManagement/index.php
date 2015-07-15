@@ -77,17 +77,17 @@ $this->load->model("DataManagementQueries");
         <div id="ajxTabDisplay" style="display: none">
 
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs" role="tablist" id="dm_data_tabs">
                 <li role="presentation" class="active"><a href="#table_info" aria-controls="table_info" role="tab" data-toggle="tab">Table Information</a></li>
-                <li role="presentation"><a href="#table_browse" aria-controls="table_browse" role="tab" data-toggle="tab">Browse Data</a></li>
-                <li role="presentation"><a href="#table_upload" aria-controls="table_upload" role="tab" data-toggle="tab">Upload Data</a></li>
+                <li role="presentation"><a href="#table_browse" aria-controls="table_browse" role="tab">Browse Data</a></li>
+                <li role="presentation"><a href="#table_upload" aria-controls="table_upload" role="tab">Upload Data</a></li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="table_info"></div>
-                <div role="tabpanel" class="tab-pane" id="table_browse">.s..</div>
-                <div role="tabpanel" class="tab-pane" id="table_upload">.fv..</div>
+                <div role="tabpanel" class="tab-pane" id="table_browse"></div>
+                <div role="tabpanel" class="tab-pane" id="table_upload"></div>
             </div>
 
         </div>

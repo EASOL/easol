@@ -83,7 +83,7 @@ abstract class Easol_BaseEntity extends CI_Model{
     }
 
     /**
-     * find single row
+     * find all row
      * @param array $params
      * @return object
      */

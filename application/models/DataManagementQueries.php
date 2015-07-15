@@ -42,4 +42,19 @@ WHERE TABLE_NAME = ?
 ORDER BY ORDINAL_POSITION",[$tableName])->result();
 
     }
+
+    public static function getTableData($tableName,$start=0,$pageSize=50){
+
+        return self::$dbObj->query("SELECT * FROM edfi.".addslashes($tableName)." ORDER BY (SELECT 0) OFFSET ".(((int)$start-1)*(int)$pageSize)." ROWS FETCH NEXT ".(int)$pageSize." ROWS ONLY")->result();
+
+    }
+    public static function getAllTableData($tableName){
+
+        return self::$dbObj->query("SELECT * FROM edfi.".addslashes($tableName))->result();
+
+    }
+
+    public static function getTableDataCount($tableName){
+        return self::$dbObj->query("SELECT COUNT(*) as total FROM edfi.".addslashes($tableName))->row();
+    }
 }
