@@ -557,6 +557,7 @@ font-size: 19px;
 
 .dataTableGrid .table, .dataTableGrid .table tr, .dataTableGrid .table td, .dataTableGrid .table th{
     border: none;
+    font-size: 10pt;
 }
 .dataTableGrid .table thead tr{
     border-bottom: 1px solid black;
