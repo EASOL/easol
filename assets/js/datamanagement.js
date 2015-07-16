@@ -62,6 +62,13 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
    // $( ".dm_tables .panel-body select" ).on( "change", function() {
         $(document).on("change", ".dm_tables .panel-body select", function(){
             currentTable = this.value;
+            currentSelect = this.id;
+            $('.dm_select').each(function(itr, sel_obj) {
+                if(this.id!=currentSelect){
+                    $(this).val("");
+                }
+            });
+
         $.ajax({
             dataType: "json",
             method: "POST",
@@ -70,7 +77,6 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             cache: false,
             beforeSend: function(  ) {
                 $('#loading-img').show();
-                //$('#table_info').html('<div style="text-align: center"><img src="'+Easol_SiteUrl+'assets/img/loading.gif" ></div>');
             }
         })
 
@@ -84,7 +90,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                 else if(msg['status']['type']=='success'){
                     var htmlData="<br><h2>"+currentTable+"</h2><br><br>";
                     htmlData+="<h3>Download Template</h3><br>";
-                    htmlData+='<a href="#" class="download_csv">'+currentTable+'.csv</a>';
+                    htmlData += '<a href="'+Easol_SiteUrl+'datamanagement/downloadtabletemplate/'+currentTable+'.csv" >'+currentTable+'.csv</a>';
                     htmlData+="<h4>Table Metadata</h4><br>";
                     htmlData+='<table class="table table-bordered" id="table_inf_table">';
                     htmlData+='<thead>';
@@ -192,9 +198,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                                htmlData+='<td>'+col_val+'</td>';
 
                            });
-
                            htmlData +='</tr>';
-
                        });
 
                        htmlData += "<table>";
@@ -303,7 +307,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
     $('#dm_data_tabs a[href="#table_upload"]').click(function (e) {
         e.preventDefault();
-
+        $('#table_upload .tableName').html(currentTable);
         $(this).tab('show');
     });
 

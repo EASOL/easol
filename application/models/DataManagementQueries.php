@@ -54,6 +54,10 @@ ORDER BY ORDINAL_POSITION",[$tableName])->result();
 
     }
 
+    public static function getTableHeaders($tableName){
+        return self::$dbObj->query("SELECT * FROM edfi.[".addslashes($tableName)."] ")->row();
+    }
+
     public static function getTableDataCount($tableName){
         return self::$dbObj->query("SELECT COUNT(*) as total FROM edfi.".addslashes($tableName))->row();
     }

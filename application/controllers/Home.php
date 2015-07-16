@@ -32,8 +32,6 @@ class Home extends Easol_Controller {
                 $this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
                 $authentication=$this->easol_authentication->findOne(['StaffUSI' => $staff->StaffUSI]);
 
-
-
                 if($authentication && $authentication->Password== sha1($data['password'])){
                     $this->session->sess_expiration =   '1200';
                     $data=[

@@ -88,6 +88,19 @@ class DataManagement extends Easol_Controller {
 
     }
 
+    public function downloadTableTemplate($tableName=null){
+        if($tableName==null)
+            throw new \Exception("Table not Set");
+
+
+        $this->load->model('DataManagementQueries');
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=".$tableName);
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableHeaders(str_replace(".csv","",$tableName)) ]);
+    }
+
     public function downloadTableData($tableName=null){
         if($tableName==null)
             throw new \Exception("Table not Set");
