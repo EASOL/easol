@@ -7,8 +7,9 @@
  * Time: 12:23 AM
  */
 $csvHeader = [];
-foreach($data as $key => $value){
-    $csvHeader[] = $key;
+
+foreach($data as $d){
+    $csvHeader[] = $d->COLUMN_NAME;
 }
 
 

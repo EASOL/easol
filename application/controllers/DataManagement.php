@@ -98,7 +98,7 @@ class DataManagement extends Easol_Controller {
         header("Content-Disposition: attachment; filename=".$tableName);
         header("Pragma: no-cache");
         header("Expires: 0");
-        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableHeaders(str_replace(".csv","",$tableName)) ]);
+        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
     }
 
     public function downloadTableData($tableName=null){
@@ -116,5 +116,12 @@ class DataManagement extends Easol_Controller {
 
 
 
+    }
+
+    public function uploadcsv(){
+
+
+      // print_r($_FILES);
+      //  print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
     }
 }
