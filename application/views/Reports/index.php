@@ -39,9 +39,11 @@
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                         <td><?= $report->getSchool()->NameOfInstitution ?></td>
                         <td><?php
+                            $_actp=[];
                         foreach($report->getAccessTypes() as $access){
-                            echo '<span> '.$access->RoleTypeName.'</span> ';
+                            $_actp[] =$access->RoleTypeName;
                         }
+                            echo '<span>'.implode('</span>, <span>', $_actp).'</span>';
                         ?></td>
 
                         <td style="text-align: center"><a href="<?= site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a></td>
