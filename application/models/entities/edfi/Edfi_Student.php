@@ -185,8 +185,68 @@ ORDER BY Grade.BeginDate DESC",
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getAttendance(){
-        return '';
+        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Days
+FROM edfi.StudentSectionAttendanceEvent
+INNER JOIN edfi.[Section] ON
+    [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
+    [Section].ClassroomIdentificationCode = StudentSectionAttendanceEvent.ClassroomIdentificationCode AND
+    [Section].LocalCourseCode = StudentSectionAttendanceEvent.LocalCourseCode AND
+    [Section].TermTypeId = StudentSectionAttendanceEvent.TermTypeId AND
+  [Section].SchoolYear = StudentSectionAttendanceEvent.SchoolYear AND
+  [Section].SchoolId = StudentSectionAttendanceEvent.SchoolId
+INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSectionAttendanceEvent.AttendanceEventCategoryDescriptorId
+INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+WHERE StudentUSI = [StudentUSI]
+AND (CodeValue = 'Excused Absence' OR CodeValue='Unexcused Absence') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
+UNION
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Tardy
+FROM edfi.StudentSectionAttendanceEvent
+INNER JOIN edfi.[Section] ON
+    [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
+    [Section].ClassroomIdentificationCode = StudentSectionAttendanceEvent.ClassroomIdentificationCode AND
+    [Section].LocalCourseCode = StudentSectionAttendanceEvent.LocalCourseCode AND
+    [Section].TermTypeId = StudentSectionAttendanceEvent.TermTypeId AND
+  [Section].SchoolYear = StudentSectionAttendanceEvent.SchoolYear AND
+  [Section].SchoolId = StudentSectionAttendanceEvent.SchoolId
+INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSectionAttendanceEvent.AttendanceEventCategoryDescriptorId
+INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+WHERE StudentUSI = [StudentUSI]
+AND (CodeValue = 'Tardy') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
+UNION
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Present
+FROM edfi.StudentSectionAttendanceEvent
+INNER JOIN edfi.[Section] ON
+    [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
+    [Section].ClassroomIdentificationCode = StudentSectionAttendanceEvent.ClassroomIdentificationCode AND
+    [Section].LocalCourseCode = StudentSectionAttendanceEvent.LocalCourseCode AND
+    [Section].TermTypeId = StudentSectionAttendanceEvent.TermTypeId AND
+  [Section].SchoolYear = StudentSectionAttendanceEvent.SchoolYear AND
+  [Section].SchoolId = StudentSectionAttendanceEvent.SchoolId
+INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSectionAttendanceEvent.AttendanceEventCategoryDescriptorId
+INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+WHERE StudentUSI = [StudentUSI]
+AND (CodeValue = 'In Attendance') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue";
+
+        $termId = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
+        $schoolYear = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+        if($termId && $schoolYear) {
+            $query = str_replace(['[StudentUSI]', '[TermTypeId]', '[SchoolYear]'], [$this->StudentUSI, $termId, $schoolYear], $query);
+
+            return $this->db->query($query,
+                [
+                    $this->StudentUSI
+                ])->result();
+        }
+
+        return [];
+
     }
 
     public function getAssessments(){
@@ -234,4 +294,12 @@ WHERE StudentUSI = ?",
         return "edfi.student";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | string
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

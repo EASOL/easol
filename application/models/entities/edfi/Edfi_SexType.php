@@ -39,4 +39,12 @@ class Edfi_SexType extends Easol_baseentity {
         return "edfi.SexType";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

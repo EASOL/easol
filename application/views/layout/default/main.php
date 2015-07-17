@@ -17,26 +17,53 @@
     <!-- FontAwesome Styles-->
     <link href="<?= site_url('assets/css/font-awesome.css') ?>" rel="stylesheet"/>
     <!-- Custom Styles-->
-    <link href="<?= site_url('assets/css/custom-styles.css') ?>" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/custom-styles.css?v=2') ?>" rel="stylesheet"/>
+    <script type="text/javascript">
+        var Easol_SiteUrl = "<?= site_url('/') ?>"
+    </script>
+
+    <?php if($this->router->class=='reports' && $this->router->method =='view') { ?>
+        <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
+        <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
+        <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
+    <?php } ?>
+
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 </head>
 <body>
     <div id="wrapper">
         <!--/. NAV TOP  -->
+
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
                 <?php if(Easol_Authentication::isLoggedIn()) { ?>
                     <ul class="nav" id="main-menu" style="padding-top: 80px;">
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                        <li>
+                            <form action="<?= site_url("schools/choose") ?>" method="post">
+                                <select name="school" onchange="this.form.submit()" style="font-size: 12px">
+                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
+                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                    <?php } ?>
+                                </select>
+                            </form>
+
+                        </li>
+                        <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
+                                <li>
+                                    <?= Easol_Authentication::userdata('SchoolName') ?>
+                                </li>
+                        <?php } ?>
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                        <?php /* if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
                             </li>
-                        <?php } ?>
+                        <?php } /* */ ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-edit"></i> Students</a>
@@ -55,9 +82,17 @@
                         <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
+                        <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-table"></i> Cohorts</a>
+                        </li>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
+                            </li>
+                        <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
+                                <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-edit"></i> Data Management</a>
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
@@ -105,9 +140,14 @@
     <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- Metis Menu Js -->
     <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
+   <?php /*
     <!-- Custom Js -->
     <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
-
+ */ ?>
+    <?php if($this->router->class=='datamanagement') { ?>
+        <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
+    <?php } ?>
+    <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
 
 </body>
 </html>

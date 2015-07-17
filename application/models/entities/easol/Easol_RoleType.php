@@ -30,4 +30,13 @@ class Easol_RoleType extends Easol_BaseEntity {
             "RoleTypeName"  =>  "Role Type Name"
         ];
     }
+
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

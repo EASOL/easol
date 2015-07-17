@@ -11,20 +11,18 @@
                 'query' => $query,
                 'pagination' => $pagination,
                 'filter'    =>  $filter,
-                'colOrderBy'    =>  'SchoolId',
+                'colOrderBy'    =>  $colOrderBy,
+                'colGroupBy'    =>  $colGroupBy,
                 'columns'   =>
                     [
-                        ['name' => 'SchoolId', 'title' => 'SchoolId','type' => 'url',
-                            'url' =>
-                                function($model){
-                                    return $model->SchoolId;
-                                }
-                        ],
-                        ['name' => 'SchoolYear', 'title' => 'SchoolYear' ],
-                        ['name' => 'LocalCourseCode', 'title' => 'LocalCourseCode' ],
-                        ['name' => 'UniqueSectionCode', 'title' => 'UniqueSectionCode' ],
-                        ['name' => 'StudentCount', 'title' => 'StudentCount' ]
-                    ]
+                        ['name' => 'CourseTitle', 'title' => 'Course Name'],
+                        ['name' => 'LocalCourseCode', 'title' => 'Section Name'],
+                        ['name' => 'ClassPeriodName', 'title' => 'Period'],
+                        ['name' => 'Term', 'title' => 'Term'],
+                        ['name' => 'FirstName', 'title' => 'Educator','value' => function($model){ return $model->FirstName.' '.$model->LastSurname;  }],
+                        ['name' => 'StudentCount', 'title' => 'Students' ]
+                    ],
+                'downloadCSV' => true
             ]
 
         ) ?>

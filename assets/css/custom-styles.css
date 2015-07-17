@@ -83,6 +83,7 @@ position: fixed;
 .navbar-side {
   z-index: 1;
   position: fixed;
+  background: #eeeeee;
   /* width: 260px; */
   /* top: 80px; */
 }
@@ -537,6 +538,7 @@ line-height: 1.428571429;
     .navbar-side {
         z-index: 1;
         width: 210px;
+        background: #eeeeee;
     }
 
    .navbar {
@@ -559,4 +561,10 @@ font-size: 19px;
 .dataTableGrid .table thead tr{
     border-bottom: 1px solid black;
 }
+.grade_color span{
+    width: 40px;
+    display: block;
+    float: left;
+}
+.dm_tables .panel-body{text-align: center}
 

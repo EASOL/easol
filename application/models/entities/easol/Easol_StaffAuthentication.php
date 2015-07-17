@@ -33,4 +33,13 @@ class Easol_StaffAuthentication extends Easol_BaseEntity {
     {
         return "EASOL.StaffAuthentication";
     }
+
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }

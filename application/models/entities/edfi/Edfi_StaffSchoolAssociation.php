@@ -39,4 +39,12 @@ class Edfi_StaffSchoolAssociation extends Easol_baseentity {
         return "edfi.StaffSchoolAssociation";
     }
 
+    /**
+     * Return primary key of the table
+     * @return null | int
+     */
+    public function getPrimaryKey()
+    {
+        // TODO: Implement getPrimaryKey() method.
+    }
 }
