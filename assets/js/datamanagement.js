@@ -177,7 +177,9 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
 
                    if(msg['objects'].length > 0) {
-                       htmlData += '<a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'_data.csv" >'+currentTable+'_data.csv</a>';
+                       htmlData += '<div class="pull-right">\
+                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button><i class="fa fa-download"> </i> Download CSV</button></a>\
+                       </div><br><br><br>';
                         htmlData+='<table class="table table-bordered" id="table_details_table">';
 
                        $.each(msg['objects'], function (key, obj) {

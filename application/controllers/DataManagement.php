@@ -108,11 +108,11 @@ class DataManagement extends Easol_Controller {
 
         $this->load->model('DataManagementQueries');
         header("Content-type: text/csv");
-        header("Content-Disposition: attachment; filename=".$tableName);
+        header("Content-Disposition: attachment; filename=".$tableName.'_'.date('Y_m_d_h:i_a').".csv");
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData(str_replace("_data.csv","",$tableName)) ]);
+        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData($tableName) ]);
 
 
 
