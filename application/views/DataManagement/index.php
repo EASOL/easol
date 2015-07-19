@@ -21,7 +21,7 @@ $this->load->model("DataManagementQueries");
         <div class="panel panel-default dm_tables"  id="dm_object">
             <div class="panel-heading">Objects</div>
             <div class="panel-body">
-                <select class="form-control" size="10">
+                <select class="form-control dm_select" size="10" id="dm_select_obj">
                     <?php foreach(DataManagementQueries::getObjectsList() as $obj) {  ?>
                     <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
@@ -35,7 +35,7 @@ $this->load->model("DataManagementQueries");
         <div class="panel panel-default dm_tables" id="dm_association">
             <div class="panel-heading">Associations</div>
             <div class="panel-body">
-                <select class="form-control" size="10">
+                <select class="form-control dm_select" size="10" id="dm_select_association">
                     <?php foreach(DataManagementQueries::getAssociationsList() as $obj) {  ?>
                         <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
@@ -49,11 +49,10 @@ $this->load->model("DataManagementQueries");
         <div class="panel panel-default dm_tables" id="dm_type">
             <div class="panel-heading">Types</div>
             <div class="panel-body">
-                <select class="form-control" size="10">
+                <select class="form-control dm_select" size="10" id="dm_select_type">
                     <?php foreach(DataManagementQueries::getTypesList() as $obj) {  ?>
                         <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
-
                 </select>
             </div>
             <div class="panel-footer" style="text-align: right"><a href="#">Show All</a></div>
@@ -62,7 +61,7 @@ $this->load->model("DataManagementQueries");
         <div class="panel panel-default dm_tables" id="dm_descriptor">
             <div class="panel-heading">Descriptors</div>
             <div class="panel-body">
-                <select class="form-control" size="10">
+                <select class="form-control dm_select" size="10" id="dm_select_descriptor">
                     <?php foreach(DataManagementQueries::getDescriptorsList() as $obj) {  ?>
                         <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                     <?php } ?>
@@ -87,7 +86,34 @@ $this->load->model("DataManagementQueries");
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="table_info"></div>
                 <div role="tabpanel" class="tab-pane" id="table_browse"></div>
-                <div role="tabpanel" class="tab-pane" id="table_upload"></div>
+                <div role="tabpanel" class="tab-pane" id="table_upload">
+                    <h2 class="tableName"></h2>
+                    <div>
+                        <div class="container">
+                            <div class="row" style="padding-top:10px;">
+                                <div class="col-xs-2">
+                                    <button id="uploadBtn" class="btn btn-large btn-primary">Choose File</button>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div id="progressOuter" class="progress progress-striped active" style="display:none;">
+                                        <div id="progressBar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:10px;">
+                                <div class="col-xs-10">
+                                    <div id="msgBox">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
             </div>
 
         </div>

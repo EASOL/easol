@@ -88,7 +88,7 @@ class DataManagement extends Easol_Controller {
 
     }
 
-    public function downloadTableData($tableName=null){
+    public function downloadTableTemplate($tableName=null){
         if($tableName==null)
             throw new \Exception("Table not Set");
 
@@ -98,10 +98,30 @@ class DataManagement extends Easol_Controller {
         header("Content-Disposition: attachment; filename=".$tableName);
         header("Pragma: no-cache");
         header("Expires: 0");
+        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
+    }
 
-        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData(str_replace("_data.csv","",$tableName)) ]);
+    public function downloadTableData($tableName=null){
+        if($tableName==null)
+            throw new \Exception("Table not Set");
+
+
+        $this->load->model('DataManagementQueries');
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=".$tableName.'_'.date('Y_m_d_h:i_a').".csv");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData($tableName) ]);
 
 
 
+    }
+
+    public function uploadcsv(){
+
+
+      // print_r($_FILES);
+      //  print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
     }
 }
