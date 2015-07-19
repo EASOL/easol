@@ -33,7 +33,7 @@
         <!--/. NAV TOP  -->
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -43,7 +43,7 @@
             </div>
 
             <?php if(Easol_Authentication::isLoggedIn()) { ?>
-                <ul class="nav navbar-top-links navbar-right">
+                <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
                         <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
                             <select name="school" class="form-control" onchange="this.form.submit()">
@@ -56,7 +56,7 @@
                         <li><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
                     <?php } ?>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
@@ -80,9 +80,20 @@
          </nav>
 
         <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
+            <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
                 <?php if(Easol_Authentication::isLoggedIn()) { ?>
                     <ul class="nav" id="main-menu">
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                            <li class="visible-xs-block"><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
+                                <select name="school" class="form-control" onchange="this.form.submit()">
+                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
+                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                    <?php } ?>
+                                </select>
+                            </form></li>
+                            <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
+                            <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                        <?php } ?>
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
@@ -121,6 +132,17 @@
                             <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-edit"></i> Data Management</a>
                             </li>
+                        <?php } ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                        <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-sm-block"' : 'visible-xs-block' ?>>
+                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
+                        </li>
+                        <?php } ?>
+                        <?php if($this->session->userdata('logged_in')== true)
+                        { ?>
+                        <li class="visible-xs-block">
+                            <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                        </li>
                         <?php } ?>
                     </ul>
                 <?php } ?>
