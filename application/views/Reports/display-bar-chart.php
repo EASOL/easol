@@ -35,68 +35,65 @@ foreach($model->getReportData() as $data){
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header">Flex Reports : Bar Chart : <?= $model->ReportName ?></h1>
-        <br/><br/>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12" >
-        <style>
+    <div class="col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <style>
 
-            svg {
-                display: block;
-            }
-             #chart1, svg {
-                margin: 0px;
-                padding: 0px;
-                height: 100%;
-                width: 100%;
-            }
+                    svg {
+                        display: block;
+                    }
+                     #chart1, svg {
+                        margin: 0px;
+                        padding: 0px;
+                        height: 100%;
+                        width: 100%;
+                    }
 
-        </style>
+                </style>
 
-        <div id="chart1">
-            <svg></svg>
+                <div id="chart1">
+                    <svg></svg>
+                </div>
+
+                <script>
+                    historicalBarChart = [
+                        {
+                            key: "Cumulative Return",
+                            values: <?= json_encode($jsonData) ?>
+                        }
+                    ];
+                    nv.addGraph(function() {
+                        var chart = nv.models.discreteBarChart()
+                                .x(function(d) { return d.label })
+                                .y(function(d) { return d.value })
+                                .staggerLabels(true)
+                                .staggerLabels(historicalBarChart[0].values.length > 8)
+                                .showValues(true)
+                                .duration(250)
+                            ;
+                       // chart.xAxis.y
+                        chart.yAxis.tickFormat(d3.format(',.2f'));
+                        chart.yAxis.axisLabel('<?= $model->LabelY ?>');
+                        chart.xAxis.axisLabel('<?= $model->LabelX ?>').axisLabelDistance(-6);
+                        d3.select('#chart1 svg')
+                            .datum(historicalBarChart)
+                            .call(chart);
+                        nv.utils.windowResize(chart.update);
+                        return chart;
+                    });
+                </script>
+                <div>
+                    <h3><span class="fa fa-arrow-right"></span> <?= $model->LabelX ?></h3>
+                    <h3><span class="fa fa-arrow-up"></span> <?= $model->LabelY ?></h3>
+                </div>
+            </div>
         </div>
-
-        <script>
-            historicalBarChart = [
-                {
-                    key: "Cumulative Return",
-                    values: <?= json_encode($jsonData) ?>
-                }
-            ];
-            nv.addGraph(function() {
-                var chart = nv.models.discreteBarChart()
-                        .x(function(d) { return d.label })
-                        .y(function(d) { return d.value })
-                        .staggerLabels(true)
-                        .staggerLabels(historicalBarChart[0].values.length > 8)
-                        .showValues(true)
-                        .duration(250)
-                    ;
-               // chart.xAxis.y
-                chart.yAxis.tickFormat(d3.format(',.2f'));
-                chart.yAxis.axisLabel('<?= $model->LabelY ?>');
-                chart.xAxis.axisLabel('<?= $model->LabelX ?>').axisLabelDistance(-6);
-                d3.select('#chart1 svg')
-                    .datum(historicalBarChart)
-                    .call(chart);
-                nv.utils.windowResize(chart.update);
-                return chart;
-            });
-        </script>
-        <div>
-            <h3><span class="fa fa-arrow-right"></span> <?= $model->LabelX ?></h3>
-            <h3><span class="fa fa-arrow-up"></span> <?= $model->LabelY ?></h3>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
     </div>
-
-
 </div>
 
 <div class="row">

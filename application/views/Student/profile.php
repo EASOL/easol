@@ -1,8 +1,8 @@
 <?php
 /* @var $student Edfi_Student */
 ?>
-<div class="col-md-8">
-    <table class="table">
+<div class="col-md-6 col-sm-8">
+    <table class="table table-hover table-bordered">
         <tr>
             <th><?= $student->labels()['StudentUniqueId'] ?></th>
             <td><?= $student->StudentUniqueId ?></td>

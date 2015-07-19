@@ -17,7 +17,7 @@
     <!-- FontAwesome Styles-->
     <link href="<?= site_url('assets/css/font-awesome.css') ?>" rel="stylesheet"/>
     <!-- Custom Styles-->
-    <link href="<?= site_url('assets/css/custom-styles.css?v=2') ?>" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
     </script>
@@ -27,35 +27,62 @@
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
     <?php } ?>
-
-    <!-- Google Fonts-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 </head>
 <body>
     <div id="wrapper">
         <!--/. NAV TOP  -->
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
+            </div>
+
+            <?php if(Easol_Authentication::isLoggedIn()) { ?>
+                <ul class="nav navbar-top-links navbar-right">
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                        <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
+                            <select name="school" class="form-control" onchange="this.form.submit()">
+                                <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
+                                    <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                <?php } ?>
+                            </select>
+                        </form></li>
+                        <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
+                        <li><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                    <?php } ?>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
+                                <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
+                            </li>
+                        <?php } ?>
+                        <?php if($this->session->userdata('logged_in')== true)
+                            { ?>
+                            <li>
+                                <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                            </li>
+                        <?php } ?>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                 </ul>
+            <?php } ?>
+         </nav>
 
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
-                <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
                 <?php if(Easol_Authentication::isLoggedIn()) { ?>
-                    <ul class="nav" id="main-menu" style="padding-top: 80px;">
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
-                        <li>
-                            <form action="<?= site_url("schools/choose") ?>" method="post">
-                                <select name="school" onchange="this.form.submit()" style="font-size: 12px">
-                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
-                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
-                                    <?php } ?>
-                                </select>
-                            </form>
-
-                        </li>
-                        <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
-                                <li>
-                                    <?= Easol_Authentication::userdata('SchoolName') ?>
-                                </li>
-                        <?php } ?>
+                    <ul class="nav" id="main-menu">
                         <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
@@ -95,17 +122,6 @@
                                 <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-edit"></i> Data Management</a>
                             </li>
                         <?php } ?>
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                        <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
-                        </li>
-                        <?php } ?>
-                        <?php if($this->session->userdata('logged_in')== true)
-                        { ?>
-                        <li>
-                            <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
-                        </li>
-                        <?php } ?>
                     </ul>
                 <?php } ?>
 
@@ -115,11 +131,9 @@
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
-                <div class="row page-content">
                 <?= $content ?>
-                </div>
                 <div class="row">
-                    <div class="col-md-8" style="color: #cccccc;">
+                    <div class="col-md-8 col-sm-8 txt-annotation">
                         This computer system is the property of the the Center of Education Innovation. It is for authorized
                         use only.
                         Unauthorized or improper use of this system may result in civil charges and/or criminal penalties.
