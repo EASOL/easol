@@ -15,7 +15,7 @@
     <!-- Bootstrap Styles-->
     <link href="<?= site_url('assets/css/bootstrap.css') ?>" rel="stylesheet"/>
     <!-- FontAwesome Styles-->
-    <link href="<?= site_url('assets/css/font-awesome.css') ?>" rel="stylesheet"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- Custom Styles-->
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
     <script type="text/javascript">
@@ -62,7 +62,7 @@
                         <ul class="dropdown-menu dropdown-user">
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
+                                <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
                             </li>
                         <?php } ?>
                         <?php if($this->session->userdata('logged_in')== true)
@@ -104,14 +104,14 @@
                         <?php } /* */ ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/student") ?>"><i class="fa fa-edit"></i> Students</a>
+                                <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
                         <?php } ?>
                         <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-desktop"></i> Grades</a>
+                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-edit"></i> Grades</a>
                         </li>
                         <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-bar-chart-o"></i> Sections</a>
+                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-th"></i> Sections</a>
                         </li>
                         <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
@@ -121,21 +121,21 @@
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
                         <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-table"></i> Cohorts</a>
+                            <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
                         </li>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/reports") ?>"><i class="fa fa-edit"></i> Flex Reports</a>
+                                <a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-edit"></i> Data Management</a>
+                                <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-sliders"></i> Data Management</a>
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                        <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-sm-block"' : 'visible-xs-block' ?>>
-                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-edit"></i> Administration</a>
+                        <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
+                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
                         </li>
                         <?php } ?>
                         <?php if($this->session->userdata('logged_in')== true)

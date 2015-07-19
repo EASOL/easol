@@ -16,7 +16,7 @@
         <div class="clearfix"></div>
         <?php if($downloadCSV==true){?>
             <div class="pull-right">
-                <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button><i class="fa fa-download"> </i> Download CSV</button></a>
+                <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button class="btn btn-default"><i class="fa fa-download"> </i> Download CSV</button></a>
             </div>
             <div class="clearfix"></div>
         <?php } ?>
