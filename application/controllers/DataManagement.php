@@ -70,6 +70,9 @@ class DataManagement extends Easol_Controller {
         echo json_encode($msg);
     }
 
+    /**
+     *
+     */
     public function showTableDetails(){
 
         $msg = [];
@@ -88,6 +91,10 @@ class DataManagement extends Easol_Controller {
 
     }
 
+    /**
+     * @param null $tableName
+     * @throws Exception
+     */
     public function downloadTableTemplate($tableName=null){
         if($tableName==null)
             throw new \Exception("Table not Set");
@@ -101,6 +108,10 @@ class DataManagement extends Easol_Controller {
         echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
     }
 
+    /**
+     * @param null $tableName
+     * @throws Exception
+     */
     public function downloadTableData($tableName=null){
         if($tableName==null)
             throw new \Exception("Table not Set");
@@ -118,10 +129,14 @@ class DataManagement extends Easol_Controller {
 
     }
 
+    /**
+     *
+     */
     public function uploadcsv(){
+        $this->load->model('DataManagementQueries');
+       // echo DataManagementQueries::getPrimaryKey($_POST['tableName']);
 
-
-      // print_r($_FILES);
-      //  print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
+       // print_r($_FILES);
+       // print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
     }
 }

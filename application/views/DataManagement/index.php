@@ -91,15 +91,39 @@ $this->load->model("DataManagementQueries");
                     <div>
                         <div class="container">
                             <div class="row" style="padding-top:10px;">
-                                <div class="col-xs-2">
-                                    <button id="uploadBtn" class="btn btn-large btn-primary">Choose File</button>
+                                <form action="#" method="post" id="dm_upload_form" enctype="multipart/form-data">
+                                    <input id="form-table-name" type="hidden" name="tableName" value="" >
+                                <div class="form-group">
+                                    <label for="data-up-csv">Filename</label>
+                                    <input type="file" id="data-up-csv" name="csvFile" accept="text/csv" required >
                                 </div>
-                                <div class="col-xs-10">
-                                    <div id="progressOuter" class="progress progress-striped active" style="display:none;">
-                                        <div id="progressBar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                        </div>
+                                <div class="radio">
+                                    <h4>Operation</h4>
+                                    <label>
+                                        <input type="radio" name="data_action" id="data_action" value="insert" required >
+                                        Insert - Insert only new records
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="data_action" id="data_action" value="update">
+                                        Insert/Update       - Insert new records, update records if match primary key(s)
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="data_action" id="data_action" value="delete">
+                                        Delete                 - Delete records by primary keys
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-default">Upload</button>
                                     </div>
                                 </div>
+                                </form>
+
                             </div>
                             <div class="row" style="padding-top:10px;">
                                 <div class="col-xs-10">

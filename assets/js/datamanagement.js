@@ -251,7 +251,6 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                 //$('#table_info').html('<div style="text-align: center"><img src="'+Easol_SiteUrl+'assets/img/loading.gif" ></div>');
             }
         })
-
             .success(function( msg ) {
                 if(msg['status']['type']==undefined){
                     alert('Data Transport Error');
@@ -262,11 +261,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                 else if(msg['status']['type']=='success'){
                     var htmlData = "";
 
-
                     if(msg['objects'].length > 0) {
-
-
-
                         $.each(msg['objects'], function (key, obj) {
                             if(key==0){
                                 htmlData+='<thead>';
@@ -275,24 +270,17 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                                     htmlData+='<th>'+tb_col+'</th>';
 
                                 });
-
                                 htmlData+='</thead>';
-
                             }
-
                             htmlData += '<tr>';
                             $.each(obj, function (tb_col, col_val) {
                                 htmlData+='<td>'+col_val+'</td>';
-
                             });
-
                             htmlData +='</tr>';
-
                         });
 
                     }
                     $('#table_details_table').html(htmlData);
-
 
                     $('#loading-img').hide();
 
@@ -310,9 +298,30 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
     $('#dm_data_tabs a[href="#table_upload"]').click(function (e) {
         e.preventDefault();
         $('#table_upload .tableName').html(currentTable);
+        $('#form-table-name').val(currentTable);
         $(this).tab('show');
+
     });
 
+    $("#dm_upload_form").on('submit', function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($('#dm_upload_form')[0]);
+        $.ajax({
+            url: Easol_SiteUrl+"datamanagement/uploadcsv",
+            data: formData,
+            async: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            cache: false,
+            type: 'POST',
+            success: function (data) {
+                $('#msgBox').html(data);
+            }
+        });
+
+    });
 });
 
 
