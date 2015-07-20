@@ -2,8 +2,6 @@
 /* @var $student Edfi_Student */
 ?>
 <div class="col-md-12">
-
-    <h3>Sections:</h3><br>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
