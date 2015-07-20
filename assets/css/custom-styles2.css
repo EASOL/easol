@@ -681,6 +681,9 @@ svg { display: block;
 
 }
 
+div#chart1 {
+    height: 300px;
+}
 
 @media(max-width:480px) {
   .page-header small {
