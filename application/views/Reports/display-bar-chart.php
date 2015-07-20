@@ -87,10 +87,10 @@ foreach($model->getReportData() as $data){
                         return chart;
                     });
                 </script>
-                <div>
-                    <h3><span class="fa fa-arrow-right"></span> <?= $model->LabelX ?></h3>
-                    <h3><span class="fa fa-arrow-up"></span> <?= $model->LabelY ?></h3>
-                </div>
+                <!-- <div>
+                    <h3><span class="fa fa-arrow-right"></span> <?= // $model->LabelX ?></h3>
+                    <h3><span class="fa fa-arrow-up"></span> <?= // $model->LabelY ?></h3>
+                </div> -->
             </div>
         </div>
     </div>
