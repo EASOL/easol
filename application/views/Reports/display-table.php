@@ -11,13 +11,12 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
 ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <h1 class="page-header"><?= $model->ReportName ?></h1>
-        <br/><br/>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
                 'query' => $model->CommandText,

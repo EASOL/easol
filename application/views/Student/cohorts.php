@@ -1,10 +1,9 @@
 <?php
 /* @var $student Edfi_Student */
 ?>
-<div class="col-md-12">
-    <br>
-    <h3>Cohorts</h3><br>
-    <table class="table table-striped">
+<div class="col-md-6 col-sm-8">
+
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Cohort Name</th>
