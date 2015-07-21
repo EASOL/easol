@@ -42,7 +42,7 @@
                 <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
             </div>
 
-            <?php if(Easol_Authentication::isLoggedIn()) { ?>
+            <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                 <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
                         <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
@@ -81,7 +81,7 @@
 
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
-                <?php if(Easol_Authentication::isLoggedIn()) { ?>
+                <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                     <ul class="nav" id="main-menu">
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
                             <li class="visible-xs-block"><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
