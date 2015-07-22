@@ -133,10 +133,63 @@ class DataManagement extends Easol_Controller {
      *
      */
     public function uploadcsv(){
-        $this->load->model('DataManagementQueries');
+        //$this->load->model('DataManagementQueries');
        // echo DataManagementQueries::getPrimaryKey($_POST['tableName']);
 
        // print_r($_FILES);
        // print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
+
+        $msg = [];
+        $msg['status']['type'] = 'success';
+        $msg['status']['msg'] = '';
+        if(!isset($_POST['tableName']) || !isset($_POST['data_action'])){
+            $msg['status']['type'] = 'failed';
+            $msg['status']['msg'] = 'Table Name Not Set';
+        }
+        else{ //data_action
+            if(isset($_FILES['csvFile'])) {
+                if($_FILES['csvFile']['error']==0) {
+                    if($_FILES['csvFile']['type']=='text/csv') {
+                        $this->load->model('DataManagementQueries');
+                        $this->load->model('Easol_CSVProcessor');
+                        $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
+                        //print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
+                        switch($_POST['data_action']){
+                            case 'insert' :
+                                try {
+                                    if($csvProcessor->insert()){
+                                        $msg['status']['msg'] = 'Data Inserted Successfully';
+                                    }
+                                }
+                                catch(\Exception $ex){
+                                    $msg['status']['type'] = 'failed';
+                                    $msg['status']['msg'] = $ex->getMessage();
+                                }
+                                break;
+                            case 'update' :
+                                break;
+                            case 'delete' :
+                                break;
+                            default:
+                                $msg['status']['type'] = 'failed';
+                                $msg['status']['msg'] = 'Invalid Operation Selected';
+                        }
+                    }
+                    else {
+                        $msg['status']['type'] = 'failed';
+                        $msg['status']['msg'] = 'File Upload Error Core : Only .csv files are allowed';
+                    }
+                }
+                else {
+                    $msg['status']['type'] = 'failed';
+                    $msg['status']['msg'] = 'File Upload Error Code : '.$_FILES['csvFile']['error'];
+                }
+            }
+            else {
+                $msg['status']['type'] = 'failed';
+                $msg['status']['msg'] = 'File Upload Error!';
+            }
+        }
+        echo json_encode($msg);
     }
 }

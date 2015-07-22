@@ -123,7 +123,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     else {
                         $('#dm_data_tabs a[href="#table_info"]').tab('show');
                     }
-                    location.hash = "#ajxTabDisplay" ;
+                    location.hash = "#page-header" ;
                     $('#loading-img').hide();
 
 
@@ -308,6 +308,12 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
         var formData = new FormData($('#dm_upload_form')[0]);
         $.ajax({
+            /*statusCode: {
+                500: function(data) {
+                    $('#msgBox').html(data);
+                    $('#loading-img').hide();
+                }
+            }, */
             url: Easol_SiteUrl+"datamanagement/uploadcsv",
             data: formData,
             async: false,
@@ -316,10 +322,20 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             processData: false,
             cache: false,
             type: 'POST',
-            success: function (data) {
-                $('#msgBox').html(data);
+            beforeSend: function(  ) {
+                $('#loading-img').show();
+                //$('#table_info').html('<div style="text-align: center"><img src="'+Easol_SiteUrl+'assets/img/loading.gif" ></div>');
             }
-        });
+        })
+            .success(function(data  ) {
+                $('#msgBox').html(data);
+                $('#loading-img').hide();
+            })
+            .fail(function( data ) {
+               // alert(data.toSource());
+                $('#msgBox').html(data.responseText);
+                $('#loading-img').hide();
+            });
 
     });
 });

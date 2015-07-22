@@ -11,7 +11,7 @@ $this->load->model("DataManagementQueries");
 
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">Data Management</h1>
+        <h1 class="page-header" id="page-header">Data Management</h1>
         <br/><br/>
     </div>
 </div>
