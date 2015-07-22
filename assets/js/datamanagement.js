@@ -325,15 +325,13 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             type: 'POST',
             beforeSend: function(  ) {
                 $('#loading-img').show();
-                //$('#table_info').html('<div style="text-align: center"><img src="'+Easol_SiteUrl+'assets/img/loading.gif" ></div>');
             }
         })
             .success(function(data  ) {
-                $('#msgBox').html(data);
+                $('#msgBox').html(($.parseJSON(data))['status']['msg']);
                 $('#loading-img').hide();
             })
             .fail(function( data ) {
-               // alert(data.toSource());
                 $('#msgBox').html(data.responseText);
                 $('#loading-img').hide();
             });

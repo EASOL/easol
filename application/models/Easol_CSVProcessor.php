@@ -29,7 +29,10 @@ class Easol_CSVProcessor extends CI_Model {
     }
 
 
-
+    /**
+     * @param bool $updateData
+     * @return bool
+     */
     public function insert( $updateData = false){
         try {
             $db['default']['db_debug'] = FALSE;
@@ -67,8 +70,11 @@ class Easol_CSVProcessor extends CI_Model {
 
     }
 
+    /**
+     * @return bool
+     */
     public function update(){
-        $this->insert(true);
+        return $this->insert(true);
 
     }
 
@@ -80,12 +86,17 @@ class Easol_CSVProcessor extends CI_Model {
             if (is_array($csv)) {
 
                 foreach ($csv as $key => $row) {
-                    if ($key != 0) {
-                        //delete operation
-                        if($this->checkDataExists($row)){
 
+                    if ($key != 0) {
+                        $primaryKeyValue= null;
+                        $insertData = $this->propagateColumnsToDbColumn($this->csvHeader, $row,$primaryKeyValue);
+                        //delete data
+                        if($primaryKeyValue != null){
+                            $this->db->delete('edfi.' . $this->tableName,array($this->primaryColumn => $primaryKeyValue));
 
                         }
+
+
 
                     } else {
                         $this->csvHeader = $row;
@@ -103,8 +114,6 @@ class Easol_CSVProcessor extends CI_Model {
 
     }
 
-  //  private function processRow($dbRow,$csvRow){}
-
     /**
      * validate csv header with table columns
      * @return bool
@@ -115,14 +124,6 @@ class Easol_CSVProcessor extends CI_Model {
 
     }
 
-    /**
-     *
-     * @return array
-     */
-    private function getCSVHeader(){
-        return [];
-
-    }
     /**
      * @param $csvHeaders
      * @param $row

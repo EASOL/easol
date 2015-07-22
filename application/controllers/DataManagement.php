@@ -169,7 +169,7 @@ class DataManagement extends Easol_Controller {
                             case 'update' :
                                 try {
                                     if($csvProcessor->update()){
-                                        $msg['status']['msg'] = 'Data Inserted Successfully';
+                                        $msg['status']['msg'] = 'Data Updated Successfully';
                                     }
                                 }
                                 catch(\Exception $ex){
@@ -177,8 +177,16 @@ class DataManagement extends Easol_Controller {
                                     $msg['status']['msg'] = $ex->getMessage();
                                 }
                                 break;
-                                break;
                             case 'delete' :
+                                try {
+                                    if($csvProcessor->delete()){
+                                        $msg['status']['msg'] = 'Data Deleted Successfully';
+                                    }
+                                }
+                                catch(\Exception $ex){
+                                    $msg['status']['type'] = 'failed';
+                                    $msg['status']['msg'] = $ex->getMessage();
+                                }
                                 break;
                             default:
                                 $msg['status']['type'] = 'failed';
