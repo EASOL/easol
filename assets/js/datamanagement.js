@@ -125,6 +125,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     }
                     location.hash = "#page-header" ;
                     $('#loading-img').hide();
+                    $('#dm_upload_form').trigger("reset");
 
 
 

@@ -30,8 +30,7 @@ class Easol_CSVProcessor extends CI_Model {
 
 
 
-    public function insert(){
-        //echo $this->primaryColumn;
+    public function insert( $updateData = false){
         try {
             $db['default']['db_debug'] = FALSE;
             $csv = array_map('str_getcsv', file($this->csvFile));
@@ -40,14 +39,19 @@ class Easol_CSVProcessor extends CI_Model {
                 foreach ($csv as $key => $row) {
 
                     if ($key != 0) {
-                        //print_r();
-                        if(!$this->checkDataExists($row)){
+                        $primaryKeyValue= null;
+                        $insertData = $this->propagateColumnsToDbColumn($this->csvHeader, $row,$primaryKeyValue);
+                        //insert data
+                        if($primaryKeyValue == null){
+                            $this->db->insert('edfi.' . $this->tableName, $insertData);
+                        }
 
-                            $this->db->insert('edfi.' . $this->tableName, $this->propagateColumnsToDbColumn($this->csvHeader, $row));
-
-                            //print_r($this->propagateColumnsToDbColumn($this->csvHeader, $row));
+                        elseif($updateData){
+                            $this->db->where($this->primaryColumn,$primaryKeyValue);
+                            $this->db->update('edfi.' . $this->tableName, $insertData);
 
                         }
+
                     } else {
                         $this->csvHeader = $row;
                     }
@@ -58,53 +62,13 @@ class Easol_CSVProcessor extends CI_Model {
             return true;
         }
         catch(  \Exception $ex){
-           // throw $ex;
+
         }
 
     }
 
     public function update(){
-
-        //echo $this->primaryColumn;
-        try {
-            $db['default']['db_debug'] = FALSE;
-            $csv = array_map('str_getcsv', file($this->csvFile));
-            if (is_array($csv)) {
-
-                foreach ($csv as $key => $row) {
-                    if ($key != 0) {
-                        //insert new data
-                        if(!$this->checkDataExists($row)){
-                            $this->db->insert('edfi.' . $this->tableName, $this->propagateColumnsToDbColumn($this->csvHeader, $row));
-
-                        }
-                        //update existing data
-                        else{
-                            $updateData=[];
-                            foreach($row as $col => $colValue){
-                                //primary column
-                                if($col == $this->primaryColumn){
-                                    $this->db->where($col, $colValue);
-
-                                }
-                            }
-
-                            //$this->db->where('id', $id);
-                           $this->db->update('edfi.' . $this->tableName, $updateData);
-
-                        }
-                    } else {
-                        $this->csvHeader = $row;
-                    }
-                }
-            }
-
-
-            return true;
-        }
-        catch(  \Exception $ex){
-            // throw $ex;
-        }
+        $this->insert(true);
 
     }
 
@@ -159,24 +123,22 @@ class Easol_CSVProcessor extends CI_Model {
         return [];
 
     }
-
-
-    private function checkDataExists($data){
-        return false;
-    }
-
     /**
      * @param $csvHeaders
      * @param $row
      * @return array
      */
-    private function propagateColumnsToDbColumn($csvHeaders,$row){
+    private function propagateColumnsToDbColumn($csvHeaders,$row, &$primaryKeyValue ){
         $retData = [];
         $data = array_combine($csvHeaders,$row);
 
         foreach($data as $key => $value){
             if(trim($value)!==""){
-                $retData[$key] = $value;
+                if($key == $this->primaryColumn){
+                    $primaryKeyValue = $value;
+                }
+                else
+                    $retData[$key] = $value;
             }
         }
 
