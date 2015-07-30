@@ -96,7 +96,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     htmlData+='<thead>';
                     htmlData+='<tr>' +
                     '<td>Column Name</td>' +
-                    '<td>Nullable</td>' +
+                    '<td>Required</td>' +
                     '<td>Data Type</td>' +
                     '<td>Maximum Length</td>' +
                     '</tr>';
@@ -104,11 +104,17 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
                     $.each(  msg['objects'], function( key, obj ) {
                         htmlData+='<tr>' +
-                        '<td>'+obj.COLUMN_NAME+'</td>' +
-                        '<td>'+obj.IS_NULLABLE+'</td>' +
-                        '<td>'+obj.DATA_TYPE+'</td>' +
-                        '<td>'+obj.CHARACTER_MAXIMUM_LENGTH+'</td>' +
-                        '</tr>';
+                        '<td>'+obj.COLUMN_NAME+'</td>';
+                        if(obj.IS_NULLABLE=="NO")
+                            htmlData+='<td style="text-align: center"><span class="glyphicon glyphicon-check"></span></td>';
+                        else htmlData+='<td></td>';
+
+                        htmlData+='<td>'+obj.DATA_TYPE+'</td>' ;
+                        if(obj.CHARACTER_MAXIMUM_LENGTH==null)
+                        htmlData+='<td></td>';
+                        else
+                        htmlData+='<td>'+obj.CHARACTER_MAXIMUM_LENGTH+'</td>';
+                        htmlData+='</tr>';
 
                     });
 
