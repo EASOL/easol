@@ -92,13 +92,13 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     htmlData+="<h3>Download Template</h3><br>";
                     htmlData += '<a href="'+Easol_SiteUrl+'datamanagement/downloadtabletemplate/'+currentTable+'.csv" >'+currentTable+'.csv</a>';
                     htmlData+="<h4>Table Metadata</h4><br>";
-                    htmlData+='<table class="table table-bordered" id="table_inf_table">';
+                    htmlData+='<div class="dataTableGrid"><table class="table table-hover table-condensed" id="table_inf_table">';
                     htmlData+='<thead>';
                     htmlData+='<tr>' +
-                    '<td>Column Name</td>' +
-                    '<td>Required</td>' +
-                    '<td>Data Type</td>' +
-                    '<td>Maximum Length</td>' +
+                    '<th>Column Name</th>' +
+                    '<th>Required</th>' +
+                    '<th>Data Type</th>' +
+                    '<th>Maximum Length</th>' +
                     '</tr>';
                     htmlData+='</thead>';
 
@@ -118,7 +118,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
                     });
 
-                    htmlData+="<table>";
+                    htmlData+="</table></div>";
 
                     $('#table_info').html(htmlData);
                     if(ajxTabDisplayHidden){
@@ -187,7 +187,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                        htmlData += '<div class="pull-right">\
                        <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button><i class="fa fa-download"> </i> Download CSV</button></a>\
                        </div><br><br><br>';
-                        htmlData+='<table class="table table-bordered" id="table_details_table">';
+                        htmlData+='<table class="table table-hover table-condensed" id="table_details_table">';
 
                        $.each(msg['objects'], function (key, obj) {
                            if(key==0){
