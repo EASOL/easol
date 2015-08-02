@@ -16,7 +16,32 @@ class Reports extends Easol_Controller {
     public function index()
 	{
         $this->load->model('entities/easol/Easol_Report');
+        $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();
+        if($this->input->post('dashboardConf')){
+            //print_r($this->input->post('dashboardConf'));
+            foreach($this->input->post('dashboardConf') as $roleId => $conf){
+                $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Authentication::userdata('SchoolId')]);
+                if($dashConf==null){
+                    $dashConf = new Easol_DashboardConfiguration();
+                    $dashConf->RoleTypeId = $roleId;
+                    $dashConf->EducationOrganizationId = Easol_Authentication::userdata('SchoolId');
+
+
+                } else{
+                    $dashConf = (new Easol_DashboardConfiguration())->hydrate($dashConf);
+
+                }
+                $dashConf->LeftChartReportId = $conf['left'];
+                $dashConf->RightChartReportId = $conf['right'];
+                $dashConf->BottomTableReportId = $conf['bottom'];
+                $dashConf->save();
+            }
+            $this->session->set_flashdata('message_dash_conf', 'Dashboard Configuration Saved');
+
+            return redirect(site_url("reports/index#dashConf"));
+
+        }
 
 		$this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
 	}
@@ -49,6 +74,7 @@ class Reports extends Easol_Controller {
                 }
 
         }
+
        // $report->ReportName = "Report";
        /* echo $report->ReportName."sdd";
         echo $report->ReportName."sdd"; */

@@ -92,7 +92,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     htmlData+="<h3>Download Template</h3><br>";
                     htmlData += '<a href="'+Easol_SiteUrl+'datamanagement/downloadtabletemplate/'+currentTable+'.csv" >'+currentTable+'.csv</a>';
                     htmlData+="<h4>Table Metadata</h4><br>";
-                    htmlData+='<div class="dataTableGrid"><table class="table table-hover table-condensed" id="table_inf_table">';
+                    htmlData+='<div class="dmTableContainer"><table class="table table-hover table-condensed" id="table_inf_table">';
                     htmlData+='<thead>';
                     htmlData+='<tr>' +
                     '<th>Column Name</th>' +
@@ -101,6 +101,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     '<th>Maximum Length</th>' +
                     '</tr>';
                     htmlData+='</thead>';
+                    htmlData+='<tbody>';
 
                     $.each(  msg['objects'], function( key, obj ) {
                         htmlData+='<tr>' +
@@ -118,7 +119,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
                     });
 
-                    htmlData+="</table></div>";
+                    htmlData+="</tbody></table></div>";
 
                     $('#table_info').html(htmlData);
                     if(ajxTabDisplayHidden){
@@ -187,30 +188,36 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                        htmlData += '<div class="pull-right">\
                        <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button><i class="fa fa-download"> </i> Download CSV</button></a>\
                        </div><br><br><br>';
-                        htmlData+='<table class="table table-hover table-condensed" id="table_details_table">';
+                        htmlData+='<div class="dmTableContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable" id="table_details_table">';
 
                        $.each(msg['objects'], function (key, obj) {
                            if(key==0){
-                               htmlData+='<thead>';
-                               htmlData+='<tr>';
+                               htmlData+='<thead class="fixedHeader" id="fixedHeader">';
+                               htmlData+='<tr class="alternateRow">';
                                $.each(obj, function (tb_col, col_val) {
                                    htmlData+='<th>'+tb_col+'</th>';
 
                                });
 
-                               htmlData+='</thead>';
+                               htmlData+='</thead><tbody class="scrollContent">';
 
                            }
 
                            htmlData += '<tr>';
+                           var rowCount =1;
                            $.each(obj, function (tb_col, col_val) {
-                               htmlData+='<td>'+col_val+'</td>';
+                               if(rowCount%2==0 )
+                                   htmlData+='<td class="alternateRow">';
+                               else
+                                   htmlData+='<td class="normalRow">';
+
+                               htmlData+=col_val+'</td>';
 
                            });
                            htmlData +='</tr>';
                        });
 
-                       htmlData += "<table>";
+                       htmlData += "</tbody></table></div>";
                        htmlData += '<nav>\
                        <ul class="pagination" id="ajxPagination">';
 

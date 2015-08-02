@@ -58,9 +58,28 @@
 
                     </tbody>
                 </table>
+                <a name="dashConf"></a>
                 <a href="<?= site_url('reports/create') ?>" class="btn btn-primary">New Flex Report</a>
             </div>
 
         </div>
     </div>
  </div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Dashboard Configuration</h3>
+            </div>
+            <div class="panel-body">
+                <?php if ($this->session->flashdata('message_dash_conf')) { ?>
+                    <div class="alert alert-success"> <?= $this->session->flashdata('message_dash_conf') ?> </div>
+                <?php } ?>
+
+                <?php $this->load->view("Reports/_dashboard_conf_form",['reports' => $reports]); ?>
+            </div>
+
+        </div>
+    </div>
+</div>
