@@ -22,7 +22,7 @@
         var Easol_SiteUrl = "<?= site_url('/') ?>"
     </script>
 
-    <?php if($this->router->class=='reports' && $this->router->method =='view') { ?>
+    <?php if(($this->router->class=='reports' && $this->router->method =='view') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
