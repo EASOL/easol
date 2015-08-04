@@ -68,7 +68,7 @@ class Schools extends Easol_Controller {
                     $this->session->set_userdata($userdata);
                     $this->session->set_flashdata('message', 'School Selected as '. $school->NameOfInstitution);
                     $this->session->set_flashdata('type', 'success');
-                    redirect('/student');
+                    redirect('/dashboard');
 
                 }
             }

@@ -9,12 +9,13 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
 }
 
 ?>
-
+<?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <h1 class="page-header"><?= $model->ReportName ?></h1>
     </div>
 </div>
+<?php } ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <?php Easol_Widget::show("DataTableWidget",
@@ -24,7 +25,7 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
                     'currentPage' => $pageNo,
-                    'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
+                    'url'   =>  isset($paginationUrl) ? $paginationUrl.'/@pageNo' :'reports/view/'.$model->ReportId.'/@pageNo'
                 ],
                 'colOrderBy'    =>  [$_columns[0]],
                 'columns'   => $_columns,

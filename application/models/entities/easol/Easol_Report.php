@@ -136,4 +136,25 @@ class Easol_Report extends Easol_BaseEntity {
             return $this->findOneBySql($this->CommandText);
 
     }
+
+    public function getViewName(){
+        switch($this->ReportDisplayId){
+
+            case 1:
+                return "display-table";
+                break;
+            case 2:
+                return "display-bar-chart";
+                break;
+            case 3:
+                return "display-pie-chart";
+                break;
+            case 4:
+                return "display-stacked-bar-chart";
+                break;
+            default:
+                throw new \Exception("Invalid Report Display type..");
+
+        }
+    }
 }

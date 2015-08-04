@@ -16,11 +16,13 @@ foreach($model->getReportData() as $key => $value){
 
 //die(print_r($_columns));
 ?>
+<?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <h1 class="page-header">Flex Reports : Pie Chart : <?= $model->ReportName ?></h1>
     </div>
 </div>
+<?php } ?>
 
 <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -74,6 +76,7 @@ foreach($model->getReportData() as $key => $value){
         </div>
     </div>
 </div>
+<?php if(isset($pageNo)){ ?>
 
 <div class="row">
     <div class="col-md-12">
@@ -94,3 +97,4 @@ foreach($model->getReportData() as $key => $value){
         ) ?>
     </div>
 </div>
+<?php } ?>

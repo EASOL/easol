@@ -32,11 +32,13 @@ foreach($model->getReportData() as $data){
 
 //die(print_r($_columns))
 ?>
+<?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header">Flex Reports : Bar Chart : <?= $model->ReportName ?></h1>
     </div>
 </div>
+<?php } ?>
 
 <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -95,7 +97,7 @@ foreach($model->getReportData() as $data){
         </div>
     </div>
 </div>
-
+<?php if(isset($pageNo)){ ?>
 <div class="row">
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTableWidget",
@@ -115,3 +117,4 @@ foreach($model->getReportData() as $data){
         ) ?>
     </div>
 </div>
+<?php } ?>
