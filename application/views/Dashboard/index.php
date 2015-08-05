@@ -34,7 +34,7 @@
                     </div>
                 </div></div>
             <div class="col-md-12 col-sm-12" id="bottom-table"><div class="thumbnail"><?php
-                    $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(),'pageNo'=>$tablePageNo,'paginationUrl' =>"dashboard/index" ]);
+                    $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(),'pageNo'=>$tablePageNo,'paginationUrl' =>"dashboard/index", 'displayTitle' => true ]);
                     ?></div></div>
             </div>
         </div>
