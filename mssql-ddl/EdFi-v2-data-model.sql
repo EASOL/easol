@@ -16376,7 +16376,7 @@ GO
 DROP TABLE [edfi].[Staff]
 GO
 CREATE TABLE [edfi].[Staff] (
-[StaffUSI] int NOT NULL IDENTITY(1,1) ,
+[StaffUSI] int NOT NULL ,
 [PersonalTitlePrefix] nvarchar(75) NULL ,
 [FirstName] nvarchar(75) NOT NULL ,
 [MiddleName] nvarchar(75) NULL ,
@@ -17560,7 +17560,7 @@ GO
 DROP TABLE [edfi].[Student]
 GO
 CREATE TABLE [edfi].[Student] (
-[StudentUSI] int NOT NULL IDENTITY(1,1) ,
+[StudentUSI] int NOT NULL ,
 [PersonalTitlePrefix] nvarchar(75) NULL ,
 [FirstName] nvarchar(75) NOT NULL ,
 [MiddleName] nvarchar(75) NULL ,
