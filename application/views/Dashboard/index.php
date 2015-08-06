@@ -8,9 +8,10 @@
         <?php } ?>
     </div>
 </div>
+
 <?php if($dashboardConf): ?>
 <div class="row">
-    <div class="col-md-12 col-sm-12">`
+    <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
             <div class="col-md-6 col-sm-12" id="left-chart">
