@@ -16,10 +16,10 @@ Easol_Helper::$tableGroupValue=null;
 
 ob_start();
 ?>
+<div class="panel panel-default">
+    <div class="panel-body">
 <?php if($filter!=null) { ?>
-    <div class="row" style="padding-bottom: 40px">
         <?php  Easol_Widget::show("DataFilterWidget", $filter) ?>
-    </div>
     <div class="clearfix"></div>
 
 
@@ -30,7 +30,7 @@ if ($query->num_rows() > 0 && count($columns) > 0)
         ?>
 
         <div class="dataTableGrid">
-            <table class="table">
+            <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
                         <?php
@@ -156,5 +156,8 @@ echo $dataContents;
     </div>
     <div class="clearfix"></div>
 <?php } ?>
+
+    </div>
+</div>
 
 
