@@ -112,9 +112,15 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->displayType;
     }
 
+    /**
+     * @return null|object
+     */
+    //public $dt=0;
     public function getAccessTypes(){
 
-        if($this->accessTypes==null) {
+        if($this->accessTypes==null && !property_exists($this,"flagAccessTypes")) {
+            $this->flagAccessTypes = true;
+            //echo '#'.(++$this->dt).'sspd';
             $this->accessTypes = [];
             $this->load->model('entities/easol/Easol_ReportAccess');
             $accessType = new Easol_ReportAccess();

@@ -74,7 +74,8 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
      */
     public function getLeftChart(){
         $this->load->model('entities/easol/Easol_Report');
-        if($this->leftReport==null) {
+        if($this->leftReport==null && !property_exists($this,"flagLeftChart") ) {
+            $this->flagLeftChart = true;
             $this->leftReport = (new Easol_Report())->findOne(["ReportId" => $this->LeftChartReportId]);
             $this->leftReport = (new Easol_Report())->hydrate($this->leftReport);
         }

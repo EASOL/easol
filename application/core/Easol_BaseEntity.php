@@ -32,7 +32,7 @@ abstract class Easol_BaseEntity extends CI_Model{
     public function __set($name,$value){
 
         if(!property_exists($this,$name)){
-            if(array_key_exists($name,$this->labels())){
+            if(array_key_exists($name,$this->labels()) || substr( $name, 0, 4 ) === "flag"){
                 $this->{$name} = $value;
             }
             else

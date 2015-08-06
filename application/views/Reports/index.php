@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($reports as $report){ ?>
+                        <?php foreach($reports as &$report){ ?>
                         <tr>
                             <td><a href="<?= site_url('reports/view/'.$report->ReportId) ?>"><?= $report->ReportName ?></a></td>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?= $report->getDisplayType()->DisplayName ?></td><?php } ?>
