@@ -1,20 +1,3 @@
-/*
-Navicat SQL Server Data Transfer
-
-Source Server         : d3spbysczz.database.windows.net
-Source Server Version : 120000
-Source Host           : d3spbysczz.database.windows.net:1433
-Source Database       : Copy_cei-stage-01
-Source Schema         : edfi
-
-Target Server Type    : SQL Server
-Target Server Version : 120000
-File Encoding         : 65001
-
-Date: 2015-07-09 13:46:59
-*/
-
-
 -- ----------------------------
 -- Table structure for AcademicHonorCategoryType
 -- ----------------------------
@@ -1947,7 +1930,7 @@ CREATE TABLE [edfi].[AssessmentSection] (
 [Version] int NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -8670,7 +8653,7 @@ CREATE TABLE [edfi].[Grade] (
 [StudentUSI] int NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -8712,7 +8695,7 @@ GO
 CREATE TABLE [edfi].[GradebookEntry] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -8752,7 +8735,7 @@ GO
 CREATE TABLE [edfi].[GradebookEntryLearningObjective] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -8784,7 +8767,7 @@ GO
 CREATE TABLE [edfi].[GradebookEntryLearningStandard] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -11727,7 +11710,7 @@ DROP TABLE [edfi].[Location]
 GO
 CREATE TABLE [edfi].[Location] (
 [SchoolId] int NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [MaximumNumberOfSeats] int NULL ,
 [OptimalNumberOfSeats] int NULL ,
 [Id] uniqueidentifier NOT NULL DEFAULT (newid()) ,
@@ -14490,7 +14473,7 @@ CREATE TABLE [edfi].[ReportCardGrade] (
 [GradingPeriodBeginDate] date NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -15680,7 +15663,7 @@ GO
 CREATE TABLE [edfi].[Section] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -15725,7 +15708,7 @@ GO
 CREATE TABLE [edfi].[SectionAttendanceTakenEvent] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -15761,7 +15744,7 @@ GO
 CREATE TABLE [edfi].[SectionCharacteristic] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -15856,7 +15839,7 @@ GO
 CREATE TABLE [edfi].[SectionProgram] (
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -17198,7 +17181,7 @@ CREATE TABLE [edfi].[StaffSectionAssociation] (
 [StaffUSI] int NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -18339,7 +18322,7 @@ CREATE TABLE [edfi].[StudentCohortAssociationSection] (
 [BeginDate] date NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -18632,7 +18615,7 @@ CREATE TABLE [edfi].[StudentGradebookEntry] (
 [StudentUSI] int NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -19514,7 +19497,7 @@ CREATE TABLE [edfi].[StudentSectionAssociation] (
 [StudentUSI] int NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
@@ -19559,7 +19542,7 @@ CREATE TABLE [edfi].[StudentSectionAttendanceEvent] (
 [StudentUSI] int NOT NULL ,
 [SchoolId] int NOT NULL ,
 [ClassPeriodName] nvarchar(20) NOT NULL ,
-[ClassroomIdentificationCode] nvarchar(20) NOT NULL ,
+[ClassroomIdentificationCode] nvarchar(255) NOT NULL ,
 [LocalCourseCode] nvarchar(60) NOT NULL ,
 [TermTypeId] int NOT NULL ,
 [SchoolYear] smallint NOT NULL ,
