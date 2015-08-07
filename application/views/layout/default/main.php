@@ -21,6 +21,9 @@
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
     </script>
+    <?php if($this->router->class=='datamanagement') { ?>
+        <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
+    <?php } ?>
 
     <?php if(($this->router->class=='reports' && $this->router->method =='view') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
@@ -181,6 +184,7 @@
     <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
  */ ?>
     <?php if($this->router->class=='datamanagement') { ?>
+        <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>

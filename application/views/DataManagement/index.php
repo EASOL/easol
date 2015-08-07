@@ -148,247 +148,105 @@ $this->load->model("DataManagementQueries");
         </div>
     </div>
 </div>
-
-<div id="tableContainer" class="dmTableContainer">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
-        <thead class="fixedHeader" id="fixedHeader">
-        <tr class="alternateRow">
-            <th><a href="#">Header 1</a></th>
-            <th><a href="#">Header 2</a></th>
-            <th><a href="#">Header 3</a></th>
-        </tr>
-        </thead>
-        <tbody class="scrollContent">
-        <tr class="normalRow">
-            <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla vitae wisi. Nulla euismod aliquet tellus.</td>
-            <td>In sit amet enim. Praesent vulputate tortor nec ante. Morbi sollicitudin est non neque.</td>
-            <td>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td><select name="sampleSelect1" id="sampleSelect1"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td><select name="sampleSelect2" id="sampleSelect2" size="5" multiple="multiple"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td><input type="text" name="sampleText" id="sampleText" value="This is a sample Text form element"></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td><input type="password" name="samplePassword" id="samplePassword" value="password"></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td><input type="submit" name="sampleSubmit" id="sampleSubmit" value="Sample Submit Button"></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td><input type="reset" name="sampleReset" id="sampleReset" value="Sample Reset Button"></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td><input type="button" name="sampleButton" id="sampleButton" value="Sample Button Element"></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td><input type="checkbox" name="sampleCheckbox" id="sampleCheckboxA" value="sampleCheckboxA"> <label for="sampleCheckboxA">Sample Checkbox A</label></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td><input type="checkbox" name="sampleCheckbox" id="sampleCheckboxB" value="sampleCheckboxB"> <label for="sampleCheckboxB">Sample Checkbox B</label></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td><input type="radio" name="sampleRadio" id="sampleRadioA" value="sampleRadioA"> <label for="sampleRadioA">Sample Radio A</label></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td><input type="radio" name="sampleRadio" id="sampleRadioB" value="sampleRadioB"> <label for="sampleRadioB">Sample Radio B</label></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td><select name="sampleSelect3" id="sampleSelect3"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td><select name="sampleSelect4" id="sampleSelect4" size="5" multiple="multiple"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td><textarea cols="20" rows="5" name="sampleTextarea" id="sampleTextarea">Cell Content 3</textarea></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td><select name="sampleSelect5" id="sampleSelect5"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td><select name="sampleSelect6" id="sampleSelect6"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td>Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td>Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td>Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td>Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td>Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>And Repeat 1</td>
-            <td>And Repeat 2</td>
-            <td>And Repeat 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Cell Content 1</td>
-            <td>Cell Content 2</td>
-            <td>Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>More Cell Content 1</td>
-            <td>More Cell Content 2</td>
-            <td>More Cell Content 3</td>
-        </tr>
-        <tr class="normalRow">
-            <td>Even More Cell Content 1</td>
-            <td>Even More Cell Content 2</td>
-            <td>Even More Cell Content 3</td>
-        </tr>
-        <tr class="alternateRow">
-            <td>End of Cell Content 1</td>
-            <td>End of Cell Content 2</td>
-            <td>End of Cell Content 3</td>
-        </tr>
-        </tbody>
-    </table>
+<?php /*  ?>
+<div class="dmTableContainer">
+    <div class="table-container">
+        <div class="table-container-header">
+            <table class="table table-striped table-hover table-condensed table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-container-body">
+            <table class="table table-striped table-hover table-condensed table-bordered">
+                <colgroup>
+                    <col style="width: 100px;"></col>
+                    <col style="width: 100px;"></col>
+                    <col style="width: 100px;"></col>
+                    <col style="width: 100px;"></col>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container-footer">
+            <table class="table table-striped table-hover table-condensed table-bordered">
+                <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 </div>
+<?php /* */ ?>

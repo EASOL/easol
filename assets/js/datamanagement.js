@@ -11,10 +11,10 @@ var dm_PageSize = 50;
 $(function() {
 
 
-$( ".dm_tables .panel-footer a" ).click(function(event) {
+    $( ".dm_tables .panel-footer a" ).click(function(event) {
 
-    event.preventDefault();
-    var reqType =$(this).parent().parent().attr("id").replace("dm_","");
+        event.preventDefault();
+        var reqType =$(this).parent().parent().attr("id").replace("dm_","");
 
         $.ajax({
             dataType: "json",
@@ -23,51 +23,51 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             data: { tableType: reqType},
             cache: false,
             beforeSend: function(  ) {
-               $('#dm_'+reqType+' .panel-body').html('<img src="'+Easol_SiteUrl+'assets/img/loading.gif" >');
-               $('#loading-img').show();
+                $('#dm_'+reqType+' .panel-body').html('<img src="'+Easol_SiteUrl+'assets/img/loading.gif" >');
+                $('#loading-img').show();
             }
         })
-        .success(function( msg ) {
-            if(msg['status']['type']==undefined){
-                alert('Data Transport Error');
-            }
-            else if(msg['status']['type']=='failed'){
-                alert(msg['status']['msg']);
-            }
-            else if(msg['status']['type']=='success'){
-                var htmlData= '<select class="form-control" size="10">';
-                $.each(  msg['objects'], function( key, obj ) {
-                    htmlData+='<option value="'+obj.TableName+'">'+obj.TableName+'</option>';
-
-                });
-                htmlData+='</select>';
-                $('#dm_'+reqType+' .panel-body').html(htmlData);
-                $('#dm_'+reqType+' .panel-footer').html("Showing All");
-                $('#loading-img').hide();
-
-
-            }
-            else {
-                alert('Data Transport Error');
-            }
-        })
-        .fail(function(  ) {
-
-                alert('Data Transport Error');
-
-        });
-
-});
-
-   // $( ".dm_tables .panel-body select" ).on( "change", function() {
-        $(document).on("change", ".dm_tables .panel-body select", function(){
-            currentTable = this.value;
-            currentSelect = this.id;
-            $('.dm_select').each(function(itr, sel_obj) {
-                if(this.id!=currentSelect){
-                    $(this).val("");
+            .success(function( msg ) {
+                if(msg['status']['type']==undefined){
+                    alert('Data Transport Error');
                 }
+                else if(msg['status']['type']=='failed'){
+                    alert(msg['status']['msg']);
+                }
+                else if(msg['status']['type']=='success'){
+                    var htmlData= '<select class="form-control" size="10">';
+                    $.each(  msg['objects'], function( key, obj ) {
+                        htmlData+='<option value="'+obj.TableName+'">'+obj.TableName+'</option>';
+
+                    });
+                    htmlData+='</select>';
+                    $('#dm_'+reqType+' .panel-body').html(htmlData);
+                    $('#dm_'+reqType+' .panel-footer').html("Showing All");
+                    $('#loading-img').hide();
+
+
+                }
+                else {
+                    alert('Data Transport Error');
+                }
+            })
+            .fail(function(  ) {
+
+                alert('Data Transport Error');
+
             });
+
+    });
+
+    // $( ".dm_tables .panel-body select" ).on( "change", function() {
+    $(document).on("change", ".dm_tables .panel-body select", function(){
+        currentTable = this.value;
+        currentSelect = this.id;
+        $('.dm_select').each(function(itr, sel_obj) {
+            if(this.id!=currentSelect){
+                $(this).val("");
+            }
+        });
 
         $.ajax({
             dataType: "json",
@@ -95,26 +95,26 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     htmlData+='<div class="dmTableContainer"><table class="table table-hover table-condensed" id="table_inf_table">';
                     htmlData+='<thead>';
                     htmlData+='<tr>' +
-                    '<th>Column Name</th>' +
-                    '<th>Required</th>' +
-                    '<th>Data Type</th>' +
-                    '<th>Maximum Length</th>' +
-                    '</tr>';
+                        '<th>Column Name</th>' +
+                        '<th>Required</th>' +
+                        '<th>Data Type</th>' +
+                        '<th>Maximum Length</th>' +
+                        '</tr>';
                     htmlData+='</thead>';
                     htmlData+='<tbody>';
 
                     $.each(  msg['objects'], function( key, obj ) {
                         htmlData+='<tr>' +
-                        '<td>'+obj.COLUMN_NAME+'</td>';
+                            '<td>'+obj.COLUMN_NAME+'</td>';
                         if(obj.IS_NULLABLE=="NO")
                             htmlData+='<td style="text-align: center"><span class="glyphicon glyphicon-check"></span></td>';
                         else htmlData+='<td></td>';
 
                         htmlData+='<td>'+obj.DATA_TYPE+'</td>' ;
                         if(obj.CHARACTER_MAXIMUM_LENGTH==null)
-                        htmlData+='<td></td>';
+                            htmlData+='<td></td>';
                         else
-                        htmlData+='<td>'+obj.CHARACTER_MAXIMUM_LENGTH+'</td>';
+                            htmlData+='<td>'+obj.CHARACTER_MAXIMUM_LENGTH+'</td>';
                         htmlData+='</tr>';
 
                     });
@@ -148,7 +148,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             });
     });
 
-   // $(".download_csv").on('click', function (event) {
+    // $(".download_csv").on('click', function (event) {
     $(document).on("click", ".download_csv", function(event){
         // CSV
         exportTableToCSV.apply(this, [$('#table_inf_table'), $('.download_csv').text()]);
@@ -169,7 +169,6 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             cache: false,
             beforeSend: function(  ) {
                 $('#loading-img').show();
-                //$('#table_info').html('<div style="text-align: center"><img src="'+Easol_SiteUrl+'assets/img/loading.gif" ></div>');
             }
         })
 
@@ -184,59 +183,66 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                     var htmlData = "<br><h2>"+currentTable+"</h2><br><br>";
 
 
-                   if(msg['objects'].length > 0) {
-                       htmlData += '<div class="pull-right">\
-                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button><i class="fa fa-download"> </i> Download CSV</button></a>\
-                       </div><br><br><br>';
-                        htmlData+='<div class="dmTableContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable" id="table_details_table">';
+                    if(msg['objects'].length > 0) {
 
-                       $.each(msg['objects'], function (key, obj) {
-                           if(key==0){
-                               htmlData+='<thead class="fixedHeader" id="fixedHeader">';
-                               htmlData+='<tr class="alternateRow">';
-                               $.each(obj, function (tb_col, col_val) {
-                                   htmlData+='<th>'+tb_col+'</th>';
+                        htmlData+='<table class="table table-hover table-condensed display" id="table_details_table"  cellspacing="0" width="100%">';
 
-                               });
+                        $.each(msg['objects'], function (key, obj) {
+                            if(key==0){
+                                htmlData+='<thead>';
+                                htmlData+='<tr>';
+                                $.each(obj, function (tb_col, col_val) {
+                                    htmlData+='<th>'+tb_col+'</th>';
 
-                               htmlData+='</thead><tbody class="scrollContent">';
+                                });
 
-                           }
+                                htmlData+='</thead>';
 
-                           htmlData += '<tr>';
-                           var rowCount =1;
-                           $.each(obj, function (tb_col, col_val) {
-                               if(rowCount%2==0 )
-                                   htmlData+='<td class="alternateRow">';
-                               else
-                                   htmlData+='<td class="normalRow">';
+                            }
 
-                               htmlData+=col_val+'</td>';
+                            htmlData += '<tr>';
+                            $.each(obj, function (tb_col, col_val) {
+                                htmlData+='<td>'+col_val+'</td>';
 
-                           });
-                           htmlData +='</tr>';
-                       });
+                            });
+                            htmlData +='</tr>';
+                        });
 
-                       htmlData += "</tbody></table></div>";
-                       htmlData += '<nav>\
+                        htmlData += "<table>";
+                        htmlData += '<nav>\
                        <ul class="pagination" id="ajxPagination">';
 
-                       var totPage=Math.ceil(parseInt(msg['total'])/dm_PageSize);
 
-                       for(ci=1;ci <= totPage; ci++) {
-                           htmlData += '<li';
-                           if(ci==1){
-                               htmlData +=' class="active"';
-                           }
-                           htmlData += '><a href="#" data-page-id="'+ci+'">'+ci+'</a></li>';
-                       }
-                       htmlData+= '</ul>';
-                   }
+
+                        var totPage=Math.ceil(parseInt(msg['total'])/dm_PageSize);
+
+                        for(ci=1;ci <= totPage; ci++) {
+                            htmlData += '<li';
+                            if(ci==1){
+                                htmlData +=' class="active"';
+                            }
+                            htmlData += '><a href="#" data-page-id="'+ci+'">'+ci+'</a></li>';
+                        }
+                        htmlData+= '</ul>';
+
+                        htmlData += '<div class="clearfix"></div><div class="pull-right">\
+                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button><i class="fa fa-download"> </i> Download CSV</button></a>\
+                       </div><br><br><br>';
+                    }
                     else htmlData+= 'Table contains no data';
                     $('#table_browse').html(htmlData);
 
                     $('#loading-img').hide();
                     $('#dm_data_tabs a[href="#table_browse"]').tab('show');
+                    $('#table_details_table').DataTable({
+                        "scrollY": 300,
+                        "scrollX": true,
+                        "paging": false,
+                        "searching": false,
+                        "ordering": false,
+                        "info": false,
+                        "stripeClasses": [ 'dm_odd', 'dm_even' ]
+                    } );
                 }
                 else {
                     alert('Data Transport Error');
@@ -277,15 +283,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
 
                     if(msg['objects'].length > 0) {
                         $.each(msg['objects'], function (key, obj) {
-                            if(key==0){
-                                htmlData+='<thead>';
-                                htmlData+='<tr>';
-                                $.each(obj, function (tb_col, col_val) {
-                                    htmlData+='<th>'+tb_col+'</th>';
 
-                                });
-                                htmlData+='</thead>';
-                            }
                             htmlData += '<tr>';
                             $.each(obj, function (tb_col, col_val) {
                                 htmlData+='<td>'+col_val+'</td>';
@@ -294,7 +292,7 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
                         });
 
                     }
-                    $('#table_details_table').html(htmlData);
+                    $('#table_details_table tbody').html(htmlData);
 
                     $('#loading-img').hide();
 
@@ -323,11 +321,11 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
         var formData = new FormData($('#dm_upload_form')[0]);
         $.ajax({
             /*statusCode: {
-                500: function(data) {
-                    $('#msgBox').html(data);
-                    $('#loading-img').hide();
-                }
-            }, */
+             500: function(data) {
+             $('#msgBox').html(data);
+             $('#loading-img').hide();
+             }
+             }, */
             url: Easol_SiteUrl+"datamanagement/uploadcsv",
             data: formData,
             async: false,
@@ -350,6 +348,31 @@ $( ".dm_tables .panel-footer a" ).click(function(event) {
             });
 
     });
+
+    //scrollable table code start
+    var $body = $(".dmTableContainer .table-container-body"),
+        $header = $(".dmTableContainer .table-container-header"),
+        $footer = $(".dmTableContainer .table-container-footer");
+
+// Get ScrollBar width(From: http://bootstrap-table.wenzhixin.net.cn/)
+    var scrollBarWidth = (function () {
+        var inner = $('<p/>').addClass('fixed-table-scroll-inner'),
+            outer = $('<div/>').addClass('fixed-table-scroll-outer'),
+            w1, w2;
+        outer.append(inner);
+        $('body').append(outer);
+        w1 = inner[0].offsetWidth;
+        outer.css('overflow', 'scroll');
+        w2 = inner[0].offsetWidth;
+        if (w1 === w2) {
+            w2 = outer[0].clientWidth;
+        }
+        outer.remove();
+        return w1 - w2;
+    })();
+
+
+
 });
 
 
