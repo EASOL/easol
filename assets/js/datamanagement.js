@@ -226,7 +226,7 @@ $(function() {
                         htmlData+= '</ul>';
 
                         htmlData += '<div class="clearfix"></div><div class="pull-right">\
-                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button><i class="fa fa-download"> </i> Download CSV</button></a>\
+                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button class="btn btn-default"><i class="fa fa-download"> </i> Download CSV</button></a>\
                        </div><br><br><br>';
                     }
                     else htmlData+= 'Table contains no data';
