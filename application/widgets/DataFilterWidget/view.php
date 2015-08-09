@@ -11,6 +11,7 @@
 <form action="" method="get" class="form-inline" name="dataGridFormFilter" id="dataGridFormFilter">
     <?php /* die(print_r($fields)); */ foreach($fields as $key => $field){ ?>
         <?php if( array_key_exists('access',$field) && !Easol_AuthorizationRoles::hasAccess($field['access'])) continue; ?>
+        <?php if($key=="Sort") continue; ?>
         <?php if($key=='Result'){?>
             <input type="hidden" name="filter[Result]" value="<?= $field['default'] ?>" id="filter-form-result">
 
