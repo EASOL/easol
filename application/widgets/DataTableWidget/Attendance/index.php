@@ -150,12 +150,29 @@ echo $dataContents;
 <?php } ?>
 
 
-<?php if($downloadCSV==true){ ?>
-    <div class="pull-right">
-        <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button><i class="fa fa-download"> </i> Download CSV</button></a>
-    </div>
-    <div class="clearfix"></div>
-<?php } ?>
+        <div class="col-md-4 pull-right">
+            <?php if(isset($filter) && isset($filter['fields']) && isset($filter['fields']['Result'])) { ?>
+                <div class="col-md-5">
+                    <select class="form-control" id="filter-result" >
+                        <?php
+                        foreach($filter['fields']['Result']['range']['set'] as $key => $value){
+                            ?>
+                            <option value="<?= $key ?>" <?php if($key==$filter['fields']['Result']['default']) echo 'selected' ?>><?= $value ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+            <?php } ?>
+            <?php if($downloadCSV==true){?>
+                <div class="col-md-7">
+
+                    <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button class="btn btn-default"><i class="fa fa-download"> </i> Download CSV</button></a>
+                </div>
+            <?php } ?>
+
+        </div>
+        <div class="clearfix"></div>
 
     </div>
 </div>

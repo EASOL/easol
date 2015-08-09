@@ -77,7 +77,7 @@ WHERE
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => true,
                                 'prompt'    => 'All Grade Levels',
-                                'default'   => (!$this->input->get('filter[GradeLevel]')) ? "" : $this->input->get('filter[GradeLevel]'),
+                                'default'   => ($this->input->get('filter[GradeLevel]')===false) ? "" : $this->input->get('filter[GradeLevel]'),
 
                             ],
                           'Cohort' =>
