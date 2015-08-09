@@ -46,19 +46,7 @@ WHERE
                 'queryWhere' => false,
                 'fields' =>
                     [
-                      /*  'NameOfInstitution' =>
-                            [
-                                'query'     =>  $this->db->query("SELECT * FROM edfi.EducationOrganization"),
-                                'searchColumn'    =>  'SchoolId',
-                                'searchColumnType'  => 'int',
-                                'textColumn'=>  'NameOfInstitution',
-                                'indexColumn'=>  'EducationOrganizationId',
-                                'label'     =>  'School',
-                                'type'      =>  'dropdown',
-                                'bindDatabase'  => true,
-                                'default'   => (!$this->input->get('filter[NameOfInstitution]')) ? Easol_Authentication::userdata('SchoolId') : $this->input->get('filter[NameOfInstitution]'),
-                                'prompt'    => 'All Schools'
-                            ], */
+
                         'Year' =>
                             [
                                 'range' =>
@@ -123,8 +111,9 @@ WHERE
                             [
                                 'label'     =>  'Sort Column',
                                 'type'      =>  'dataSort',
-                                'bindDatabase'  => false,
+                                'bindDatabase'  => true,
                                 'fieldType' => 'dataSort',
+                                'display' => 'false',
                                 'columns'   =>
                                     [
                                         /*'SchoolId' => 'School ID',
@@ -145,7 +134,8 @@ WHERE
                                 'defaultSortType'   =>  (!$this->input->get('filter[Sort][type]')) ? "ASC" : $this->input->get('filter[Sort][type]'),
                                 'sortTypeLabel' =>  'Sort Type'
 
-                            ]
+                            ],
+
 
                     ]
 

@@ -13,7 +13,10 @@
                 'colOrderBy'    =>  $colOrderBy,
                 'columns'   =>
                     [
-                        ['name' => 'StudentUSI', 'title' => 'Student Name','type' => 'url',
+                        ['name' => 'StudentUSI', 'title' => 'Student Name',
+                            'sortable' => true,
+                            'sortField' => 'FirstName',
+                            'type' => 'url',
                             'url' =>
                                 function($model){
                                     return 'student/profile/'.$model->StudentUSI;
@@ -22,9 +25,16 @@
                                 function($model){
                                     return $model->FirstName.' '.$model->LastSurname;
                                 }
+
                         ],
-                        ['name' => 'Description', 'title' => 'Grade Level' ],
-                        ['name' => 'CohortIdentifier', 'title' => 'Cohort' ]
+                        ['name' => 'Description',
+                            'sortable' => true,
+                            'sortField' => 'GradeLevelType.Description',
+                            'title' => 'Grade Level' ],
+                        ['name' => 'CohortIdentifier',
+                            'sortable' => true,
+                            'sortField' => 'StudentCohortAssociation.CohortIdentifier',
+                            'title' => 'Cohort' ]
                     ],
                 'downloadCSV' => true
             ]

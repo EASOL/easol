@@ -72,8 +72,7 @@ class DataTableWidget extends Easol_BaseWidget {
                            if(array_key_exists($field['default'],$field['range']['set'])){
                             $this->pagination['pageSize'] = $field['range']['set'][$field['default']];
                            }
-                        } elseif ($field['fieldType'] == 'dataSort') {
-                        } elseif ($field['fieldType'] == 'dataSort') {
+                        }elseif ($field['fieldType'] == 'dataSort') {
                             if (array_key_exists($this->input->get('filter[' . $key . '][column]'), $field['columns']) && array_key_exists($this->input->get('filter[' . $key . '][type]'), $field['sortTypes'])) {
                                 $filterOrderBy[] = $this->input->get('filter[' . $key . '][column]') . ' ' . $this->input->get('filter[' . $key . '][type]');
                             }
@@ -96,7 +95,6 @@ class DataTableWidget extends Easol_BaseWidget {
                             if (array_key_exists($this->input->get('filter[' . $key . '][column]'), $field['columns']) && array_key_exists($this->input->get('filter[' . $key . '][type]'), $field['sortTypes'])) {
                                 $filterOrderBy[] = $this->input->get('filter[' . $key . '][column]') . ' ' . $this->input->get('filter[' . $key . '][type]');
                             }
-                            //$filterOrderBy[]=
                         }
                     }
 

@@ -26,14 +26,47 @@
                             <tr>
                                 <?php
                                     foreach($columns as $column){
+                                        $dbColName='';
                                         if(is_array($column)){
                                             $colName = $column['title'];
+                                            $dbColName = $column['name'];
                                         }
-                                        else
+                                        else {
                                             $colName = $column;
+                                            $dbColName = $column;
+                                        }
 
                                         ?>
-                                        <th><?= $colName ?></th>
+                                        <?php if(is_array($column) && isset($column['sortable']) && $column['sortable']==true){ ?>
+                                           <?php
+                                            $sortIcon = 'glyphicon-sort';
+                                            $getVars = $_GET;
+
+                                            if(!isset($getVars['filter'])){
+                                                $getVars['filter']=[];
+                                            }
+
+                                            $getVars['filter']['Sort'] = [];
+                                            $getVars['filter']['Sort']['column'] = $column['sortField'];
+                                            $getVars['filter']['Sort']['type'] = 'ASC';
+                                            if(isset($_GET['filter']) && isset($_GET['filter']['Sort']['type']) && $_GET['filter']['Sort']['column'] == $column['sortField']){
+                                                if($_GET['filter']['Sort']['type']=='ASC') {
+                                                    $sortIcon = 'glyphicon-sort-by-attributes';
+                                                    $getVars['filter']['Sort']['type'] = 'DESC';
+                                                }
+                                                else {
+                                                    $sortIcon = 'glyphicon-sort-by-attributes-alt';
+                                                }
+
+                                            }
+
+
+                                            ?>
+                                            <th ><a href="<?= (explode("/?",$_SERVER['REDIRECT_URL'])[0]) ?>?<?= http_build_query($getVars); ?>"><?= $colName ?> <span class="glyphicon <?= $sortIcon ?>"> </span></a></th>
+
+                                        <?php } else { ?>
+                                            <th><?= $colName ?></th>
+                                        <?php } ?>
                                         <?php
                                     }
                                 ?>
