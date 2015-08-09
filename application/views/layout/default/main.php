@@ -179,6 +179,7 @@
     <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- Metis Menu Js -->
     <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
+    <script src="<?= site_url('assets/js/custom.js') ?>"></script>
    <?php /*
     <!-- Custom Js -->
     <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>

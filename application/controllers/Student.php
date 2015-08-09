@@ -101,7 +101,7 @@ WHERE
                                         'type'  =>  'set',
                                         'set'   =>  [10,25,50,100,200,500]
                                     ],
-                                'default'   =>   (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
+                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 3 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
