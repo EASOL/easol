@@ -71,7 +71,7 @@ if ($query->num_rows() > 0 && count($columns) > 0)
 
 
                             ?>
-                            <th ><a href="<?= (explode("/?",$_SERVER['REQUEST_URI'])[0]) ?>?<?= http_build_query($getVars); ?>"><?= $colName ?> <span class="glyphicon <?= $sortIcon ?>"> </span></a></th>
+                            <th ><a href="<?= (explode("/?",$_SERVER['REQUEST_URI'])[0]) ?>/?<?= http_build_query($getVars); ?>"><?= $colName ?> <span class="glyphicon <?= $sortIcon ?>"> </span></a></th>
 
                         <?php } else { ?>
                             <th><?= $colName ?></th>
