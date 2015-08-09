@@ -62,7 +62,7 @@
 
 
                                             ?>
-                                            <th ><a href="<?= (explode("/?",$_SERVER['REDIRECT_URL'])[0]) ?>?<?= http_build_query($getVars); ?>"><?= $colName ?> <span class="glyphicon <?= $sortIcon ?>"> </span></a></th>
+                                            <th ><a href="<?= (explode("/?",$_SERVER['REQUEST_URI'])[0]) ?>?<?= http_build_query($getVars); ?>"><?= $colName ?> <span class="glyphicon <?= $sortIcon ?>"> </span></a></th>
 
                                         <?php } else { ?>
                                             <th><?= $colName ?></th>
