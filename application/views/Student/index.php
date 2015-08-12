@@ -19,7 +19,7 @@
                             'type' => 'url',
                             'url' =>
                                 function($model){
-                                    return 'student/profile/'.$model->StudentUSI;
+                                    return site_url('student/profile/'.$model->StudentUSI);
                                 },
                             'value' =>
                                 function($model){
