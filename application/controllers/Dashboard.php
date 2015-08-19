@@ -14,8 +14,15 @@ class Dashboard extends Easol_Controller {
     /**
      * index action
      */
-    public function index()
+    public function index($pageNo=1)
 	{
-        $this->render("index");
+        $this->load->model('entities/easol/Easol_DashboardConfiguration');
+
+        $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Authentication::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Authentication::userdata('SchoolId')]);
+        if($dashboardConf!=null){
+            $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
+        }
+
+        $this->render("index",['dashboardConf' =>$dashboardConf,'tablePageNo' => $pageNo]);
 	}
 }

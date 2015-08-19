@@ -24,6 +24,6 @@ class PaginationWidget extends Easol_BaseWidget {
             throw new ErrorException("Page Size Not Set!!");
 
         $noOfPage =ceil($this->totalElements/$this->pageSize);
-        $this->render("view",['noOfPage' => $noOfPage,'currentPage'=>$this->currentPage,'url' => $this->url]);
+        $this->render("view",['noOfPage' => $noOfPage,'currentPage'=>$this->currentPage,'url' => $this->url, 'total' => $this->totalElements, 'pageSize' => $this->pageSize]);
     }
 }

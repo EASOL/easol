@@ -46,19 +46,7 @@ WHERE
                 'queryWhere' => false,
                 'fields' =>
                     [
-                      /*  'NameOfInstitution' =>
-                            [
-                                'query'     =>  $this->db->query("SELECT * FROM edfi.EducationOrganization"),
-                                'searchColumn'    =>  'SchoolId',
-                                'searchColumnType'  => 'int',
-                                'textColumn'=>  'NameOfInstitution',
-                                'indexColumn'=>  'EducationOrganizationId',
-                                'label'     =>  'School',
-                                'type'      =>  'dropdown',
-                                'bindDatabase'  => true,
-                                'default'   => (!$this->input->get('filter[NameOfInstitution]')) ? Easol_Authentication::userdata('SchoolId') : $this->input->get('filter[NameOfInstitution]'),
-                                'prompt'    => 'All Schools'
-                            ], */
+
                         'Year' =>
                             [
                                 'range' =>
@@ -89,7 +77,7 @@ WHERE
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => true,
                                 'prompt'    => 'All Grade Levels',
-                                'default'   => (!$this->input->get('filter[GradeLevel]')) ? "" : $this->input->get('filter[GradeLevel]'),
+                                'default'   => ($this->input->get('filter[GradeLevel]')===false) ? "" : $this->input->get('filter[GradeLevel]'),
 
                             ],
                           'Cohort' =>
@@ -113,7 +101,7 @@ WHERE
                                         'type'  =>  'set',
                                         'set'   =>  [10,25,50,100,200,500]
                                     ],
-                                'default'   =>   (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
+                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 3 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
@@ -123,8 +111,9 @@ WHERE
                             [
                                 'label'     =>  'Sort Column',
                                 'type'      =>  'dataSort',
-                                'bindDatabase'  => false,
+                                'bindDatabase'  => true,
                                 'fieldType' => 'dataSort',
+                                'display' => 'false',
                                 'columns'   =>
                                     [
                                         /*'SchoolId' => 'School ID',
@@ -145,7 +134,8 @@ WHERE
                                 'defaultSortType'   =>  (!$this->input->get('filter[Sort][type]')) ? "ASC" : $this->input->get('filter[Sort][type]'),
                                 'sortTypeLabel' =>  'Sort Type'
 
-                            ]
+                            ],
+
 
                     ]
 

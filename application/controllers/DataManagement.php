@@ -70,6 +70,9 @@ class DataManagement extends Easol_Controller {
         echo json_encode($msg);
     }
 
+    /**
+     *
+     */
     public function showTableDetails(){
 
         $msg = [];
@@ -88,6 +91,10 @@ class DataManagement extends Easol_Controller {
 
     }
 
+    /**
+     * @param null $tableName
+     * @throws Exception
+     */
     public function downloadTableTemplate($tableName=null){
         if($tableName==null)
             throw new \Exception("Table not Set");
@@ -98,9 +105,13 @@ class DataManagement extends Easol_Controller {
         header("Content-Disposition: attachment; filename=".$tableName);
         header("Pragma: no-cache");
         header("Expires: 0");
-        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableHeaders(str_replace(".csv","",$tableName)) ]);
+        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
     }
 
+    /**
+     * @param null $tableName
+     * @throws Exception
+     */
     public function downloadTableData($tableName=null){
         if($tableName==null)
             throw new \Exception("Table not Set");
@@ -108,13 +119,95 @@ class DataManagement extends Easol_Controller {
 
         $this->load->model('DataManagementQueries');
         header("Content-type: text/csv");
-        header("Content-Disposition: attachment; filename=".$tableName);
+        header("Content-Disposition: attachment; filename=".$tableName.'_'.date('Y_m_d_h:i_a').".csv");
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData(str_replace("_data.csv","",$tableName)) ]);
+        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData($tableName) ]);
 
 
 
+    }
+
+    /**
+     *
+     */
+    public function uploadcsv(){
+        //$this->load->model('DataManagementQueries');
+       // echo DataManagementQueries::getPrimaryKey($_POST['tableName']);
+
+       // print_r($_FILES);
+       // print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
+
+        $msg = [];
+        $msg['status']['type'] = 'success';
+        $msg['status']['msg'] = '';
+        if(!isset($_POST['tableName']) || !isset($_POST['data_action'])){
+            $msg['status']['type'] = 'failed';
+            $msg['status']['msg'] = 'Table Name Not Set';
+        }
+        else{ //data_action
+            if(isset($_FILES['csvFile'])) {
+                if($_FILES['csvFile']['error']==0) {
+                    if($_FILES['csvFile']['type']=='text/csv') {
+                        $this->load->model('DataManagementQueries');
+                        $this->load->model('Easol_CSVProcessor');
+                        $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
+                        //print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
+                        switch($_POST['data_action']){
+                            case 'insert' :
+                                try {
+                                    if($csvProcessor->insert()){
+                                        $msg['status']['msg'] = 'Data Inserted Successfully';
+                                    }
+                                }
+                                catch(\Exception $ex){
+                                    $msg['status']['type'] = 'failed';
+                                    $msg['status']['msg'] = $ex->getMessage();
+                                }
+                                break;
+                            case 'update' :
+                                try {
+                                    if($csvProcessor->update()){
+                                        $msg['status']['msg'] = 'Data Updated Successfully';
+                                    }
+                                }
+                                catch(\Exception $ex){
+                                    $msg['status']['type'] = 'failed';
+                                    $msg['status']['msg'] = $ex->getMessage();
+                                }
+                                break;
+                            case 'delete' :
+                                try {
+                                    if($csvProcessor->delete()){
+                                        $msg['status']['msg'] = 'Data Deleted Successfully';
+                                    }
+                                }
+                                catch(\Exception $ex){
+                                    $msg['status']['type'] = 'failed';
+                                    $msg['status']['msg'] = $ex->getMessage();
+                                }
+                                break;
+                            default:
+                                $msg['status']['type'] = 'failed';
+                                $msg['status']['msg'] = 'Invalid Operation Selected';
+                        }
+                    }
+                    else {
+                        $msg['status']['type'] = 'failed';
+                        $msg['status']['msg'] = 'File Upload Error Core : Only .csv files are allowed';
+                    }
+                }
+                else {
+                    $msg['status']['type'] = 'failed';
+                    $msg['status']['msg'] = 'File Upload Error Code : '.$_FILES['csvFile']['error'];
+                }
+            }
+            else {
+                $msg['status']['type'] = 'failed';
+                $msg['status']['msg'] = 'File Upload Error!';
+            }
+        }
+        echo json_encode($msg);
     }
 }

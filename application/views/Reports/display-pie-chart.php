@@ -16,63 +16,68 @@ foreach($model->getReportData() as $key => $value){
 
 //die(print_r($_columns));
 ?>
+<?php if($displayTitle==true){ ?>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <h1 class="page-header">Flex Reports : Pie Chart : <?= $model->ReportName ?></h1>
-        <br/><br/>
     </div>
 </div>
+<?php } ?>
 
 <div class="row">
-    <div class="col-md-12" >
-        <style>
+    <div class="col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <style>
 
-            svg {
-                display: block;
-                float: left;
-                height: 350px !important;
-                width: 350px !important;
-            }
-            #pieChart {
-                margin: 0px;
-                padding: 0px;
-               /* height: 100%; */
-                width: 100%;
-            }
-        </style>
+                    svg {
+                        display: block;
+                        float: left;
+                        height: 350px !important;
+                        width: 350px !important;
+                    }
+                    #pieChart {
+                        margin: 0px;
+                        padding: 0px;
+                       /* height: 100%; */
+                        width: 100%;
+                    }
+                </style>
 
-        <div id="pieChart" class='with-3d-shadow with-transitions'>
+                <div id="pieChart" class='with-3d-shadow with-transitions'>
 
-        <svg id="pieChartDisp" class="mypiechart"></svg>
+                <svg id="pieChartDisp" class="mypiechart"></svg>
 
-        <script>
-            var chartData = <?= json_encode($jsonData) ?>;
+                <script>
+                    var chartData = <?= json_encode($jsonData) ?>;
 
-            var height = 150;
-            var width = 350;
-            nv.addGraph(function() {
-                var chart = nv.models.pieChart()
-                    .x(function(d) { return d.key })
-                    .y(function(d) { return d.y })
-                    .width(width)
-                    .height(height);
-                d3.select("#pieChartDisp")
-                    .datum(chartData)
-                    .transition().duration(1200)
-                    .attr('width', width)
-                    .attr('height', height)
-                    .call(chart);
+                    var height = 150;
+                    var width = 350;
+                    nv.addGraph(function() {
+                        var chart = nv.models.pieChart()
+                            .x(function(d) { return d.key })
+                            .y(function(d) { return d.y })
+                            .width(width)
+                            .height(height);
+                        d3.select("#pieChartDisp")
+                            .datum(chartData)
+                            .transition().duration(1200)
+                            .attr('width', width)
+                            .attr('height', height)
+                            .call(chart);
 
-                return chart;
-            });
+                        return chart;
+                    });
 
-        </script>
+                </script>
+                </div>
+
+            </div>
         </div>
-
     </div>
-
-
 </div>
+<?php if(isset($pageNo)){ ?>
+
 <div class="row">
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTableWidget",
@@ -92,3 +97,4 @@ foreach($model->getReportData() as $key => $value){
         ) ?>
     </div>
 </div>
+<?php } ?>

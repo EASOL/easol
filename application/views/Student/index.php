@@ -1,11 +1,10 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <h1 class="page-header">Students</h1>
-        <br/><br/>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
                 'query' => $query,
@@ -14,18 +13,28 @@
                 'colOrderBy'    =>  $colOrderBy,
                 'columns'   =>
                     [
-                        ['name' => 'StudentUSI', 'title' => 'Student Name','type' => 'url',
+                        ['name' => 'StudentUSI', 'title' => 'Student Name',
+                            'sortable' => true,
+                            'sortField' => 'FirstName',
+                            'type' => 'url',
                             'url' =>
                                 function($model){
-                                    return 'student/profile/'.$model->StudentUSI;
+                                    return site_url('student/profile/'.$model->StudentUSI);
                                 },
                             'value' =>
                                 function($model){
                                     return $model->FirstName.' '.$model->LastSurname;
                                 }
+
                         ],
-                        ['name' => 'Description', 'title' => 'Grade Level' ],
-                        ['name' => 'CohortIdentifier', 'title' => 'Cohort' ]
+                        ['name' => 'Description',
+                            'sortable' => true,
+                            'sortField' => 'GradeLevelType.Description',
+                            'title' => 'Grade Level' ],
+                        ['name' => 'CohortIdentifier',
+                            'sortable' => true,
+                            'sortField' => 'StudentCohortAssociation.CohortIdentifier',
+                            'title' => 'Cohort' ]
                     ],
                 'downloadCSV' => true
             ]

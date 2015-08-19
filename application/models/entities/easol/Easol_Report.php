@@ -112,14 +112,20 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->displayType;
     }
 
+    /**
+     * @return null|object
+     */
+    //public $dt=0;
     public function getAccessTypes(){
 
-        if($this->accessTypes==null) {
+        if($this->accessTypes==null && !property_exists($this,"flagAccessTypes")) {
+            $this->flagAccessTypes = true;
+            //echo '#'.(++$this->dt).'sspd';
             $this->accessTypes = [];
             $this->load->model('entities/easol/Easol_ReportAccess');
             $accessType = new Easol_ReportAccess();
 
-            $this->accessTypes = $accessType->findAllBySql("SELECT EASOL.RoleType.* FROM EASOL.ReportAccess, EASOL.RoleType WHERE EASOL.RoleType.RoleTypeId=EASOL.ReportAccess.RoleTypeId AND EASOL.ReportAccess.ReportId=?",[$this->ReportId]);
+            $this->accessTypes = $accessType->findAllBySql("SELECT EASOL.RoleType.* FROM EASOL.ReportAccess, EASOL.RoleType WHERE EASOL.RoleType.RoleTypeId=EASOL.ReportAccess.RoleTypeId AND EASOL.ReportAccess.ReportId=? ORDER BY RoleTypeName ASC",[$this->ReportId]);
 
 
         }
@@ -135,5 +141,26 @@ class Easol_Report extends Easol_BaseEntity {
         if($this->ReportDisplayId==3)
             return $this->findOneBySql($this->CommandText);
 
+    }
+
+    public function getViewName(){
+        switch($this->ReportDisplayId){
+
+            case 1:
+                return "display-table";
+                break;
+            case 2:
+                return "display-bar-chart";
+                break;
+            case 3:
+                return "display-pie-chart";
+                break;
+            case 4:
+                return "display-stacked-bar-chart";
+                break;
+            default:
+                throw new \Exception("Invalid Report Display type..");
+
+        }
     }
 }
