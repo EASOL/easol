@@ -21,8 +21,16 @@ class Home extends Easol_Controller {
         {
             return redirect('/dashboard');
         }
+        
+        if(isset($_POST['googLogin_x'])) { 
+         $this->load->library('google_api/Google_api');
+         $tokens = $this->google_api->authorize_user( 'openid', 'http://localhost/easol/' );
+        
+         var_dump($tokens); exit;}
 
         if(isset($_POST['login']) && $data=$this->input->post('login')) {
+        	
+        	
 
             $this->load->model('entities/edfi/Edfi_Staff','Edfi_Staff');
             /* @var $this->Staff Edfi_Staff */

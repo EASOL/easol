@@ -30,7 +30,10 @@
 
                     <div class="form-group">
                         <div class="col-md-5 col-sm-11">
-                            <button class="btn btn-primary pull-right" type="submit">Login</button><!-- &nbsp;&nbsp;<button class="btn btn-primary pull-right" type="submit">Login with Google</button> -->
+                            <button class="btn btn-primary pull-right" type="submit">Login</button>
+                        </div>
+                        <div class='altSIbox'>
+                           &nbsp;<input type="image" src="<?= site_url("/assets/img/google_button.png") ?>" value="googLogin" id="googLogin" name="googLogin" class="pull-right" />
                         </div>
                     </div>
                 </form>
