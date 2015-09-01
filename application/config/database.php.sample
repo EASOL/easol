@@ -64,10 +64,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'	=> '',
-    'hostname' => 'tcp:ngbivv3p2g.database.windows.net,1433',
-    'username' => 'easol_dev@ngbivv3p2g',
-    'password' => '8#rrErBJia26cb',
-    'database' => 'easol_dev',
+    'hostname' => 'tcp:HOSTNAME,1433',
+    'username' => 'USERNAME',
+    'password' => 'PASSWORD',
+    'database' => 'DATABASE',
     'dbdriver' => 'sqlsrv',
     'dbprefix' => '',
     'pconnect' => TRUE,
