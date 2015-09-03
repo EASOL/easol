@@ -33,7 +33,8 @@
                             <button class="btn btn-primary pull-right" type="submit">Login</button>
                         </div>
                         <div class='altSIbox'>
-                           &nbsp;<input type="image" src="<?= site_url("/assets/img/google_button.png") ?>" value="googLogin" id="googLogin" name="googLogin" class="pull-right" />
+                        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+                           &nbsp;<!--<input type="image" src="<?= site_url("/assets/img/google_button.png") ?>" onSignIn value="googLogin" id="googLogin" name="googLogin" class="pull-righ g-signin2" data-onsuccess="onSignIn" /> -->
                         </div>
                     </div>
                 </form>
@@ -41,3 +42,28 @@
         </div>
     </div>
 </div>
+    <script>
+    
+    if (auth2.isSignedIn.get()) {
+    	    alert('Now logged in via Google');
+    }
+    
+    
+    
+    
+    
+      function onSignIn(googleUser) {alert(' is now logged in!');
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log("Name: " + profile.getName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+        alert(profile.getName() + ' is now logged in!');
+      };
+      onSignIn(googleUser);
+    </script>
