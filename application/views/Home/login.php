@@ -15,9 +15,9 @@
                 ?>
                 <form method="post" class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-md-1 col-sm-3">Username:</label>
+                        <label class="control-label col-md-1 col-sm-3">Email:</label>
                         <div class="col-md-4 col-sm-8">
-                            <input type="text" id="login" class="form-control" name="login[username]" value="<?= $this->input->post('login[username]') ?>"/>
+                            <input type="email" required id="login" class="form-control" name="login[email]" value="<?= $this->input->post('login[email]') ?>"/>
                         </div>
                     </div>
 
