@@ -33,7 +33,7 @@
                             <button class="btn btn-primary pull-right" type="submit">Login</button>
                         </div>
                         <div class='altSIbox'>
-                        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+                        <div class="g-signin2 pull-right" data-onsuccess="onSignIn" data-theme="dark"></div>
                            &nbsp;<!--<input type="image" src="<?= site_url("/assets/img/google_button.png") ?>" onSignIn value="googLogin" id="googLogin" name="googLogin" class="pull-righ g-signin2" data-onsuccess="onSignIn" /> -->
                         </div>
                     </div>
@@ -43,27 +43,35 @@
     </div>
 </div>
     <script>
-    
-    if (auth2.isSignedIn.get()) {
-    	    alert('Now logged in via Google');
-    }
-    
-    
-    
-    
-    
-      function onSignIn(googleUser) {alert(' is now logged in!');
+
+      function onSignIn(googleUser) {
+
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log("Name: " + profile.getName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
+         //console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        //console.log("Name: " + profile.getName());
+        //console.log("Image URL: " + profile.getImageUrl());
+        //console.log("Email: " + profile.getEmail());
 
         // The ID token you need to pass to your backend:
         var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
+        //console.log("ID Token: " + id_token);
         alert(profile.getName() + ' is now logged in!');
+               /*
+        
+              	var localbe = 'http://localhost/easol/';
+      	        var devbe = 'http://easol-dev.azurewebsites.net/';
+      	        var livebe = '';
+      	        var gloginPosturl = localbe;
+      	      
+      	        var xhr = new XMLHttpRequest();
+		xhr.open('POST', gloginPosturl);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onload = function() {
+		  //console.log('Signed in as: ' + xhr.responseText);
+		  //if(xhr.responseText=="gloginValid") {}
+		};
+		xhr.send('idtoken=' + id_token);
+		*/
       };
-      onSignIn(googleUser);
     </script>
