@@ -701,4 +701,6 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 }
 
-
+/* alternative styles added by Anwar */
+div.altSIbox {display:block;width:370px;margin-top:45px}
+div#google_ajax_error {display:none}

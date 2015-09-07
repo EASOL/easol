@@ -30,6 +30,9 @@
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
     <?php } ?>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
     <div id="wrapper">
