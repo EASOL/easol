@@ -61,7 +61,7 @@
               	var localbe = 'http://localhost/easol/';
       	        var devbe = 'http://easol-dev.azurewebsites.net/';
       	        var livebe = '';
-      	        var gloginPosturl = localbe;
+      	        var gloginPosturl = devbe;
       	      
       	        var xhr = new XMLHttpRequest();
 		xhr.open('POST', gloginPosturl);
