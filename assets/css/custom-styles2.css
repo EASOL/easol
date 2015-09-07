@@ -701,4 +701,35 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 }
 
+.content-filters {
+  width:25%;
+}
 
+.content-results {
+  width:75%;
+}
+
+.backtowell {
+  background: #f5f5f5;
+}
+
+.left {
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.content-link {
+  padding: 50px 20px;
+}
+
+.content-desc {
+  width: 90%;
+}
+
+.content-title {
+  font-weight: bold;
+  color: blue;
+}

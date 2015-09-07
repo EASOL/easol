@@ -1,11 +1,11 @@
+DirectoryIndex index.php
 RewriteEngine on
-RewriteBase /jason/easol
-
-
+#RewriteBase /
 # If a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
 # Otherwise forward it to index.php
-RewriteRule . index.php
+RewriteRule ^(.?) index.php/$1 [L]
 
 
