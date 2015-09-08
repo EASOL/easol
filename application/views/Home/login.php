@@ -44,7 +44,7 @@
     </div>
 </div>
     <script text="text/javascript">
-      function onSignIn(googleUser) {
+      function onSignIn(googleUser) { //if(googleUser) {
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
         //console.log("ID: " + profile.getId()); // Don't send this directly to your server!
@@ -67,12 +67,12 @@
 		xhr.open('POST', gloginPosturl);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.onload = function() {
-		   console.log('Signed in as: ' + xhr.responseText);
-		   if(xhr.responseText=="gloginValid") { /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ window.location='/student'; } else {
+		   if(xhr.responseText=="gloginValid") { console.log('Signed in as: ' + xhr.responseText); /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ window.location='/student'; } else {
+		   console.log('Signed In Error: ' + xhr.responseText);
 		   document.getElementById('google_ajax_error').innerHTML=xhr.responseText;
 		   document.getElementById('google_ajax_error').style.display='block';
 		  }
 		};
 		xhr.send('idtoken=' + id_token + '&uemail=' + uemail);
-      };
+      }//}
     </script>
