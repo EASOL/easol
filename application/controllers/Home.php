@@ -124,8 +124,7 @@ class Home extends Easol_Controller {
      */
     public function logout(){
         $this->session->sess_destroy();
-        var_dump($_REQUEST);
-       // redirect('/');
+        redirect('/');
     }
 
     /**
