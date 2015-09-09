@@ -33,14 +33,6 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script>
-  function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
-</script>
 </head>
 <body>
     <div id="wrapper">
@@ -83,7 +75,6 @@
                             { ?>
                             <li>
                                 <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
-                                <a href="#" onclick="signOut();">Sign out (Google)</a>
                             </li>
                         <?php } ?>
                         </ul>
