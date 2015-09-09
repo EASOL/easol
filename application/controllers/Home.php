@@ -17,6 +17,8 @@ class Home extends Easol_Controller {
      */
     public function index()
 	{
+             var_dump($_REQUEST);
+             echo "First Above, second below";
         if($this->session->userdata('logged_in')== true)
         {
             return redirect('/dashboard');
@@ -114,6 +116,7 @@ class Home extends Easol_Controller {
             
             } // end if post login
          }
+         var_dump($_REQUEST);
 		if( isset($_REQUEST['idtoken']) ) {} else {$this->render("login");}
 	}
 
