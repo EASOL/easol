@@ -43,36 +43,3 @@
         </div>
     </div>
 </div>
-    <script text="text/javascript">
-      function onSignIn(googleUser) { //if(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        //console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        //console.log("Name: " + profile.getName());
-        //console.log("Image URL: " + profile.getImageUrl());
-        //console.log("Email: " + profile.getEmail());
-        // The ID token you need to pass to your backend:
-        console.log("ID Token: " + id_token);
-        
-        var id_token = googleUser.getAuthResponse().id_token;
-        var uemail = profile.getEmail();
-        var name = profile.getName();
-        
-              	var localbe = 'http://localhost/easol/';
-      	        var devbe = 'http://easol-dev.azurewebsites.net/';
-      	        var livebe = '';
-      	        var gloginPosturl = devbe;
-      	      
-      	        var xhr = new XMLHttpRequest();
-		xhr.open('POST', gloginPosturl);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.onload = function() {
-		   if(xhr.responseText=="gloginValid") { console.log('Signed in as: ' + xhr.responseText); /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ window.location='/student'; } else {
-		   console.log('Signed In Error: ' + xhr.responseText);
-		   document.getElementById('google_ajax_error').innerHTML=xhr.responseText;
-		   document.getElementById('google_ajax_error').style.display='block';
-		  }
-		};
-		xhr.send('idtoken=' + id_token + '&uemail=' + uemail);
-      }//}
-    </script>
