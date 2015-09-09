@@ -8,6 +8,11 @@
  */
 /* @var $model Easol_Report */
 ?>
+
+<?php if (validation_errors()) { ?>
+    <div class="alert alert-danger"> <?php echo validation_errors(); ?> </div>
+<?php } ?>
+
 <div class="row">
     <div class="col-md-8 col-sm-12">
         <form action="" method="post" class="form-horizontal">

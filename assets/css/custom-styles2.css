@@ -66,6 +66,9 @@ p {
   line-height: 25px;
   padding-top: 20px;
 }
+.alert p {
+  padding-top: 0;
+}
 
 .panel {
   border-radius: 0px;

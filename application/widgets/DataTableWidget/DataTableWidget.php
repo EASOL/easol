@@ -15,6 +15,8 @@ class DataTableWidget extends Easol_BaseWidget {
      */
     public $query;
 
+    public $dbQuery;
+
     public $pagination=null;
 
     /*
@@ -43,6 +45,37 @@ class DataTableWidget extends Easol_BaseWidget {
     public function run()
     {
 
+        $this->setDbQuery();
+
+        if( $this->downloadCSV==true && $this->input->get("downloadcsv")=='y'){
+            Easol_Flag::$downloadFile =true;
+
+            ob_clean();
+
+            header("Content-type: text/csv");
+            header("Content-Disposition: attachment; filename=".$this->router->fetch_class().'_'.$this->router->fetch_method().'_'.date('Y_m_d_h:i_a').".csv");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+
+            $this->render("csvdownload",[
+                'query'     =>  $this->dbQuery,
+                'columns'   =>  $this->columns,
+
+            ]);
+            die();
+        }
+
+        $this->render($this->view,[
+            'query'     =>  $this->dbQuery,
+            'columns'   =>  $this->columns,
+            'pagination'    =>  $this->pagination,
+            'filter'    =>  $this->filter,
+            'downloadCSV' => $this->downloadCSV
+
+        ]);
+    }
+
+    public function setDbQuery() {
         $filterOrderBy = [];
 
         $bindValues = [];
@@ -148,39 +181,12 @@ class DataTableWidget extends Easol_BaseWidget {
 
 
 
-            $dbQuery= $this->db->query($this->query,$bindValues);
+            $this->dbQuery= $this->db->query($this->query,$bindValues);
 
            //$dbQuery= $this->db->query($this->query,[abs($this->pagination['currentPage']-1)*$this->pagination['pageSize'],$this->pagination['pageSize']]);
 
         }
         else
-            $dbQuery= $this->db->query($this->query,$bindValues);
-
-        if( $this->downloadCSV==true && $this->input->get("downloadcsv")=='y'){
-            Easol_Flag::$downloadFile =true;
-
-            ob_clean();
-
-            header("Content-type: text/csv");
-            header("Content-Disposition: attachment; filename=".$this->router->fetch_class().'_'.$this->router->fetch_method().'_'.date('Y_m_d_h:i_a').".csv");
-            header("Pragma: no-cache");
-            header("Expires: 0");
-
-            $this->render("csvdownload",[
-                'query'     =>  $dbQuery,
-                'columns'   =>  $this->columns,
-
-            ]);
-            die();
-        }
-
-        $this->render($this->view,[
-            'query'     =>  $dbQuery,
-            'columns'   =>  $this->columns,
-            'pagination'    =>  $this->pagination,
-            'filter'    =>  $this->filter,
-            'downloadCSV' => $this->downloadCSV
-
-        ]);
+            $this->dbQuery= $this->db->query($this->query,$bindValues);
     }
 }
