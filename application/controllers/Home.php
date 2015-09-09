@@ -124,7 +124,12 @@ class Home extends Easol_Controller {
      */
     public function logout(){
         $this->session->sess_destroy();
+        $this->load->helper('cookie');
+        delete_cookie("G_AUTHUSER_H");
+        delete_cookie("G_ENABLED_IDPS");
+        delete_cookie("ARRAffinity");
         redirect('/');
+
     }
 
     /**
