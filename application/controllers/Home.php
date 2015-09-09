@@ -17,7 +17,7 @@ class Home extends Easol_Controller {
      */
     public function index()
 	{
-        echo $this->session->all_userdata();
+        var_dump($this->session->all_userdata());
         exit();
         if($this->session->userdata('logged_in')== true)
         {
