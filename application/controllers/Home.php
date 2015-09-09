@@ -20,18 +20,14 @@ class Home extends Easol_Controller {
         
         if($this->session->userdata('logged_in')== true)
         {
-            echo "Inside First IF";
-            exit();
             return redirect('/dashboard');
         }
 
          if( (isset($_POST['login']) && $data=$this->input->post('login')) || isset($_REQUEST['idtoken']) ) {
-            echo "Inside Second IF";
             
             $this->load->model('entities/edfi/Edfi_Staff','Edfi_Staff');   
 
             if(isset($_REQUEST['idtoken'])) {
-              echo "Inside Third IF";
             	    
             	    /*echo "begin testing<br /><br />";
             	    $this->load->model('External_Auth','vToken');
@@ -109,7 +105,7 @@ class Home extends Easol_Controller {
 				    $data['SchoolName'] = $school->NameOfInstitution;
 				}
 			    }
-	       echo "Before Redirect and Session set-up";
+	
 			    $this->session->set_userdata($data);
 			    return redirect('/student');
 			}
