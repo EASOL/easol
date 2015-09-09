@@ -22,11 +22,22 @@ class Home extends Easol_Controller {
             return redirect('/dashboard');
         }
 
-        if( (isset($_POST['login']) && $data=$this->input->post('login')) || isset($_REQUEST['idtoken']) ) {
+         if( (isset($_POST['login']) && $data=$this->input->post('login')) || isset($_REQUEST['idtoken']) ) {
             
             $this->load->model('entities/edfi/Edfi_Staff','Edfi_Staff');   
 
             if(isset($_REQUEST['idtoken'])) {
+            	    
+            	    /*echo "begin testing<br /><br />";
+            	    $this->load->model('External_Auth','vToken');
+            	    //$validToken = 
+            	    $this->vToken->validate_google_token();
+            	    
+            	    echo "<br /><br />end testing";
+            	    
+            	    exit;
+            	    */
+            	    
               $this->load->model('entities/edfi/Edfi_StaffElectronicMail','Edfi_StaffElectronicMail');
               $staffbyEmail = $this->Edfi_StaffElectronicMail->hydrate($this->Edfi_StaffElectronicMail->findOne(['ElectronicMailAddress' => $_REQUEST['uemail']]));
               if($staffbyEmail) {
@@ -60,7 +71,7 @@ class Home extends Easol_Controller {
 			    $this->session->set_userdata($data);
 			    //return redirect('/student');
 			    echo "gloginValid";
-			} else { /* authentication failed */ echo "Error Logging in - final authentication failed $staffUSI - Please contact Support";}
+			} else { /* authentication failed */ echo "Error Logging in - final authentication failed - Please contact Support";}
 		      } else { /* authentication failed */ echo "Error Logging in - can't pull staff record - Please contact Support";}
 
 
@@ -102,7 +113,7 @@ class Home extends Easol_Controller {
 		     return $this->render("login",['message' => 'Invalid username/password']);
             
             } // end if post login
-        }
+         }
 		if( isset($_REQUEST['idtoken']) ) {} else {$this->render("login");}
 	}
 
