@@ -74,7 +74,7 @@
                         <?php if($this->session->userdata('logged_in')== true)
                             { ?>
                             <li>
-                                <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                                <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
                             </li>
                         <?php } ?>
                         </ul>
@@ -147,7 +147,7 @@
                         <?php if($this->session->userdata('logged_in')== true)
                         { ?>
                         <li class="visible-xs-block">
-                            <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                            <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
                         </li>
                         <?php } ?>
                     </ul>
