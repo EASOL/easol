@@ -72,18 +72,16 @@ class Home extends Easol_Controller {
 	
 			    $this->session->set_userdata($data);
 			    //return redirect('/student');
-          echo "Before";
 			    echo "gloginValid";
 			} else { /* authentication failed */ echo "Error Logging in - final authentication failed - Please contact Support";}
 		      } else { /* authentication failed */ echo "Error Logging in - can't pull staff record - Please contact Support";}
-            echo "Check point #1";
+
 
                 } else { /* NO permission to use email */ echo "Error Logging in - no permission to use email - Please contact Support"; /* return $this->render("login",['message' => 'Error Logging in - Please contact Support']); */ } 
               } else { /* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support"; /* return $this->render("login",['message' => 'Error Logging in - Please contact Support']); */ }
             } 
 
             if( isset($_POST['login']) && $data=$this->input->post('login') ) {
-              echo "Checkpoint #2";
             	     // NORMAL LOGIN THROUGH EASOL
 		     /* @var $this->Staff Edfi_Staff */
 		     // = $this->Edfi_Staff->findOne(['LoginId' => $data['username']]);
