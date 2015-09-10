@@ -21,7 +21,8 @@ $(function() {
 		var id_token = googleUser.getAuthResponse().id_token;
 		var uemail = profile.getEmail();
 		var name = profile.getName();
-		console.log("ID Token: " + id_token);
+		console.log('Attempting Google Sign In');
+		console.log("Google Token Recieved: " + id_token);
 	
 		var localbe = 'http://localhost/easol/';
 		var devbe = 'http://easol-dev.azurewebsites.net/';
@@ -32,19 +33,27 @@ $(function() {
 		xhr.open('POST', gloginPosturl);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.onload = function() {
-		   if(xhr.responseText=="gloginValid") { console.log('Signed in as: ' + profile.getName() ); /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ window.location='/student'; } else {
-		   console.log('Signed In Error: ' + xhr.responseText);
-		   document.getElementById('google_ajax_error').innerHTML=xhr.responseText;
-		   document.getElementById('google_ajax_error').style.display='block';
+		   if(xhr.responseText=="gloginValid") {
+		   	   /* GOOD SIGN IN */
+			   console.log('Signed in as: ' + profile.getName() );
+			   /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ 
+			   window.location='student'; 
+		   } else {
+			   /* FAILED SIGN IN */
+			   console.log('Signed In Error: ' + xhr.responseText);
+			   document.getElementById('google_ajax_error').innerHTML=xhr.responseText;
+			   document.getElementById('google_ajax_error').style.display='block';
 		  }
 		};
 		xhr.send('idtoken=' + id_token + '&uemail=' + uemail);
       }
  //  END SIGN IN
  /* GOOGLE LOGIN - WELL WE NEED TO LOGOUT */
-      function signOut() { console.log('attempting logout');
+ /* Login button must be on same page as logout button - but hidden  - for this to work */
+      function signOut() { console.log('Attempting Google Logout');
 	    var auth2 = gapi.auth2.getAuthInstance();
 	    auth2.signOut().then(function () {
 	      console.log('User signed out.');
-	    });
+	    });         
+        console.log('End Google Logout');
       }
