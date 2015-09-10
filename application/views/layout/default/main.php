@@ -84,7 +84,9 @@
                  </ul>
             <?php } ?>
          </nav>
-
+ <div style="display:none" class="g-signin2 pull-right" data-onsuccess="onSignIn" data-theme="dark"></div>
+                           &nbsp;<!--<input type="image" src="<?= site_url("/assets/img/google_button.png") ?>" onSignIn value="googLogin" id="googLogin" name="googLogin" class="pull-righ g-signin2" data-onsuccess="onSignIn" /> -->
+                        </div>
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
                 <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
