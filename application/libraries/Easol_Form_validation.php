@@ -20,7 +20,7 @@ class Easol_Form_validation extends CI_Form_validation {
 	
 	public function is_safe_query($sql) {
 
-		if (preg_match("/(INSERT |UPDATE |DELETE|DROP |SET|REPLACE |UNION |information_schema)/i", $sql)) {
+		if (preg_match_all("/(INSERT |UPDATE |DELETE|DROP |SET |REPLACE |UNION |information_schema)/i", $sql, $matches)) {
 			return false;
 		}
 
@@ -32,7 +32,10 @@ class Easol_Form_validation extends CI_Form_validation {
 		$regex['union_attack_hex'] = "(\%27)|(\')";
 		foreach ($regex as $filter) {
 			$filter = preg_quote($filter, '/');
-			if (preg_match("/".$filter."/", $sql)) return false;
+			if (preg_match("/".$filter."/", $sql)) {
+				$this->set_message('is_safe_query', 'SQL Injection detected.');
+				return false;
+			}
 		}
 
 		$result = $this->CI->db->query($sql);

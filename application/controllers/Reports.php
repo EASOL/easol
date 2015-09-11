@@ -181,6 +181,47 @@ class Reports extends Easol_Controller {
 
     }
 
+    public function preview() {
+        $post = $this->input->post();
+       
+        if ($this->form_validation->run() == FALSE) {
+            $response = array('status'=>'error', 'message'=>validation_errors());
+            exit(json_encode($response));
+        }
+
+        $this->load->model('entities/easol/Easol_Report');
+        $model = new Easol_Report();
+        foreach ($post['report'] as $field=>$value) {
+            $model->$field = $value;
+        }
+
+        $pageNo = 1;
+
+        $response = array();
+        $response['status'] = 'success';
+
+        switch($model->ReportDisplayId){
+
+            case 1:
+                $response['html'] = $this->load->view("reports/display-table",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            case 2:
+                $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            case 3:
+                $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            case 4:
+                $response['html'] = $this->load->view("reports/display-stacked-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            default:
+                throw new \Exception("Invalid Report Display type..");
+
+        }
+
+        exit(json_encode($response));
+    }
+
     public function delete($id= null){
         if($id==null)
             throw new \Exception("Invalid report Id");

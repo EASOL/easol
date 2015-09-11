@@ -15,7 +15,7 @@
 
 <div class="row">
     <div class="col-md-8 col-sm-12">
-        <form action="" method="post" class="form-horizontal">
+        <form action="" method="post" class="form-horizontal" id="report-form">
 
 
             <div class="form-group">
@@ -115,11 +115,30 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary pull-right"><?= ($model->isNewRecord) ? "Save" : "Update" ?></button>
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary"><?= ($model->isNewRecord) ? "Save" : "Update" ?></button>
+                    <button type="button" class="btn btn-default" data-href="<?php echo site_url('reports/preview/') ?>" data-toggle="modal" data-post-data="#report-form" data-target="#preview-report">Preview</button>
                 </div>
             </div>
 
         </form>
+    </div>
+</div>
+
+<div class="modal fade" id="preview-report">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Preview</h4>
+            </div>
+            <div class="modal-body">
+                <div class="loading" style="display: none"></div>
+                <div class="modal-ajax-content"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
