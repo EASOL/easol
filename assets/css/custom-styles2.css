@@ -721,10 +721,6 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
   clear: both;
 }
 
-.content-link {
-  padding: 50px 20px;
-}
-
 .content-desc {
   width: 90%;
 }

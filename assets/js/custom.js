@@ -4,5 +4,10 @@ $(function() {
         $( "#dataGridFormFilter").submit();
     });
 
+    $('#content-query').focus(function(){
+    	var query = $(this);
+    	if (query.val() == 'search text')
+    		query.val('');
+    });
 
 });
