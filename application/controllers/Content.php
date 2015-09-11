@@ -31,7 +31,7 @@ class Content extends Easol_Controller {
                 // form and there will be a page attribute if we are following a pagination link.
                 // If there is no page param then the api starts with the first record through the limit param. 
                 $query = http_build_query($data);
-                $site = 'http://web01-demo.learningtapestry.com:8080/api/v1/resources?'.$query;
+                $site = 'http://content-staging.learningtapestry.com/api/v1/resources?'.$query;
                 $response = json_decode(file_get_contents($site, true));
             
                 // Define a new query string without the page and limit values and get the full dataset
@@ -41,7 +41,7 @@ class Content extends Easol_Controller {
                 unset($base['limit']);
                 $base_qs = http_build_query($base);
 
-                $site = 'http://web01-demo.learningtapestry.com:8080/api/v1/resources?'.$base_qs;
+                $site = 'http://content-staging.learningtapestry.com/api/v1/resources?'.$base_qs;
                 $unlimited = json_decode(file_get_contents($site, true));
             }
 

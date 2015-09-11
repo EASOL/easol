@@ -9,8 +9,8 @@
             <div class="panel-body">
                 <form class="form-inline">
                   <div class="form-group">
-                    <label for="search">Keywords</label><br />
-                    <input type="text" class="form-control input-sm" name="search" placeholder="search text">
+                    <label for="query">Keywords</label><br />
+                    <input type="text" class="form-control input-sm" name="query" placeholder="search text">
                   </div>
                   
                   <div class="form-group">
@@ -23,8 +23,8 @@
                   </div>
 
                    <div class="form-group">
-                    <label for="standard">Standard</label><br />
-                    <select name="standard">
+                    <label for="alignment">Standard</label><br />
+                    <select name="alignment">
                        <?php foreach($standards as $k => $v): ?>
                         <option value="<?php echo $v ?>"><?php echo $k ?></option>
                         <?php endforeach; ?>                        
