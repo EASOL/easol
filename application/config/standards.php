@@ -3,6 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['standards'] = array(
+						'All Standards'	=>	'',
 						'CCSS.Math.Content.K'=>'K',
 						'CCSS.Math.Content.K.CC'=>'K.CC',
 						'CCSS.Math.Content.K.CC.A'=>'K.CC.A',
