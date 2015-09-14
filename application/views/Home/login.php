@@ -31,11 +31,8 @@
 
                     <div class="form-group">
                         <div class="col-md-5 col-sm-11">
-                            <button class="btn btn-primary pull-right" type="submit">Login</button>
-                        </div>
-                        <div class='altSIbox'>
-                        <div class="g-signin2 pull-right" data-onsuccess="onSignIn" data-theme="dark"></div>
-                           &nbsp;<!--<input type="image" src="<?= site_url("/assets/img/google_button.png") ?>" onSignIn value="googLogin" id="googLogin" name="googLogin" class="pull-righ g-signin2" data-onsuccess="onSignIn" /> -->
+                            <button class="btn btn-primary pull-right" type="submit">Login</button><br /><br />
+                            <button class="g-signin2 altSIbut pull-right" data-onsuccess="onSignIn" data-theme="dark"></button>
                         </div>
                     </div>
                 </form>
