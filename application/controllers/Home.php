@@ -68,13 +68,15 @@ class Home extends Easol_Controller {
 							    $this->session->set_userdata($data);
 							    //return redirect('/student');
 							    echo "gloginValid";
-							 } else { /* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support";}
-						 } else { /* Google authentication failed */ echo "Error Logging in - Google authentication failed - Please contact Support";}
-					} else { /* authentication failed */ echo "Error Logging in - can't pull staff record - Please contact Support";}
+							 } else { /* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support."; }
+
+						 } else { /* Google authentication failed */ echo "Error Logging in - Google authentication failed - Please contact Support."; }
+
+					} else { /* authentication failed */ echo "Error Logging in - can't pull staff record - Please contact Support."; }
 		
-				} else { /* NO permission to use email */ echo "Error Logging in - no permission to use email - Please contact Support"; /* return $this->render("login",['message' => 'Error Logging in - Please contact Support']); */ } 
+				} else { /* NO permission to use email */ echo "This email is not registered within EASOL. Please contact support to register."; } 
 			      
-                      } else { /* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support"; /* return $this->render("login",['message' => 'Error Logging in - Please contact Support']); */ }
+                      } else { /* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support."; }
 
                     } 
 	
