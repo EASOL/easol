@@ -10,11 +10,24 @@ class Content extends Easol_Controller {
         ];
     }
 
+    public function _remap($method, $params = array())
+    {
+        if (method_exists($this, $method))
+        {
+            return call_user_func_array(array($this, $method), $params);
+        }
+        // or else we can use the method uri segment as the view in the index method
+        else
+        {
+            $this->index($method);
+        }
+    }
+
     /**
      * index action
      * @param null $id
      */
-    public function index()
+    public function index($view = '')
     {
         if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
 
@@ -72,7 +85,8 @@ class Content extends Easol_Controller {
 
             $this->pagination->initialize($config); 
 
-            $this->render("index", [
+            $view = (!empty($view)) ? $view : 'index';
+            $this->render($view, [
                 'gradelevels'   => $this->config->item('gradelevels'),
                 'standards'     => $this->config->item('standards'),
                 'response'      => (isset($response)) ? $response : null,
