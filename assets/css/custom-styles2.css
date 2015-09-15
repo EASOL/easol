@@ -704,3 +704,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 /* alternative styles added by Anwar */
 button.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
 div#google_ajax_error {display:none}
+label.loginLabel {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	float:left;
+	width:85px;
+}
+.nudgright {margin-left:6px}
