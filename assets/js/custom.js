@@ -18,4 +18,19 @@ $(function() {
     	desc		= link.attr('description'), 
     	href		= link.attr('href');
     });
+
+$("#main-menu #management").click(function(event) {
+	event.preventDefault();
+	var submenu = $('ul', $(this).parent());
+	if (submenu.length && submenu.is(':visible')) {
+		submenu.slideUp( "slow", function() {
+		// Animation complete.
+		});
+	} else {
+		submenu.slideDown( "slow", function() {
+		// Animation complete.
+		});
+	}
+});
+
 });

@@ -133,7 +133,12 @@
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/datamanagement") ?>"><i class="fa fa-sliders"></i> Data Management</a>
+                                <a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
+                                <ul class="sub-menu">
+                                    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
+                                    <li><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
+                                    <li><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
+                                </ul>
                             </li>
                         <?php } ?>
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>

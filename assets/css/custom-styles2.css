@@ -737,3 +737,8 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 .content-links {
   margin: 0 10px;
 }
+
+#main-menu .sub-menu {
+  display: none;
+  margin-bottom: 10px;
+}
