@@ -701,6 +701,49 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 }
 
+
 /* alternative styles added by Anwar */
 div.altSIbox {display:block;width:370px;margin-top:45px}
 div#google_ajax_error {display:none}
+=======
+.content-filters {
+  width:25%;
+}
+
+.content-results {
+  width:75%;
+}
+
+.backtowell {
+  background: #f5f5f5;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.content-desc {
+  width: 90%;
+}
+
+.content-title {
+  font-weight: bold;
+  color: blue;
+}
+
+.content-links {
+  margin: 0 10px;
+}
+
+#main-menu .sub-menu {
+  display: none;
+  margin-bottom: 10px;
+}
