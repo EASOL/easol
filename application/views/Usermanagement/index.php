@@ -1,1 +1,37 @@
-<?php var_dump($users); ?>
+<table id="manageusers" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>StaffUSI</th>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Authorization Type</th>
+                <th>School</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>StaffUSI</th>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Authorization Type</th>
+                <th>School</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+			<?php foreach ($users as $key => $user) : ?>
+				<tr>
+                    <td><?php echo $user->StaffUSI ?></td>
+                    <td><?php echo $user->FirstName .' '. $user->MiddleName .' '. $user->LastSurname ?></td>
+                    <td><?php echo $user->RoleTypeName ?></td>
+                    <td><?php echo $user->GoogleAuth ?></td>
+                    <td><?php echo $user->Institutions[0]->NameOfInstitution ?></td>
+                    <td>
+                        <a href="<?= site_url("/usermanagement/edit/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="<?= site_url("/usermanagement/delete/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    </td>                                    
+                </tr>
+			<?php endforeach; ?>
+		</tbody>
+</table>

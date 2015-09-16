@@ -13,7 +13,8 @@ class Usermanagement_M extends CI_Model {
         */
 
         $query = "SELECT 
-                    ESA.*,
+                    ESA.StaffUSI,
+                    ESA.GoogleAuth,
                     ERT.RoleTypeName,
                     EFS.FirstName,
                     EFS.MiddleName,
@@ -40,7 +41,7 @@ class Usermanagement_M extends CI_Model {
                           WHERE SEO.StaffUSI = '$user->StaffUSI'
                     ";
 
-            $users[$key]->NameOfInstitution = $this->db->query($query)->result();
+            $users[$key]->Institutions = $this->db->query($query)->result();
         }
         return $users;
     }

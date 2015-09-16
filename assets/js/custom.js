@@ -1,4 +1,9 @@
 $(function() {
+
+    if ($('table#manageusers').length) {
+        $('#manageusers').DataTable();
+    }
+
     $( "#filter-result" ).change(function() {
         $("#filter-form-result").val($( "#filter-result" ).val());
         $( "#dataGridFormFilter").submit();
