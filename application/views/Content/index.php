@@ -40,7 +40,7 @@
                 <?php if (isset($response)): ?>
                   <div class="left content-filters">filters</div>
                   <div class="left content-results">
-                    <?php foreach ($response as $obj): ?>
+                    <?php foreach ($response->results as $obj): ?>
                       <div class="clear">
                         <div class="left content-desc">
                           <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>

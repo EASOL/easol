@@ -86,6 +86,10 @@ class Content extends Easol_Controller {
             $this->pagination->initialize($config); 
 
             $view = (!empty($view)) ? $view : 'index';
+            
+            if ($view == 'extension')
+                $this->layout = null;
+
             $this->render($view, [
                 'gradelevels'   => $this->config->item('gradelevels'),
                 'standards'     => $this->config->item('standards'),
