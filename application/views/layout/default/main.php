@@ -126,6 +126,9 @@
                         <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
+                          <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
+                        </li>
                         <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
                         </li>
