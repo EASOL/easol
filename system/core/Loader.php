@@ -220,6 +220,17 @@ class CI_Loader {
 	}
 
 	// --------------------------------------------------------------------
+	public function ucname($string) {
+	    $string =ucwords(strtolower($string));
+
+	    foreach (array('_', 'tion', '_Role', '_School', '_Staff', '_Sex', '_Race', '_Limited', 'English', 'Proficiency', '_Report','_Dashboard') as $delimiter) {
+	      if (strpos($string, $delimiter)!==false) {
+	        $string =implode($delimiter, array_map('ucfirst', explode($delimiter, $string)));
+	      }
+	    }
+	    return $string;
+	}
+
 
 	/**
 	 * Model Loader
@@ -290,7 +301,8 @@ class CI_Loader {
 			load_class('Model', 'core');
 		}
 
-		$model = ucfirst(strtolower($model));
+		$model = $this->ucname($model);
+
 
 		foreach ($this->_ci_model_paths as $mod_path)
 		{
@@ -1382,3 +1394,4 @@ class CI_Loader {
 	}
 
 }
+

@@ -701,10 +701,55 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 }
 
+
 /* alternative styles added by Anwar */
 button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
 div#google_ajax_error {display:none}
+
 label.loginLabel {
 	width:87px;
 }
+
 .nudgright {margin-left:8px}
+
+.content-filters {
+  width:25%;
+}
+
+.content-results {
+  width:75%;
+}
+
+.backtowell {
+  background: #f5f5f5;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.content-desc {
+  width: 90%;
+}
+
+.content-title {
+  font-weight: bold;
+  color: blue;
+}
+
+.content-links {
+  margin: 0 10px;
+}
+
+#main-menu .sub-menu {
+  display: none;
+  margin-bottom: 10px;
+}
