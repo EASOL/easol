@@ -702,7 +702,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 }
 
 /* alternative styles added by Anwar */
-button.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
+button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
 div#google_ajax_error {display:none}
 label.loginLabel {
 	width:87px;
