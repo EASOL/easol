@@ -28,7 +28,7 @@
                     <td><?php echo $user->GoogleAuth ?></td>
                     <td><?php echo $user->Institutions[0]->NameOfInstitution ?></td>
                     <td>
-                        <a href="<?= site_url("/usermanagement/edit/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="<?= site_url("/usermanagement/addedit/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         <a href="<?= site_url("/usermanagement/delete/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>                                    
                 </tr>

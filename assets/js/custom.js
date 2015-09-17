@@ -24,18 +24,27 @@ $(function() {
     	href		= link.attr('href');
     });
 
-$("#main-menu #management").click(function(event) {
-	event.preventDefault();
-	var submenu = $('ul', $(this).parent());
-	if (submenu.length && submenu.is(':visible')) {
-		submenu.slideUp( "slow", function() {
-		// Animation complete.
-		});
-	} else {
-		submenu.slideDown( "slow", function() {
-		// Animation complete.
-		});
-	}
-});
+    $("#main-menu #management").click(function(event) {
+    	event.preventDefault();
+    	var submenu = $('ul', $(this).parent());
+    	if (submenu.length && submenu.is(':visible')) {
+    		submenu.slideUp( "slow", function() {
+    		// Animation complete.
+    		});
+    	} else {
+    		submenu.slideDown( "slow", function() {
+    		// Animation complete.
+    		});
+    	}
+    });
+
+    $( "#schoolFilter" ).change(function() {
+        var schoolId = $(this).val();
+
+        $('select#staffusi option[school != "'+schoolId+'"]').hide();
+        $('select#staffusi option[school = "'+schoolId+'"]').show();
+        $('select#staffusi option[school = "reset"]').show();
+        $('select#staffusi').val('');
+    });
 
 });

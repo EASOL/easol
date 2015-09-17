@@ -46,6 +46,39 @@ class Usermanagement_M extends CI_Model {
         return $users;
     }
 
+    public function getUserFormData($user = "") {
+        $data   = array();
+
+        $query  = "SELECT EducationOrganizationId, NameOfInstitution FROM edfi.EducationOrganization";
+        $data['schools'] = $this->db->query($query)->result();
+
+        $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff";
+        $data['staff'] = $this->db->query($query)->result();        
+
+        foreach ($data['staff'] as $key => $user) {
+            $query = "SELECT
+                        EO.EducationOrganizationId, 
+                        EO.NameOfInstitution
+                        FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
+                        INNER JOIN edfi.EducationOrganization EO
+                         ON EO.EducationOrganizationId = SEO.EducationOrganizationId
+                          WHERE SEO.StaffUSI = '$user->StaffUSI'
+                    ";
+
+            $data['staff'][$key]->Institutions = $this->db->query($query)->result();
+        }
+
+        $query  = "SELECT * FROM easol.RoleType";
+        $data['roles'] = $this->db->query($query)->result();
+        return $data;
+    }
+
+    public function addEditEasolUser($user) {
+
+        $query = "";
+        $result = $this->db->query($query);
+    }
+
     public function deleteEasolUsers($user) {
 
         if (is_array($user))
