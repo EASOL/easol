@@ -45,4 +45,18 @@ class Usermanagement_M extends CI_Model {
         }
         return $users;
     }
+
+    public function deleteEasolUsers($user) {
+
+        if (is_array($user))
+        {
+            foreach ($user as $u)
+                $this->deleteEasolUsers($u);
+
+            return;
+        }
+
+        $query = "DELETE FROM easol.StaffAuthentication WHERE StaffUSI = '$user'";
+        $result = $this->db->query($query);
+    }
 }
