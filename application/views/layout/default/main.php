@@ -166,6 +166,10 @@
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
+                <!-- Show any flashdata named message for general confirmation/error messages -->
+                <?php if (!empty($message)) : ?>
+                    <div id="flash-message"><?php echo $message ?></div>
+                <?php endif; ?>
                 <?= $content ?>
                 <div class="row">
                     <div class="col-md-8 col-sm-8 txt-annotation">
