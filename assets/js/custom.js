@@ -12,11 +12,16 @@ $(function() {
 
     /* Sample code for browser extension dev when handling content links */
     $('a.extension').click(function(event){
-    	event.preventDefault();
+    /*	event.preventDefault();
     	var link	= $(this),
     	title		= link.attr('title'),
     	desc		= link.attr('description'), 
-    	href		= link.attr('href');
+    	href		= link.attr('href');*/
+
+	   event.preventDefault();
+	   var link = $(this);
+	   var message = {title: link.attr('title'), desc: link.attr('description'), href: link.attr('href')};
+	   window.parent.postMessage(message, 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn');
     });
 
 $("#main-menu #management").click(function(event) {
