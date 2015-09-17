@@ -52,6 +52,7 @@
                     <?php
                         if(isset($field['query'])){
                             foreach($field['query']->result() as $row){
+                            	    if($field['default']=="" || $field['default']==null) {$field['default'] = -4;}
                                 ?>
                                     <option value="<?= $row->$field['indexColumn'] ?>" <?php if($row->$field['indexColumn']==$field['default']) echo 'selected' ?>><?= $row->$field['textColumn'] ?></option>
                                 <?php
