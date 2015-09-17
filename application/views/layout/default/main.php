@@ -30,6 +30,9 @@
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
     <?php } ?>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
     <div id="wrapper">
@@ -71,7 +74,7 @@
                         <?php if($this->session->userdata('logged_in')== true)
                             { ?>
                             <li>
-                                <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                                <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
                             </li>
                         <?php } ?>
                         </ul>
@@ -123,6 +126,9 @@
                         <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
                         </li>
+                          <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
+                            <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
+                        </li>
                         <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
                         </li>
@@ -149,7 +155,7 @@
                         <?php if($this->session->userdata('logged_in')== true)
                         { ?>
                         <li class="visible-xs-block">
-                            <a href="<?= site_url("/home/logout") ?>"><i class="fa fa-user"></i> Logout</a>
+                            <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
                         </li>
                         <?php } ?>
                     </ul>
@@ -194,6 +200,6 @@
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
-
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->
 </body>
 </html>

@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>EASOL Content</title>
+    <title>Learning Lab</title>
     <link href="<?= site_url('assets/css/bootstrap.css') ?>" rel="stylesheet"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
@@ -19,7 +19,10 @@
                   <label for="content-query">Keywords</label><br />
                   <input id="content-query" type="text" class="form-control input-sm" name="query" value="<?php echo (isset($_GET['query']) and !empty($_GET['query'])) ? $_GET['query'] : 'search text'; ?>">
                 </div>
-                
+                 <div class="form-group">
+                  <label for="publisher">Publisher</label><br />
+                  <input type="text" class="form-control input-sm" name="publisher" value="<?php echo (isset($_GET['publisher']) and !empty($_GET['publisher'])) ? $_GET['publisher'] : ''; ?>" >
+                </div>       
                 <div class="form-group">
                   <label for="grade-level">Grade Level</label><br />
                   <select name="grade-level">
@@ -38,10 +41,7 @@
                   </select>   
                 </div>
                 
-                 <div class="form-group">
-                  <label for="publisher">Publisher</label><br />
-                  <input type="text" class="form-control input-sm" name="publisher" value="<?php echo (isset($_GET['publisher']) and !empty($_GET['publisher'])) ? $_GET['publisher'] : ''; ?>" >
-                </div>                                                    
+                                                             
                 <button type="submit" class="btn btn-default" id="content-search">Search</button>
               </form>
               <?php if (isset($response)): ?>
