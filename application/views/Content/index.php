@@ -40,6 +40,7 @@
                 <?php if (isset($response)): ?>
                  <?php /* <div class="left content-filters">filters</div> */ ?>
                   <div class="left content-results" style="width:100%">
+
                     <?php foreach ($response->results as $obj): ?>
                       <div class="clear">
                         <div class="left content-desc">

@@ -753,3 +753,16 @@ label.loginLabel {
   display: none;
   margin-bottom: 10px;
 }
+
+#extension-wrapper {
+   background: none repeat scroll 0 0 #2b2e33;
+    min-height: 1200px;
+}
+
+#extension-header {
+  margin: 20px;
+}
+
+#extension-body {
+  min-height: 400px;
+}
