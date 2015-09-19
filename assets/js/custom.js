@@ -47,4 +47,8 @@ $(function() {
         $('select#staffusi').val('');
     });
 
+    $('#usermanagement-addedit-authtype input:checkbox').click(function(event) {
+            $('#usermanagement-addedit-password').toggle(this.checked == false)
+    });
+
 });

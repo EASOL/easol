@@ -6,11 +6,13 @@ class Usermanagement_M extends CI_Model {
         parent::__construct();
     }
 
-    public function getEasolUsers() {
+    public function getEasolUsers($user = "") {
         /*
         * Get listing of easol users with details from edfi tables for editing/deleting in easol
         * system via the UI.
         */
+
+         $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
 
         $query = "SELECT 
                     ESA.StaffUSI,
@@ -27,14 +29,14 @@ class Usermanagement_M extends CI_Model {
                      ON ESA.StaffUSI = EFS.StaffUSI
                     INNER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
-                      WHERE SEM.PrimaryEmailAddressIndicator = 1
+                      $where
                 ";
 
         $users = $this->db->query($query)->result();
 
         foreach ($users as $key => $user) {
             $query = "SELECT 
-                        EO.NameOfInstitution
+                        EO.EducationOrganizationId, EO.NameOfInstitution
                         FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
                         INNER JOIN edfi.EducationOrganization EO
                          ON EO.EducationOrganizationId = SEO.EducationOrganizationId
@@ -46,31 +48,92 @@ class Usermanagement_M extends CI_Model {
         return $users;
     }
 
-    public function getUserFormData($user = "") {
-        $data   = array();
+    public function getEdfiUsers($user = "") {
+        /*
+        * Get listing of edfi users with details from edfi tables for use in easol
+        * system via the UI.
+        */
 
-        $query  = "SELECT EducationOrganizationId, NameOfInstitution FROM edfi.EducationOrganization";
-        $data['schools'] = $this->db->query($query)->result();
+        $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";
 
-        $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff";
-        $data['staff'] = $this->db->query($query)->result();        
+        $query = "SELECT 
+                    EFS.StaffUSI,
+                    EFS.FirstName,
+                    EFS.MiddleName,
+                    EFS.LastSurname,
+                    SEM.ElectronicMailAddress
+                    FROM edfi.Staff EFS
+                    INNER JOIN edfi.StaffElectronicMail SEM 
+                     ON ESA.StaffUSI = SEM.StaffUSI
+                      $where
+                ";
 
-        foreach ($data['staff'] as $key => $user) {
-            $query = "SELECT
-                        EO.EducationOrganizationId, 
-                        EO.NameOfInstitution
+        $users = $this->db->query($query)->result();
+
+        foreach ($users as $key => $user) {
+            $query = "SELECT 
+                        EO.EducationOrganizationId, EO.NameOfInstitution
                         FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
                         INNER JOIN edfi.EducationOrganization EO
                          ON EO.EducationOrganizationId = SEO.EducationOrganizationId
                           WHERE SEO.StaffUSI = '$user->StaffUSI'
                     ";
 
-            $data['staff'][$key]->Institutions = $this->db->query($query)->result();
+            $users[$key]->Institutions = $this->db->query($query)->result();
+        }
+        return $users;
+    }
+
+    public function getUserFormData($user = "") 
+    {
+        $userData   = array();
+
+        if (!empty($user))
+        {
+            // Get the Easol user if they are in the Easol db.
+            $userData = $this->getEasolUsers($user);
+            if (empty($userData))
+                // Get the EDFI user. 
+                $userData = $this->getEdfiUsers($user);
         }
 
+        if (empty($user) or empty($userData))
+        {
+            $query  = "SELECT EducationOrganizationId, NameOfInstitution FROM edfi.EducationOrganization";
+            $userData['schools'] = $this->db->query($query)->result();
+
+            $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff";
+            $userData['staff'] = $this->db->query($query)->result();        
+
+            foreach ($userData['staff'] as $key => $user) {
+                $query = "SELECT
+                            EO.EducationOrganizationId, 
+                            EO.NameOfInstitution
+                            FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
+                            INNER JOIN edfi.EducationOrganization EO
+                             ON EO.EducationOrganizationId = SEO.EducationOrganizationId
+                              WHERE SEO.StaffUSI = '$user->StaffUSI'
+                        ";
+
+                $userData['staff'][$key]->Institutions = $this->db->query($query)->result();
+            }
+        }
+ 
+        // We get the full list of roles in all cases because they are options for new and existing users.
+        // Only existing users use their role id with the roles array to default to their current role.
         $query  = "SELECT * FROM easol.RoleType";
-        $data['roles'] = $this->db->query($query)->result();
-        return $data;
+        $userData['roles'] = $this->db->query($query)->result();
+
+        if (isset($userData[0]->RoleTypeName)) {
+            foreach($userData['roles'] as $role) {
+                if ($userData[0]->RoleTypeName == $role->RoleTypeName) {
+                    $userData[0]->Role = $role;
+                    break;
+                }
+            }
+        }
+
+        return $userData;
     }
 
     public function addEditEasolUser($user) {

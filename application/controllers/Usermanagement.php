@@ -46,11 +46,11 @@ class Usermanagement extends Easol_Controller {
                     $this->session->set_flashdata('message', 'The user was edited sucessfully.');
             }else
             {
-                // Get the db data necessary to build the form 
+                // We are editing a user from the uri so get the db data necessary to build the form 
                 $data = $this->Usermanagement_M->getUserFormData($user);
             }
         }else 
-        {   // Get the db data necessary to build the form 
+        {   // We are adding a "new" user so get the db data necessary to build the form 
             $data = $this->Usermanagement_M->getUserFormData();
         }
 
