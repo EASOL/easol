@@ -47,6 +47,10 @@ $(function() {
         $('select#staffusi').val('');
     });
 
+    if ($('#usermanagement-addedit-authtype input:checkbox').length && $('#usermanagement-addedit-authtype input:checkbox').prop('checked')) {
+        $('#usermanagement-addedit-password').hide();
+    }
+
     $('#usermanagement-addedit-authtype input:checkbox').click(function(event) {
             $('#usermanagement-addedit-password').toggle(this.checked == false)
     });

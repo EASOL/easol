@@ -64,7 +64,7 @@ class Usermanagement_M extends CI_Model {
                     SEM.ElectronicMailAddress
                     FROM edfi.Staff EFS
                     INNER JOIN edfi.StaffElectronicMail SEM 
-                     ON ESA.StaffUSI = SEM.StaffUSI
+                     ON EFS.StaffUSI = SEM.StaffUSI
                       $where
                 ";
 
@@ -136,10 +136,41 @@ class Usermanagement_M extends CI_Model {
         return $userData;
     }
 
-    public function addEditEasolUser($user) {
+    public function addEditEasolUser($post) {
+        // unset and post data that does not get sent to the db.
+        unset($post['school']);
 
-        $query = "";
-        $result = $this->db->query($query);
+        $post['LastModifiedDate'] = date('Y-m-d G:i:s');
+
+        // If GoogleAuth was unchecked lets setup the missing GoogleAuth value.
+        if (!isset($post['GoogleAuth']))
+            $post['GoogleAuth'] = '0';
+
+        // store any password values regardless of the GoogleAuth value.
+        if (!empty($post['Password'])) {
+            // Encrypt the password here using the same method as the auth library.
+            $post['Password'] = sha1($post['Password']);
+        }
+
+        // exit(var_dump($post));
+
+        // See whether we are running an insert or an update
+        $user = $this->db->where('StaffUSI', $post['StaffUSI'])->get('easol.StaffAuthentication')->result();
+        
+        if(empty($user)) {
+            $post['CreateDate'] = date('Y-m-d G:i:s');
+            $result = $this->db->insert('easol.StaffAuthentication', $post);
+        }else {
+            $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
+        }
+
+        // If there was no error then re-fetch the saved user values from the db to show as defaults when
+        // we reload the form with the success message.
+        if ($result)
+            return $this->getUserFormData($post['StaffUSI']);
+
+        // else return the boolen fail to the controller for error reporting.
+        return $result;
     }
 
     public function deleteEasolUsers($user) {

@@ -32,18 +32,19 @@ class Usermanagement extends Easol_Controller {
     */
     public function addEdit()
     {
-        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post('staffusi');
+        $message = '';
+        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post();
         if ($user) 
         {
             if (!empty($_POST))
             {
                 // Process the form and show the form with the flash message and the new form field defaults.
                 $data = $this->Usermanagement_M->addEditEasolUser($_POST);
-                // $result is ???? on success
-                if ($error)
-                    $this->session->set_flashdata('message', $result);
+                // $data is user array on success and a boolean false on failure.
+                if (!$data)
+                    $message = 'There was an error processing your request.';
                 else
-                    $this->session->set_flashdata('message', 'The user was edited sucessfully.');
+                    $message = 'The user was edited sucessfully.';
             }else
             {
                 // We are editing a user from the uri so get the db data necessary to build the form 
@@ -58,6 +59,7 @@ class Usermanagement extends Easol_Controller {
 
         $this->render('addEdit', [
                 'data' => $data,
+                'message'   => $message
             ]);
     }
 
