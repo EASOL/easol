@@ -18,7 +18,7 @@ class Grades extends Easol_Controller {
     {
 
 
-
+        $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
 
 
@@ -77,14 +77,14 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'range' =>
                                         [
                                             'type' => 'dynamic',
-                                            'start' => 2000,
+                                            'start' => $currentYear, //2000,
                                             'end' => date('Y'),
                                             'increament' => 1,
                                         ],
                                     'searchColumn' => 'SchoolYear',
                                     'searchColumnType' => 'int',
                                     'queryBuilderColumn' => 'Grade.SchoolYear',
-                                    'default' => ($this->input->get('filter[Year]') == null) ? "" : $this->input->get('filter[Year]'),
+                                    'default' => ($this->input->get('filter[Year]') == null) ? $currentYear : $this->input->get('filter[Year]'),
                                     'label' => 'School Year',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
