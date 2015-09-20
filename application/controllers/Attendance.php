@@ -15,7 +15,7 @@ class Attendance extends Easol_Controller {
      */
     public function index($id=1)
     {
-
+    	if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
         $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         if(!$currentTerm || !$currentYear){

@@ -17,6 +17,7 @@ class DataManagement extends Easol_Controller {
      */
     public function index()
 	{
+		if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
 		$this->render("index");
 	}
 

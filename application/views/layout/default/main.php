@@ -108,40 +108,52 @@
                                 <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
                             </li>
                         <?php } /* */ ?>
+                        
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
                         <?php } ?>
+                        
                         <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/grades") ?>"><i class="fa fa-edit"></i> Grades</a>
                         </li>
                         <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-th"></i> Sections</a>
                         </li>
-                        <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
-                        </li>
-
-                        <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
-                        </li>
-                          <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
+                        
+                        <?php if(Easol_Authentication::userdata('RoleId')!=4) { ?>
+				<li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
+				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
+				</li>
+	
+				<li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
+				    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
+				</li>
+                        <?php } ?>
+                        
+                        <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
                         </li>
-                        <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
-                        </li>
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                            <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
-                            </li>
+                        
+                        <?php if(Easol_Authentication::userdata('RoleId')!=4) { ?>
+				<li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
+				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
+				</li>
+				<?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+				    <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
+					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
+				    </li>
+				<?php } ?>
                         <?php } ?>
+
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
                                 <a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
                                 <ul class="sub-menu">
-                                    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
+                                    <?php if(Easol_Authentication::userdata('RoleId')!=4) { ?>
+                                    	    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
+                                    <?php } ?>
                                     <li><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
                                     <li><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
                                 </ul>

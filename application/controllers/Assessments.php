@@ -13,6 +13,7 @@ class Assessments extends Easol_Controller {
      * index action
      */
     public function index($id=1) {
+    	if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
 	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $query = "SELECT AssessmentTitle, Version, AdministrationDate,
 AVG(CAST(StudentAssessmentScoreResult.Result as INT)) as AverageResult,

@@ -14,7 +14,7 @@ class Cohorts extends Easol_Controller {
      */
     public function index($id=1)
 	{
-
+        if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
      Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
