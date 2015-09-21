@@ -11,18 +11,31 @@ $(function() {
     });
 
     /* Sample code for browser extension dev when handling content links */
-    $('a.extension').click(function(event){
-    /*	event.preventDefault();
-    	var link	= $(this),
-    	title		= link.attr('title'),
-    	desc		= link.attr('description'), 
-    	href		= link.attr('href');*/
+   var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
 
-	   event.preventDefault();
-	   var link = $(this);
-	   var message = {title: link.attr('title'), desc: link.attr('description'), href: link.attr('href')};
-	   window.parent.postMessage(message, 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn');
-    });
+    if (assignmentLink.length) {
+      // Hide links if a Google Classroom page is not open
+      $(window).on('message', function (event) {
+        if (event.originalEvent.origin === target && !event.originalEvent.data.isClassroomOpen) {
+          assignmentLink.hide();
+        }
+      });
+      window.parent.postMessage({operation: 'isClassroomOpen'}, target);
+
+      // Click handler for entering fields into the new assignment form
+      assignmentLink.click(function(event){
+        /*  event.preventDefault();
+         var link   = $(this),
+         title      = link.attr('title'),
+         desc       = link.attr('description'),
+         href       = link.attr('href');*/
+
+        event.preventDefault();
+        var link = $(this);
+        var message = {title: link.attr('title'), desc: link.attr('description'), href: link.attr('href')};
+        window.parent.postMessage(message, target);
+      });
+    }
 
 $("#main-menu #management").click(function(event) {
 	event.preventDefault();
