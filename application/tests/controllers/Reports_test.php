@@ -15,10 +15,6 @@ class Reports_test extends TestCase
 
 		$this->request->setCallable(
             function ($CI) {
-               
-               //$this->CI =& get_instance();
-               
-
 				$CI->session->sess_expiration =   '1200';
 				$data = [
 					'LoginId'   =>      207219,
@@ -26,14 +22,8 @@ class Reports_test extends TestCase
 					'RoleId'  =>      1,
 					'logged_in' => TRUE,
 				];
-
-				
-				    
 		
 				$CI->session->set_userdata($data);
-
-
-                
            }
         );
 
