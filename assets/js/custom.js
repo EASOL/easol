@@ -41,11 +41,28 @@ $(function() {
     $( "#schoolFilter" ).change(function() {
         var schoolId = $(this).val();
 
-        $('select#staffusi option[school != "'+schoolId+'"]').hide();
-        $('select#staffusi option[school = "'+schoolId+'"]').show();
-        $('select#staffusi option[school = "reset"]').show();
-        $('select#staffusi').val('');
+        if (schoolId == 'all') {
+
+            $('select#staffusi option').show();
+            $('select#staffusi').val('');
+
+        }else {
+
+            $('select#staffusi option[school != "'+schoolId+'"]').hide();
+            $('select#staffusi option[school = "'+schoolId+'"]').show();
+            $('select#staffusi option[school = "reset"]').show();
+            $('select#staffusi').val('');
+        }
+
     });
+
+    $('a.usermanagement-index-delete').click(function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this user?')) {
+            window.location = this.href;
+        }
+
+    })
 
     if ($('#usermanagement-addedit-authtype input:checkbox').length && $('#usermanagement-addedit-authtype input:checkbox').prop('checked')) {
         $('#usermanagement-addedit-password').hide();

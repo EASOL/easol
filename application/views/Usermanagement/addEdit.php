@@ -15,9 +15,9 @@
 
                   <div class="form-group">
                     <label for="school">Filter by School</label>
-                    <select class="form-control" id="schoolFilter" name="school">
+                    <select class="form-control" id="schoolFilter" name="school" <?php echo (isset($schools)) ? '' : 'disabled'; ?>>
                     <?php if (isset($schools)) : ?>
-                      <option value="">Choose a School to filter staff options</option>
+                      <option value="all">All Schools</option>
                       <?php foreach($schools as $k => $v): ?>
                         <option value="<?php echo $v->EducationOrganizationId; ?>" <?php if( isset($_GET['school']) and $_GET['school'] == $v->EducationOrganizationId) {echo "selected";} ?> ><?php echo $v->NameOfInstitution ?></option>
                       <?php endforeach; ?>                        
@@ -29,18 +29,31 @@
 
                    <div class="form-group">
                     <label for="staffusi">StaffUSI Full Name</label>
-                    <select class="form-control" id="staffusi" name="StaffUSI">
+                    <select class="form-control" id="staffusi" name="StaffUSI" <?php echo (isset($staff)) ? '' : 'disabled'; ?>>
                       <?php if (isset($staff)) : ?>
                         <option school="reset" value="">Choose a user to add or edit</option>
                         <?php foreach($staff as $k => $v): ?>
-                          <option school="<?php echo $v->Institutions[0]->EducationOrganizationId ?>" value="<?php echo $v->StaffUSI ?>" <?php if( isset($_GET['staffusi']) and $_GET['staffusi'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FirstName .' '. $v->LastSurname; ?></option>
+                          <option school="<?php echo $v->Institutions[0]->EducationOrganizationId ?>" value="<?php echo $v->StaffUSI ?>" <?php if( isset($_GET['staffusi']) and $_GET['staffusi'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FirstName .' '. $v->LastSurname .' '. $v->StaffUSI; ?></option>
                         <?php endforeach; ?> 
                       <?php else : ?>
                         <option value="<?php echo $data[0]->StaffUSI ?>"><?php echo $data[0]->FirstName .' '.$data[0]->LastSurname; ?></option>
                       <?php endif; ?>                       
                     </select>   
                   </div>
-                  
+
+                  <?php if (!isset($staff)) : ?>
+                    <input type="hidden" name="StaffUSI" value="<?php echo $data[0]->StaffUSI ?>" />
+                  <?php endif; ?>
+
+                  <?php if (!isset($staff)) : ?>
+                    <div class="form-group">
+                      <label for="staffEmail">StaffUSI Email</label>
+                      <select class="form-control" id="staffEmail" disabled>
+                        <option><?php echo $data[0]->ElectronicMailAddress; ?></option>
+                      </select>   
+                    </div>                  
+                  <?php endif; ?>
+
                    <div class="form-group">
                     <label for="role">Role</label>
                     <select class="form-control" name="RoleId">

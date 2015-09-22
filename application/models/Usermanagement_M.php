@@ -102,7 +102,7 @@ class Usermanagement_M extends CI_Model {
             $query  = "SELECT EducationOrganizationId, NameOfInstitution FROM edfi.EducationOrganization";
             $userData['schools'] = $this->db->query($query)->result();
 
-            $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff";
+            $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff ORDER BY LastSurname ASC";
             $userData['staff'] = $this->db->query($query)->result();        
 
             foreach ($userData['staff'] as $key => $user) {
@@ -150,6 +150,10 @@ class Usermanagement_M extends CI_Model {
         if (!empty($post['Password'])) {
             // Encrypt the password here using the same method as the auth library.
             $post['Password'] = sha1($post['Password']);
+        }
+        else {
+            // If they use password authentication and didnt enter a password then leave their db password unchanged.
+            unset($post['Password']);
         }
 
         // exit(var_dump($post));
