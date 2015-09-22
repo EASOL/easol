@@ -46,7 +46,7 @@ class Content extends Easol_Controller {
                 $query = http_build_query($data);
                 $site = $this->config->item('content_api').$query;
                 $response = json_decode(file_get_contents($site, true));
-            
+
                 // Define a new query string without the page and limit values and get the full dataset
                 // for use in building the pagination links.
                 $base = $data;
@@ -57,6 +57,9 @@ class Content extends Easol_Controller {
                 $site = $this->config->item('content_api').$base_qs;
                 $unlimited = json_decode(file_get_contents($site, true));
             }
+
+            // Set the base url for filter links
+            $filter_base_url = (isset($data['query'])) ?  current_url() . '?query=' . $data['query'] : current_url();
 
             // build the pagination links.
             $this->load->library('pagination');
@@ -91,9 +94,11 @@ class Content extends Easol_Controller {
                 $this->layout = null;
 
             $this->render($view, [
-                'gradelevels'   => $this->config->item('gradelevels'),
-                'standards'     => $this->config->item('standards'),
-                'response'      => (isset($response)) ? $response : null,
+                'gradelevels'       => $this->config->item('gradelevels'),
+                'standards'         => $this->config->item('standards'),
+                'results'           => (isset($response->results)) ? $response->results : null,
+                'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
+                'filter_base_url'   => $filter_base_url,
             ]);
         }
     }

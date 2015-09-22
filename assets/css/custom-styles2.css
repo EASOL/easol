@@ -775,3 +775,7 @@ label.loginLabel {
   margin:0;
   padding:0;
 }
+
+.content-index-filterlink {
+  display:block;
+}

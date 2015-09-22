@@ -37,13 +37,18 @@
                   -->
 
                   <button type="submit" class="btn btn-default" id="content-search">Search</button>
-
                 </form>
-                <?php if (isset($response)): ?>
-                 <?php /* <div class="left content-filters">filters</div> */ ?>
-                  <div class="left content-results" style="width:100%">
-
-                    <?php foreach ($response->results as $obj): ?>
+                <?php if (isset($results)): ?>
+                 <div class="left content-filters">
+                    <?php foreach ($filters as $filtername => $filter): ?>
+                      <p><?php echo $filtername; ?></p>
+                      <?php foreach ($filter as $key => $val): ?>
+                        <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . $filtername . '=' . urlencode($key); ?>"><?php echo $key; ?></a>
+                      <?php endforeach; ?>
+                    <?php endforeach; ?>
+                  </div>
+                  <div class="left content-results">
+                    <?php foreach ($results as $obj): ?>
                       <div class="clear">
                         <div class="left content-desc">
                           <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
