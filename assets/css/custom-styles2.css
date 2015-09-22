@@ -712,6 +712,10 @@ label.loginLabel {
 
 .nudgright {margin-left:8px}
 
+#content-index-query, #content-index-query input {
+  width:90%;
+}
+
 .content-filters {
   width:25%;
 }
@@ -765,4 +769,9 @@ label.loginLabel {
 
 #extension-body {
   min-height: 400px;
+}
+
+.form-inline.undo-overrides .form-group {
+  margin:0;
+  padding:0;
 }

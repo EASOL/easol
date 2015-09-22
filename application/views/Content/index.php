@@ -7,11 +7,12 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <form class="form-inline">
-                  <div class="form-group">
-                    <label for="content-query">Keywords</label><br />
+                <form class="form-inline undo-overrides">
+                  <div id="content-index-query" class="form-group">
+                    <label for="query">Keywords</label>
                     <input id="content-query" type="text" class="form-control input-sm" name="query" value="<?php echo (isset($_GET['query']) and !empty($_GET['query'])) ? $_GET['query'] : 'search text'; ?>">
                   </div>
+                  <!--
                    <div class="form-group">
                     <label for="publisher">Publisher</label><br />
                     <input type="text" class="form-control input-sm" name="publisher" value="<?php echo (isset($_GET['publisher']) and !empty($_GET['publisher'])) ? $_GET['publisher'] : ''; ?>" >
@@ -33,9 +34,10 @@
                         <?php endforeach; ?>                        
                     </select>   
                   </div>
-                  
-                                                                      
+                  -->
+
                   <button type="submit" class="btn btn-default" id="content-search">Search</button>
+
                 </form>
                 <?php if (isset($response)): ?>
                  <?php /* <div class="left content-filters">filters</div> */ ?>
