@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Assessments extends Easol_Controller {
 
+    /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+        $this->Easol_AuthorizationRoles->blockByRole('redirect',4);
+    }
 
     protected function accessRules(){
         return [
@@ -13,7 +20,6 @@ class Assessments extends Easol_Controller {
      * index action
      */
     public function index($id=1) {
-    	if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
 	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $query = "SELECT AssessmentTitle, Version, AdministrationDate,
 AVG(CAST(StudentAssessmentScoreResult.Result as INT)) as AverageResult,

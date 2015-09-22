@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reports extends Easol_Controller {
 
+    /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+        $this->Easol_AuthorizationRoles->blockByRole('redirect',4);
+    }
+
     protected function accessRules(){
         return [
            // "index"     =>  ['@'],
@@ -15,7 +23,7 @@ class Reports extends Easol_Controller {
      */
     public function index()
 	{
-	if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
+	
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();

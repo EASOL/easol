@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Attendance extends Easol_Controller {
 
+    /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+        $this->Easol_AuthorizationRoles->blockByRole('redirect',4);
+    }
 
     protected function accessRules(){
         return [
@@ -13,9 +20,7 @@ class Attendance extends Easol_Controller {
     /**
      * index action
      */
-    public function index($id=1)
-    {
-    	if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
+    public function index($id=1){
         $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         if(!$currentTerm || !$currentYear){

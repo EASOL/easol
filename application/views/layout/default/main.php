@@ -61,6 +61,7 @@
                         <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
                         <li><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
                     <?php } ?>
+
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -81,11 +82,12 @@
                         <!-- /.dropdown-user -->
                     </li>
                     <!-- /.dropdown -->
-                 </ul>
+               </ul>
             <?php } ?>
-         </nav>
+        </nav>
 
         <nav class="navbar-default navbar-side" role="navigation">
+        
             <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
                 <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                     <ul class="nav" id="main-menu">
@@ -122,7 +124,7 @@
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-th"></i> Sections</a>
                         </li>
                         
-                        <?php if(Easol_Authentication::userdata('RoleId')!=4) { ?>
+                        <?php if( $this->Easol_AuthorizationRoles->blockByRole('remove',4) ) { ?>
 				<li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
 				</li>
@@ -136,7 +138,7 @@
                             <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
                         </li>
                         
-                        <?php if(Easol_Authentication::userdata('RoleId')!=4) { ?>
+                        <?php if( $this->Easol_AuthorizationRoles->blockByRole('remove',4) ) { ?>
 				<li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
 				</li>
@@ -151,7 +153,7 @@
                             <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
                                 <a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
                                 <ul class="sub-menu">
-                                    <?php if(Easol_Authentication::userdata('RoleId')!=4) { ?>
+                                    <?php if( $this->Easol_AuthorizationRoles->blockByRole('remove',4) ) {  ?>
                                     	    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
                                     <?php } ?>
                                     <li><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
@@ -159,24 +161,24 @@
                                 </ul>
                             </li>
                         <?php } ?>
+                        
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                        <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
-                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
-                        </li>
+				<li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
+				    <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
+				</li>
                         <?php } ?>
-                        <?php if($this->session->userdata('logged_in')== true)
-                        { ?>
-                        <li class="visible-xs-block">
-                            <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
-                        </li>
+                        <?php if($this->session->userdata('logged_in')== true) { ?>
+				<li class="visible-xs-block">
+				    <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
+				</li>
                         <?php } ?>
                     </ul>
                 <?php } ?>
-
             </div>
 
         </nav>
         <!-- /. NAV SIDE  -->
+
         <div id="page-wrapper">
             <div id="page-inner">
                 <?= $content ?>
@@ -203,10 +205,11 @@
     <!-- Metis Menu Js -->
     <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
-   <?php /*
-    <!-- Custom Js -->
-    <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
- */ ?>
+    <?php /*
+     <!-- Custom Js -->
+     <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
+     */ 
+    ?>
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>

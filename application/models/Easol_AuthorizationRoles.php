@@ -17,9 +17,7 @@ class Easol_AuthorizationRoles extends CI_Model {
      */
     public function __construct(){
 
-
         $this->getRoles();
-
         parent::__construct();
     }
 
@@ -76,7 +74,22 @@ class Easol_AuthorizationRoles extends CI_Model {
         return false;
     }
 
-
-
+    /**
+     * restrict access to sections based on permissions by role id
+     * @param string $type - how to limit access
+     * @param string $role
+     * @param string $route optional
+     * $route if left blank will default to dashboard
+     * @return header redirect, false, class name or true
+     */     
+     public function blockByRole($type,$role,$route="easol/dashboard") {
+     	     $this->load->model('Easol_Authentication', 'Easol_Authentication');
+     	     if($this->Easol_Authentication->userdata('RoleId')==$role) {
+     	           if($type=='redirect') {header("Location: /$route"); exit;}
+     	     	   if($type=='remove') {return false;}
+     	     	   if($type=='hide') {echo ' grantNot ';}
+     	     	   if($type=='') {return true;}
+     	     } else {return true; /* no match of role ids means we bypass */}
+     }
 
 }

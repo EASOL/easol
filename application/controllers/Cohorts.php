@@ -3,18 +3,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cohorts extends Easol_Controller {
 
+     /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+        $this->Easol_AuthorizationRoles->blockByRole('redirect',4);
+    }
 
     protected function accessRules(){
         return [
             "index"     =>  "@",
         ];
     }
+
     /**
      * index action
      */
-    public function index($id=1)
-	{
-        if(Easol_Authentication::userdata('RoleId')==4) {header('Location: /dashboard'); exit;}
+    public function index($id=1){
+        
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
      Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
