@@ -32,21 +32,33 @@ class Usermanagement extends Easol_Controller {
     */
     public function addEdit()
     {
-        $message = '';
+        $this->load->helper('form');
         $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post();
         if ($user) 
         {
             if (!empty($_POST))
             {
-                // Process the form and show the form with the flash message and the new form field defaults.
-                $data = $this->Usermanagement_M->addEditEasolUser($_POST);
-                // $data is user array on success and a boolean false on failure.
-                if (!$data)
-                    $this->session->set_flashdata('message','There was an error processing your request.');
-                else
-                    $this->session->set_flashdata('message','The user was edited sucessfully.');
+                // exit(var_dump($_POST));
+                $this->load->library('form_validation');
+                $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+                $this->form_validation->set_rules('StaffUSI', 'StaffUSI', 'required');
 
-                redirect('usermanagement');
+                if ($this->form_validation->run() === true)
+                {
+                    // Process the form and show the form with the flash message and the new form field defaults.
+                    $data = $this->Usermanagement_M->addEditEasolUser($_POST);
+                    // $data is user array on success and a boolean false on failure.
+                    if (!$data)
+                        $this->session->set_flashdata('message','There was an error processing your request.');
+                    else
+                        $this->session->set_flashdata('message','The user was edited sucessfully.');
+
+                    redirect('usermanagement');
+                }
+                else {
+                    // If we failed validation then we must have been coming from the new user form so rebuild as needed.
+                    $data = $this->Usermanagement_M->getUserFormData();
+                }
             }else
             {
                 // We are editing a user from the uri so get the db data necessary to build the form 
@@ -60,8 +72,7 @@ class Usermanagement extends Easol_Controller {
         $data['title'] = 'User Management';
 
         $this->render('addEdit', [
-                'data' => $data,
-                'message'   => $message
+                'data' => $data
             ]);
     }
 

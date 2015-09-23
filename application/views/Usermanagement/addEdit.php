@@ -6,9 +6,6 @@
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-      <?php if (!empty($message)) : ?>
-        <div id="flash-message"><?php echo $message ?></div>
-      <?php endif; ?>
         <div class="panel panel-default">
             <div class="panel-body">
                 <form method="post">
@@ -19,7 +16,7 @@
                     <?php if (isset($schools)) : ?>
                       <option value="all">All Schools</option>
                       <?php foreach($schools as $k => $v): ?>
-                        <option value="<?php echo $v->EducationOrganizationId; ?>" <?php if( isset($_GET['school']) and $_GET['school'] == $v->EducationOrganizationId) {echo "selected";} ?> ><?php echo $v->NameOfInstitution ?></option>
+                        <option value="<?php echo $v->EducationOrganizationId; ?>" <?php if( isset($_POST['school']) and $_POST['school'] == $v->EducationOrganizationId) {echo "selected";} ?> ><?php echo $v->NameOfInstitution ?></option>
                       <?php endforeach; ?>                        
                     <?php else : ?>
                         <option value="<?php echo $data[0]->Institutions[0]->EducationOrganizationId ?>"><?php echo $data[0]->Institutions[0]->NameOfInstitution ?></option>
@@ -28,12 +25,15 @@
                   </div>
 
                    <div class="form-group">
-                    <label for="staffusi">StaffUSI Full Name</label>
+                    <label for="staffusi">
+                      <?php echo form_error('StaffUSI'); ?>
+                      StaffUSI Full Name
+                    </label>
                     <select class="form-control" id="staffusi" name="StaffUSI" <?php echo (isset($staff)) ? '' : 'disabled'; ?>>
                       <?php if (isset($staff)) : ?>
-                        <option school="reset" value="">Choose a user to add or edit</option>
+                        <option school="reset" value="" selected>Choose a user to add or edit</option>
                         <?php foreach($staff as $k => $v): ?>
-                          <option school="<?php echo $v->Institutions[0]->EducationOrganizationId ?>" value="<?php echo $v->StaffUSI ?>" <?php if( isset($_GET['staffusi']) and $_GET['staffusi'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FirstName .' '. $v->LastSurname .' '. $v->StaffUSI; ?></option>
+                          <option school="<?php echo $v->Institutions[0]->EducationOrganizationId ?>" value="<?php echo $v->StaffUSI ?>" <?php if( isset($_POST['staffusi']) and $_POST['staffusi'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FirstName .' '. $v->LastSurname .' '. $v->StaffUSI; ?></option>
                         <?php endforeach; ?> 
                       <?php else : ?>
                         <option value="<?php echo $data[0]->StaffUSI ?>"><?php echo $data[0]->FirstName .' '.$data[0]->LastSurname; ?></option>
@@ -58,7 +58,7 @@
                     <label for="role">Role</label>
                     <select class="form-control" name="RoleId">
                        <?php foreach($roles as $k => $v): ?>
-                        <option value="<?php echo $v->RoleTypeId ?>" <?php if( isset($_GET['role']) and $_GET['role'] == $v->RoleTypeId or isset($data[0]->Role) and $data[0]->Role->RoleTypeId == $v->RoleTypeId) {echo "selected";} ?>><?php echo $v->RoleTypeName ?></option>
+                        <option value="<?php echo $v->RoleTypeId ?>" <?php if( isset($_POST['RoleId']) and $_POST['RoleId'] == $v->RoleTypeId or isset($data[0]->Role) and $data[0]->Role->RoleTypeId == $v->RoleTypeId) {echo "selected";} ?>><?php echo $v->RoleTypeName ?></option>
                         <?php endforeach; ?>                        
                     </select>   
                   </div>
