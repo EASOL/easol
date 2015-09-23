@@ -49,9 +49,9 @@ class Usermanagement extends Easol_Controller {
                     $data = $this->Usermanagement_M->addEditEasolUser($_POST);
                     // $data is user array on success and a boolean false on failure.
                     if (!$data)
-                        $this->session->set_flashdata('message','There was an error processing your request.');
+                        $this->session->set_flashdata('error','There was an error processing your request.');
                     else
-                        $this->session->set_flashdata('message','The user was edited sucessfully.');
+                        $this->session->set_flashdata('success','The user was edited sucessfully.');
 
                     redirect('usermanagement');
                 }

@@ -742,12 +742,3 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
   display: none;
   margin-bottom: 10px;
 }
-
-#flash-message {
-  font-weight: bold;
-  width:50%;
-  margin: 5 auto;
-  border: 1px solid #000;
-  text-align: center;
-  padding: 5px;
-}
