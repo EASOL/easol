@@ -57,7 +57,7 @@ class Content extends Easol_Controller {
                 $site = $this->config->item('content_api').$base_qs;
                 $unlimited = json_decode(file_get_contents($site, true));
             }
-
+           
             // Set the base url for filter links
             $filter_base_url = (isset($data['query'])) ?  current_url() . '?query=' . $data['query'] : current_url();
 
@@ -66,10 +66,10 @@ class Content extends Easol_Controller {
             $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';
             $config['page_query_string'] = TRUE; 
             $config['use_page_numbers'] = TRUE;
-            $config['per_page'] = 1;
+            $config['per_page'] = EASOL_PAGINATION_PAGE_SIZE;
             $config['query_string_segment'] = 'page';
-            $config['total_rows'] = (isset($unlimited)) ? (count($unlimited) / EASOL_PAGINATION_PAGE_SIZE) : 0;
-
+            $config['total_rows'] = count($unlimited->results);
+           
             /* This Application Must Be Used With BootStrap 3 *  */
             $config['full_tag_open'] = "<ul class='pagination'>";
             $config['full_tag_close'] ="</ul>";
