@@ -25,6 +25,16 @@ class Schoolmanagement extends Easol_Controller {
             ]);
 	}
 
+    public function details()
+    {
+        $school = $this->uri->segment('3');
+        $details = $this->Schoolmanagement_M->getSchoolDetails($school);
+
+        $this->render('details', [
+                'details' => $details,
+            ]);
+    }
+
     /*
     * Since both "user adds" and "user edits" both use the same form 
     * and the same backend processing, we use a single MVC to keep

@@ -19,7 +19,7 @@
 
     <?php if($this->router->class=='datamanagement') { ?>
         <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <?php }else if ($this->router->class=='usermanagement') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
     <?php } ?>    
@@ -207,7 +207,7 @@
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php }else if ($this->router->class=='usermanagement') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>

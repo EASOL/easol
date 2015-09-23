@@ -21,6 +21,13 @@ class Schoolmanagement_M extends CI_Model {
         return $schools;
     }
 
+    public function getSchoolDetails($school = "") {
+
+        $query = "SELECT * FROM easol.SchoolConfiguration WHERE EducationOrganizationId = '$school' ";
+        $details = $this->db->query($query)->result();
+        return $details;
+    }
+
     public function getEdfiUsers($user = "") {
         /*
         * Get listing of edfi users with details from edfi tables for use in easol
