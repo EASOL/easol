@@ -60,7 +60,7 @@ class Content extends Easol_Controller {
            
             // Set the base url for filter links
             $filter_base_url = (isset($data['query'])) ?  current_url() . '?query=' . $data['query'] : current_url();
-
+            if (isset($unlimited)){ $total_count = count($unlimited->results); }else{ $total_count = 0;  }
             // build the pagination links.
             $this->load->library('pagination');
             $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';
@@ -68,7 +68,7 @@ class Content extends Easol_Controller {
             $config['use_page_numbers'] = TRUE;
             $config['per_page'] = EASOL_PAGINATION_PAGE_SIZE;
             $config['query_string_segment'] = 'page';
-            $config['total_rows'] = count($unlimited->results);
+            $config['total_rows'] = $total_count;
            
             /* This Application Must Be Used With BootStrap 3 *  */
             $config['full_tag_open'] = "<ul class='pagination'>";
