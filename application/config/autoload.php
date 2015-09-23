@@ -104,7 +104,7 @@ $autoload['helper'] = array('url', 'sql');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('easol');
 
 
 /*
