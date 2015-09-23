@@ -1,8 +1,35 @@
 $(function() {
+
+    if ($('table#manageusers').length) {
+        $('#manageusers').DataTable();
+    }
+
     $( "#filter-result" ).change(function() {
         $("#filter-form-result").val($( "#filter-result" ).val());
         $( "#dataGridFormFilter").submit();
     });
+
+
+    $("[data-toggle='modal']").on('click', function(e) {
+    	e.preventDefault();
+    	var $that = $(this);
+
+        var $loading = $(".loading", $that.attr('data-target')).fadeIn();
+
+    	if ($(this).attr('data-post-data')) {
+    		var $form = $($(this).attr('data-post-data'));
+    		$.ajax({
+    			url: $(this).attr('data-href'),
+    			type: 'post',
+    			data: $form.serialize(),
+    			dataType: 'json',
+    			success: function(response) {
+                    $loading.fadeOut();
+    				$(".modal-ajax-content", $that.attr('data-target')).html(response.html);
+    			}
+    		})
+    	}
+    })
 
     $('#content-query').focus(function(){
     	var query = $(this);
@@ -37,21 +64,56 @@ $(function() {
       });
     }
 
-$("#main-menu #management").click(function(event) {
-	event.preventDefault();
-	var submenu = $('ul', $(this).parent());
-	if (submenu.length && submenu.is(':visible')) {
-		submenu.slideUp( "slow", function() {
-		// Animation complete.
-		});
-	} else {
-		submenu.slideDown( "slow", function() {
-		// Animation complete.
-		});
-	}
-});
+    $("#main-menu #management").click(function(event) {
+    	event.preventDefault();
+    	var submenu = $('ul', $(this).parent());
+    	if (submenu.length && submenu.is(':visible')) {
+    		submenu.slideUp( "slow", function() {
+    		// Animation complete.
+    		});
+    	} else {
+    		submenu.slideDown( "slow", function() {
+    		// Animation complete.
+    		});
+    	}
+    });
+
+    $( "#schoolFilter" ).change(function() {
+        var schoolId = $(this).val();
+
+        if (schoolId == 'all') {
+
+            $('select#staffusi option').show();
+            $('select#staffusi').val('');
+
+        }else {
+
+            $('select#staffusi option[school != "'+schoolId+'"]').hide();
+            $('select#staffusi option[school = "'+schoolId+'"]').show();
+            $('select#staffusi option[school = "reset"]').show();
+            $('select#staffusi').val('');
+        }
+
+    });
+
+    $('a.usermanagement-index-delete').click(function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this user?')) {
+            window.location = this.href;
+        }
+
+    })
+
+    if ($('#usermanagement-addedit-authtype input:checkbox').length && $('#usermanagement-addedit-authtype input:checkbox').prop('checked')) {
+        $('#usermanagement-addedit-password').hide();
+    }
+
+    $('#usermanagement-addedit-authtype input:checkbox').click(function(event) {
+            $('#usermanagement-addedit-password').toggle(this.checked == false)
+    });
 
 });
+
 
  /* ADDED BY ANWAR BAKSH ON 09/2015 */
  /* GOOGLE SIGN IN: https://developers.google.com/identity/sign-in/ */

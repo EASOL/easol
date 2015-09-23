@@ -46,7 +46,8 @@ class Easol_Controller extends CI_Controller {
             $this->load->view($this->layout,
                 [
                     'content'   =>  $content,
-                    'title'     =>  $this->pageTitle
+                    'title'     =>  $this->pageTitle,
+                    'message'   =>  $this->session->flashdata('message'),
                 ]
             );
         }
