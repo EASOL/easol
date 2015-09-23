@@ -9,6 +9,28 @@ $(function() {
         $( "#dataGridFormFilter").submit();
     });
 
+
+    $("[data-toggle='modal']").on('click', function(e) {
+    	e.preventDefault();
+    	var $that = $(this);
+
+        var $loading = $(".loading", $that.attr('data-target')).fadeIn();
+
+    	if ($(this).attr('data-post-data')) {
+    		var $form = $($(this).attr('data-post-data'));
+    		$.ajax({
+    			url: $(this).attr('data-href'),
+    			type: 'post',
+    			data: $form.serialize(),
+    			dataType: 'json',
+    			success: function(response) {
+                    $loading.fadeOut();
+    				$(".modal-ajax-content", $that.attr('data-target')).html(response.html);
+    			}
+    		})
+    	}
+    })
+
     $('#content-query').focus(function(){
     	var query = $(this);
     	if (query.val() == 'search text')
@@ -91,6 +113,7 @@ $(function() {
     });
 
 });
+
 
  /* ADDED BY ANWAR BAKSH ON 09/2015 */
  /* GOOGLE SIGN IN: https://developers.google.com/identity/sign-in/ */

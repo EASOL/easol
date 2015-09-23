@@ -16,7 +16,9 @@
                 <div class="alert alert-danger" id="google_ajax_error"></div>
                 <form method="post" class="form-horizontal">
                     <div class="form-group">
+
                         <label class="control-label col-md-1 col-sm-3 loginLabel">Username:</label>
+
                         <div class="col-md-4 col-sm-8">
                             <input type="text" id="login" class="form-control" name="login[username]" value="<?= $this->input->post('login[username]') ?>"/>
                         </div>
