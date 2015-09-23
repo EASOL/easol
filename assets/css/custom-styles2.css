@@ -732,6 +732,10 @@ label.loginLabel {
 
 .nudgright {margin-left:8px}
 
+#content-index-query, #content-index-query input {
+  width:90%;
+}
+
 .content-filters {
   width:25%;
 }
@@ -773,8 +777,6 @@ label.loginLabel {
   display: none;
   margin-bottom: 10px;
 }
-
-<<<<<<< HEAD
 #flash-message {
   font-weight: bold;
   width:50%;
@@ -783,7 +785,6 @@ label.loginLabel {
   text-align: center;
   padding: 5px;
 }
-=======
 #extension-wrapper {
    background: none repeat scroll 0 0 #2b2e33;
     min-height: 1200px;
@@ -796,4 +797,14 @@ label.loginLabel {
 #extension-body {
   min-height: 400px;
 }
->>>>>>> development
+
+
+.form-inline.undo-overrides .form-group {
+  margin:0;
+  padding:0;
+}
+
+.content-index-filterlink {
+  display:block;
+}
+
