@@ -99,7 +99,12 @@ class Usermanagement_M extends CI_Model {
 
         if (empty($user) or empty($userData))
         {
-            $query  = "SELECT EducationOrganizationId, NameOfInstitution FROM edfi.EducationOrganization";
+            $query = "SELECT 
+                        EducationOrganizationId, NameOfInstitution FROM edfi.EducationOrganization EO
+                        INNER JOIN edfi.School SC
+                        ON EO.EducationOrganizationId = SC.SchoolId
+                    ";
+
             $userData['schools'] = $this->db->query($query)->result();
 
             $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff ORDER BY LastSurname ASC";
