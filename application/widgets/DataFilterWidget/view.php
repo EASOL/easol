@@ -7,7 +7,6 @@
  * Time: 12:49 AM
  */
 ?>
-
 <form action="" method="get" class="form-inline" name="dataGridFormFilter" id="dataGridFormFilter">
     <?php /* die(print_r($fields)); */ foreach($fields as $key => $field){ ?>
         <?php if( array_key_exists('access',$field) && !Easol_AuthorizationRoles::hasAccess($field['access'])) continue; ?>
@@ -45,6 +44,7 @@
         <div class="form-group">
             <label for="filter-<?= $key ?>"><?= $field['label'] ?></label>
             <?php if($field['type']=='dropdown') { ?>
+            	    
                 <select class="form-control" name="filter[<?= $key ?>]">
                     <?php if(array_key_exists('prompt',$field)) { ?>
                         <option value="" <?php if($field['prompt']==$field['default']) echo 'selected' ?>><?= $field['prompt'] ?></option>
@@ -52,6 +52,7 @@
                     <?php
                         if(isset($field['query'])){
                             foreach($field['query']->result() as $row){
+                            	    if($field['default']=="" || $field['default']==null || !isset($field['default'])) {$field['default']=-4;} // monkey rench fix - better than reengineering the whole thing
                                 ?>
                                     <option value="<?= $row->$field['indexColumn'] ?>" <?php if($row->$field['indexColumn']==$field['default']) echo 'selected' ?>><?= $row->$field['textColumn'] ?></option>
                                 <?php

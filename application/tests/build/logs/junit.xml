@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CodeIgniter Application Test Suite" tests="1" assertions="0" failures="0" errors="1" time="0.013178">
+    <testsuite name="Reports_test" file="C:\www\easol\easol\application\tests\controllers\Reports_test.php" fullPackage="Reports" tests="1" assertions="0" failures="0" errors="1" time="0.013178">
+      <testcase name="test_index" class="Reports_test" file="C:\www\easol\easol\application\tests\controllers\Reports_test.php" line="13" assertions="0" time="0.013178">
+        <error type="PHPUnit_Framework_Exception">Reports_test::test_index
+PHPUnit_Framework_Exception: Argument #2 of PHPUnit_Framework_Assert::assertContains() must be a array, iterator or string
+
+C:\www\easol\easol\application\tests\controllers\Reports_test.php:41
+</error>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

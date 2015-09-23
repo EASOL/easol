@@ -1,2 +1,5 @@
 .idea
+*.php~
+.htaccess
 application/config/database.php
+
