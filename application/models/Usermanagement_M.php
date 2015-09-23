@@ -12,7 +12,7 @@ class Usermanagement_M extends CI_Model {
         * system via the UI.
         */
 
-         $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
+        $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
 
         $query = "SELECT 
                     ESA.StaffUSI,
@@ -31,6 +31,24 @@ class Usermanagement_M extends CI_Model {
                      ON ESA.StaffUSI = SEM.StaffUSI
                       $where
                 ";
+
+        $query = "SELECT 
+                    ESA.StaffUSI,
+                    ESA.GoogleAuth,
+                    ERT.RoleTypeName,
+                    EFS.FirstName,
+                    EFS.MiddleName,
+                    EFS.LastSurname,
+                    SEM.ElectronicMailAddress
+                    FROM easol.StaffAuthentication ESA
+                    INNER JOIN easol.RoleType ERT 
+                     ON ESA.RoleId = ERT.RoleTypeId 
+                    INNER JOIN edfi.Staff EFS 
+                     ON ESA.StaffUSI = EFS.StaffUSI
+                    INNER JOIN edfi.StaffElectronicMail SEM 
+                     ON ESA.StaffUSI = SEM.StaffUSI
+                      $where
+                ";                
 
         $users = $this->db->query($query)->result();
 
@@ -55,6 +73,7 @@ class Usermanagement_M extends CI_Model {
         */
 
         $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";
+        $order = "ORDER BY EFS.LastSurname ASC";
 
         $query = "SELECT 
                     EFS.StaffUSI,
@@ -66,6 +85,7 @@ class Usermanagement_M extends CI_Model {
                     INNER JOIN edfi.StaffElectronicMail SEM 
                      ON EFS.StaffUSI = SEM.StaffUSI
                       $where
+                      $order
                 ";
 
         $users = $this->db->query($query)->result();
@@ -107,21 +127,7 @@ class Usermanagement_M extends CI_Model {
 
             $userData['schools'] = $this->db->query($query)->result();
 
-            $query  = "SELECT StaffUSI, FirstName, LastSurname FROM edfi.Staff ORDER BY LastSurname ASC";
-            $userData['staff'] = $this->db->query($query)->result();        
-
-            foreach ($userData['staff'] as $key => $user) {
-                $query = "SELECT
-                            EO.EducationOrganizationId, 
-                            EO.NameOfInstitution
-                            FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
-                            INNER JOIN edfi.EducationOrganization EO
-                             ON EO.EducationOrganizationId = SEO.EducationOrganizationId
-                              WHERE SEO.StaffUSI = '$user->StaffUSI'
-                        ";
-
-                $userData['staff'][$key]->Institutions = $this->db->query($query)->result();
-            }
+            $userData['staff'] = $this->getEdfiUsers();
         }
  
         // We get the full list of roles in all cases because they are options for new and existing users.
