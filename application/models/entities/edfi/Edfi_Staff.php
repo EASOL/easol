@@ -74,11 +74,4 @@ WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2 AND StaffSchoolAssociati
     {
         // TODO: Implement getPrimaryKey() method.
     }
-
-    public function findByEmail($email) {
-
-        return $this->findOneBySql("SELECT edfi.Staff.StaffUSI FROM edfi.StaffElectronicMail
-                JOIN edfi.Staff ON edfi.Staff.StaffUSI = edfi.StaffElectronicMail.StaffUSI
-                WHERE edfi.StaffElectronicMail.ElectronicMailAddress = '$email'");
-    }
 }
