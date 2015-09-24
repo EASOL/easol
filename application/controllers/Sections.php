@@ -16,8 +16,8 @@ class Sections extends Easol_Controller {
     public function index($id=1)
 	{
 	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-        if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
-
+	$thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
+	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
 
             $query = "SELECT StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term,
 [Section].SchoolYear, Course.CourseTitle, [Section].LocalCourseCode,
@@ -49,7 +49,7 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                     'Course.CourseTitle','[Section].LocalCourseCode','[Section].ClassPeriodName','[Section].ClassroomIdentificationCode','[Section].ClassPeriodName'],
                 'filter' => [
                     'dataBind' => true,
-                    'bindIndex' => ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']],
+                    'bindIndex' => $thefilter,
                     'queryWhere' => false,
                     'fields' =>
                         [
@@ -117,8 +117,8 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'textColumn' => 'FullName',
                                     'indexColumn' => 'StaffUSI',
                                     'queryBuilderColumn' => 'edfi.StaffSectionAssociation.StaffUSI',
-                                    'label' => '', //'Educator',
-                                    'type' => 'hidden',
+                                    'label' => 'Educator',
+                                    'type' => 'dropdown',
                                     'bindDatabase' => true,
                                     'default' => $this->input->get('filter[Educator]'),
                                     'prompt' => 'All Educators'
@@ -147,9 +147,6 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                         'url' => 'sections/index/@pageNo'
                     ]
             ]);
-        }
-        else {
 
-        }
-	}
+    }
 }

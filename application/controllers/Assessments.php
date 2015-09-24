@@ -8,12 +8,11 @@ class Assessments extends Easol_Controller {
      */
     public function __construct(){
         parent::__construct();
-        $this->Easol_AuthorizationRoles->blockByRole('redirect',4);
     }
 
     protected function accessRules(){
         return [
-            "index"     =>  "@",
+            "index"     =>  ['System Administrator','Data Administrator'],
         ];
     }
     /**

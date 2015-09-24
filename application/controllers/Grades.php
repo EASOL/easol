@@ -16,11 +16,7 @@ class Grades extends Easol_Controller {
      */
     public function index($id=1)
     {
-
-
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-        if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
-
 
             $query = "SELECT Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, Grade.SchoolYear,
 sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A,
@@ -134,8 +130,8 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'textColumn' => 'FullName',
                                     'indexColumn' => 'StaffUSI',
                                     'queryBuilderColumn' => 'edfi.Staff.StaffUSI',
-                                    'label' => '', //'Educator',
-                                    'type' => 'hidden', //dropdown,
+                                    'label' => 'Educator',
+                                    'type' => 'dropdown',
                                     'bindDatabase' => true,
                                     'default' => $this->input->get('filter[Educator]'),
                                     'prompt' => 'All Educators'
@@ -164,10 +160,5 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                         'url' => 'grades/index/@pageNo'
                     ]
             ]);
-        }
-        else {
-
-        }
     }
-
 }
