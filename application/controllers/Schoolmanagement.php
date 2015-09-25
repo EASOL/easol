@@ -28,10 +28,10 @@ class Schoolmanagement extends Easol_Controller {
     public function details()
     {
         $school = $this->uri->segment('3');
-        $details = $this->Schoolmanagement_M->getSchoolDetails($school);
+        $results = $this->Schoolmanagement_M->getSchoolDetails($school);
 
         $this->render('details', [
-                'details' => $details,
+                'results' => $results,
             ]);
     }
 
