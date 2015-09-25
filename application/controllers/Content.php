@@ -60,7 +60,8 @@ class Content extends Easol_Controller {
            
             // Set the base url for filter links
             $filter_base_url = (isset($data['query'])) ?  current_url() . '?query=' . $data['query'] : current_url();
-            if (isset($unlimited)){ $total_count = count($unlimited->results); }else{ $total_count = 0;  }
+            
+            $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
             // build the pagination links.
             $this->load->library('pagination');
             $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';

@@ -41,9 +41,9 @@
                 <?php if (isset($results)): ?>
                  <div class="left content-filters">
                     <?php foreach ($filters as $filtername => $filter): ?>
-                      <p><?php echo ucwords($filtername); ?></p>
+                      <p><?php echo ucwords(rtrim($filtername, 's')); ?></p>
                       <?php foreach ($filter as $key => $val): ?>
-                        <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . $filtername . '=' . urlencode($key); ?>"><?php echo ($val > 1) ? ucwords($key) . ' (' . $val . ')' : ucwords($key); ?></a>
+                        <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ($val > 1) ? ucwords($key) . ' (' . $val . ')' : ucwords($key); ?></a>
                       <?php endforeach; ?>
                     <?php endforeach; ?>
                   </div>
