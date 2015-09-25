@@ -66,6 +66,10 @@ class Content extends Easol_Controller {
             unset($filters_active['query']);
             unset($filters_active['page']);
 
+            // Massage the filter data as required by the spec.
+            if (isset($response->aggregations->languages))
+                unset($response->aggregations->languages);
+
             $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
             // build the pagination links.
             $this->load->library('pagination');

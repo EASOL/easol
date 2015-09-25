@@ -49,9 +49,12 @@
                     <?php endforeach; ?>
                     <?php foreach ($filters as $filtername => $filter): ?>
                       <p><?php echo ucwords(rtrim($filtername, 's')); ?></p>
-                      <?php foreach ($filter as $key => $val): ?>
-                        <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ($val > 1) ? ucwords($key) . ' (' . $val . ')' : ucwords($key); ?></a>
-                      <?php endforeach; ?>
+                      <?php foreach ($filter as $key => $val) { 
+                        if ($val < 2) { continue; } 
+                        if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {continue;}
+                        ?>
+                        <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
+                      <?php } ?>
                     <?php endforeach; ?>
                   </div>
                   <div class="left content-results">
