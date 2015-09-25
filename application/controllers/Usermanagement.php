@@ -38,10 +38,12 @@ class Usermanagement extends Easol_Controller {
         {
             if (!empty($_POST))
             {
-                // exit(var_dump($_POST));
                 $this->load->library('form_validation');
                 $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
                 $this->form_validation->set_rules('StaffUSI', 'StaffUSI', 'required');
+                
+                if (!isset($_POST['GoogleAuth']))
+                    $this->form_validation->set_rules('Password', 'Password', 'required|min_length[6]');
 
                 if ($this->form_validation->run() === true)
                 {
@@ -56,8 +58,8 @@ class Usermanagement extends Easol_Controller {
                     redirect('usermanagement');
                 }
                 else {
-                    // If we failed validation then we must have been coming from the new user form so rebuild as needed.
-                    $data = $this->Usermanagement_M->getUserFormData();
+                    // If we failed validation then reload the view for the user to show the validation errors.
+                    $data = $this->Usermanagement_M->getUserFormData($user['StaffUSI']);
                 }
             }else
             {

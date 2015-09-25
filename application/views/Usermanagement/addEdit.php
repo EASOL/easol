@@ -1,5 +1,5 @@
-
-<?php extract($data); ?> <div class="row">
+<?php extract($data); ?> 
+<div class="row">
     <div class="col-md-12 col-sm-12">
         <h1 class="page-header"><?php echo $title ?></h1>
     </div>
@@ -64,7 +64,10 @@
                   </div>
 
                    <div id="usermanagement-addedit-password" class="form-group">
-                    <label for="Password">Password</label>
+                    <label for="Password">
+                      <?php echo form_error('Password'); ?>
+                      Password
+                    </label>
                     <input type="text" class="form-control input-sm" name="Password" value="" />
                   </div>
 
