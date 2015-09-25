@@ -66,9 +66,26 @@ class Content extends Easol_Controller {
             unset($filters_active['query']);
             unset($filters_active['page']);
 
-            // Massage the filter data as required by the spec.
-            if (isset($response->aggregations->languages))
-                unset($response->aggregations->languages);
+            if (isset($response->aggregations)) {
+                // Massage the filter data as required by the spec.
+                if (isset($response->aggregations->languages))
+                    unset($response->aggregations->languages);
+
+                foreach ($response->aggregations as $filtername => $filter)
+                {
+                    foreach ($filter as $key => $value) {
+                        if ($value < 2) {
+                            unset($filter->$key);
+                        }
+                        if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {
+                            unset($filter->$key);
+                        }
+                    }
+
+                    if (!count((array) $filter))
+                        unset($response->aggregations->$filtername);
+                }
+            }
 
             $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
             // build the pagination links.

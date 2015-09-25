@@ -49,18 +49,15 @@
                   <?php foreach($filters_active as $k => $v) : ?>
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo $k ?> 
+                        <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo $k . ' - ' . $v ?> 
                       </label>
                     </div>
                   <?php endforeach; ?>
                   <?php foreach ($filters as $filtername => $filter): ?>
                     <p><?php echo ucwords(rtrim($filtername, 's')); ?></p>
-                    <?php foreach ($filter as $key => $val) { 
-                      if ($val < 2) { continue; } 
-                      if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {continue;}
-                      ?>
+                    <?php foreach ($filter as $key => $val) : ?>
                       <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
-                    <?php } ?>
+                    <?php endforeach; ?>
                   <?php endforeach; ?>
                 </div>              
                 <div class="left content-results">
