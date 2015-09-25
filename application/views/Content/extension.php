@@ -45,6 +45,21 @@
                 <button type="submit" class="btn btn-default" id="content-search">Search</button>
               </form>
               <?php if (isset($results)): ?>
+               <div class="left content-filters">
+                  <?php foreach($filters_active as $k => $v) : ?>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo $k ?> 
+                      </label>
+                    </div>
+                  <?php endforeach; ?>
+                  <?php foreach ($filters as $filtername => $filter): ?>
+                    <p><?php echo ucwords(rtrim($filtername, 's')); ?></p>
+                    <?php foreach ($filter as $key => $val): ?>
+                      <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ($val > 1) ? ucwords($key) . ' (' . $val . ')' : ucwords($key); ?></a>
+                    <?php endforeach; ?>
+                  <?php endforeach; ?>
+                </div>              
                 <div class="left content-results">
                   <?php foreach ($results as $obj): ?>
                     <div class="clear">
