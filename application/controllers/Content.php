@@ -59,8 +59,13 @@ class Content extends Easol_Controller {
             }
            
             // Set the base url for filter links
-            $filter_base_url = (isset($data['query'])) ?  current_url() . '?query=' . $data['query'] : current_url();
-            
+            $filter_base_url = current_url_full();
+
+            // Build the array of active filters for use in the view for status and defiltering.
+            $filters_active = $this->input->get();
+            unset($filters_active['query']);
+            unset($filters_active['page']);
+
             $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
             // build the pagination links.
             $this->load->library('pagination');
@@ -99,6 +104,7 @@ class Content extends Easol_Controller {
                 'standards'         => $this->config->item('standards'),
                 'results'           => (isset($response->results)) ? $response->results : null,
                 'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
+                'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
             ]);
         }

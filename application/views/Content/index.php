@@ -40,6 +40,13 @@
                 </form>
                 <?php if (isset($results)): ?>
                  <div class="left content-filters">
+                    <?php foreach($filters_active as $k => $v) : ?>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo $k ?> 
+                        </label>
+                      </div>
+                    <?php endforeach; ?>
                     <?php foreach ($filters as $filtername => $filter): ?>
                       <p><?php echo ucwords(rtrim($filtername, 's')); ?></p>
                       <?php foreach ($filter as $key => $val): ?>
