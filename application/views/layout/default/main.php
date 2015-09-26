@@ -200,10 +200,20 @@
     <!-- Metis Menu Js -->
     <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
-   <?php /*
-    <!-- Custom Js -->
-    <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
- */ ?>
+    <?php /*
+        <!-- Custom Js -->
+        <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>*/
+    ?>
+
+    <!-- 
+    In an attempt to provide some order to the js functions, I am compartmentalizing my js into
+    files named after the controller for which they are used and then dynamically loading those
+    controller specific js files. -- S.Madison
+    -->
+    <?php if(file_exists(APPPATH.'../assets/js/'.$this->router->class.'.js')) : ?>
+        <script src="<?= site_url('assets/js/'.$this->router->class.'.js') ?>"></script>
+    <?php endif; ?>
+
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
