@@ -11,11 +11,13 @@ $(function () {
 	})	
 
 	$(document).on('click', '#schoolmanagement-details-form-submit', function (event) {
-		$.post(document.location, $('#schoolmanagement-details-form input').serialize(), function (response) {
-			console.log(response);
-			// reload the page to reset the form to read only with the latest db data and show any flash data.
-			location.reload();
-		});
+		if (confirm('Are you sure you want to apply these changes?')) {
+			$.post(document.location, $('#schoolmanagement-details-form input').serialize(), function (response) {
+				console.log(response);
+				// reload the page to reset the form to read only with the latest db data and show any flash data.
+				location.reload();
+			});
+		}
 	})
 
 	$(document).on('click', "#schoolmanagement-details-form-disable", function (event) {
