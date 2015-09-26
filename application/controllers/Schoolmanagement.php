@@ -28,77 +28,46 @@ class Schoolmanagement extends Easol_Controller {
     public function details()
     {
         $school = $this->uri->segment('3');
-        $results = $this->Schoolmanagement_M->getSchoolDetails($school);
+
+        if ($post = $this->input->post()) {
+            // we are processing the school details form submitted via AJAX
+            $result = $this->Schoolmanagement_M->setSchoolDetails($school, $post);
+            if (!$result)
+                $this->session->set_flashdata('error','There was an error processing your request.');
+            else
+                $this->session->set_flashdata('success','The edits were saved sucessfully.');
+
+            // send the response to the AJAX for processing.
+            exit(json_encode($result));
+        }else 
+        {   // we load the details for the school.
+            $results = $this->Schoolmanagement_M->getSchoolDetails($school);
+        }
 
         $this->render('details', [
                 'results' => $results,
             ]);
     }
 
-    /*
-    * Since both "user adds" and "user edits" both use the same form 
-    * and the same backend processing, we use a single MVC to keep
-    * the codebase as DRY as possible.
-    */
-    public function addEdit()
+    public function addschooldetails()
     {
-        $this->load->helper('form');
-        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post();
-        if ($user) 
-        {
-            if (!empty($_POST))
-            {
-                // exit(var_dump($_POST));
-                $this->load->library('form_validation');
-                $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
-                $this->form_validation->set_rules('StaffUSI', 'StaffUSI', 'required');
+        $school = $this->uri->segment('3');
 
-                if ($this->form_validation->run() === true)
-                {
-                    // Process the form and show the form with the flash message and the new form field defaults.
-                    $data = $this->Usermanagement_M->addEditEasolUser($_POST);
-                    // $data is user array on success and a boolean false on failure.
-                    if (!$data)
-                        $this->session->set_flashdata('message','There was an error processing your request.');
-                    else
-                        $this->session->set_flashdata('message','The user was edited sucessfully.');
+        if ($post = $this->input->post()) {
+            $result = $this->Schoolmanagement_M->addSchoolDetails($school, $post);
+            if (!$result)
+                $this->session->set_flashdata('error','There was an error processing your request.');
+            else
+                $this->session->set_flashdata('success','The configurations were saved sucessfully.');
 
-                    redirect('usermanagement');
-                }
-                else {
-                    // If we failed validation then we must have been coming from the new user form so rebuild as needed.
-                    $data = $this->Usermanagement_M->getUserFormData();
-                }
-            }else
-            {
-                // We are editing a user from the uri so get the db data necessary to build the form 
-                $data = $this->Usermanagement_M->getUserFormData($user);
-            }
+            redirect('/schoolmanagement/details/'.$school);
         }else 
-        {   // We are adding a "new" user so get the db data necessary to build the form 
-            $data = $this->Usermanagement_M->getUserFormData();
+        {   // we load the form to add new school configs.
+            $data = $this->Schoolmanagement_M->getSchools($school);
         }
 
-        $data['title'] = 'User Management';
-
-        $this->render('addEdit', [
-                'data' => $data
+        $this->render('addschooldetails', [
+                'school' => $data,
             ]);
     }
-
-    public function delete()
-    {
-        $user = $this->uri->segment('3');
-        if ($user)
-        { 
-            $result = $this->Usermanagement_M->deleteEasolUsers($user);
-            // $result is null when the delete was successful.
-            if ($result)
-                $this->session->set_flashdata('message', $result);
-            else
-                $this->session->set_flashdata('message', 'The user was deleted sucessfully.');
-        }
-        // send them back to the user listing to see the list, sans the deleted user.
-        redirect('/usermanagement');
-    }    
 }

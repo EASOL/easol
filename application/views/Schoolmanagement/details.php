@@ -6,36 +6,29 @@
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <?php echo anchor('schoolmanagement/addedit','<button class="btn btn-primary pull-right">Add a Configuration value</button>'); ?>
-        <div style="clear:both;">
-            <table id="manageschooldetails" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Configuration Item</th>
-                            <th>Value</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                         <tr>
-                            <th>Configuration Item</th>
-                            <th>Value</th>
-                            <th>Actions</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-            			<?php foreach ($details as $index => $obj) : ?>
-            				<tr>
-                                <td><?php echo $obj->Key ?></td>
-                                <td><?php echo $obj->Value ?></td>
-                                <td>
-                                    <a href="<?= site_url("/schoolmanagement/addedit/$obj->EducationOrganizationId/$obj->Key/$obj->Value") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                    <a href="<?= site_url("/schoolmanagement/delete/$obj->EducationOrganizationId/$obj->Key") ?>" class="usermanagement-index-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                                </td>                                    
+        <button id="schoolmanagement-details-form-enable" class="btn btn-primary">Edit School Configurations</button>
+        <?php echo anchor('schoolmanagement/addschooldetails/'.$school[0]->SchoolId ,'<button class="btn btn-primary pull-right">Add a Configuration value</button>'); ?>
+        <div style="clear:both; margin:25px 0;">
+            <form id="schoolmanagement-details-form" method="post">
+                <table id="manageschooldetails" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Configuration Item</th>
+                                <th>Value</th>
+                                <th>Delete</th>                                
                             </tr>
-            			<?php endforeach; ?>
-            		</tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                			<?php foreach ($details as $index => $obj) : ?>
+                				<tr>
+                                    <td><?php echo $obj->Key ?></td>
+                                    <td><input name="<?php echo $obj->Key ?>" value="<?php echo $obj->Value ?>" disabled /></td>                                  
+                                     <td><input type="checkbox" name="delete[]" value="<?php echo $obj->Key ?>" disabled /></td>
+                                </tr>
+                			<?php endforeach; ?>
+                		</tbody>
+                </table>
+            </form>
         </div>
     </div>
 </div>
