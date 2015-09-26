@@ -10,7 +10,7 @@ class Schoolmanagement_M extends CI_Model {
 
         $where = (!empty($school)) ? "WHERE SC.SchoolId = '$school'" : '';       
 
-        $query = "SELECT SC.SchoolId, EO.NameOfInstitution FROM edfi.EducationOrganization EO
+        $query = "SELECT SC.SchoolId, EO.WebSite, EO.NameOfInstitution FROM edfi.EducationOrganization EO
                     INNER JOIN edfi.School SC
                     ON
                     EO.EducationOrganizationId = SC.SchoolId
