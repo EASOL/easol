@@ -2,8 +2,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/*
+* I wrote this as a config file as per the spec at 
+* https://github.com/EASOL/easol/issues/90
+* but given the model and url helper calls, this really should be
+* located in the calling controller.
+*/
+
 $ci =& get_instance();
 $ci->load->model('SchoolManagement_M');
+$schoolData = $ci->SchoolManagement_M->getSchoolDetails($ci->uri->segment(3));
+
 $termTypes = $ci->SchoolManagement_M->getTermTypes();
 $termIds = array();
 foreach ($termTypes as $k => $v)
@@ -30,3 +39,9 @@ $config['schoolattributes'] = array (
             'type'  => 'text' 
        ),
 );
+
+foreach ($schoolData['details'] as $k => $v)
+{
+  if (isset($config['schoolattributes'][$v->Key]))
+    unset($config['schoolattributes'][$v->Key]);
+}
