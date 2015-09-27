@@ -62,5 +62,12 @@ class Schoolmanagement_M extends CI_Model {
             $result = $this->db->query($sql);
 
         return $result;
-    }    
+    }
+
+    public function getTermTypes() {
+
+        $query = "SELECT * FROM edfi.TermType";
+        $results = $this->db->query($query)->result();
+        return $results;
+    }        
 }

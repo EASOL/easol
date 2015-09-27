@@ -24,8 +24,8 @@
                       <?php if ($value['type'] == 'select') { ?>
                         <select name="value" class="schoolmanagement-addschooldetails-value"> 
                           <option value="">Choose an attribute</option>
-                          <?php foreach ($value['options'] as $index => $option) : ?>
-                            <option value="<?php echo $option ?>"><?php echo $option ?></option>
+                          <?php foreach ($value['options'] as $v => $k) : ?>
+                            <option value="<?php echo $v ?>"><?php echo $k ?></option>
                           <?php endforeach; ?>
                         </select>
                       <?php } else if ($value['type'] == 'text') : ?>
