@@ -20,8 +20,24 @@ $(function () {
 		}
 	})
 
-	$(document).on('click', "#schoolmanagement-details-form-disable", function (event) {
-		$(this).parent().replaceWith('<button id="schoolmanagement-details-form-enable" class="btn btn-primary">Edit School Configurations</button>');
-		$("#schoolmanagement-details-form input").prop("disabled",true);
+	$('#schoolmanagement-addschooldetails-key').change(function (event) {
+		var value = $(this).val();
+		$('.schoolmanagement-addschooldetails-value-container').hide();
+		$('#schoolmanagement-addschooldetails-submit').hide();
+		if (value !== undefined && value !== '') {
+			$('.schoolmanagement-addschooldetails-value-container#'+value).css('display', 'inline-block');
+			var target = $('.schoolmanagement-addschooldetails-value', $('.schoolmanagement-addschooldetails-value-container#'+value));
+			target.val('');
+			if (target.is('input:text'))
+				$('#schoolmanagement-addschooldetails-submit').css('display', 'inline-block');
+		}		
 	})		
+
+	$('.schoolmanagement-addschooldetails-value').change(function (event) {
+		var value = $(this).val();
+		if (value !== undefined && value != '')
+			$('#schoolmanagement-addschooldetails-submit').css('display', 'inline-block');
+		else
+			$('#schoolmanagement-addschooldetails-submit').hide();
+	})	
 })

@@ -63,6 +63,7 @@ class Schoolmanagement extends Easol_Controller {
             redirect('/schoolmanagement/details/'.$school);
         }else 
         {   // we load the form to add new school configs.
+            $this->load->config('schoolmanagement');
             $data = $this->Schoolmanagement_M->getSchools($school);
         }
 

@@ -11,13 +11,29 @@
                 <form class="form-inline" method="post">
                   <div class="form-group">
                     <label for="key">Key</label><br />
-                    <input type="text" class="form-control input-sm" name="key" value="">
+                    <select id="schoolmanagement-addschooldetails-key" name="key">  
+                      <option value="">Choose an attribute</option>                
+                      <?php foreach ($this->config->item('schoolattributes') as $key => $value) : ?>
+                        <option value="<?php echo $key ?>"><?php echo $value['label'] ?></option>
+                      <?php endforeach; ?>                                             
+                    </select>
                   </div>
-                   <div class="form-group">
-                    <label for="value">Value</label><br />
-                    <input type="text" class="form-control input-sm" name="value" value="" >
-                  </div>                                              
-                  <button type="submit" class="btn btn-primary">Add</button>
+                  <?php foreach ($this->config->item('schoolattributes') as $key => $value) : ?>
+                    <div class="form-group schoolmanagement-addschooldetails-value-container" id="<?php echo $key ?>">
+                      <label for="value"><?php echo $value['label'] ?></label><br />
+                      <?php if ($value['type'] == 'select') { ?>
+                        <select name="value" class="schoolmanagement-addschooldetails-value"> 
+                          <option value="">Choose an attribute</option>
+                          <?php foreach ($value['options'] as $index => $option) : ?>
+                            <option value="<?php echo $option ?>"><?php echo $option ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      <?php } else if ($value['type'] == 'text') : ?>
+                        <input type="text" name="value" value="" class="schoolmanagement-addschooldetails-value" />
+                      <?php endif; ?>  
+                    </div>
+                  <?php endforeach; ?>                                             
+                  <button id="schoolmanagement-addschooldetails-submit" type="submit" class="btn btn-primary">Add</button>
                 </form>
             </div>
         </div>

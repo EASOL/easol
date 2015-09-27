@@ -754,16 +754,6 @@ label.loginLabel {
   margin-bottom: 10px;
 }
 
-<<<<<<< HEAD
-#flash-message {
-  font-weight: bold;
-  width:50%;
-  margin: 5 auto;
-  border: 1px solid #000;
-  text-align: center;
-  padding: 5px;
-}
-=======
 #extension-wrapper {
    background: none repeat scroll 0 0 #2b2e33;
     min-height: 1200px;
@@ -776,4 +766,3 @@ label.loginLabel {
 #extension-body {
   min-height: 400px;
 }
->>>>>>> development

@@ -28,7 +28,7 @@
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
-    </script>    
+    </script>   
 
     <?php if(($this->router->class=='reports' && $this->router->method =='view') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
@@ -38,6 +38,15 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- 
+    In an attempt to provide some order to the css , I am compartmentalizing my css into
+    files named after the controller for which they are used and then dynamically loading those
+    controller specific css files. -- S.Madison
+    -->
+    <?php if(file_exists(APPPATH.'../assets/css/'.$this->router->class.'.css')) : ?>
+        <link href="<?= site_url('assets/css/'.$this->router->class.'.css') ?>" rel="stylesheet"/>        
+    <?php endif; ?>
 </head>
 <body>
     <div id="wrapper">
