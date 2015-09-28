@@ -37,6 +37,27 @@ $(function() {
     		query.val('');
     });
 
+    /* Get the query string into an object for use in the defilter list */
+    var urlParams;
+    (window.onpopstate = function () {
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+           urlParams[decode(match[1])] = decode(match[2]);
+    })();
+
+    $('.filter_active').click(function () {
+        delete urlParams[this.value];
+        var newQuery = $.param(urlParams);
+        var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''); 
+        window.location = baseUrl+'?'+newQuery;       
+    })
+
     /* Sample code for browser extension dev when handling content links */
    var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
 
