@@ -205,6 +205,7 @@
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <?php }else if ($this->router->class=='usermanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
+        <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
 

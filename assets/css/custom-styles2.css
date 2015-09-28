@@ -742,3 +742,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
   display: none;
   margin-bottom: 10px;
 }
+
+.pre-data-table {
+  margin-bottom: 10px;
+}

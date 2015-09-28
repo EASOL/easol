@@ -5,7 +5,7 @@
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <?php echo anchor('usermanagement/addedit','<button class="btn btn-primary pull-right">Add User</button>'); ?>
+        <?php echo anchor('usermanagement/addedit','<button class="btn btn-primary pull-right pre-data-table">Add User</button>'); ?>
         <div style="clear:both;">
             <table id="manageusers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
