@@ -49,7 +49,7 @@
                   <?php foreach($filters_active as $k => $v) : ?>
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo $k . ' - ' . $v ?> 
+                        <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo ucwords($k) . ' - ' . ucwords($v) ?> 
                       </label>
                     </div>
                   <?php endforeach; ?>
