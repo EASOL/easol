@@ -19,7 +19,7 @@ class Grades extends Easol_Controller {
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
 	$allowedUser = '';
 	$thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
-	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $currentUser = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
+	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $allowedUser = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
 
             $query = "SELECT Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, Grade.SchoolYear,
 sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A,
