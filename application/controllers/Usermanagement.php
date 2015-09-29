@@ -59,7 +59,7 @@ class Usermanagement extends Easol_Controller {
                 }
                 else {
                     // If we failed validation then reload the view for the user to show the validation errors.
-                    $data = $this->Usermanagement_M->getUserFormData($user['StaffUSI']);
+                    $data = $this->Usermanagement_M->getUserFormData(isset($user['StaffUSI']) ? $user['StaffUSI'] : $user);
                 }
             }else
             {
