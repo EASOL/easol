@@ -33,15 +33,17 @@ class Usermanagement extends Easol_Controller {
     public function addEdit()
     {
         $this->load->helper('form');
-        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post();
+        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post('StaffUSI');
         if ($user) 
         {
             if (!empty($_POST))
             {
-                // exit(var_dump($_POST));
                 $this->load->library('form_validation');
                 $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
                 $this->form_validation->set_rules('StaffUSI', 'StaffUSI', 'required');
+                
+                if (!isset($_POST['GoogleAuth']))
+                    $this->form_validation->set_rules('Password', 'Password', 'required|min_length[6]');
 
                 if ($this->form_validation->run() === true)
                 {
@@ -49,15 +51,18 @@ class Usermanagement extends Easol_Controller {
                     $data = $this->Usermanagement_M->addEditEasolUser($_POST);
                     // $data is user array on success and a boolean false on failure.
                     if (!$data)
-                        $this->session->set_flashdata('message','There was an error processing your request.');
+                        $this->session->set_flashdata('error','There was an error processing your request.');
                     else
-                        $this->session->set_flashdata('message','The user was edited sucessfully.');
+                        $this->session->set_flashdata('success','The user was edited sucessfully.');
 
                     redirect('usermanagement');
                 }
                 else {
-                    // If we failed validation then we must have been coming from the new user form so rebuild as needed.
-                    $data = $this->Usermanagement_M->getUserFormData();
+                    // If we failed validation then reload the view for the user to show the validation errors.
+                    if ($this->input->post('newuser'))
+                        $data = $this->Usermanagement_M->getUserFormData();
+                    else
+                        $data = $this->Usermanagement_M->getUserFormData($user);
                 }
             }else
             {
@@ -72,7 +77,7 @@ class Usermanagement extends Easol_Controller {
         $data['title'] = 'User Management';
 
         $this->render('addEdit', [
-                'data' => $data
+                'data'      => $data
             ]);
     }
 

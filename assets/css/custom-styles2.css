@@ -777,6 +777,11 @@ label.loginLabel {
   display: none;
   margin-bottom: 10px;
 }
+
+.pre-data-table {
+  margin-bottom: 10px;
+}
+
 #flash-message {
   font-weight: bold;
   width:50%;
@@ -807,4 +812,5 @@ label.loginLabel {
 .content-index-filterlink {
   display:block;
 }
+
 
