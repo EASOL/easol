@@ -37,6 +37,9 @@ class Reports_test extends TestCase
 		$this->assertContains('Showing 1&ndash;25 of 962', $output);
 	}
 
+	public function setUp() {
+		system("sqlcmd -S REGIS-PC\SQLEXPRESS -i ".APPPATH."tests/database.sql");
+	}
 
 
 }
