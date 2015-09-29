@@ -15,11 +15,11 @@
     <div id="extension-body" class="panel panel-default">
           <div class="panel-body">
               <form class="form-inline">
-                <div class="form-group">
-                  <label for="content-query">Keywords</label><br />
-                  <input id="content-query" type="text" class="form-control input-sm" name="query" value="<?php echo (isset($_GET['query']) and !empty($_GET['query'])) ? $_GET['query'] : 'search text'; ?>">
-                </div>
-                 <div class="form-group">
+                 <div id="content-index-query" class="form-group">
+                    <label for="query">Keywords</label>
+                    <input id="content-query" type="text" class="form-control input-sm" name="query" value="<?php echo (isset($_GET['query']) and !empty($_GET['query'])) ? $_GET['query'] : 'search text'; ?>">
+                  </div>
+        <!--         <div class="form-group">
                   <label for="publisher">Publisher</label><br />
                   <input type="text" class="form-control input-sm" name="publisher" value="<?php echo (isset($_GET['publisher']) and !empty($_GET['publisher'])) ? $_GET['publisher'] : ''; ?>" >
                 </div>       
@@ -39,14 +39,29 @@
                       <option value="<?php echo $v ?>" <?php if( isset($_GET['alignment']) and $_GET['alignment'] == $v) {echo "selected";} ?>><?php echo $k ?></option>
                       <?php endforeach; ?>                        
                   </select>   
-                </div>
+                </div> -->
                 
                                                              
                 <button type="submit" class="btn btn-default" id="content-search">Search</button>
               </form>
-              <?php if (isset($response)): ?>
+              <?php if (isset($results)): ?>
+               <div class="left content-filters">
+                  <?php foreach($filters_active as $k => $v) : ?>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" class="filter_active" value="<?php echo $k ?>" checked><?php echo ucwords($k) . ' - ' . ucwords($v) ?> 
+                      </label>
+                    </div>
+                  <?php endforeach; ?>
+                  <?php foreach ($filters as $filtername => $filter): ?>
+                    <p><?php echo ucwords(rtrim($filtername, 's')); ?></p>
+                    <?php foreach ($filter as $key => $val) : ?>
+                      <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
+                    <?php endforeach; ?>
+                  <?php endforeach; ?>
+                </div>              
                 <div class="left content-results">
-                  <?php foreach ($response->results as $obj): ?>
+                  <?php foreach ($results as $obj): ?>
                     <div class="clear">
                       <div class="left content-desc">
                         <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>

@@ -30,7 +30,7 @@
         var Easol_SiteUrl = "<?= site_url('/') ?>"
     </script>   
 
-    <?php if(($this->router->class=='reports' && $this->router->method =='view') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
+    <?php if(($this->router->class=='reports') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
@@ -181,10 +181,12 @@
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
-                <!-- Show any flashdata named message for general confirmation/error messages -->
-                <?php if (!empty($message)) : ?>
-                    <div id="flash-message"><?php echo $message ?></div>
-                <?php endif; ?>
+                <!-- Show flashdata messages for general confirmation/error messages -->
+                <?php if (!empty($error)) { ?>
+                    <div class="alert alert-danger"><?php echo $error ?></div>
+                <?php }else if (!empty($success)) { ?>
+                    <div class="alert alert-success"><?php echo $success ?></div>                
+                <?php } ?>
                 <?= $content ?>
                 <div class="row">
                     <div class="col-md-8 col-sm-8 txt-annotation">

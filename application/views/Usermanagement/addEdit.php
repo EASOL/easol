@@ -1,5 +1,5 @@
-
-<?php extract($data); ?> <div class="row">
+<?php extract($data); ?> 
+<div class="row">
     <div class="col-md-12 col-sm-12">
         <h1 class="page-header"><?php echo $title ?></h1>
     </div>
@@ -33,7 +33,7 @@
                       <?php if (isset($staff)) : ?>
                         <option school="reset" value="" selected>Choose a user to add or edit</option>
                         <?php foreach($staff as $k => $v): ?>
-                          <option school="<?php echo $v->Institutions[0]->EducationOrganizationId ?>" value="<?php echo $v->StaffUSI ?>" <?php if( isset($_POST['staffusi']) and $_POST['staffusi'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FirstName .' '. $v->LastSurname .' '. $v->StaffUSI; ?></option>
+                          <option school="<?php echo $v->Institutions[0]->EducationOrganizationId ?>" value="<?php echo $v->StaffUSI ?>" <?php if( isset($_POST['StaffUSI']) and $_POST['StaffUSI'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FirstName .' '. $v->LastSurname .' '. $v->StaffUSI; ?></option>
                         <?php endforeach; ?> 
                       <?php else : ?>
                         <option value="<?php echo $data[0]->StaffUSI ?>"><?php echo $data[0]->FirstName .' '.$data[0]->LastSurname; ?></option>
@@ -43,6 +43,8 @@
 
                   <?php if (!isset($staff)) : ?>
                     <input type="hidden" name="StaffUSI" value="<?php echo $data[0]->StaffUSI ?>" />
+                  <?php else: ?>
+                    <input type="hidden" name="newuser" value="true" />
                   <?php endif; ?>
 
                   <?php if (!isset($staff)) : ?>
@@ -64,7 +66,10 @@
                   </div>
 
                    <div id="usermanagement-addedit-password" class="form-group">
-                    <label for="Password">Password</label>
+                    <label for="Password">
+                      <?php echo form_error('Password'); ?>
+                      Password
+                    </label>
                     <input type="text" class="form-control input-sm" name="Password" value="" />
                   </div>
 

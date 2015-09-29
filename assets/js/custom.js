@@ -17,11 +17,54 @@ $(function() {
         $( "#dataGridFormFilter").submit();
     });
 
+
+    $("[data-toggle='modal']").on('click', function(e) {
+    	e.preventDefault();
+    	var $that = $(this);
+
+        var $loading = $(".loading", $that.attr('data-target')).fadeIn();
+
+    	if ($(this).attr('data-post-data')) {
+    		var $form = $($(this).attr('data-post-data'));
+    		$.ajax({
+    			url: $(this).attr('data-href'),
+    			type: 'post',
+    			data: $form.serialize(),
+    			dataType: 'json',
+    			success: function(response) {
+                    $loading.fadeOut();
+    				$(".modal-ajax-content", $that.attr('data-target')).html(response.html);
+    			}
+    		})
+    	}
+    })
+
     $('#content-query').focus(function(){
     	var query = $(this);
     	if (query.val() == 'search text')
     		query.val('');
     });
+
+    /* Get the query string into an object for use in the defilter list */
+    var urlParams;
+    (window.onpopstate = function () {
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+           urlParams[decode(match[1])] = decode(match[2]);
+    })();
+
+    $('.filter_active').click(function () {
+        delete urlParams[this.value];
+        var newQuery = $.param(urlParams);
+        var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''); 
+        window.location = baseUrl+'?'+newQuery;       
+    })
 
     /* Sample code for browser extension dev when handling content links */
    var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
@@ -99,6 +142,7 @@ $(function() {
     });
 
 });
+
 
  /* ADDED BY ANWAR BAKSH ON 09/2015 */
  /* GOOGLE SIGN IN: https://developers.google.com/identity/sign-in/ */
