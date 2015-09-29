@@ -23,11 +23,13 @@ $(function () {
 	$('#schoolmanagement-addschooldetails-key').change(function (event) {
 		var value = $(this).val();
 		$('.schoolmanagement-addschooldetails-value-container').hide();
+		$('.schoolmanagement-addschooldetails-value', $('.schoolmanagement-addschooldetails-value-container')).prop('disabled',true);		
 		$('#schoolmanagement-addschooldetails-submit').hide();
 		if (value !== undefined && value !== '') {
 			$('.schoolmanagement-addschooldetails-value-container#'+value).css('display', 'inline-block');
 			var target = $('.schoolmanagement-addschooldetails-value', $('.schoolmanagement-addschooldetails-value-container#'+value));
 			target.val('');
+			target.prop('disabled',false);
 			if (target.is('input:text'))
 				$('#schoolmanagement-addschooldetails-submit').css('display', 'inline-block');
 		}		

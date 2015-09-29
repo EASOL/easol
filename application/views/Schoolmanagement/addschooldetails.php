@@ -22,14 +22,14 @@
                     <div class="form-group schoolmanagement-addschooldetails-value-container" id="<?php echo $key ?>">
                       <label for="value"><?php echo $value['label'] ?></label><br />
                       <?php if ($value['type'] == 'select') { ?>
-                        <select name="value" class="schoolmanagement-addschooldetails-value"> 
+                        <select name="value" class="schoolmanagement-addschooldetails-value" disabled> 
                           <option value="">Choose an attribute</option>
                           <?php foreach ($value['options'] as $v => $k) : ?>
                             <option value="<?php echo $v ?>"><?php echo $k ?></option>
                           <?php endforeach; ?>
                         </select>
                       <?php } else if ($value['type'] == 'text') : ?>
-                        <input type="text" name="value" value="" class="schoolmanagement-addschooldetails-value" />
+                        <input type="text" name="value" value="" class="schoolmanagement-addschooldetails-value" disabled />
                       <?php endif; ?>  
                     </div>
                   <?php endforeach; ?>                                             
