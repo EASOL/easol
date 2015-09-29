@@ -20,7 +20,7 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
     <div class="col-md-12 col-sm-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
-                'query' => $model->CommandText,
+                'query' => clean_subquery($model->CommandText),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,

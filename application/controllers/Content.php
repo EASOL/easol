@@ -46,7 +46,7 @@ class Content extends Easol_Controller {
                 $query = http_build_query($data);
                 $site = $this->config->item('content_api').$query;
                 $response = json_decode(file_get_contents($site, true));
-            
+
                 // Define a new query string without the page and limit values and get the full dataset
                 // for use in building the pagination links.
                 $base = $data;
@@ -57,16 +57,46 @@ class Content extends Easol_Controller {
                 $site = $this->config->item('content_api').$base_qs;
                 $unlimited = json_decode(file_get_contents($site, true));
             }
+           
+            // Set the base url for filter links
+            $filter_base_url = current_url_full();
 
+            // Build the array of active filters for use in the view for status and defiltering.
+            $filters_active = $this->input->get();
+            unset($filters_active['query']);
+            unset($filters_active['page']);
+
+            if (isset($response->aggregations)) {
+                // Massage the filter data as required by the spec.
+                if (isset($response->aggregations->languages))
+                    unset($response->aggregations->languages);
+
+                foreach ($response->aggregations as $filtername => $filter)
+                {
+                    foreach ($filter as $key => $value) {
+                        if ($value < 2) {
+                            unset($filter->$key);
+                        }
+                        if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {
+                            unset($filter->$key);
+                        }
+                    }
+
+                    if (!count((array) $filter))
+                        unset($response->aggregations->$filtername);
+                }
+            }
+
+            $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
             // build the pagination links.
             $this->load->library('pagination');
             $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';
             $config['page_query_string'] = TRUE; 
             $config['use_page_numbers'] = TRUE;
-            $config['per_page'] = 1;
+            $config['per_page'] = EASOL_PAGINATION_PAGE_SIZE;
             $config['query_string_segment'] = 'page';
-            $config['total_rows'] = (isset($unlimited)) ? (count($unlimited) / EASOL_PAGINATION_PAGE_SIZE) : 0;
-
+            $config['total_rows'] = $total_count;
+           
             /* This Application Must Be Used With BootStrap 3 *  */
             $config['full_tag_open'] = "<ul class='pagination'>";
             $config['full_tag_close'] ="</ul>";
@@ -86,10 +116,17 @@ class Content extends Easol_Controller {
             $this->pagination->initialize($config); 
 
             $view = (!empty($view)) ? $view : 'index';
+            
+            if ($view == 'extension')
+                $this->layout = null;
+
             $this->render($view, [
-                'gradelevels'   => $this->config->item('gradelevels'),
-                'standards'     => $this->config->item('standards'),
-                'response'      => (isset($response)) ? $response : null,
+                'gradelevels'       => $this->config->item('gradelevels'),
+                'standards'         => $this->config->item('standards'),
+                'results'           => (isset($response->results)) ? $response->results : null,
+                'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
+                'filters_active'    => $filters_active,
+                'filter_base_url'   => $filter_base_url,
             ]);
         }
     }

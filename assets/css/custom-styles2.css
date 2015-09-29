@@ -66,6 +66,9 @@ p {
   line-height: 25px;
   padding-top: 20px;
 }
+.alert p {
+  padding-top: 0;
+}
 
 .panel {
   border-radius: 0px;
@@ -116,6 +119,23 @@ p {
   list-style: none;
 /* background-color: #FAFAFA; */
   border-radius: 0;
+}
+.loading {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background-color: #fff;
+  background-image: url('../img/loading.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.modal-ajax-content {
+  min-height: 200px;
 }
 /*----------------------------------------------
    DASHBOARD STYLES
@@ -701,6 +721,21 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 }
 
+
+/* alternative styles added by Anwar */
+button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
+div#google_ajax_error {display:none}
+
+label.loginLabel {
+	width:87px;
+}
+
+.nudgright {margin-left:8px}
+
+#content-index-query, #content-index-query input {
+  width:90%;
+}
+
 .content-filters {
   width:25%;
 }
@@ -746,3 +781,36 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 .pre-data-table {
   margin-bottom: 10px;
 }
+
+#flash-message {
+  font-weight: bold;
+  width:50%;
+  margin: 5 auto;
+  border: 1px solid #000;
+  text-align: center;
+  padding: 5px;
+}
+#extension-wrapper {
+   background: none repeat scroll 0 0 #2b2e33;
+    min-height: 1200px;
+}
+
+#extension-header {
+  margin: 20px;
+}
+
+#extension-body {
+  min-height: 400px;
+}
+
+
+.form-inline.undo-overrides .form-group {
+  margin:0;
+  padding:0;
+}
+
+.content-index-filterlink {
+  display:block;
+}
+
+
