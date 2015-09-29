@@ -59,8 +59,35 @@ class Content extends Easol_Controller {
             }
            
             // Set the base url for filter links
-            $filter_base_url = (isset($data['query'])) ?  current_url() . '?query=' . $data['query'] : current_url();
-            if (isset($unlimited)){ $total_count = count($unlimited->results); }else{ $total_count = 0;  }
+            $filter_base_url = current_url_full();
+
+            // Build the array of active filters for use in the view for status and defiltering.
+            $filters_active = $this->input->get();
+            unset($filters_active['query']);
+            unset($filters_active['page']);
+
+            if (isset($response->aggregations)) {
+                // Massage the filter data as required by the spec.
+                if (isset($response->aggregations->languages))
+                    unset($response->aggregations->languages);
+
+                foreach ($response->aggregations as $filtername => $filter)
+                {
+                    foreach ($filter as $key => $value) {
+                        if ($value < 2) {
+                            unset($filter->$key);
+                        }
+                        if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {
+                            unset($filter->$key);
+                        }
+                    }
+
+                    if (!count((array) $filter))
+                        unset($response->aggregations->$filtername);
+                }
+            }
+
+            $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
             // build the pagination links.
             $this->load->library('pagination');
             $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';
@@ -98,6 +125,7 @@ class Content extends Easol_Controller {
                 'standards'         => $this->config->item('standards'),
                 'results'           => (isset($response->results)) ? $response->results : null,
                 'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
+                'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
             ]);
         }
