@@ -13,12 +13,12 @@
                     <label for="key">Key</label><br />
                     <select id="schoolmanagement-addschooldetails-key" name="key">  
                       <option value="">Choose an attribute</option>                
-                      <?php foreach ($this->config->item('schoolattributes') as $key => $value) : ?>
+                      <?php foreach ($config['schoolattributes'] as $key => $value) : ?>
                         <option value="<?php echo $key ?>"><?php echo $value['label'] ?></option>
                       <?php endforeach; ?>                                             
                     </select>
                   </div>
-                  <?php foreach ($this->config->item('schoolattributes') as $key => $value) : ?>
+                  <?php foreach ($config['schoolattributes'] as $key => $value) : ?>
                     <div class="form-group schoolmanagement-addschooldetails-value-container" id="<?php echo $key ?>">
                       <label for="value"><?php echo $value['label'] ?></label><br />
                       <?php if ($value['type'] == 'select') { ?>
