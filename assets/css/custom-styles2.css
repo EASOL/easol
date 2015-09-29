@@ -778,6 +778,8 @@ label.loginLabel {
   margin-bottom: 10px;
 }
 
+<<<<<<< HEAD
+=======
 .pre-data-table {
   margin-bottom: 10px;
 }
@@ -790,6 +792,7 @@ label.loginLabel {
   text-align: center;
   padding: 5px;
 }
+
 #extension-wrapper {
    background: none repeat scroll 0 0 #2b2e33;
     min-height: 1200px;
@@ -801,6 +804,7 @@ label.loginLabel {
 
 #extension-body {
   min-height: 400px;
+
 }
 
 
@@ -812,5 +816,3 @@ label.loginLabel {
 .content-index-filterlink {
   display:block;
 }
-
-

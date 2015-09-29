@@ -19,7 +19,7 @@
 
     <?php if($this->router->class=='datamanagement') { ?>
         <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <?php }else if ($this->router->class=='usermanagement') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
     <?php } ?>    
@@ -28,7 +28,7 @@
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
-    </script>    
+    </script>   
 
     <?php if(($this->router->class=='reports') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
@@ -38,6 +38,15 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- 
+    In an attempt to provide some order to the css , I am compartmentalizing my css into
+    files named after the controller for which they are used and then dynamically loading those
+    controller specific css files. -- S.Madison
+    -->
+    <?php if(file_exists(APPPATH.'../assets/css/'.$this->router->class.'.css')) : ?>
+        <link href="<?= site_url('assets/css/'.$this->router->class.'.css') ?>" rel="stylesheet"/>        
+    <?php endif; ?>
 </head>
 <body>
     <div id="wrapper">
@@ -202,14 +211,24 @@
     <!-- Metis Menu Js -->
     <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
-   <?php /*
-    <!-- Custom Js -->
-    <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>
- */ ?>
+    <?php /*
+        <!-- Custom Js -->
+        <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>*/
+    ?>
+
+    <!-- 
+    In an attempt to provide some order to the js functions, I am compartmentalizing my js into
+    files named after the controller for which they are used and then dynamically loading those
+    controller specific js files. -- S.Madison
+    -->
+    <?php if(file_exists(APPPATH.'../assets/js/'.$this->router->class.'.js')) : ?>
+        <script src="<?= site_url('assets/js/'.$this->router->class.'.js') ?>"></script>
+    <?php endif; ?>
+
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php }else if ($this->router->class=='usermanagement') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
     <?php } ?>
