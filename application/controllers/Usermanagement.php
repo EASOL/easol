@@ -33,7 +33,7 @@ class Usermanagement extends Easol_Controller {
     public function addEdit()
     {
         $this->load->helper('form');
-        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post();
+        $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post('StaffUSI');
         if ($user) 
         {
             if (!empty($_POST))
@@ -59,7 +59,10 @@ class Usermanagement extends Easol_Controller {
                 }
                 else {
                     // If we failed validation then reload the view for the user to show the validation errors.
-                    $data = $this->Usermanagement_M->getUserFormData(isset($user['StaffUSI']) ? $user['StaffUSI'] : $user);
+                    if ($this->input->post('newuser'))
+                        $data = $this->Usermanagement_M->getUserFormData();
+                    else
+                        $data = $this->Usermanagement_M->getUserFormData($user);
                 }
             }else
             {
@@ -74,7 +77,7 @@ class Usermanagement extends Easol_Controller {
         $data['title'] = 'User Management';
 
         $this->render('addEdit', [
-                'data' => $data
+                'data'      => $data
             ]);
     }
 
