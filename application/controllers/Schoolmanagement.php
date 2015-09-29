@@ -42,6 +42,14 @@ class Schoolmanagement extends Easol_Controller {
         }else 
         {   // we load the details for the school.
             $results = $this->Schoolmanagement_M->getSchoolDetails($school);
+
+            $this->load->library('Schoolmanagement_L');
+            $config = $this->schoolmanagement_l->getConfig(true);
+
+            foreach ($results['details'] as $key => $value) {
+                if (isset($config['schoolattributes'][$value->Key]))
+                    $results['details'][$key]->config = $config['schoolattributes'][$value->Key];
+            }
         }
 
         $this->render('details', [

@@ -22,8 +22,20 @@
                 			<?php foreach ($details as $index => $obj) : ?>
                 				<tr>
                                     <td><?php echo $obj->Key ?></td>
-                                    <td><input name="<?php echo $obj->Key ?>" value="<?php echo $obj->Value ?>" disabled /></td>                                  
-                                     <td><input type="checkbox" name="delete[]" value="<?php echo $obj->Key ?>" disabled /></td>
+                                    <td>
+                                        <?php if (isset($obj->config['type']) and $obj->config['type'] == 'select') : ?>
+                                        <select name="<?php echo $obj->Key ?>" disabled>
+                                            <?php foreach ($obj->config['options'] as $key => $value) : ?>
+                                                <option value="<?php echo $key ?>" <?php echo ($key == $obj->Value) ? 'selected' : ''; ?>><?php echo $value ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <?php elseif (isset($obj->config['type']) and $obj->config['type'] == 'text') : ?>
+                                            <input name="<?php echo $obj->Key ?>" value="<?php echo $obj->Value; ?>" disabled />
+                                        <?php else : ?>
+                                            <!-- we dont know the field type so we cant display it -->
+                                        <?php endif; ?>
+                                    </td>                                  
+                                    <td><input type="checkbox" name="delete[]" value="<?php echo $obj->Key ?>" disabled /></td>
                                 </tr>
                 			<?php endforeach; ?>
                 		</tbody>

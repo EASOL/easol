@@ -7,7 +7,7 @@ class Schoolmanagement_L {
     $this->ci =& get_instance();
   }
 
-  public function getConfig ()
+  public function getConfig ($all = false)
   {
     $config = array();
     $this->ci->load->model('SchoolManagement_M');
@@ -40,11 +40,14 @@ class Schoolmanagement_L {
            ),
     );
 
-    foreach ($schoolData['details'] as $k => $v)
-    {
-      if (isset($config['schoolattributes'][$v->Key]))
-        unset($config['schoolattributes'][$v->Key]);
+    if (!$all) {
+      foreach ($schoolData['details'] as $k => $v)
+      {
+        if (isset($config['schoolattributes'][$v->Key]))
+          unset($config['schoolattributes'][$v->Key]);
+      }
     }
+    
     return $config;
   }
 
