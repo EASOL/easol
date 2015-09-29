@@ -7,7 +7,7 @@ $(function () {
 
 	$(document).on('click', "#schoolmanagement-details-form-disable", function (event) {
 		$(this).parent().replaceWith('<button id="schoolmanagement-details-form-enable" class="btn btn-primary">Edit School Configurations</button>');
-		$("#schoolmanagement-details-form input, #schoolmanagement-details-form select").prop("disabled",true);
+		$("#schoolmanagement-details-form input:not([type *= 'search']), #schoolmanagement-details-form select").prop("disabled",true);
 	})	
 
 	$(document).on('click', '#schoolmanagement-details-form-submit', function (event) {
