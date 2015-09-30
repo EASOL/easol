@@ -22,6 +22,7 @@ class Attendance extends Easol_Controller {
     public function index($id=1){
         $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+        $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
         if(!$currentTerm || !$currentYear){
             return new \Exception("Current Term & Error not Found");
         }
@@ -89,13 +90,13 @@ GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceE
                                 'range' =>
                                     [
                                         'type' => 'dynamic',
-                                        'start' => 2000,
+                                        'start' => $currentYear,
                                         'end' => date('Y'),
                                         'increament' => 1,
                                     ],
                                 'searchColumn' => 'SchoolYear',
                                 'searchColumnType' => 'int',
-                                'default' => ($this->input->get('filter[Year]') == null) ? "" : $this->input->get('filter[Year]'),
+                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear_default : $this->input->get('filter[Year]'),
                                 'label' => 'School Year',
                                 'type' => 'dropdown',
                                 'bindDatabase' => true,

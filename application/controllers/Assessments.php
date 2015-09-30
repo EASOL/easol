@@ -20,6 +20,8 @@ class Assessments extends Easol_Controller {
      */
     public function index($id=1) {
 	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+        $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
+        
         $query = "SELECT AssessmentTitle, Version, AdministrationDate,
 AVG(CAST(StudentAssessmentScoreResult.Result as INT)) as AverageResult,
 COUNT(*) as StudentCount FROM edfi.StudentAssessmentScoreResult
@@ -50,7 +52,7 @@ WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
                                 'searchColumn' => 'YEAR(StudentAssessmentScoreResult.AdministrationDate) ',
                                 'searchColumnType' => 'int',
                                 'queryBuilderColumn' => 'YEAR(StudentAssessmentScoreResult.AdministrationDate)',
-                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear : $this->input->get('filter[Year]'),
+                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear_default : $this->input->get('filter[Year]'),
                                 'label' => 'Administration Year',
                                 'type' => 'dropdown',
                                 'bindDatabase' => true,

@@ -17,9 +17,10 @@ class Grades extends Easol_Controller {
     public function index($id=1)
     {
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-	$allowedUser = '';
-	$thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
-	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $allowedUser = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
+        $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
+        $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
+        $currentTerm_default=Easol_SchoolConfiguration::setDefault('Term', $currentTerm);
+        $userCanFilter = Easol_SchoolConfiguration::userCanFilter();        
 
             $query = "SELECT Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, Grade.SchoolYear,
 sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A,
@@ -41,7 +42,7 @@ INNER JOIN edfi.StaffSectionAssociation ON StaffSectionAssociation.SchoolId = Gr
 INNER JOIN edfi.Staff ON Staff.StaffUSI = StaffSectionAssociation.StaffUSI
 INNER JOIN edfi.Course ON edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode
 INNER JOIN edfi.TermType ON edfi.TermType.TermTypeId = edfi.Grade.TermTypeId
-WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' $allowedUser
+WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' ".$userCanFilter['allowedUser']."
                   ";
 
 
@@ -52,7 +53,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' $al
                     'Staff.FirstName','Staff.LastSurname'],
                 'filter' => [
                     'dataBind' => true,
-                    'bindIndex' => $thefilter,
+                    'bindIndex' => $userCanFilter['thefilter'],
                     'queryWhere' => false,
                     'fields' =>
                         [
@@ -68,7 +69,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' $al
                                     'label' => 'Term',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
-                                    'default' => $this->input->get('filter[Term]'),
+                                    'default' => ($this->input->get('filter[Term]') == null) ? $currentTerm_default : $this->input->get('filter[Term]'),
                                     'prompt' => 'All Terms'
                                 ],
                             'Year' =>
@@ -83,7 +84,7 @@ WHERE edfi.Grade.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' $al
                                     'searchColumn' => 'SchoolYear',
                                     'searchColumnType' => 'int',
                                     'queryBuilderColumn' => 'Grade.SchoolYear',
-                                    'default' => ($this->input->get('filter[Year]') == null) ? $currentYear : $this->input->get('filter[Year]'),
+                                    'default' => ($this->input->get('filter[Year]') == null) ? $currentYear_default : $this->input->get('filter[Year]'),
                                     'label' => 'School Year',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,

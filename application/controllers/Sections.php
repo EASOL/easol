@@ -16,9 +16,7 @@ class Sections extends Easol_Controller {
     public function index($id=1)
 	{
 	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-	$allowedUser = '';
-	$thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
-	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $allowedUser = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $thefilter = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
+	$userCanFilter = Easol_SchoolConfiguration::userCanFilter();
 
             $query = "SELECT StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term,
 [Section].SchoolYear, Course.CourseTitle, [Section].LocalCourseCode,
@@ -39,7 +37,7 @@ LEFT JOIN edfi.Staff ON
 Staff.StaffUSI = StaffSectionAssociation.StaffUSI
 INNER JOIN edfi.TermType ON TermType.TermTypeId = Section.TermTypeId
 INNER JOIN edfi.Course ON Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId
-WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' $allowedUser
+WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' ".$userCanFilter['allowedUser']."
                   ";
 
 
@@ -50,7 +48,7 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' $allow
                     'Course.CourseTitle','[Section].LocalCourseCode','[Section].ClassPeriodName','[Section].ClassroomIdentificationCode','[Section].ClassPeriodName'],
                 'filter' => [
                     'dataBind' => true,
-                    'bindIndex' => $thefilter,
+                    'bindIndex' => $userCanFilter['thefilter'],
                     'queryWhere' => false,
                     'fields' =>
                         [

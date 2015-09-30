@@ -17,7 +17,8 @@ class Student extends Easol_Controller {
      */
     public function index($id=1)
     {
-    	    $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+    	$currentYear = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+    	$currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
 
         $query= "SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.Description, StudentCohortAssociation.CohortIdentifier from edfi.StudentSchoolAssociation
 INNER JOIN edfi.Student ON
@@ -58,7 +59,7 @@ WHERE
                                 'searchColumn' => 'SchoolYear',
                                 'searchColumnType' => 'int',
                                 'queryBuilderColumn'=>  'StudentSchoolAssociation.SchoolYear',
-                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear : $this->input->get('filter[Year]'),
+                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear_default : $this->input->get('filter[Year]'),
                                 'label' => 'Year',
                                 'type' => 'dropdown',
                                 'bindDatabase' => true,
