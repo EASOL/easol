@@ -16,7 +16,7 @@
         <div class="clearfix"></div>
 
         <?php
-        if ($query->num_rows() > 0 && count($columns) > 0)
+        if (count($columns) > 0)
             {
                 ?>
 

@@ -1,8 +1,43 @@
 $(function() {
+
+    if ($('table#manageusers').length) {
+        $('#manageusers').DataTable();
+    }
+
+   if ($('table#manageschools').length) {
+        $('#manageschools').DataTable();
+    }
+
+   if ($('table#manageschooldetails').length) {
+        $('#manageschooldetails').DataTable();
+    }
+
     $( "#filter-result" ).change(function() {
         $("#filter-form-result").val($( "#filter-result" ).val());
         $( "#dataGridFormFilter").submit();
     });
+
+
+    $("[data-toggle='modal']").on('click', function(e) {
+    	e.preventDefault();
+    	var $that = $(this);
+
+        var $loading = $(".loading", $that.attr('data-target')).fadeIn();
+
+    	if ($(this).attr('data-post-data')) {
+    		var $form = $($(this).attr('data-post-data'));
+    		$.ajax({
+    			url: $(this).attr('data-href'),
+    			type: 'post',
+    			data: $form.serialize(),
+    			dataType: 'json',
+    			success: function(response) {
+                    $loading.fadeOut();
+    				$(".modal-ajax-content", $that.attr('data-target')).html(response.html);
+    			}
+    		})
+    	}
+    })
 
     $('#content-query').focus(function(){
     	var query = $(this);
@@ -10,30 +45,107 @@ $(function() {
     		query.val('');
     });
 
+    /* Get the query string into an object for use in the defilter list */
+    var urlParams;
+    (window.onpopstate = function () {
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+           urlParams[decode(match[1])] = decode(match[2]);
+    })();
+
+    $('.filter_active').click(function () {
+        delete urlParams[this.value];
+        var newQuery = $.param(urlParams);
+        var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''); 
+        window.location = baseUrl+'?'+newQuery;       
+    })
+
     /* Sample code for browser extension dev when handling content links */
-    $('a.extension').click(function(event){
+   var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
+   
+   /* Tell the extension what was the last active URL  */
+   window.parent.postMessage({operation: 'changeUrl', location: window.location.href}, target);
+   
+    if (assignmentLink.length) {
+      // Hide links if a Google Classroom page is not open
+      $(window).on('message', function (event) {
+        if (event.originalEvent.origin === target && !event.originalEvent.data.isClassroomOpen) {
+          assignmentLink.hide();
+        }
+      });
+      window.parent.postMessage({operation: 'isClassroomOpen'}, target);
+
+      // Click handler for entering fields into the new assignment form
+      assignmentLink.click(function(event){
+        /*  event.preventDefault();
+         var link   = $(this),
+         title      = link.attr('title'),
+         desc       = link.attr('description'),
+         href       = link.attr('href');*/
+
+        event.preventDefault();
+        var link = $(this);
+        var message = {title: link.attr('title'), desc: link.attr('description'), href: link.attr('href')};
+        window.parent.postMessage(message, target);
+      });
+    }
+
+    $("#main-menu #management").click(function(event) {
     	event.preventDefault();
-    	var link	= $(this),
-    	title		= link.attr('title'),
-    	desc		= link.attr('description'), 
-    	href		= link.attr('href');
+    	var submenu = $('ul', $(this).parent());
+    	if (submenu.length && submenu.is(':visible')) {
+    		submenu.slideUp( "slow", function() {
+    		// Animation complete.
+    		});
+    	} else {
+    		submenu.slideDown( "slow", function() {
+    		// Animation complete.
+    		});
+    	}
     });
 
-$("#main-menu #management").click(function(event) {
-	event.preventDefault();
-	var submenu = $('ul', $(this).parent());
-	if (submenu.length && submenu.is(':visible')) {
-		submenu.slideUp( "slow", function() {
-		// Animation complete.
-		});
-	} else {
-		submenu.slideDown( "slow", function() {
-		// Animation complete.
-		});
-	}
-});
+    $( "#schoolFilter" ).change(function() {
+        var schoolId = $(this).val();
+
+        if (schoolId == 'all') {
+
+            $('select#staffusi option').show();
+            $('select#staffusi').val('');
+
+        }else {
+
+            $('select#staffusi option[school != "'+schoolId+'"]').hide();
+            $('select#staffusi option[school = "'+schoolId+'"]').show();
+            $('select#staffusi option[school = "reset"]').show();
+            $('select#staffusi').val('');
+        }
+
+    });
+
+    $('a.usermanagement-index-delete').click(function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this user?')) {
+            window.location = this.href;
+        }
+
+    })
+
+    if ($('#usermanagement-addedit-authtype input:checkbox').length && $('#usermanagement-addedit-authtype input:checkbox').prop('checked')) {
+        $('#usermanagement-addedit-password').hide();
+    }
+
+    $('#usermanagement-addedit-authtype input:checkbox').click(function(event) {
+            $('#usermanagement-addedit-password').toggle(this.checked == false)
+    });
 
 });
+
 
  /* ADDED BY ANWAR BAKSH ON 09/2015 */
  /* GOOGLE SIGN IN: https://developers.google.com/identity/sign-in/ */

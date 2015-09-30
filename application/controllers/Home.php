@@ -84,7 +84,7 @@ class Home extends Easol_Controller {
 			     // NORMAL LOGIN THROUGH EASOL
 			     /* @var $this->Staff Edfi_Staff */
 			     // = $this->Edfi_Staff->findOne(['LoginId' => $data['username']]);
-			     $staff = $this->Edfi_Staff->hydrate($this->Edfi_Staff->findOne(['LoginId' => $data['username']]));
+			     $staff = $this->Edfi_Staff->hydrate($this->Edfi_Staff->findOne(['StaffUSI' => $data['username']]));
 		
 			     if($staff) {
 				$this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
