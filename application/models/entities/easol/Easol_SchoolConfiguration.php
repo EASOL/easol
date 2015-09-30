@@ -64,4 +64,24 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
     {
         // TODO: Implement getPrimaryKey() method.
     }
+    
+     /**
+     * returns peice of query string for filtering out users and filter search object
+     * @return array
+     */
+    public static function userCanFilter() {
+    	$data['allowedUser'] = '';
+	$data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
+	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $data['allowedUser'] = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
+	return $data;
+    }
+    /**
+     * sets default of filter field
+     * @return string
+     */
+    public static function setDefault($filtertype, $default) {
+    	    if( (isset($_GET['filter'][$filtertype]) && $_GET['filter'][$filtertype]=='') || $default==null) { $default="";}
+    	    return $default;
+    }
+    
 }

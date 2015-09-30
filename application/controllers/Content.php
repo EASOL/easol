@@ -29,7 +29,6 @@ class Content extends Easol_Controller {
      */
     public function index($view = '')
     {
-        if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
 
             // get the values for the html form elements.
             $this->config->load('gradelevels');
@@ -129,6 +128,5 @@ class Content extends Easol_Controller {
                 'filter_base_url'   => $filter_base_url,
             ]);
         }
-    }
 
 }

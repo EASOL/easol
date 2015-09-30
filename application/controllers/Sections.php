@@ -15,11 +15,8 @@ class Sections extends Easol_Controller {
      */
     public function index($id=1)
 	{
-
-
-
-        if(Easol_AuthorizationRoles::hasAccess(['System Administrator', 'Data Administrator'])) {
-
+	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+	$userCanFilter = Easol_SchoolConfiguration::userCanFilter();
 
             $query = "SELECT StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term,
 [Section].SchoolYear, Course.CourseTitle, [Section].LocalCourseCode,
@@ -40,7 +37,7 @@ LEFT JOIN edfi.Staff ON
 Staff.StaffUSI = StaffSectionAssociation.StaffUSI
 INNER JOIN edfi.TermType ON TermType.TermTypeId = Section.TermTypeId
 INNER JOIN edfi.Course ON Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId
-WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
+WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' ".$userCanFilter['allowedUser']."
                   ";
 
 
@@ -51,7 +48,7 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                     'Course.CourseTitle','[Section].LocalCourseCode','[Section].ClassPeriodName','[Section].ClassroomIdentificationCode','[Section].ClassPeriodName'],
                 'filter' => [
                     'dataBind' => true,
-                    'bindIndex' => ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']],
+                    'bindIndex' => $userCanFilter['thefilter'],
                     'queryWhere' => false,
                     'fields' =>
                         [
@@ -75,14 +72,14 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                                     'range' =>
                                         [
                                             'type' => 'dynamic',
-                                            'start' => 2000,
+                                            'start' => $currentYear, //2000,
                                             'end' => date('Y'),
                                             'increament' => 1,
                                         ],
                                     'searchColumn' => 'SchoolYear',
                                     'searchColumnType' => 'int',
                                     'queryBuilderColumn' => '[Section].SchoolYear',
-                                    'default' => ($this->input->get('filter[Year]') == null) ? "" : $this->input->get('filter[Year]'),
+                                    'default' => ($this->input->get('filter[Year]') == null) ? $currentYear : $this->input->get('filter[Year]'),
                                     'label' => 'School Year',
                                     'type' => 'dropdown',
                                     'bindDatabase' => true,
@@ -149,9 +146,6 @@ WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
                         'url' => 'sections/index/@pageNo'
                     ]
             ]);
-        }
-        else {
 
-        }
-	}
+    }
 }
