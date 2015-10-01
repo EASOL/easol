@@ -48,30 +48,30 @@ class Home extends Easol_Controller {
 		$staffUSI_alt = 207219; 
 		// END TEST VARS
 
-		$staffUSI = ($thistestmode) ? $staffUSI_alt : $user[0]->StaffUSI;
-
 		if($user or $thistestmode) {
 
-			// GOOGLE & EASOL EMAILS MATCH AND WE CAN USE EMAIL
-	 		$this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
-	 		$authentication = $this->easol_authentication->findOne(['StaffUSI' => $user[0]->staffUSI]);
+			$staffUSI = ($thistestmode) ? $staffUSI_alt : $user[0]->StaffUSI;
 	 		
 	 		$this->load->model('External_Auth','vToken');
 	 		$gAuthGood = $this->vToken->validate_google_token($_REQUEST['uemail'], $_REQUEST['idtoken'], 'http://easol-dev.azurewebsites.net');
 	 		
 	 		if($gAuthGood == "valid") {
+
+	 			$this->load->model('entities/easol/Easol_StaffAuthentication');
+	 			$authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $staffUSI]);
+
 		 		if($authentication){
 		    		$this->session->sess_expiration =   '1200';
 				    $data=[
-					    'LoginId'	=>      $user[0]->ElectronicMailAddress,
-					    'StaffUSI'  =>      $user[0]->StaffUSI,
+					    'LoginId'	=>      isset($user[0]) ? $user[0]->ElectronicMailAddress : $staffUSI,
+					    'StaffUSI'  =>      $StaffUSI,
 					    'RoleId'	=>      $authentication->RoleId,
 					    'logged_in' => TRUE,
 					];
 				    
 				    if($authentication->RoleId == 3 or $authentication->RoleId == 4) {
-					    $data['SchoolId'] = $user[0]->Institutions[0]->EducationOrganizationId;
-				    	$data['SchoolName'] = $user[0]->Institutions[0]->NameOfInstitution;
+					    $data['SchoolId'] = isset($user[0]) ? $user[0]->Institutions[0]->EducationOrganizationId : null;
+				    	$data['SchoolName'] = isset($user[0]) ? $user[0]->Institutions[0]->NameOfInstitution : null;
 				    }
 
 		    		$this->session->set_userdata($data);
@@ -115,7 +115,7 @@ class Home extends Easol_Controller {
 			    }
 
 			    $this->session->set_userdata($data);
-			    return redirect('/student');
+			    redirect('/student');
 			}
 	     }
 	    
