@@ -50,6 +50,10 @@ class Home extends Easol_Controller {
 
 		if($user or $thistestmode) {
 
+			if (isset($user[0]) and !$user[0]->GoogleAuth) {
+	     		return $this->render("login",['message' => 'This account can not Sign In with Google.']);
+	    	}
+
 			$staffUSI = ($thistestmode) ? $staffUSI_alt : $user[0]->StaffUSI;
 	 		
 	 		$this->load->model('External_Auth','vToken');
@@ -97,6 +101,11 @@ class Home extends Easol_Controller {
 		$user = $this->Usermanagement_M->getEasolUsers($data['email'], "SEM.ElectronicMailAddress");
 
 	    if(is_array($user) and !empty($user)) {
+
+	    	if ($user[0]->GoogleAuth) {
+	     		return $this->render("login",['message' => 'This account must Sign In with Google.']);
+	    	}
+
 			$this->load->model('entities/easol/Easol_StaffAuthentication');
 			$authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $user[0]->StaffUSI]);
 
@@ -119,7 +128,7 @@ class Home extends Easol_Controller {
 			}
 	     }
 	    
-	     return $this->render("login",['message' => 'Invalid email/password']);		
+	     $this->render("login",['message' => 'Invalid email/password']);		
 	}
 
     /**
