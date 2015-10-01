@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+set_time_limit(0);
 
 class Tools extends Easol_Controller {
 
@@ -12,10 +12,18 @@ class Tools extends Easol_Controller {
     }
 
     public function test() {
-	    //echo APPPATH;
-	    system("cd ".APPPATH."tests");
+
+	    chdir(APPPATH . "tests");
 	    system("phpunit", $output );
 
 	    echo $output;
     }
+
+	public function reset_db() {
+
+		$command = "sqlcmd -S {$this->db->hostname} ";
+		if ($this->db->username) $command .= "-U {$this->db->username} ";
+		if ($this->db->password) $command .= "-P {$this->db->password}";
+		system($command." -i " . APPPATH . "tests/database.sql");
+	}
 }

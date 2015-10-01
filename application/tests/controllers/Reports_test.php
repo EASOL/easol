@@ -38,7 +38,7 @@ class Reports_test extends TestCase
 	}
 
 	public function setUp() {
-		system("sqlcmd -S REGIS-PC\SQLEXPRESS -i ".APPPATH."tests/database.sql");
+		//system("sqlcmd -S REGIS-PC\SQLEXPRESS -i ".APPPATH."tests/database.sql");
 	}
 
 
