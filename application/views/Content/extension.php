@@ -44,6 +44,9 @@
                                                              
                 <button type="submit" class="btn btn-default" id="content-search">Search</button>
               </form>
+              <div class="pull-right">
+                <img src="<?php echo base_url().'/assets/img/learning_tapestry.png' ?>" border="0" />
+              </div>                
               <?php if (isset($results)): ?>
                <div class="left content-filters">
                   <?php foreach($filters_active as $k => $v) : ?>
