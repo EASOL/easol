@@ -16,107 +16,110 @@ class Home extends Easol_Controller {
      * index page
      */
     public function index()
-	{
-				    
-		 if($this->session->userdata('logged_in')== true){return redirect('/dashboard');}
+	{			    
+		if($this->session->userdata('logged_in')== true)
+			return redirect('/dashboard');
 	
-		 if( (isset($_POST['login']) && $data=$this->input->post('login')) || isset($_REQUEST['idtoken']) ) {
-		    
-		    $this->load->model('entities/edfi/Edfi_Staff','Edfi_Staff');   
-	
+		if((isset($_POST['login']) and $data = $this->input->post('login')) or isset($_REQUEST['idtoken'])) {
+		    	
 		    if(isset($_REQUEST['idtoken'])) {
-    
-		       $this->load->model('entities/edfi/Edfi_StaffElectronicMail','Edfi_StaffElectronicMail');
-		       $staffbyEmail = $this->Edfi_StaffElectronicMail->hydrate($this->Edfi_StaffElectronicMail->findOne(['ElectronicMailAddress' => $_REQUEST['uemail']]));
-
-		       // FOR TESTING
-		       $thistestmode = TRUE;
-		       $staffUSI_alt = 207219; 
-		       if($thistestmode) {$staffUSI=$staffUSI_alt;}
-		       // END TEST VARS
-
-		      if($staffbyEmail || $thistestmode) {
-
-				$staffEmailIndicator = $staffbyEmail->PrimaryEmailAddressIndicator;
-				if(!$thistestmode) {$staffUSI = $staffbyEmail->StaffUSI;} // important
-				
-				if($staffEmailIndicator==1 || $thistestmode) {
-					// GOOGLE & EASOL EMAILS MATCH AND WE CAN USE EMAIL
-					$staff = $this->Edfi_Staff->hydrate($this->Edfi_Staff->findOne(['StaffUSI' => $staffUSI]));
-					if($staff) {
-						 $this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
-						 $authentication=$this->easol_authentication->findOne(['StaffUSI' => $staffUSI]);
-						 $this->load->model('External_Auth','vToken');
-						 $gAuthGood = $this->vToken->validate_google_token($_REQUEST['uemail'], $_REQUEST['idtoken'], 'http://easol-dev.azurewebsites.net');
-						 if($gAuthGood == "valid") {
-							 if($authentication){
-							    $this->session->sess_expiration =   '1200';
-							    $data=[
-								    'LoginId'   =>      $staff->LoginId,
-								    'StaffUSI'  =>      $staff->StaffUSI,
-								    'RoleId'  =>      $authentication->RoleId,
-								    'logged_in' => TRUE,
-								];
-							    if($authentication->RoleId==3 || $authentication->RoleId==4) {
-								$school = $staff->getAssociatedSchool();
-								if ($school != null) {
-								    $data['SchoolId'] = $school->EducationOrganizationId;
-								    $data['SchoolName'] = $school->NameOfInstitution;
-								}
-							    }
-					
-							    $this->session->set_userdata($data);
-							    //return redirect('/student');
-							    echo "gloginValid";
-							 } else { /* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support."; }
-
-						 } else { /* Google authentication failed */ echo "Error Logging in - Google authentication failed - Please contact Support."; }
-
-					} else { /* authentication failed */ echo "Error Logging in - can't pull staff record - Please contact Support."; }
-		
-				} else { /* NO permission to use email */ echo "This email is not registered within EASOL. Please contact support to register."; } 
-			      
-                      } else { /* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support."; }
-
-                    } 
+    			$this->_idtoken_login();
+        	} 
 	
-		    if( isset($_POST['login']) && $data=$this->input->post('login') ) {
-			     // NORMAL LOGIN THROUGH EASOL
-			     /* @var $this->Staff Edfi_Staff */
-			     // = $this->Edfi_Staff->findOne(['LoginId' => $data['username']]);
-			     $staff = $this->Edfi_Staff->hydrate($this->Edfi_Staff->findOne(['StaffUSI' => $data['username']]));
-		
-			     if($staff) {
-				$this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
-				$authentication=$this->easol_authentication->findOne(['StaffUSI' => $staff->StaffUSI]);
-		
-				if($authentication && $authentication->Password== sha1($data['password'])){
-				    $this->session->sess_expiration =   '1200';
+		    if( isset($_POST['login']) && $data=$this->input->post('login')) {
+				$this->_password_login($data);		    
+		    }
+		}
+	
+		if(isset($_REQUEST['idtoken'])) {
+			// really?
+		} else {
+			$this->render("login");
+		}
+	}
+
+	private function _idtoken_login ()
+	{
+		$this->load->model('Usermanagement_M');   
+		$user = $this->Usermanagement_M->getEasolUsers($_REQUEST['uemail'], "SEM.ElectronicMailAddress");
+
+		// FOR TESTING
+		$thistestmode = TRUE;
+		$staffUSI_alt = 207219; 
+		// END TEST VARS
+
+		$staffUSI = ($thistestmode) ? $staffUSI_alt : $user[0]->StaffUSI;
+
+		if($user or $thistestmode) {
+
+			// GOOGLE & EASOL EMAILS MATCH AND WE CAN USE EMAIL
+	 		$this->load->model('entities/easol/Easol_StaffAuthentication','easol_authentication');
+	 		$authentication = $this->easol_authentication->findOne(['StaffUSI' => $user[0]->staffUSI]);
+	 		
+	 		$this->load->model('External_Auth','vToken');
+	 		$gAuthGood = $this->vToken->validate_google_token($_REQUEST['uemail'], $_REQUEST['idtoken'], 'http://easol-dev.azurewebsites.net');
+	 		
+	 		if($gAuthGood == "valid") {
+		 		if($authentication){
+		    		$this->session->sess_expiration =   '1200';
 				    $data=[
-					    'LoginId'   =>      $staff->LoginId,
-					    'StaffUSI'  =>      $staff->StaffUSI,
-					    'RoleId'  =>      $authentication->RoleId,
+					    'LoginId'	=>      $user[0]->ElectronicMailAddress,
+					    'StaffUSI'  =>      $user[0]->StaffUSI,
+					    'RoleId'	=>      $authentication->RoleId,
 					    'logged_in' => TRUE,
 					];
-				    if($authentication->RoleId==3 || $authentication->RoleId==4) {
-					$school = $staff->getAssociatedSchool();
-					if ($school != null) {
-					    $data['SchoolId'] = $school->EducationOrganizationId;
-					    $data['SchoolName'] = $school->NameOfInstitution;
-					}
+				    
+				    if($authentication->RoleId == 3 or $authentication->RoleId == 4) {
+					    $data['SchoolId'] = $user[0]->Institutions[0]->EducationOrganizationId;
+				    	$data['SchoolName'] = $user[0]->Institutions[0]->NameOfInstitution;
 				    }
-		
-				    $this->session->set_userdata($data);
-				    return redirect('/student');
-				}
-			     }
-			    
-			     return $this->render("login",['message' => 'Invalid username/password']);
-		    
-		    } // end if post login
-		 }
-	
-		 if( isset($_REQUEST['idtoken']) ) {} else {$this->render("login");}
+
+		    		$this->session->set_userdata($data);
+		    		//return redirect('/student');
+		    		echo "gloginValid";
+		 		} else { 
+		 			/* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support."; 
+		 		}
+
+	 		} else { 
+	 			/* Google authentication failed */ echo "Error Logging in - Google authentication failed - Please contact Support."; 
+	 		}
+	      
+		} else { 
+		/* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support."; 
+		}
+	}
+
+	private function _password_login ($data = array())
+	{
+
+		$this->load->model('Usermanagement_M');   
+		$user = $this->Usermanagement_M->getEasolUsers($data['email'], "SEM.ElectronicMailAddress");
+
+	    if(is_array($user) and !empty($user)) {
+			$this->load->model('entities/easol/Easol_StaffAuthentication');
+			$authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $user[0]->StaffUSI]);
+
+			if($authentication && $authentication->Password == sha1($data['password'])){
+			    $this->session->sess_expiration =   '1200';
+			    $data=[
+				    'LoginId'	=>	$user[0]->ElectronicMailAddress,
+				    'StaffUSI'  =>  $user[0]->StaffUSI,
+				    'RoleId'  	=> 	$authentication->RoleId,
+				    'logged_in' => TRUE,
+				];
+
+			    if($authentication->RoleId==3 or $authentication->RoleId==4) {
+				    $data['SchoolId'] = $user[0]->Institutions[0]->EducationOrganizationId;
+				    $data['SchoolName'] = $user[0]->Institutions[0]->NameOfInstitution;
+			    }
+
+			    $this->session->set_userdata($data);
+			    return redirect('/student');
+			}
+	     }
+	    
+	     return $this->render("login",['message' => 'Invalid email/password']);		
 	}
 
     /**
