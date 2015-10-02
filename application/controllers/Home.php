@@ -43,18 +43,11 @@ class Home extends Easol_Controller {
 		$this->load->model('Usermanagement_M');   
 		$user = $this->Usermanagement_M->getEasolUsers($_REQUEST['uemail'], "SEM.ElectronicMailAddress");
 
-		// FOR TESTING
-		$thistestmode = TRUE;
-		$staffUSI_alt = 207219; 
-		// END TEST VARS
+		if(isset($user[0]) and !empty($user[0])) {
 
-		if($user or $thistestmode) {
-
-			if (isset($user[0]) and !$user[0]->GoogleAuth) {
+			if (!$user[0]->GoogleAuth) {
 	     		return $this->render("login",['message' => 'This account can not Sign In with Google.']);
 	    	}
-
-			$staffUSI = ($thistestmode) ? $staffUSI_alt : $user[0]->StaffUSI;
 	 		
 	 		$this->load->model('External_Auth','vToken');
 	 		$gAuthGood = $this->vToken->validate_google_token($_REQUEST['uemail'], $_REQUEST['idtoken'], 'http://easol-dev.azurewebsites.net');
@@ -62,24 +55,23 @@ class Home extends Easol_Controller {
 	 		if($gAuthGood == "valid") {
 
 	 			$this->load->model('entities/easol/Easol_StaffAuthentication');
-	 			$authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $staffUSI]);
+	 			$authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $user[0]->StaffUSI]);
 
 		 		if($authentication){
 		    		$this->session->sess_expiration =   '1200';
 				    $data=[
-					    'LoginId'	=>      isset($user[0]) ? $user[0]->ElectronicMailAddress : $staffUSI,
-					    'StaffUSI'  =>      $StaffUSI,
+					    'LoginId'	=>      $user[0]->ElectronicMailAddress,
+					    'StaffUSI'  =>      $user[0]->StaffUSI,
 					    'RoleId'	=>      $authentication->RoleId,
 					    'logged_in' => TRUE,
 					];
 				    
 				    if($authentication->RoleId == 3 or $authentication->RoleId == 4) {
-					    $data['SchoolId'] = isset($user[0]) ? $user[0]->Institutions[0]->EducationOrganizationId : null;
-				    	$data['SchoolName'] = isset($user[0]) ? $user[0]->Institutions[0]->NameOfInstitution : null;
+					    $data['SchoolId'] = isset($user[0]->Institutions[0]) ? $user[0]->Institutions[0]->EducationOrganizationId : null;
+				    	$data['SchoolName'] = isset($user[0]->Institutions[0]) ? $user[0]->Institutions[0]->NameOfInstitution : null;
 				    }
 
 		    		$this->session->set_userdata($data);
-		    		//return redirect('/student');
 		    		echo "gloginValid";
 		 		} else { 
 		 			/* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support."; 
