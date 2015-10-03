@@ -72,4 +72,6 @@ $(function() {
             $('#usermanagement-addedit-password').toggle(this.checked == false)
     });
 
+    $('[data-toggle="tooltip"]').tooltip();    
+
 });

@@ -23,29 +23,11 @@ class Usermanagement_M extends CI_Model {
                     EFS.LastSurname,
                     SEM.ElectronicMailAddress
                     FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
+                    FULL OUTER JOIN easol.RoleType ERT 
                      ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
+                    FULL OUTER JOIN edfi.Staff EFS 
                      ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
-                     ON ESA.StaffUSI = SEM.StaffUSI
-                      $where
-                ";
-
-        $query = "SELECT 
-                    ESA.StaffUSI,
-                    ESA.GoogleAuth,
-                    ERT.RoleTypeName,
-                    EFS.FirstName,
-                    EFS.MiddleName,
-                    EFS.LastSurname,
-                    SEM.ElectronicMailAddress
-                    FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
-                     ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
-                     ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
+                    FULL OUTER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
                       $where
                 ";                

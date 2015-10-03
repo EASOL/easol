@@ -21,15 +21,51 @@
                     <tbody>
             			<?php foreach ($users as $key => $user) : ?>
             				<tr>
-                                <td><?php echo $user->StaffUSI ?></td>
-                                <td><?php echo $user->FirstName .' '. $user->MiddleName .' '. $user->LastSurname ?></td>
-                                <td><?php echo $user->RoleTypeName ?></td>
-                                <td><?php echo ($user->GoogleAuth) ? 'Google' : 'Password'; ?></td>
-                                <td><?php echo $user->Institutions[0]->NameOfInstitution ?></td>
                                 <td>
-                                    <a href="<?= site_url("/usermanagement/addedit/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                    <a href="<?= site_url("/usermanagement/delete/$user->StaffUSI") ?>" class="usermanagement-index-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                                </td>                                    
+                                    <?php
+                                        $valid = true;
+                                        $tooltip = "missing data in field ";
+                                        foreach($user as $k => $v)
+                                        {
+                                            if ($v == '') {
+                                                $valid = false;
+                                                $tooltip .= $k . ',';
+                                            }
+                                         }
+                                        $tooltip = mb_strimwidth(rtrim($tooltip, ','), 0, 40, "...");
+                                        if (!$valid) : ?>
+                                            <span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="right" title="<?php echo $tooltip; ?>">Error</span>
+                                        <?php elseif (empty($user->StaffUSI)) : ?>
+                                            <span class="alert alert-danger alert-small">missing</span>
+                                        <?php else : echo $user->StaffUSI; endif; ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        if (empty($user->FirstName) or empty($user->LastSurname))
+                                            echo '<span class="alert alert-danger alert-small">missing</span>';
+                                        else 
+                                            echo $user->FirstName .' '. $user->MiddleName .' '. $user->LastSurname;
+                                    ?>
+                                </td>
+                                <td><?php echo (!empty($user->RoleTypeName)) ? $user->RoleTypeName : '<span class="alert alert-danger alert-small">missing</span>'; ?></td>
+                                <td>
+                                    <?php 
+                                        if ($user->GoogleAuth == '') 
+                                            echo '<span class="alert alert-danger alert-small">missing</span>';
+                                        else 
+                                            echo ($user->GoogleAuth) ? 'Google' : 'Password'; 
+                                        ?>
+                                </td>
+                                <td><?php echo (isset($user->Institutions[0]->NameOfInstitution)) ? $user->Institutions[0]->NameOfInstitution : '<span class="alert alert-danger alert-small">missing</span>'; ?></td>
+                                <td>
+                                    <?php
+                                         if (empty($user->StaffUSI)) : ?>
+                                            <span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="left" title="Cant edit/delete without a StaffUSI">Error</span>
+                                        <?php else : ?>    
+                                            <a href="<?= site_url("/usermanagement/addedit/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                            <a href="<?= site_url("/usermanagement/delete/$user->StaffUSI") ?>" class="usermanagement-index-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                        <?php endif; ?>
+                                </td>                                                                   
                             </tr>
             			<?php endforeach; ?>
             		</tbody>

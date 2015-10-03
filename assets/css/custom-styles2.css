@@ -746,3 +746,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 .pre-data-table {
   margin-bottom: 10px;
 }
+
+.alert-small {
+  padding: 5px;
+}
