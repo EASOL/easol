@@ -1,3 +1,17 @@
+IF NOT EXISTS (SELECT schema_name 
+    FROM information_schema.schemata 
+    WHERE schema_name = 'edfi' )
+BEGIN
+    EXEC sp_executesql N'CREATE SCHEMA edfi;';
+END
+
+IF NOT EXISTS (SELECT schema_name 
+    FROM information_schema.schemata 
+    WHERE schema_name = 'easol' )
+BEGIN
+    EXEC sp_executesql N'CREATE SCHEMA easol;';
+END
+
 -- ----------------------------
 -- Table structure for AcademicHonorCategoryType
 -- ----------------------------
