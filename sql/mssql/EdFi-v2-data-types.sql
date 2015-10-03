@@ -4568,14 +4568,86 @@ GO
 SET IDENTITY_INSERT [edfi].[StateAbbreviationType] OFF
 GO
 
+-- ----------------------------
+-- Records of StudentCharacteristicType
+-- ----------------------------
+SET IDENTITY_INSERT [edfi].[StudentCharacteristicType] ON
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'1', N'Asylee', N'Asylee', N'Asylee', N'9F973F12-7587-49E9-B553-FB833B359595', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'2', N'Displaced Homemaker', N'Displaced Homemaker', N'Displaced Homemaker', N'981A28B0-B763-4F25-AF8B-F5AE03E4CB57', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'3', N'Foster Care', N'Foster Care', N'Foster Care', N'8D549979-A3A0-4425-B863-32F1043B861C', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'4', N'Homeless', N'Homeless', N'Homeless', N'6D60B837-11A8-4EE4-9C43-ACFE4E768F9B', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'5', N'Immigrant', N'Immigrant', N'Immigrant', N'A06F09DA-D42A-41D3-A456-8987457AF9E2', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'6', N'Neglected or Delinquent', N'Neglected or Delinquent', N'Neglected or Delinquent', N'0EBD46C8-4EB3-4269-AE65-32E4D57C92B7', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'7', N'Migrant', N'Migrant', N'Migrant', N'DC98BA5E-204C-4CC3-A6F5-DA6121BD664E', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'8', N'Parent in Military', N'Parent in Military', N'Parent in Military', N'6139A228-71DA-43CF-8262-3C368785177A', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'9', N'Pregnant', N'Pregnant', N'Pregnant', N'A0CFD05A-466E-4766-ACDC-7DA34B2C0E3C', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'10', N'Refugee', N'Refugee', N'Refugee', N'9CA9A680-540E-4E6F-B759-D3705F26BB4B', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'11', N'Section 504 Handicapped', N'Section 504 Handicapped', N'Section 504 Handicapped', N'9531B5ED-7F8B-44D6-823F-191F591A8A98', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'12', N'Single Parent', N'Single Parent', N'Single Parent', N'C662F615-BDB5-4713-AEAC-0369901FC9CF', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+INSERT INTO [edfi].[StudentCharacteristicType] ([StudentCharacteristicTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'13', N'Unaccompanied Youth', N'Unaccompanied Youth', N'Unaccompanied Youth', N'8CB0CFE5-217B-457A-BB7E-8CE8BBC15F82', N'2014-11-12 14:54:25.090', N'2014-11-12 14:54:25.783')
+GO
+SET IDENTITY_INSERT [edfi].[StudentCharacteristicType] OFF
+GO
 
 -- ----------------------------
--- Records of StudentTitleIPartAProgramAssociation
+-- Records of StudentIdentificationSystemType
 -- ----------------------------
+SET IDENTITY_INSERT [edfi].[StudentIdentificationSystemType] ON
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'1', N'Canadian SIN', N'Canadian SIN', N'Canadian SIN', N'F8EBD937-05A0-4027-878B-6FBE0685DF5D', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'2', N'District', N'District', N'District', N'6F982EC8-DC75-487A-92B0-748AD4D62424', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'3', N'Family', N'Family', N'Family', N'CB68AE5F-A52E-41EA-B913-20164833434A', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'4', N'Federal', N'Federal', N'Federal', N'80D265C1-2ED9-41FC-9E89-4B8317B9A305', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'5', N'Local', N'Local', N'Local', N'EF7905DA-97F0-43A5-9669-E972A6FD1A29', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'6', N'National Migrant', N'National Migrant', N'National Migrant', N'2BE9D014-34F2-4CB4-9CE4-FFBE19511141', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'7', N'Other', N'Other', N'Other', N'F0FDDDC7-CAA7-4F7F-9C41-CAF3589BF0E3', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'8', N'School', N'School', N'School', N'23EE8EB3-EE74-4393-9F70-DFEDB788CCE3', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'9', N'SSN', N'SSN', N'SSN', N'79BC088F-50FD-4954-AEC0-7FD7469CE2C1', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'10', N'State', N'State', N'State', N'880EC9B1-8491-4ACA-B046-12502F00D88A', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+INSERT INTO [edfi].[StudentIdentificationSystemType] ([StudentIdentificationSystemTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'11', N'State Migrant', N'State Migrant', N'State Migrant', N'A3AF55E9-5DA8-4D57-A4A3-1FD80C1D89EB', N'2014-11-12 14:54:25.103', N'2014-11-12 14:54:25.793')
+GO
+SET IDENTITY_INSERT [edfi].[StudentIdentificationSystemType] OFF
+GO
+
 
 -- ----------------------------
--- Records of StudentVisa
+-- Records of StudentParticipationCodeType
 -- ----------------------------
+SET IDENTITY_INSERT [edfi].[StudentParticipationCodeType] ON
+GO
+INSERT INTO [edfi].[StudentParticipationCodeType] ([StudentParticipationCodeTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'1', N'Victim', N'Victim', N'Victim', N'DFAEF31A-C31F-4A10-8A36-6ADD8825E26D', N'2014-11-12 14:54:25.127', N'2014-11-12 14:54:25.800')
+GO
+INSERT INTO [edfi].[StudentParticipationCodeType] ([StudentParticipationCodeTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'2', N'Perpetrator', N'Perpetrator', N'Perpetrator', N'66C570FD-D575-4837-9D03-EF75B8B4626C', N'2014-11-12 14:54:25.127', N'2014-11-12 14:54:25.800')
+GO
+INSERT INTO [edfi].[StudentParticipationCodeType] ([StudentParticipationCodeTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'3', N'Witness', N'Witness', N'Witness', N'1B0AD9E3-7119-444B-A834-BEFA5ADBCBE0', N'2014-11-12 14:54:25.127', N'2014-11-12 14:54:25.800')
+GO
+INSERT INTO [edfi].[StudentParticipationCodeType] ([StudentParticipationCodeTypeId], [CodeValue], [Description], [ShortDescription], [Id], [LastModifiedDate], [CreateDate]) VALUES (N'4', N'Reporter', N'Reporter', N'Reporter', N'7A61B082-0BE4-4E72-8A95-646F0458F101', N'2014-11-12 14:54:25.127', N'2014-11-12 14:54:25.800')
+GO
+SET IDENTITY_INSERT [edfi].[StudentParticipationCodeType] OFF
+GO
 
 -- ----------------------------
 -- Records of TeachingCredentialBasisType
@@ -5591,6 +5663,36 @@ GO
 INSERT INTO [edfi].[StaffClassificationDescriptor] ([StaffClassificationDescriptorId], [StaffClassificationTypeId]) VALUES (N'358', N'33')
 GO
 INSERT INTO [edfi].[StaffClassificationDescriptor] ([StaffClassificationDescriptorId], [StaffClassificationTypeId]) VALUES (N'359', N'34')
+GO
+
+-- ----------------------------
+-- Records of StudentCharacteristicDescriptor
+-- ----------------------------
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'361', N'1')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'362', N'2')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'363', N'3')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'364', N'4')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'365', N'5')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'366', N'6')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'367', N'7')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'368', N'8')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'369', N'9')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'370', N'10')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'371', N'11')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'372', N'12')
+GO
+INSERT INTO [edfi].[StudentCharacteristicDescriptor] ([StudentCharacteristicDescriptorId], [StudentCharacteristicTypeId]) VALUES (N'373', N'13')
 GO
 
 -- ----------------------------
