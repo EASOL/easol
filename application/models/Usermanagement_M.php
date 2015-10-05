@@ -23,29 +23,11 @@ class Usermanagement_M extends CI_Model {
                     EFS.LastSurname,
                     SEM.ElectronicMailAddress
                     FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
+                    FULL OUTER JOIN easol.RoleType ERT 
                      ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
+                    FULL OUTER JOIN edfi.Staff EFS 
                      ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
-                     ON ESA.StaffUSI = SEM.StaffUSI
-                      $where
-                ";
-
-        $query = "SELECT 
-                    ESA.StaffUSI,
-                    ESA.GoogleAuth,
-                    ERT.RoleTypeName,
-                    EFS.FirstName,
-                    EFS.MiddleName,
-                    EFS.LastSurname,
-                    SEM.ElectronicMailAddress
-                    FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
-                     ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
-                     ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
+                    FULL OUTER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
                       $where
                 ";                
@@ -176,7 +158,11 @@ class Usermanagement_M extends CI_Model {
             $post['CreateDate'] = date('Y-m-d G:i:s');
             $result = $this->db->insert('easol.StaffAuthentication', $post);
         }else {
-            $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
+            $userData = $this->getEasolUsers($user[0]->StaffUSI);
+            if (is_array($userData) and !empty($userData[0]->ElectronicMailAddress))
+                $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
+            else
+                $result = false;
         }
 
         // If there was no error then re-fetch the saved user values from the db to show as defaults when
