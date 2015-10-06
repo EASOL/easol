@@ -70,9 +70,9 @@ $(function() {
    var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
    
    /* Tell the extension what was the last active URL  */
-   if(window.parent.location.origin === 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn'){
+   /*if(window.parent.location.origin === 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn'){*/
    	window.parent.postMessage({operation: 'changeUrl', location: window.location.href}, target);
-   }
+ /*  }*/
    
     if (assignmentLink.length) {
       // Hide links if a Google Classroom page is not open
