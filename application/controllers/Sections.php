@@ -3,149 +3,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sections extends Easol_Controller {
 
+
     protected function accessRules(){
         return [
             "index"     =>  "@",
         ];
     }
 
-    /**
-     * index action
-     * @param null $id
-     */
-    public function index($id=1)
-	{
-	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-	$userCanFilter = Easol_SchoolConfiguration::userCanFilter();
 
-            $query = "SELECT StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term,
-[Section].SchoolYear, Course.CourseTitle, [Section].LocalCourseCode,
-[Section].UniqueSectionCode, [Section].ClassPeriodName, count(*) as StudentCount FROM edfi.[Section]
-LEFT JOIN edfi.StudentSectionAssociation ON
-StudentSectionAssociation.SchoolId = Section.SchoolId AND StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND
-StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
-StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND
-StudentSectionAssociation.TermTypeId = Section.TermTypeId AND
-StudentSectionAssociation.SchoolYear = Section.SchoolYear
-LEFT JOIN edfi.StaffSectionAssociation ON
-StaffSectionAssociation.SchoolId = Section.SchoolId AND StaffSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND
-StaffSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
-StaffSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND
-StaffSectionAssociation.TermTypeId = Section.TermTypeId AND
-StaffSectionAssociation.SchoolYear = Section.SchoolYear
-LEFT JOIN edfi.Staff ON
-Staff.StaffUSI = StaffSectionAssociation.StaffUSI
-INNER JOIN edfi.TermType ON TermType.TermTypeId = Section.TermTypeId
-INNER JOIN edfi.Course ON Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId
-WHERE Section.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' ".$userCanFilter['allowedUser']."
-                  ";
+public function index($id=1)
+    {
+        $data = array();
+        $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+        $data['currentYear_default']    = Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
+        $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
+        $data['currentTerm_default']    = Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);
+        $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
 
+        $sql = "SELECT Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, Grade.SchoolYear, 
+        sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
+        sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
+        sum(case when Grade.NumericGradeEarned >= 70 AND Grade.NumericGradeEarned < 80 THEN 1 ELSE 0 END) as Numeric_C,
+        sum(case when Grade.NumericGradeEarned >= 60 AND Grade.NumericGradeEarned < 70 THEN 1 ELSE 0 END) as Numeric_D,
+        sum(case when Grade.NumericGradeEarned < 60 THEN 1 ELSE 0 END) as Numeric_F,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'A' THEN 1 ELSE 0 END) as Letter_A,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'B' THEN 1 ELSE 0 END) as Letter_B,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'C' THEN 1 ELSE 0 END) as Letter_C,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'D' THEN 1 ELSE 0 END) as Letter_D,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'F' THEN 1 ELSE 0 END) as Letter_F, 
+        count(*) as StudentCount FROM edfi.Grade 
+        INNER JOIN edfi.GradingPeriod ON GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId 
+        INNER JOIN edfi.StudentSectionAssociation ON StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName 
+        INNER JOIN edfi.Section ON Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode INNER JOIN edfi.StaffSectionAssociation ON StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName
+        INNER JOIN edfi.Staff ON Staff.StaffUSI = StaffSectionAssociation.StaffUSI
+        INNER JOIN edfi.Course ON edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode
+        INNER JOIN edfi.TermType ON edfi.TermType.TermTypeId = edfi.Grade.TermTypeId 
+        WHERE edfi.Grade.SchoolId = '255901044' and TermType.TermTypeId = '2' 
+        GROUP BY Grade.LocalCourseCode,Course.CourseTitle,[Section].UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname
+        ORDER BY Grade.LocalCourseCode , Grade.SchoolYear
+        ";
 
-            $this->render("index", [
-                'query' => $query,
-                'colOrderBy' => ['StaffSectionAssociation.StaffUSI'],
-                'colGroupBy' => ['StaffSectionAssociation.StaffUSI','Staff.FirstName','Staff.LastSurname','TermType.CodeValue','[Section].SchoolYear','[Section].UniqueSectionCode',
-                    'Course.CourseTitle','[Section].LocalCourseCode','[Section].ClassPeriodName','[Section].ClassroomIdentificationCode','[Section].ClassPeriodName'],
-                'filter' => [
-                    'dataBind' => true,
-                    'bindIndex' => $userCanFilter['thefilter'],
-                    'queryWhere' => false,
-                    'fields' =>
-                        [
-                            'Term' =>
-                                [
+        $data['results']        = $this->db->query($sql)->result();
+        foreach ($data['results'] as $k => $v)
+        {
+            list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+            $data['results'][$k]->Period = $pCode;
+            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+        }
 
-                                    'query' => $this->db->query("SELECT TermTypeId, CodeValue FROM edfi.TermType"),
-                                    'searchColumn' => 'TermTypeId',
-                                    'searchColumnType' => 'int',
-                                    'textColumn' => 'CodeValue',
-                                    'indexColumn' => 'TermTypeId',
-                                    'queryBuilderColumn' => '[Section].TermTypeId',
-                                    'label' => 'Term',
-                                    'type' => 'dropdown',
-                                    'bindDatabase' => true,
-                                    'default' => $this->input->get('filter[Term]'),
-                                    'prompt' => 'All Terms'
-                                ],
-                            'Year' =>
-                                [
-                                    'range' =>
-                                        [
-                                            'type' => 'dynamic',
-                                            'start' => $currentYear, //2000,
-                                            'end' => date('Y'),
-                                            'increament' => 1,
-                                        ],
-                                    'searchColumn' => 'SchoolYear',
-                                    'searchColumnType' => 'int',
-                                    'queryBuilderColumn' => '[Section].SchoolYear',
-                                    'default' => ($this->input->get('filter[Year]') == null) ? $currentYear : $this->input->get('filter[Year]'),
-                                    'label' => 'School Year',
-                                    'type' => 'dropdown',
-                                    'bindDatabase' => true,
-                                    'prompt' => 'All Years'
+        $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
+        $data['terms']          = $this->db->query($sql)->result();
 
-                                ],
-                            'Course' =>
-                                [
-                                    'query' => $this->db->query("SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle"),
-                                    'searchColumn' => 'CourseCode',
-                                    'searchColumnType' => 'int',
-                                    'textColumn' => 'CourseTitle',
-                                    'indexColumn' => 'CourseCode',
-                                    'queryBuilderColumn' => 'edfi.Course.CourseCode',
-                                    'label' => 'Course',
-                                    'type' => 'dropdown',
-                                    'bindDatabase' => true,
-                                    'default' => $this->input->get('filter[Course]'),
-                                    'prompt' => 'All Courses'
-                                ],
-                            'Educator' =>
-                                [
-                                    'query' => $this->db->query("SELECT
-                                                edfi.Staff.StaffUSI,
-                                                CONCAT (edfi.Staff.FirstName,' ',
-                                                edfi.Staff.LastSurname) as FullName
-                                                FROM edfi.Staff
-                                                LEFT JOIN edfi.StaffSchoolAssociation
-                                                ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
-                                                WHERE StaffSchoolAssociation.SchoolId = ?
-                                                ORDER By FirstName, LastSurname",[Easol_Authentication::userdata('SchoolId')]),
-                                    'searchColumn' => 'StaffUSI',
-                                    'searchColumnType' => 'int',
-                                    'textColumn' => 'FullName',
-                                    'indexColumn' => 'StaffUSI',
-                                    'queryBuilderColumn' => 'edfi.StaffSectionAssociation.StaffUSI',
-                                    'label' => 'Educator',
-                                    'type' => 'dropdown',
-                                    'bindDatabase' => true,
-                                    'default' => $this->input->get('filter[Educator]'),
-                                    'prompt' => 'All Educators'
-                                ],
-                            'Result'    =>
-                                [
-                                    'range'     =>
-                                        [
-                                            'type'  =>  'set',
-                                            'set'   =>  [10,25,50,100,200,500]
-                                        ],
-                                    'default'   =>  (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
-                                    'label'     =>  'Results',
-                                    'type'      =>  'dropdown',
-                                    'bindDatabase'  => false,
-                                    'fieldType' => 'pageSize'
-                                ],
+        $data['years']          = range($data['currentYear'], date('Y'));
 
-                        ]
+        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
+        $data['courses']        = $this->db->query($sql)->result();
 
-                ],
-                'pagination' =>
-                    [
-                        'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
-                        'currentPage' => $id,
-                        'url' => 'sections/index/@pageNo'
-                    ]
-            ]);
+        $sql                    = "SELECT * FROM edfi.GradeLevelType";
+        $data['gradelevels']    = $this->db->query($sql)->result();
 
+        $sql                    = "SELECT
+                                    edfi.Staff.StaffUSI,
+                                    CONCAT (edfi.Staff.FirstName,' ',
+                                    edfi.Staff.LastSurname) as FullName
+                                    FROM edfi.Staff
+                                    LEFT JOIN edfi.StaffSchoolAssociation
+                                    ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
+                                    ORDER By FirstName, LastSurname
+                                    ";
+
+        $data['educators']      = $this->db->query($sql)->result();
+
+        $this->render("index",[
+            'data'  => $data,
+        ]);
     }
 }
