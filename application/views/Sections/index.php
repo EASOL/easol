@@ -10,47 +10,47 @@
             <div class="panel-body">
                 <form class="form-inline form-horizontal undo-overrides">
                		<div class="form-group">
-	                    <label for="filter['Term']">Term</label><br />
-	                    <select name="filter['Term']">
+	                    <label for="term">Term</label><br />
+	                    <select name="term">
 	                        <option value="">All Terms</option>	                    	
 	                        <?php foreach($terms as $k => $v): ?>
-	                        	<option value="<?php echo $v->TermTypeId; ?>" <?php if( isset($_GET["filter['Term']"]) and $_GET["filter['Term']"] == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
+	                        	<option value="<?php echo $v->TermTypeId; ?>" <?php if(isset($filters['term']) and $filters['term'] == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
  				          <div class="form-group">
-	                    <label for="filter['Year']">School Year</label><br />
-	                    <select name="filter['Year']">
+	                    <label for="year">School Year</label><br />
+	                    <select name="year">
 	                        <option value="">All Years</option>	                    	
 	                        <?php foreach($years as $k => $v): ?>
-	                        	<option value="<?php echo $v; ?>" <?php if( isset($_GET["filter['Year']"]) and $_GET["filter['Year']"] == $v) {echo "selected";} ?> ><?php echo $v; ?></option>
+	                        	<option value="<?php echo $v; ?>" <?php if(isset($filters['year']) and $filters['year'] == $v) {echo "selected";} ?> ><?php echo $v; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
  				          <div class="form-group">
-	                    <label for="filter['Course']">Course</label><br />
-	                    <select name="filter['Course']">
+	                    <label for="course">Course</label><br />
+	                    <select name="course">
 	                        <option value="">All Courses</option>	                    	
 	                        <?php foreach($courses as $k => $v): ?>
-	                        	<option value="<?php echo $v->CourseCode; ?>" <?php if( isset($_GET["filter['Course']"]) and $_GET["filter['Course']"] == $v->CourseCode) {echo "selected";} ?> ><?php echo $v->CourseTitle; ?></option>
+	                        	<option value="<?php echo $v->CourseCode; ?>" <?php if(isset($filters['course']) and $filters['course'] == $v->CourseCode) {echo "selected";} ?> ><?php echo $v->CourseTitle; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
  				          <div class="form-group">
-	                    <label for="filter['Educator']">Educator</label><br />
-	                    <select name="filter['Educator']">
+	                    <label for="educator">Educator</label><br />
+	                    <select name="educator">
 	                        <option value="">All Educators</option>	                    	
 	                        <?php foreach($educators as $k => $v): ?>
-	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if( isset($_GET["filter['Educator']"]) and $_GET["filter['Educator']"] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
+	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>                                       
                   <div class="form-group">
-                    <label for="filter['GradeLevel']">Grade Level</label><br />
-                    <select name="filter['GradeLevel']">
+                    <label for="gradelevel']">Grade Level</label><br />
+                    <select name="gradelevel']">
 	                	<option value="">All Grade Levels</option>                    	
                         <?php foreach($gradelevels as $k => $v): ?>
-                        <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if( isset($_GET['Gradelevel']) and $_GET['GradeLevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
+                        <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if(isset($filters['gradelevel']) and $filters['gradeLevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
                         <?php endforeach; ?>                        
                     </select>   
                   </div>

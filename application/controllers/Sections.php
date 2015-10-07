@@ -14,6 +14,9 @@ class Sections extends Easol_Controller {
 public function index($id=1)
     {
         $data = array();
+
+        $data['filters']                = $_GET;
+
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $data['currentYear_default']    = Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
