@@ -46,8 +46,8 @@
 	                    </select>   
                   </div>                                       
                   <div class="form-group">
-                    <label for="gradelevel']">Grade Level</label><br />
-                    <select name="gradelevel']">
+                    <label for="gradelevel">Grade Level</label><br />
+                    <select name="gradelevel">
 	                	<option value="">All Grade Levels</option>                    	
                         <?php foreach($gradelevels as $k => $v): ?>
                         <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if(isset($filters['gradelevel']) and $filters['gradeLevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
