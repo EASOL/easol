@@ -1,3 +1,3 @@
 $(function () {
-	$('table#managegrades').DataTable();
+	$('table#managesections').DataTable();
 })

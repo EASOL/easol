@@ -1,7 +1,7 @@
 <?php extract($data); ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header">Grades</h1>
+        <h1 class="page-header">Sections</h1>
     </div>
 </div>
 <div class="row">
@@ -55,11 +55,11 @@
                     </select>   
                   </div>
 
-                  <button type="submit" class="btn btn-primary" id="grades-filter">Filter</button>
+                  <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
                 </form>
                 <?php if (isset($results) and !empty($results)): ?>
                   <div class="col-md-12 col-sm-12">
-                      <table id="managegrades" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                      <table id="managesections" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
                             <th>Course</th>
