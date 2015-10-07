@@ -34,8 +34,7 @@ class Home extends Easol_Controller {
 		      if($staffbyEmail) {
 
 				$staffEmailIndicator = $staffbyEmail->PrimaryEmailAddressIndicator;
-			
-				
+				$staffUSI = $staffbyEmail->StaffUSI;
 				if($staffEmailIndicator==1 || $thistestmode) {
 					// GOOGLE & EASOL EMAILS MATCH AND WE CAN USE EMAIL
 					$staff = $this->Edfi_Staff->hydrate($this->Edfi_Staff->findOne(['StaffUSI' => $staffUSI]));
