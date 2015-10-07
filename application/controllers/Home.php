@@ -30,7 +30,7 @@ class Home extends Easol_Controller {
 		       $staffbyEmail = $this->Edfi_StaffElectronicMail->hydrate($this->Edfi_StaffElectronicMail->findOne(['ElectronicMailAddress' => $_REQUEST['uemail']]));
 
 		       // FOR TESTING
-		       $thistestmode = TRUE;
+		       $thistestmode = FALSE;
 		       $staffUSI_alt = 207219; 
 		       if($thistestmode) {$staffUSI=$staffUSI_alt;}
 		       // END TEST VARS
