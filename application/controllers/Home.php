@@ -29,16 +29,12 @@ class Home extends Easol_Controller {
 		       $this->load->model('entities/edfi/Edfi_StaffElectronicMail','Edfi_StaffElectronicMail');
 		       $staffbyEmail = $this->Edfi_StaffElectronicMail->hydrate($this->Edfi_StaffElectronicMail->findOne(['ElectronicMailAddress' => $_REQUEST['uemail']]));
 
-		       // FOR TESTING
-		       $thistestmode = FALSE;
-		       $staffUSI_alt = 207219; 
-		       if($thistestmode) {$staffUSI=$staffUSI_alt;}
-		       // END TEST VARS
+		      
 
-		      if($staffbyEmail || $thistestmode) {
+		      if($staffbyEmail) {
 
 				$staffEmailIndicator = $staffbyEmail->PrimaryEmailAddressIndicator;
-				if(!$thistestmode) {$staffUSI = $staffbyEmail->StaffUSI;} // important
+			
 				
 				if($staffEmailIndicator==1 || $thistestmode) {
 					// GOOGLE & EASOL EMAILS MATCH AND WE CAN USE EMAIL
