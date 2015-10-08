@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sections extends Easol_Controller {
+class Sections_bak extends Easol_Controller {
 
     protected function accessRules(){
         return [

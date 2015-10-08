@@ -80,8 +80,14 @@
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
-                              <td><?php echo 'pending'; ?></td>
-                              <td><?php echo 'pending'; ?></td>
+                              <td>
+                                <span class="label label-success sections-grade"><?php echo $v->Numeric_A; ?></span>
+                                <span class="label label-info sections-grade"><?php echo $v->Numeric_B; ?></span>
+                                <span class="label label-primary sections-grade"><?php echo $v->Numeric_C; ?></span>
+                                <span class="label label-warning sections-grade"><?php echo $v->Numeric_D; ?></span>
+                                <span class="label label-danger sections-grade"><?php echo $v->Numeric_F; ?></span>                                
+                              </td>
+                              <td><?php echo $v->Gradelevel; ?></td>
                               <td><?php echo $v->CodeValue; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>

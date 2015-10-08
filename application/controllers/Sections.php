@@ -50,8 +50,12 @@ public function index($id=1)
         $data['results']        = $this->db->query($sql)->result();
         foreach ($data['results'] as $k => $v)
         {
+            list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
+            $data['results'][$k]->Gradelevel = $gradelevel;
+
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             $data['results'][$k]->Period = $pCode;
+
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
         }
 
