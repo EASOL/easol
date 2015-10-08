@@ -234,8 +234,9 @@
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
-        <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-        <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+        <script src="<?= site_url('assets/js/dataTables/jquery.dataTables.js') ?>"></script>
+        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
+        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->
