@@ -6,13 +6,15 @@ class Usermanagement_M extends CI_Model {
         parent::__construct();
     }
 
-    public function getEasolUsers($user = "") {
+    public function getEasolUsers($user = "", $where = array()) {
         /*
         * Get listing of easol users with details from edfi tables for editing/deleting in easol
         * system via the UI.
         */
 
-        $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
+        if (!empty($user)) {
+            $where['StaffUSI'] = $user;
+        } 
 
         $query = "SELECT 
                     ESA.StaffUSI,
@@ -29,10 +31,9 @@ class Usermanagement_M extends CI_Model {
                      ON ESA.StaffUSI = EFS.StaffUSI
                     LEFT OUTER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
-                      $where
                 ";                
 
-        $users = $this->db->query($query)->result();
+        $users = $this->db->where($where)->query($query)->result();
 
         foreach ($users as $key => $user) {
             $query = "SELECT 
@@ -40,10 +41,16 @@ class Usermanagement_M extends CI_Model {
                         FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
                         INNER JOIN edfi.EducationOrganization EO
                          ON EO.EducationOrganizationId = SEO.EducationOrganizationId
-                          WHERE SEO.StaffUSI = '$user->StaffUSI'
+                        WHERE SEO.StaffUSI = '$user->StaffUSI'
                     ";
 
             $users[$key]->Institutions = $this->db->query($query)->result();
+        
+            $query      = "SELECT * 
+                            FROM edfi.StaffElectronicMail 
+                            WHERE StaffUSI='$user->StaffUSI' AND PrimaryEmailAddressIndicator = '1'
+                          ";
+            $users[$key]->PrimaryEmailAddress  = ($this->db->query($query)->row() == null) ? '' : '1'; ;
         }
         return $users;
     }
