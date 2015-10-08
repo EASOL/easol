@@ -27,7 +27,7 @@
                                         $tooltip = "missing data in field ";
                                         foreach($user as $k => $v)
                                         {
-                                            if ($v == '') {
+                                            if ($v === '') {
                                                 $valid = false;
                                                 $tooltip .= $k . ',';
                                             }
@@ -48,7 +48,7 @@
                                 <td><?php echo (!empty($user->RoleTypeName)) ? $user->RoleTypeName : '<span class="alert alert-danger alert-small">missing</span>'; ?></td>
                                 <td>
                                     <?php 
-                                        if ($user->GoogleAuth == '') 
+                                        if ($user->GoogleAuth === '') 
                                             echo '<span class="alert alert-danger alert-small">missing</span>';
                                         else 
                                             echo ($user->GoogleAuth) ? 'Google' : 'Password'; 
