@@ -4,6 +4,14 @@ $(function() {
         $('#manageusers').DataTable();
     }
 
+   if ($('table#manageschools').length) {
+        $('#manageschools').DataTable();
+    }
+
+   if ($('table#manageschooldetails').length) {
+        $('#manageschooldetails').DataTable();
+    }
+
     $( "#filter-result" ).change(function() {
         $("#filter-form-result").val($( "#filter-result" ).val());
         $( "#dataGridFormFilter").submit();
@@ -60,7 +68,12 @@ $(function() {
 
     /* Sample code for browser extension dev when handling content links */
    var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
-
+   
+   /* Tell the extension what was the last active URL  */
+   if(window.parent.location.origin === 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn'){
+   	window.parent.postMessage({operation: 'changeUrl', location: window.location.href}, target);
+   }
+   
     if (assignmentLink.length) {
       // Hide links if a Google Classroom page is not open
       $(window).on('message', function (event) {

@@ -3,10 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reports extends Easol_Controller {
 
+    /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+    }
+
     protected function accessRules(){
         return [
            // "index"     =>  ['@'],
-            //"index"     =>  ['System Administrator','Data Administrator'],
+           "index"     =>  ['System Administrator','Data Administrator'],
         ];
     }
 
@@ -15,6 +22,7 @@ class Reports extends Easol_Controller {
      */
     public function index()
 	{
+	
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();

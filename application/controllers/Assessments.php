@@ -3,18 +3,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Assessments extends Easol_Controller {
 
+    /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+    }
 
     protected function accessRules(){
         return [
-            "index"     =>  "@",
+            "index"     =>  ['System Administrator','Data Administrator'],
         ];
     }
     /**
      * index action
      */
-    public function index($id=1)
-	{
-
+    public function index($id=1) {
+	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+        $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
+        
         $query = "SELECT AssessmentTitle, Version, AdministrationDate,
 AVG(CAST(StudentAssessmentScoreResult.Result as INT)) as AverageResult,
 COUNT(*) as StudentCount FROM edfi.StudentAssessmentScoreResult
@@ -38,14 +45,14 @@ WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
                                 'range' =>
                                     [
                                         'type' => 'dynamic',
-                                        'start' => 2000,
+                                        'start' => $currentYear, //2000,
                                         'end' => date('Y'),
                                         'increament' => 1,
                                     ],
                                 'searchColumn' => 'YEAR(StudentAssessmentScoreResult.AdministrationDate) ',
                                 'searchColumnType' => 'int',
                                 'queryBuilderColumn' => 'YEAR(StudentAssessmentScoreResult.AdministrationDate)',
-                                'default' => ($this->input->get('filter[Year]') == null) ? "" : $this->input->get('filter[Year]'),
+                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear_default : $this->input->get('filter[Year]'),
                                 'label' => 'Administration Year',
                                 'type' => 'dropdown',
                                 'bindDatabase' => true,
