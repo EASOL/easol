@@ -6,13 +6,15 @@ class Usermanagement_M extends CI_Model {
         parent::__construct();
     }
 
-    public function getEasolUsers($user = "") {
+    public function getEasolUsers($user = "", $where = array()) {
         /*
         * Get listing of easol users with details from edfi tables for editing/deleting in easol
         * system via the UI.
         */
 
-        $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
+        if (!empty($user)) {
+            $where['StaffUSI'] = $user;
+        } 
 
         $query = "SELECT 
                     ESA.StaffUSI,
@@ -23,34 +25,15 @@ class Usermanagement_M extends CI_Model {
                     EFS.LastSurname,
                     SEM.ElectronicMailAddress
                     FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
+                    LEFT OUTER JOIN easol.RoleType ERT 
                      ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
+                    LEFT OUTER JOIN edfi.Staff EFS 
                      ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
+                    LEFT OUTER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
-                      $where
-                ";
-
-        $query = "SELECT 
-                    ESA.StaffUSI,
-                    ESA.GoogleAuth,
-                    ERT.RoleTypeName,
-                    EFS.FirstName,
-                    EFS.MiddleName,
-                    EFS.LastSurname,
-                    SEM.ElectronicMailAddress
-                    FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
-                     ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
-                     ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
-                     ON ESA.StaffUSI = SEM.StaffUSI
-                      $where
                 ";                
 
-        $users = $this->db->query($query)->result();
+        $users = $this->db->where($where)->query($query)->result();
 
         foreach ($users as $key => $user) {
             $query = "SELECT 
@@ -58,10 +41,16 @@ class Usermanagement_M extends CI_Model {
                         FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
                         INNER JOIN edfi.EducationOrganization EO
                          ON EO.EducationOrganizationId = SEO.EducationOrganizationId
-                          WHERE SEO.StaffUSI = '$user->StaffUSI'
+                        WHERE SEO.StaffUSI = '$user->StaffUSI'
                     ";
 
             $users[$key]->Institutions = $this->db->query($query)->result();
+        
+            $query      = "SELECT * 
+                            FROM edfi.StaffElectronicMail 
+                            WHERE StaffUSI='$user->StaffUSI' AND PrimaryEmailAddressIndicator = '1'
+                          ";
+            $users[$key]->PrimaryEmailAddress  = ($this->db->query($query)->row() == null) ? '' : '1'; ;
         }
         return $users;
     }
@@ -176,7 +165,11 @@ class Usermanagement_M extends CI_Model {
             $post['CreateDate'] = date('Y-m-d G:i:s');
             $result = $this->db->insert('easol.StaffAuthentication', $post);
         }else {
-            $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
+            $userData = $this->getEasolUsers($user[0]->StaffUSI);
+            if (is_array($userData) and !empty($userData[0]->ElectronicMailAddress))
+                $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
+            else
+                $result = false;
         }
 
         // If there was no error then re-fetch the saved user values from the db to show as defaults when

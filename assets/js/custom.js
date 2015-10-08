@@ -145,6 +145,7 @@ $(function() {
     $('#usermanagement-addedit-authtype input:checkbox').click(function(event) {
             $('#usermanagement-addedit-password').toggle(this.checked == false)
     });
+     $('[data-toggle="tooltip"]').tooltip();
 
 });
 
@@ -199,3 +200,5 @@ $(function() {
 	    });         
         console.log('End Google Logout');
       }
+
+       
