@@ -34,9 +34,7 @@
                                          }
                                         $tooltip = mb_strimwidth(rtrim($tooltip, ','), 0, 40, "...");
                                         if (!$valid) : ?>
-                                            <span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="right" title="<?php echo $tooltip; ?>">Error</span>
-                                        <?php elseif (empty($user->StaffUSI)) : ?>
-                                            <span class="alert alert-danger alert-small">missing</span>
+                                            <span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="right" title="<?php echo $tooltip; ?>"><?php echo (!empty($user->StaffUSI)) ? $user->StaffUSI : 'Error'; ?></span>
                                         <?php else : echo $user->StaffUSI; endif; ?>
                                 </td>
                                 <td>

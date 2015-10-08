@@ -23,11 +23,11 @@ class Usermanagement_M extends CI_Model {
                     EFS.LastSurname,
                     SEM.ElectronicMailAddress
                     FROM easol.StaffAuthentication ESA
-                    FULL OUTER JOIN easol.RoleType ERT 
+                    LEFT OUTER JOIN easol.RoleType ERT 
                      ON ESA.RoleId = ERT.RoleTypeId 
-                    FULL OUTER JOIN edfi.Staff EFS 
+                    LEFT OUTER JOIN edfi.Staff EFS 
                      ON ESA.StaffUSI = EFS.StaffUSI
-                    FULL OUTER JOIN edfi.StaffElectronicMail SEM 
+                    LEFT OUTER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
                       $where
                 ";                
