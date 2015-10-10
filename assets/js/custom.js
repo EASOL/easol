@@ -172,19 +172,19 @@ $(function() {
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', gloginPosturl);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.onload = function() {
-		   if(xhr.responseText=="gloginValid") {
-		   	   /* GOOD SIGN IN */
-			   console.log('Signed in as: ' + profile.getName() );
-			   /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ 
-			   window.location='student'; 
-		   } else {
-			   /* FAILED SIGN IN */
-			   console.log('Signed In Error: ' + xhr.responseText);
-			   document.getElementById('google_ajax_error').innerHTML=xhr.responseText;
-			   document.getElementById('google_ajax_error').style.display='block';
-		  }
-		};
+        xhr.onload = function() {
+           if(xhr.responseText=="gloginValid") {
+               /* GOOD SIGN IN */
+               console.log('Signed in as: ' + profile.getName() );
+               /* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/ 
+               window.location='student'; 
+           } else {
+               /* FAILED SIGN IN */
+               console.log('Signed In Error: ' + xhr.responseText);
+               /* we set the error message server side in the session for display on the redirect */
+               window.location = "/";
+          }
+        };
 		xhr.send('idtoken=' + id_token + '&uemail=' + uemail);
       }
  //  END SIGN IN

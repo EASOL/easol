@@ -46,7 +46,11 @@ class Home extends Easol_Controller {
 		if(isset($user[0]) and !empty($user[0])) {
 
 			if (!$user[0]->GoogleAuth) {
-	     		return $this->render("login",['message' => 'This account can not Sign In with Google.']);
+				// this is an ajax call so simply set the error in the session and return the response text for client side
+				// processing and redirection where the session error will get picked up and displayed.
+	     		$this->session->set_flashdata('error', 'This account can not Sign In with Google.');
+	     		echo "gloginInvalid";
+	     		return;
 	    	}
 	 		
 	 		$this->load->model('External_Auth','vToken');

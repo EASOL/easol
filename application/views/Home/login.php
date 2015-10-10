@@ -13,7 +13,6 @@
                     echo '<div class="alert alert-danger">'.$message.'</div>';
                 }
                 ?>
-                <div class="alert alert-danger" id="google_ajax_error"></div>
                 <form method="post" class="form-horizontal">
                     <div class="form-group">
 
