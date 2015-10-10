@@ -18,9 +18,9 @@ public function index($id=1)
         $data['filters']                = $_GET;
 
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-        $data['currentYear_default']    = Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
+        $data['currentYear_default']    = (isset($data['filters']['year']) and !empty($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
-        $data['currentTerm_default']    = Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);
+        $data['currentTerm_default']    = (isset($data['filters']['term']) and !empty($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
         $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
 
         $sql = "SELECT Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 

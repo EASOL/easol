@@ -14,7 +14,7 @@
 	                    <select name="term">
 	                        <option value="">All Terms</option>	                    	
 	                        <?php foreach($terms as $k => $v): ?>
-	                        	<option value="<?php echo $v->TermTypeId; ?>" <?php if(isset($filters['term']) and $filters['term'] == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
+	                        	<option value="<?php echo $v->TermTypeId; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
@@ -23,7 +23,7 @@
 	                    <select name="year">
 	                        <option value="">All Years</option>	                    	
 	                        <?php foreach($years as $k => $v): ?>
-	                        	<option value="<?php echo $v; ?>" <?php if(isset($filters['year']) and $filters['year'] == $v) {echo "selected";} ?> ><?php echo $v; ?></option>
+	                        	<option value="<?php echo $v; ?>" <?php if($currentYear_default == $v) {echo "selected";} ?> ><?php echo $v; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
