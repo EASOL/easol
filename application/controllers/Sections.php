@@ -11,7 +11,7 @@ class Sections extends Easol_Controller {
     }
 
 
-public function index($id=1)
+public function index()
     {
         $data = array();
 
@@ -86,4 +86,57 @@ public function index($id=1)
             'data'  => $data,
         ]);
     }
+
+    public function details()
+    {
+        $id = $this->uri->segment(3, 0);
+        $data = array();
+        $data['section_id'] = $id;
+
+        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, [Section].ClassPeriodName
+        FROM edfi.[Section] 
+        LEFT JOIN edfi.StudentSectionAssociation ON 
+        StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+        StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+        StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
+        StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+        StudentSectionAssociation.TermTypeId = Section.TermTypeId AND 
+        StudentSectionAssociation.SchoolYear = Section.SchoolYear 
+        LEFT JOIN edfi.StaffSectionAssociation ON 
+        StaffSectionAssociation.SchoolId = Section.SchoolId AND 
+        StaffSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+        StaffSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+        StaffSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+        StaffSectionAssociation.TermTypeId = Section.TermTypeId AND 
+        StaffSectionAssociation.SchoolYear = Section.SchoolYear 
+        LEFT JOIN edfi.Staff ON 
+        Staff.StaffUSI = StaffSectionAssociation.StaffUSI 
+        INNER JOIN edfi.TermType ON 
+        TermType.TermTypeId = Section.TermTypeId 
+        INNER JOIN edfi.Course ON 
+        Course.CourseCode = Section.LocalCourseCode AND 
+        Course.EducationOrganizationId = Section.SchoolId 
+        WHERE [Section].UniqueSectionCode = '$id'
+        "; 
+
+        $data['results'] = $this->db->query($sql)->result();
+
+        $students = "(";
+        foreach ($data['results'] as $k => $v)
+            $students .= "'".$v->StudentUSI . "',";
+
+        $students = rtrim($students,",");
+        $students .= ")";
+
+        $sql = "select * from edfi.Student WHERE StudentUSI IN $students";
+        $data['results']['students'] = $this->db->query($sql)->result();
+
+        exit(var_dump($data['results']));
+
+        $this->render("details",[
+            'data'  => $data,
+        ]);
+
+    }  
+
 }
