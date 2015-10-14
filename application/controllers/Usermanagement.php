@@ -26,7 +26,7 @@ class Usermanagement extends Easol_Controller {
 	}
 
     /*
-    * Since both "user adds" and "user edits" both use the same form 
+    * Since both "user adds" and "user edits" both use the same form
     * and the same backend processing, we use a single MVC to keep
     * the codebase as DRY as possible.
     */
@@ -34,19 +34,20 @@ class Usermanagement extends Easol_Controller {
     {
         $this->load->helper('form');
         $user = ($this->uri->segment('3')) ? $this->uri->segment('3') : $this->input->post('StaffUSI');
-        if ($user) 
+        if ($user)
         {
             if (!empty($_POST))
             {
                 $this->load->library('form_validation');
                 $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
                 $this->form_validation->set_rules('StaffUSI', 'StaffUSI', 'required');
-                
+
                 if (!isset($_POST['GoogleAuth']))
                     $this->form_validation->set_rules('Password', 'Password', 'required|min_length[6]');
 
                 if ($this->form_validation->run() === true)
                 {
+				 unset($_POST['newuser']);
                     // Process the form and show the form with the flash message and the new form field defaults.
                     $data = $this->Usermanagement_M->addEditEasolUser($_POST);
                     // $data is user array on success and a boolean false on failure.
@@ -66,11 +67,11 @@ class Usermanagement extends Easol_Controller {
                 }
             }else
             {
-                // We are editing a user from the uri so get the db data necessary to build the form 
+                // We are editing a user from the uri so get the db data necessary to build the form
                 $data = $this->Usermanagement_M->getUserFormData($user);
             }
-        }else 
-        {   // We are adding a "new" user so get the db data necessary to build the form 
+        }else
+        {   // We are adding a "new" user so get the db data necessary to build the form
             $data = $this->Usermanagement_M->getUserFormData();
         }
 
@@ -85,7 +86,7 @@ class Usermanagement extends Easol_Controller {
     {
         $user = $this->uri->segment('3');
         if ($user)
-        { 
+        {
             $result = $this->Usermanagement_M->deleteEasolUsers($user);
             // $result is null when the delete was successful.
             if ($result)
@@ -95,5 +96,5 @@ class Usermanagement extends Easol_Controller {
         }
         // send them back to the user listing to see the list, sans the deleted user.
         redirect('/usermanagement');
-    }    
+    }
 }
