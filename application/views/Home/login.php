@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <div class="col-md-5 col-sm-11 nudgright">
                             <button class="btn btn-primary pull-right" type="submit">Login</button><br /><br />
-                            <div class="g-signin2 altSIbut pull-right" data-onsuccess="onSignIn" data-theme="dark"></div>
+                            <div class="g-signin2 altSIbut pull-right"  data-theme="dark"></div>
                         </div>
                     </div>
                 </form>
