@@ -184,8 +184,11 @@ $(function() {
            } else {
                /* FAILED SIGN IN */
                console.log('Signed In Error: ' + xhr.responseText);
-               /* we set the error message server side in the session for display on the redirect */
-               window.location.reload();
+               /* 
+               * we set the error message server side in the session for display on the redirect. 
+               * we redirect to the current url but without resending the post data like window.location.reload() would do.
+               */
+               window.location.href = window.location.href; 
           }
         };
 		xhr.send('idtoken=' + id_token + '&uemail=' + uemail);
