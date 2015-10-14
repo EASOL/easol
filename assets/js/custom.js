@@ -70,7 +70,9 @@ $(function() {
    var assignmentLink = $('a.extension'), target = 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn';
    
    /* Tell the extension what was the last active URL  */
-   window.parent.postMessage({operation: 'changeUrl', location: window.location.href}, target);
+   /*if(window.parent.location.origin === 'chrome-extension://maifknjmjnafdaiohogiffkdaebomimn'){*/
+   	window.parent.postMessage({operation: 'changeUrl', location: window.location.href}, target);
+ /*  }*/
    
     if (assignmentLink.length) {
       // Hide links if a Google Classroom page is not open
@@ -143,6 +145,7 @@ $(function() {
     $('#usermanagement-addedit-authtype input:checkbox').click(function(event) {
             $('#usermanagement-addedit-password').toggle(this.checked == false)
     });
+     $('[data-toggle="tooltip"]').tooltip();
 
 });
 
@@ -197,3 +200,5 @@ $(function() {
 	    });         
         console.log('End Google Logout');
       }
+
+       
