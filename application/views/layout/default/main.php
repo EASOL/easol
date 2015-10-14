@@ -148,8 +148,12 @@
 				</li>
                         <?php } ?>
                         
-                        <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
+                        <li>
+                            <a href="#" id="learning-lab"><i class="fa fa-table"></i> Learning Lab</a>
+                            <ul class="sub-menu">
+                                <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content Search</a></li>
+                                <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>
+                            </ul>
                         </li>
                         
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
@@ -160,12 +164,12 @@
 					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
 				</li>
 
-				<li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
+				<li>
 					<a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
 					<ul class="sub-menu">
-					    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
-					    <li><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
-					    <li><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
+					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
+					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
+					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
 					</ul>
 				</li>
 

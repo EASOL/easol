@@ -98,7 +98,7 @@ $(function() {
       });
     }
 
-    $("#main-menu #management").click(function(event) {
+    $("#main-menu #management, #main-menu #learning-lab").click(function(event) {
     	event.preventDefault();
     	var submenu = $('ul', $(this).parent());
     	if (submenu.length && submenu.is(':visible')) {
@@ -111,6 +111,10 @@ $(function() {
     		});
     	}
     });
+
+    if ($('.sublive').length) {
+        $('.sublive').parent().show();
+    }
 
     $( "#schoolFilter" ).change(function() {
         var schoolId = $(this).val();
