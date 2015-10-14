@@ -152,7 +152,8 @@ $(function() {
 
  /* ADDED BY ANWAR BAKSH ON 09/2015 */
  /* GOOGLE SIGN IN: https://developers.google.com/identity/sign-in/ */
-      function onSignIn(googleUser) { 
+ function onSignIn(googleUser) { 
+    console.log(googleUser);
 		// Useful data for your client-side scripts:
 		var profile = googleUser.getBasicProfile();
 		//console.log("ID: " + profile.getId()); // Don't send this directly to your server!
