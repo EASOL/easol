@@ -93,7 +93,7 @@ public function index()
         $data = array();
         $data['section_id'] = $id;
 
-        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, [Section].ClassPeriodName
+        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, [Section].ClassPeriodName, [Section].LocalCourseCode
         FROM edfi.[Section] 
         LEFT JOIN edfi.StudentSectionAssociation ON 
         StudentSectionAssociation.SchoolId = Section.SchoolId AND 
@@ -121,6 +121,19 @@ public function index()
 
         $data['results'] = $this->db->query($sql)->result();
 
+        // exit(var_dump($data['results']));
+
+        foreach ($data['results'] as $k => $v)
+        {
+            list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
+            $data['results'][$k]->Gradelevel = $gradelevel;
+
+            list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+            $data['results'][$k]->Period = $pCode;
+
+            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+        }        
+
         $students = "(";
         foreach ($data['results'] as $k => $v)
             $students .= "'".$v->StudentUSI . "',";
@@ -129,9 +142,7 @@ public function index()
         $students .= ")";
 
         $sql = "select * from edfi.Student WHERE StudentUSI IN $students";
-        $data['results']['students'] = $this->db->query($sql)->result();
-
-        exit(var_dump($data['results']));
+        $data['students'] = $this->db->query($sql)->result();
 
         $this->render("details",[
             'data'  => $data,

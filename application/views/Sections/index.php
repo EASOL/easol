@@ -76,7 +76,7 @@
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
                               <td><?php echo $v->LocalCourseCode; ?></td>
-                              <td><a href="<?= site_url("/schoolmanagement/details/") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
+                              <td><a href="<?= site_url("/sections/details/$v->UniqueSectionCode") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
