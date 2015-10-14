@@ -182,7 +182,7 @@ $(function() {
                /* FAILED SIGN IN */
                console.log('Signed In Error: ' + xhr.responseText);
                /* we set the error message server side in the session for display on the redirect */
-               window.location = "/";
+               window.location.reload();
           }
         };
 		xhr.send('idtoken=' + id_token + '&uemail=' + uemail);
