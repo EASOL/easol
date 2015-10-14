@@ -17,7 +17,7 @@ class Home extends Easol_Controller {
      */
     public function index()
 	{	
-		var_dump($_REQUEST); exit();
+		
 		if($this->session->userdata('logged_in')== true)
 			return redirect('/dashboard');
 	
