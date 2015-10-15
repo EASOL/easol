@@ -168,10 +168,10 @@ function onSignIn(googleUser) {
 	console.log('Attempting Google Sign In');
 	console.log("Google Token Recieved: " + id_token);
 
-	var localbe = 'http://easol/';
+	var localbe = 'http://localhost/easol/';
 	var devbe = 'http://easol-dev.azurewebsites.net/';
 	var livebe = '';
-	var gloginPosturl = localbe;
+	var gloginPosturl = devbe;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', gloginPosturl);
