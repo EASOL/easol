@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Model\Easol;
 
 use \Gas\Core;
 use \Gas\ORM;
@@ -9,15 +9,17 @@ class StaffAuthentication extends ORM {
 
 	public $primary_key = 'StaffUSI';
 	public $table       = "EASOL.StaffAuthentication";
+	public $foreign_key = array('\\model\\edfi\\staff' => 'StaffUSI', '\\model\\easol\\roletype'=> 'RoleId');
 
 	function _init() {
 
 		self::$relationships = [
-			'staff' => ORM::belongs_to('\\Model\\Edfi\\Staff')
+			'staff' => ORM::belongs_to('\\Model\\Edfi\\Staff'),
+			'role' => ORM::belongs_to('\\Model\\Easol\\RoleType')
 		];
 
 		self::$fields = [
-			'StaffUSI' => ORM::field('auto[10]'),
+			'StaffUSI' => ORM::field('int'),
 			'Password' => ORM::field('char[75]'),
 			'LastModifiedDate' => ORM::field('datetime'),
 			'CreateDate' => ORM::field('datetime'),

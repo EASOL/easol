@@ -10,10 +10,16 @@ class StaffAddress extends ORM {
 	public $primary_key = 'StaffUSI';
 	public $table = "edfi.StaffAddress";
 
+	public $foreign_key = array('\\model\\edfi\\staff' => 'StaffUSI');
+
 	function _init() {
 
 		self::$relationships = [
-			'address' => ORM::belongs_to('\\Model\\Staff')
+			'staff' => ORM::belongs_to('\\Model\\Staff')
+		];
+
+		self::$fields = [
+
 		];
 	}
 }

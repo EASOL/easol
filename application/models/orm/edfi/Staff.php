@@ -7,14 +7,16 @@ use \Gas\ORM;
 
 class Staff extends ORM {
 
-	public $primary_key = 'StaffUSI';
 	public $table = "edfi.Staff";
+	public $primary_key = 'StaffUSI';
 
 	function _init() {
 
 		self::$relationships = [
 			'address' => ORM::has_many('\\Model\\Edfi\\StaffAddress'),
-			'staffAuthentication' => ORM::has_many('\\Model\\EASOL\\StaffAuthentication')
+			'email' => ORM::has_one('\\Model\\Edfi\\StaffEmail'),
+			'authentication' => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),
+			'educationOrganization' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\EducationOrganization')
 		];
 
 		self::$fields = [

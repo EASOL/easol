@@ -17,18 +17,14 @@
     <!-- FontAwesome Styles-->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-    <?php if($this->router->class=='datamanagement') { ?>
-        <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
-    <?php } ?>    
-    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
+
     <!-- Custom Styles-->
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
-    </script>   
+    </script>
 
     <?php if(($this->router->class=='reports') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
         <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
@@ -39,13 +35,13 @@
     <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-    <!-- 
+    <!--
     In an attempt to provide some order to the css , I am compartmentalizing my css into
     files named after the controller for which they are used and then dynamically loading those
     controller specific css files. -- S.Madison
     -->
     <?php if(file_exists(APPPATH.'../assets/css/'.$this->router->class.'.css')) : ?>
-        <link href="<?= site_url('assets/css/'.$this->router->class.'.css') ?>" rel="stylesheet"/>        
+        <link href="<?= site_url('assets/css/'.$this->router->class.'.css') ?>" rel="stylesheet"/>
     <?php endif; ?>
 </head>
 <body>
@@ -101,7 +97,7 @@
         </nav>
 
         <nav class="navbar-default navbar-side" role="navigation">
-        
+
             <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
                 <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                     <ul class="nav" id="main-menu">
@@ -124,34 +120,34 @@
 					<a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
 				    </li>
 			    <?php } /* */ ?>
-                        
+
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
                         <?php } ?>
-                        
+
                         <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/grades") ?>"><i class="fa fa-edit"></i> Grades</a>
                         </li>
                         <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-th"></i> Sections</a>
                         </li>
-                        
+
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
 				<li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
 				</li>
-	
+
 				<li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
 				</li>
                         <?php } ?>
-                        
+
                         <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
                         </li>
-                        
+
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
 				<li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
@@ -165,7 +161,7 @@
 					<ul class="sub-menu">
 					    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
 					    <li><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
-					    <li><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
+					    <li><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>
 					</ul>
 				</li>
 
@@ -191,7 +187,7 @@
                 <?php if (!empty($error)) { ?>
                     <div class="alert alert-danger"><?php echo $error ?></div>
                 <?php }else if (!empty($success)) { ?>
-                    <div class="alert alert-success"><?php echo $success ?></div>                
+                    <div class="alert alert-success"><?php echo $success ?></div>
                 <?php } ?>
                 <?= $content ?>
                 <div class="row">
@@ -223,7 +219,7 @@
         <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>*/
     ?>
 
-    <!-- 
+    <!--
     In an attempt to provide some order to the js functions, I am compartmentalizing my js into
     files named after the controller for which they are used and then dynamically loading those
     controller specific js files. -- S.Madison
@@ -232,14 +228,9 @@
         <script src="<?= site_url('assets/js/'.$this->router->class.'.js') ?>"></script>
     <?php endif; ?>
 
+    <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
+    <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
 
-    <?php if($this->router->class=='datamanagement') { ?>
-        <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-        <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
-        <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-        <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
-    <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->
 </body>

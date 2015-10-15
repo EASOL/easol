@@ -20,31 +20,26 @@
 				</thead>
 				<tbody>
 				<?php foreach ($users as $key => $user) : ?>
+
 					<tr>
 						<td>
-							<?php
-							$valid   = true;
-							$tooltip = "missing data in field ";
-							foreach ($user as $k => $v) {
-								if ($v === '') {
-									$valid = false;
-									$tooltip .= $k . ',';
-								}
-							}
-							$tooltip = mb_strimwidth(rtrim($tooltip, ','), 0, 40, "...");
-							if (!$valid) : ?>
-								<span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="right" title="<?php echo $tooltip; ?>"><?php echo (!empty($user->StaffUSI)) ? $user->StaffUSI : 'Error'; ?></span>
-							<?php else : echo $user->StaffUSI; endif; ?>
+							<?php if (!$user->staff()->email()): ?>
+								<span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="right" title="Missing email address">	<?php echo ($user->StaffUSI) ? $user->StaffUSI : 'Error'; ?>
+								</span>
+							<?php else: ?>
+								<?php echo ($user->StaffUSI) ? $user->StaffUSI : 'Error'; ?>
+							<?php endif; ?>
 						</td>
 						<td>
-							<?php
-							if (empty($user->FirstName) or empty($user->LastSurname))
-								echo '<span class="alert alert-danger alert-small">missing</span>';
-							else
-								echo $user->FirstName . ' ' . $user->MiddleName . ' ' . $user->LastSurname;
-							?>
+							<?php if (!$user->staff()->FirstName and !$user->staff()->LastSurname): ?>
+								<span class="alert alert-danger alert-small">missing</span>
+							<?php else: ?>
+								<?php echo $user->staff()->FirstName . ' ' . $user->staff()->MiddleName . ' ' . $user->staff()->LastSurname; ?>
+							<?php endif; ?>
 						</td>
-						<td><?php echo (!empty($user->RoleTypeName)) ? $user->RoleTypeName : '<span class="alert alert-danger alert-small">missing</span>'; ?></td>
+						<td>
+							<?php echo ($user->role()->RoleTypeName) ? $user->role()->RoleTypeName : '<span class="alert alert-danger alert-small">missing</span>'; ?>
+						</td>
 						<td>
 							<?php
 							if ($user->GoogleAuth === '')
@@ -53,10 +48,16 @@
 								echo ($user->GoogleAuth) ? 'Google' : 'Password';
 							?>
 						</td>
-						<td><?php echo (isset($user->Institutions[0]->NameOfInstitution)) ? $user->Institutions[0]->NameOfInstitution : '<span class="alert alert-danger alert-small">missing</span>'; ?></td>
+						<td>
+							<?php if ($school = $user->staff()->educationOrganization()[0]): ?>
+								<?php echo $school->NameOfInstitution; ?>
+							<?php else: ?>
+								<span class="alert alert-danger alert-small">missing</span>
+							<?php endif; ?>
+						</td>
 						<td>
 							<?php
-							if (empty($user->StaffUSI)) : ?>
+							if (!$user->StaffUSI) : ?>
 								<span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="left" title="Cant edit/delete without a StaffUSI">Error</span>
 							<?php else : ?>
 								<a href="<?= site_url("/usermanagement/addedit/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

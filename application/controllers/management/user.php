@@ -16,9 +16,19 @@ class User extends Easol_Controller {
 
 	public function index()
 	{
-		$listing = Model\User::all();
 
-		print_r($listing);
-		exit();
+		$users = Model\Easol\StaffAuthentication::all();
+
+		/*foreach ($users as $user) {
+			//var_dump();
+			foreach ($user->staff()->educationOrganization() as $row) {
+				var_dump($row->school());
+			}
+			exit();
+		}*/
+
+		$this->render('index', [
+			'users' => $users,
+		]);
 	}
 }

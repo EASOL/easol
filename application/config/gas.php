@@ -27,8 +27,7 @@
 */
 
 $config['models_path'] = array(
-	'Model\Edfi' => APPPATH.'models/v2/edfi',
-	'Model' => APPPATH . 'models/v2/',
+	'Model' => APPPATH . 'models/orm/'
 );
 
 
