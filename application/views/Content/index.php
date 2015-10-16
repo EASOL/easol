@@ -65,6 +65,30 @@
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
+                          Grades
+                          <div class="btn-group btn-group-xs" role="group" aria-label="grades">
+                            <?php foreach ($obj->grades as $k => $v) : ?>
+                              <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
+                            <?php endforeach; ?>
+                          </div>
+                          Subjects
+                          <div class="btn-group btn-group-xs" role="group" aria-label="subjects">
+                            <?php foreach ($obj->subjects as $k => $v) : ?>
+                              <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
+                            <?php endforeach; ?>
+                          </div>
+                          Types
+                          <div class="btn-group btn-group-xs" role="group" aria-label="types">
+                            <?php foreach ($obj->resource_types as $k => $v) : ?>
+                              <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
+                            <?php endforeach; ?>
+                          </div>
+                          Standards
+                          <div class="btn-group btn-group-xs" role="group" aria-label="standards">
+                            <?php foreach ($obj->alignments as $k => $v) : ?>
+                              <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
+                            <?php endforeach; ?>
+                          </div>                         
                         </div>
                       </div>
                     <?php endforeach; ?>
