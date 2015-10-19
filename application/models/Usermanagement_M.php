@@ -6,13 +6,13 @@ class Usermanagement_M extends CI_Model {
         parent::__construct();
     }
 
-    public function getEasolUsers($user = "") {
+    public function getEasolUsers($user = "", $key = "EFS.StaffUSI") {
         /*
         * Get listing of easol users with details from edfi tables for editing/deleting in easol
         * system via the UI.
         */
 
-        $where = (!empty($user)) ? "WHERE EFS.StaffUSI = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
+        $where = (!empty($user)) ? "WHERE $key = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
 
         $query = "SELECT 
                     ESA.StaffUSI,
@@ -30,25 +30,7 @@ class Usermanagement_M extends CI_Model {
                     INNER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
                       $where
-                ";
-
-        $query = "SELECT 
-                    ESA.StaffUSI,
-                    ESA.GoogleAuth,
-                    ERT.RoleTypeName,
-                    EFS.FirstName,
-                    EFS.MiddleName,
-                    EFS.LastSurname,
-                    SEM.ElectronicMailAddress
-                    FROM easol.StaffAuthentication ESA
-                    INNER JOIN easol.RoleType ERT 
-                     ON ESA.RoleId = ERT.RoleTypeId 
-                    INNER JOIN edfi.Staff EFS 
-                     ON ESA.StaffUSI = EFS.StaffUSI
-                    INNER JOIN edfi.StaffElectronicMail SEM 
-                     ON ESA.StaffUSI = SEM.StaffUSI
-                      $where
-                ";                
+                ";              
 
         $users = $this->db->query($query)->result();
 
