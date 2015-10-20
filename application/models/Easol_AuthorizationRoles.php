@@ -17,9 +17,7 @@ class Easol_AuthorizationRoles extends CI_Model {
      */
     public function __construct(){
 
-
         $this->getRoles();
-
         parent::__construct();
     }
 
@@ -75,8 +73,5 @@ class Easol_AuthorizationRoles extends CI_Model {
 
         return false;
     }
-
-
-
 
 }

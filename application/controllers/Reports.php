@@ -3,10 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reports extends Easol_Controller {
 
+    /**
+     * default constructor
+     */
+    public function __construct(){
+        parent::__construct();
+    }
+
     protected function accessRules(){
         return [
            // "index"     =>  ['@'],
-            //"index"     =>  ['System Administrator','Data Administrator'],
+           "index"     =>  ['System Administrator','Data Administrator'],
         ];
     }
 
@@ -15,6 +22,7 @@ class Reports extends Easol_Controller {
      */
     public function index()
 	{
+	
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();
@@ -56,21 +64,24 @@ class Reports extends Easol_Controller {
         $model= new Easol_Report();
        //die(print_r($this->input->post('access[access]')));
         if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
-                if($model->save()){
 
-                    $this->load->model('entities/easol/Easol_ReportAccess');
+                if ($this->form_validation->run() != FALSE) {
+                    if($model->save()){
 
-                    foreach($this->input->post('access[access]') as $access){
-                       $displayAccess = new Easol_ReportAccess();
-                        $displayAccess->ReportId = $model->ReportId;
-                        $displayAccess->RoleTypeId = $access;
-                        $displayAccess->save();
+                        $this->load->model('entities/easol/Easol_ReportAccess');
+
+                        foreach($this->input->post('access[access]') as $access){
+                           $displayAccess = new Easol_ReportAccess();
+                            $displayAccess->ReportId = $model->ReportId;
+                            $displayAccess->RoleTypeId = $access;
+                            $displayAccess->save();
+                        }
+                        $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
+                        $this->session->set_flashdata('type', 'success');
+
+                        return redirect(site_url("reports/index"));
+
                     }
-                    $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
-                    $this->session->set_flashdata('type', 'success');
-
-                    return redirect(site_url("reports/index"));
-
                 }
 
         }
@@ -98,44 +109,46 @@ class Reports extends Easol_Controller {
 
        // die(print_r($model));
         //die(print_r($this->input->post('access[access]')));
-        if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
-            if($model->save()){
+        if($this->input->post('report') && $model->populateForm($this->input->post('report'))) {
 
-                $this->load->model('entities/easol/Easol_ReportAccess');
-/*
-                foreach($this->input->post('access[access]') as $access){
-                    $displayAccess = new Easol_ReportAccess();
-                    $displayAccess->ReportId = $model->ReportId;
-                    $displayAccess->RoleTypeId = $access;
-                    $displayAccess->save();
-                }
-*/
+            if ($this->form_validation->run() != FALSE) {
+                if($model->save()){
 
-                $aRoles=[];
-                foreach($model->getAccessTypes() as $role){
-                    if(!in_array($role->RoleTypeId,$this->input->post('access[access]'))){
-                        $this->db->delete('EASOL.ReportAccess', array('ReportId' => $model->ReportId,'RoleTypeId'=>$role->RoleTypeId));
+                    $this->load->model('entities/easol/Easol_ReportAccess');
+    /*
+                    foreach($this->input->post('access[access]') as $access){
+                        $displayAccess = new Easol_ReportAccess();
+                        $displayAccess->ReportId = $model->ReportId;
+                        $displayAccess->RoleTypeId = $access;
+                        $displayAccess->save();
                     }
-                    $aRoles[] = $role->RoleTypeId;
+    */
+
+                    $aRoles=[];
+                    foreach($model->getAccessTypes() as $role){
+                        if(!in_array($role->RoleTypeId,$this->input->post('access[access]'))){
+                            $this->db->delete('EASOL.ReportAccess', array('ReportId' => $model->ReportId,'RoleTypeId'=>$role->RoleTypeId));
+                        }
+                        $aRoles[] = $role->RoleTypeId;
+                    }
+
+                    foreach($this->input->post('access[access]') as $access){
+                        if(in_array($access,$aRoles))
+                            continue;
+                        $displayAccess = new Easol_ReportAccess();
+                        $displayAccess->ReportId = $model->ReportId;
+                        $displayAccess->RoleTypeId = $access;
+                        $displayAccess->save();
+                    }
+
+
+                    $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
+                    $this->session->set_flashdata('type', 'success');
+
+                    return  redirect(site_url("reports/edit/".$model->ReportId));
+
                 }
-
-                foreach($this->input->post('access[access]') as $access){
-                    if(in_array($access,$aRoles))
-                        continue;
-                    $displayAccess = new Easol_ReportAccess();
-                    $displayAccess->ReportId = $model->ReportId;
-                    $displayAccess->RoleTypeId = $access;
-                    $displayAccess->save();
-                }
-
-
-                $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
-                $this->session->set_flashdata('type', 'success');
-
-                return  redirect(site_url("reports/edit/".$model->ReportId));
-
             }
-
         }
         // $report->ReportName = "Report";
         /* echo $report->ReportName."sdd";
@@ -174,6 +187,47 @@ class Reports extends Easol_Controller {
 
        // return $this->render();
 
+    }
+
+    public function preview() {
+        $post = $this->input->post();
+       
+        if ($this->form_validation->run() == FALSE) {
+            $response = array('status'=>'error', 'message'=>validation_errors());
+            exit(json_encode($response));
+        }
+
+        $this->load->model('entities/easol/Easol_Report');
+        $model = new Easol_Report();
+        foreach ($post['report'] as $field=>$value) {
+            $model->$field = $value;
+        }
+
+        $pageNo = 1;
+
+        $response = array();
+        $response['status'] = 'success';
+
+        switch($model->ReportDisplayId){
+
+            case 1:
+                $response['html'] = $this->load->view("reports/display-table",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            case 2:
+                $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            case 3:
+                $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            case 4:
+                $response['html'] = $this->load->view("reports/display-stacked-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                break;
+            default:
+                throw new \Exception("Invalid Report Display type..");
+
+        }
+
+        exit(json_encode($response));
     }
 
     public function delete($id= null){

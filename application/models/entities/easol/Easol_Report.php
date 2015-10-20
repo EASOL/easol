@@ -66,7 +66,7 @@ class Easol_Report extends Easol_BaseEntity {
         return [
             'ReportName' => ['string','Required'],
             'ReportCategoryId' => ['int','Required'],
-            'CommandText' => ['string','Required'],
+            'CommandText' => ['string','Required','Is Safe Query'],
             'LabelX' => ['string','Required'],
             'LabelY' => ['string','Required'],
             'ReportDisplayId' => ['int','Required'],

@@ -15,22 +15,25 @@
                 ?>
                 <form method="post" class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-md-1 col-sm-3">Username:</label>
+
+                        <label class="control-label col-md-1 col-sm-3 loginLabel">Email:</label>
+
                         <div class="col-md-4 col-sm-8">
-                            <input type="text" id="login" class="form-control" name="login[username]" value="<?= $this->input->post('login[username]') ?>"/>
+                            <input type="text" id="login" class="form-control" name="login[email]" value="<?= $this->input->post('login[email]') ?>"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-1 col-sm-3">Password:</label>
+                        <label class="control-label col-md-1 col-sm-3 loginLabel">Password:</label>
                         <div class="col-md-4 col-sm-8">
                             <input class="form-control" type="password" name="login[password]"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-5 col-sm-11">
-                            <button class="btn btn-primary pull-right" type="submit">Login</button>
+                        <div class="col-md-5 col-sm-11 nudgright">
+                            <button class="btn btn-primary pull-right" type="submit">Login</button><br /><br />
+                            <div class="g-signin2 altSIbut pull-right" data-onsuccess="onSignIn"   data-theme="dark"></div>
                         </div>
                     </div>
                 </form>
