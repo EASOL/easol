@@ -19,7 +19,7 @@
 
     <?php if($this->router->class=='datamanagement') { ?>
         <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
     <?php } ?>    
@@ -131,11 +131,8 @@
                             </li>
                         <?php } ?>
                         
-                        <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-edit"></i> Grades</a>
-                        </li>
                         <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-th"></i> Sections</a>
+                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-edit"></i> Sections</a>
                         </li>
                         
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
@@ -240,9 +237,10 @@
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
-        <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-        <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
+        <script src="<?= site_url('assets/js/dataTables/jquery.dataTables.js') ?>"></script>
+        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
+        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->
