@@ -1,5 +1,4 @@
 $(function() {
-
 	if ($('table#manageusers').length) {
 		$('#manageusers').DataTable();
 	}
@@ -112,6 +111,10 @@ $(function() {
 		}
 	});
 
+    if ($('.sublive').length) {
+        $('.sublive').parent().show();
+    }	
+
 	$( "#schoolFilter" ).change(function() {
 		var schoolId = $(this).val();
 
@@ -146,7 +149,6 @@ $(function() {
 		$('#usermanagement-addedit-password').toggle(this.checked == false)
 	});
 	$('[data-toggle="tooltip"]').tooltip();
-
 });
 
 
