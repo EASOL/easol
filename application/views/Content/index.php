@@ -61,7 +61,10 @@
                     <?php foreach ($results as $obj): ?>
                       <div class="clear">
                         <div class="left content-desc">
-                          <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
+                          <div class="content-title-publisher">
+                            <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
+                            <div class="content-publisher"><?php foreach ($obj->identities as $i) { echo $i->name . "<br />"; }  ?></div>
+                          </div>
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
