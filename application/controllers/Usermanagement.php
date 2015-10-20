@@ -104,7 +104,7 @@ class Usermanagement extends Easol_Controller {
         $b             = hash('sha256', $a);
         $c             = substr(base64_encode($b),0,22);        
         $options       = ['salt' => $c];
-        echo password_hash($email, PASSWORD_DEFAULT, $options); // defaults to bcrypt encoding but this may change in future versions of php.
+        echo password_hash($email, PASSWORD_BCRYPT, $options);
         exit;
     }
 }
