@@ -14,7 +14,7 @@ class Staff extends ORM {
 
 		self::$relationships = [
 			'address' => ORM::has_many('\\Model\\Edfi\\StaffAddress'),
-			'email' => ORM::has_one('\\Model\\Edfi\\StaffEmail'),
+			'email' => ORM::has_many('\\Model\\Edfi\\StaffEmail'),
 			'authentication' => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),
 			'educationOrganization' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\EducationOrganization')
 		];
