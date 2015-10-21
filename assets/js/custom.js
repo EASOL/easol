@@ -150,10 +150,10 @@ $(function() {
 });
 
 
-/* ADDED BY ANWAR BAKSH ON 09/2015 */
+
 /* GOOGLE SIGN IN: https://developers.google.com/identity/sign-in/ */
 function onSignIn(googleUser) {
-	console.log(googleUser);
+	/*console.log(googleUser);*/
 	// Useful data for your client-side scripts:
 	var profile = googleUser.getBasicProfile();
 	//console.log("ID: " + profile.getId()); // Don't send this directly to your server!
@@ -165,8 +165,7 @@ function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	var uemail = profile.getEmail();
 	var name = profile.getName();
-	console.log('Attempting Google Sign In');
-	console.log("Google Token Recieved: " + id_token);
+	
 
 	var localbe = 'http://localhost/easol/';
 	var devbe = 'http://easol-dev.azurewebsites.net/';
@@ -180,7 +179,7 @@ function onSignIn(googleUser) {
 	xhr.onload = function() {
 		if(xhr.responseText=="gloginValid") {
 			/* GOOD SIGN IN */
-			console.log('Signed in as: ' + profile.getName() );
+			/*console.log('Signed in as: ' + profile.getName() );*/
 			/* alert(profile.getName() + ' is now logged in!');  alert(xhr.responseText);*/
 			window.location='student';
 		} else {
