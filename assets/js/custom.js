@@ -171,8 +171,7 @@ function onSignIn(googleUser) {
 	var localbe = 'http://localhost/easol/';
 	var devbe = 'http://easol-dev.azurewebsites.net/';
 	var livebe = '';
-	var gloginPosturl = devbe;
-
+	var gloginPosturl = location.href;
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', gloginPosturl);
 	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
