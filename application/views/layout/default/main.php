@@ -196,7 +196,7 @@
                 <?= $content ?>
                 <div class="row">
                     <div class="col-md-8 col-sm-8 txt-annotation">
-                        This computer system is the property of the the Center of Education Innovation. It is for authorized
+                        This computer system is the property of EASOL. It is for authorized
                         use only.
                         Unauthorized or improper use of this system may result in civil charges and/or criminal penalties.
                     </div>
