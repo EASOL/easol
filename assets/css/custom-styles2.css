@@ -8,7 +8,7 @@ http://creativecommons.org/licenses/by/3.0/
 /*----------------------------------------------
     COMMON  STYLES
 ------------------------------------------------*/
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -722,7 +722,6 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 }
 
 
-/* alternative styles added by Anwar */
 button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
 
 label.loginLabel {
@@ -765,9 +764,23 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   width: 90%;
 }
 
+.content-title-publisher {
+  margin-top: 20px;
+}
+
 .content-title {
+  width: 49%;
   font-weight: bold;
   color: blue;
+  display: inline-block;
+}
+
+.content-publisher {
+  width: 49%;
+  font-weight: bold;
+  color: blue;
+  display: inline-block;
+  text-align: right;
 }
 
 .content-links {
