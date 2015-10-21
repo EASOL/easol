@@ -27,7 +27,7 @@ public function index()
         $where = array(
                         'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
                         'TermType.TermTypeId'  => $data['currentTerm_default'],
-                        '[Section].SchoolYear'    => $data['currentYear_default']
+                        'Section.SchoolYear'    => $data['currentYear_default']
         );
 
         // define optional filters
