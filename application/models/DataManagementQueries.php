@@ -1,11 +1,4 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 7/8/2015
- * Time: 11:28 PM
- */
 
 class DataManagementQueries extends CI_Model {
 

@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/1/2015
- * Time: 11:39 PM
- */
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

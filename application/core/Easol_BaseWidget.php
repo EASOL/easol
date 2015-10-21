@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/3/2015
- * Time: 2:50 PM
- */
+
 
 abstract class Easol_BaseWidget extends CI_Model {
 

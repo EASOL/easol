@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/8/2015
- * Time: 12:49 AM
- */
+
 ?>
 <form action="" method="get" class="form-inline" name="dataGridFormFilter" id="dataGridFormFilter">
     <?php /* die(print_r($fields)); */ foreach($fields as $key => $field){ ?>

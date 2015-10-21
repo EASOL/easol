@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 7/15/2015
- * Time: 5:10 PM
- */
+
 $di = 0;
 $csvHeader = [];
 $csvData=[];
