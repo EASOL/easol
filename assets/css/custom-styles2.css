@@ -765,9 +765,23 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   width: 90%;
 }
 
+.content-title-publisher {
+  margin-top: 20px;
+}
+
 .content-title {
+  width: 49%;
   font-weight: bold;
   color: blue;
+  display: inline-block;
+}
+
+.content-publisher {
+  width: 49%;
+  font-weight: bold;
+  color: blue;
+  display: inline-block;
+  text-align: right;
 }
 
 .content-links {
