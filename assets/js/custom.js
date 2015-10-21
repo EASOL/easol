@@ -172,7 +172,7 @@ function onSignIn(googleUser) {
 	var devbe = 'http://easol-dev.azurewebsites.net/';
 	var staging = 'http://easol-stage.azurewebsites.net/';
 	var livebe = '';
-	var gloginPosturl = staging;
+	var gloginPosturl = location.href;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', gloginPosturl);
