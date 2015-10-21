@@ -149,7 +149,7 @@ class Usermanagement_M extends CI_Model {
             // If they use password authentication and didnt enter a password then leave their db password unchanged.
             unset($post['Password']);
         }
-        if($post['newuser'] and !isset($post['Password'])){
+        if(@$post['newuser'] and !isset($post['Password'])){
             $post['Password'] = "";
         }
         unset($post['newuser']);
