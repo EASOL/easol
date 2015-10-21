@@ -1,12 +1,3 @@
-<?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/5/2015
- * Time: 10:25 PM
- */
-?>
 <div class="row">
     <div class="pagination-dsc col-md-6 col-sm-6">
         <?php if ($total < $pageSize * $currentPage) { ?>

@@ -68,18 +68,20 @@
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
+                           <div class="btn-group btn-group-xs" role="group">
                           <?php foreach ($footnotes as $key => $value) : $p = key($value); ?>
-                            <?= $key ?>
-                            <div class="btn-group btn-group-xs" role="group" aria-label="<?= $p ?>">
+                            <?php /* $key*/ ?>
+                           
                               <?php $count = 0; foreach ($obj->$p as $k => $v) : $count++;  ?>
                                 <?php if ($count <= 5) : ?>
-                                  <button type="button" class="btn btn-primary"><?= $v->$value[$p]; ?></button>
+                                  <button type="button" style="border-color:<?= $colors[$key]?>;background-color:<?= $colors[$key]?>" class="btn btn-primary"><?= $v->$value[$p]; ?></button>
                                 <?php elseif ($count == 6) : ?>
-                                  <button type="button" class="btn btn-primary">...</button>
+                                  <button type="button" style="border-color:<?= $colors[$key]?>;background-color:<?= $colors[$key]?>" class="btn btn-primary">...</button>
                                 <?php endif; ?>
                               <?php endforeach; ?>
-                            </div>
-                          <?php endforeach; ?>                      
+                           
+                          <?php endforeach; ?>
+                           </div>                      
                         </div>
                       </div>
                     <?php endforeach; ?>
