@@ -76,9 +76,6 @@ class Content extends Easol_Controller {
                         if ($value < 2) {
                             unset($filter->$key);
                         }
-                        if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {
-                            unset($filter->$key);
-                        }
                     }
 
                     if (!count((array) $filter))
@@ -119,6 +116,13 @@ class Content extends Easol_Controller {
             if ($view == 'extension')
                 $this->layout = null;
 
+            // map the footnotes tags for iteration in the view to keep the code as DRY as possible.
+            $footnotes  = array('Grades'    => array('grades'         => 'grade'),
+                                'Subjects'  => array('subjects'       => 'name'),
+                                'Types'     => array('resource_types' => 'name'),
+                                'Standards' => array('alignments'     => 'name'),
+                            );
+
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
@@ -126,6 +130,7 @@ class Content extends Easol_Controller {
                 'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
                 'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
+                'footnotes'         => $footnotes,
             ]);
         }
 

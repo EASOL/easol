@@ -61,10 +61,25 @@
                     <?php foreach ($results as $obj): ?>
                       <div class="clear">
                         <div class="left content-desc">
-                          <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
+                          <div class="content-title-publisher">
+                            <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
+                            <div class="content-publisher"><?php foreach ($obj->identities as $i) { echo $i->name . "<br />"; }  ?></div>
+                          </div>
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
+                          <?php foreach ($footnotes as $key => $value) : $p = key($value); ?>
+                            <?= $key ?>
+                            <div class="btn-group btn-group-xs" role="group" aria-label="<?= $p ?>">
+                              <?php $count = 0; foreach ($obj->$p as $k => $v) : $count++;  ?>
+                                <?php if ($count <= 5) : ?>
+                                  <button type="button" class="btn btn-primary"><?= $v->$value[$p]; ?></button>
+                                <?php elseif ($count == 6) : ?>
+                                  <button type="button" class="btn btn-primary">...</button>
+                                <?php endif; ?>
+                              <?php endforeach; ?>
+                            </div>
+                          <?php endforeach; ?>                      
                         </div>
                       </div>
                     <?php endforeach; ?>
