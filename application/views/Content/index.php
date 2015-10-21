@@ -68,46 +68,18 @@
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
-                          Grades
-                          <div class="btn-group btn-group-xs" role="group" aria-label="grades">
-                            <?php $count = 0; foreach ($obj->grades as $k => $v) : $count++;  ?>
-                              <?php if ($count <= 5) : ?>
-                                <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
-                              <?php elseif ($count == 6) : ?>
-                                <button type="button" class="btn btn-primary">...</button>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
-                          </div>
-                          Subjects
-                          <div class="btn-group btn-group-xs" role="group" aria-label="subjects">
-                            <?php $count = 0; foreach ($obj->subjects as $k => $v) : $count++; ?>
-                              <?php if ($count <= 5) : ?>
-                                <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
-                              <?php elseif ($count == 6) : ?>
-                                <button type="button" class="btn btn-primary">...</button>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
-                          </div>
-                          Types
-                          <div class="btn-group btn-group-xs" role="group" aria-label="types">
-                            <?php $count = 0; foreach ($obj->resource_types as $k => $v) : $count++; ?>
-                              <?php if ($count <= 5) : ?>
-                                <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
-                              <?php elseif ($count == 6) : ?>
-                                <button type="button" class="btn btn-primary">...</button>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
-                          </div>
-                          Standards
-                          <div class="btn-group btn-group-xs" role="group" aria-label="standards">
-                            <?php $count = 0; foreach ($obj->alignments as $k => $v) : $count++; ?>
-                              <?php if ($count <= 5) : ?>
-                                <button type="button" class="btn btn-primary"><?= $v->name; ?></button>
-                              <?php elseif ($count == 6) : ?>
-                                <button type="button" class="btn btn-primary">...</button>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
-                          </div>                         
+                          <?php foreach ($footnotes as $key => $value) : $p = key($value); ?>
+                            <?= $key ?>
+                            <div class="btn-group btn-group-xs" role="group" aria-label="<?= $p ?>">
+                              <?php $count = 0; foreach ($obj->$p as $k => $v) : $count++;  ?>
+                                <?php if ($count <= 5) : ?>
+                                  <button type="button" class="btn btn-primary"><?= $v->$value[$p]; ?></button>
+                                <?php elseif ($count == 6) : ?>
+                                  <button type="button" class="btn btn-primary">...</button>
+                                <?php endif; ?>
+                              <?php endforeach; ?>
+                            </div>
+                          <?php endforeach; ?>                      
                         </div>
                       </div>
                     <?php endforeach; ?>
