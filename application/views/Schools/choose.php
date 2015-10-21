@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/22/2015
- * Time: 11:42 AM
- */
+
 ?>
 <div class="row choose-school">
     <div class="col-md-12 col-sm-12">

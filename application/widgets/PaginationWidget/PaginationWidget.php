@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/5/2015
- * Time: 10:25 PM
- */
+
 require_once APPPATH.'/core/Easol_BaseWidget.php';
 
 class PaginationWidget extends Easol_BaseWidget {

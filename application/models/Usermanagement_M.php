@@ -132,6 +132,7 @@ class Usermanagement_M extends CI_Model {
     public function addEditEasolUser($post) {
         // unset and post data that does not get sent to the db.
         unset($post['school']);
+       
 
         $post['LastModifiedDate'] = date('Y-m-d G:i:s');
 
@@ -148,12 +149,14 @@ class Usermanagement_M extends CI_Model {
             // If they use password authentication and didnt enter a password then leave their db password unchanged.
             unset($post['Password']);
         }
-
+        if(@$post['newuser'] and !isset($post['Password'])){
+            $post['Password'] = "";
+        }
+        unset($post['newuser']);
         // exit(var_dump($post));
 
         // See whether we are running an insert or an update
         $user = $this->db->where('StaffUSI', $post['StaffUSI'])->get('easol.StaffAuthentication')->result();
-        
         if(empty($user)) {
             $post['CreateDate'] = date('Y-m-d G:i:s');
             $result = $this->db->insert('easol.StaffAuthentication', $post);

@@ -1,11 +1,4 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 7/17/2015
- * Time: 8:49 PM
- */
 
 class Easol_CSVProcessor extends CI_Model {
 
