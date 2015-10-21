@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/27/2015
- * Time: 2:19 PM
- */
+
 /* @var $model Easol_Report */
 ?>
 <div class="row">

@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Web: www.akmnahid.com
- * Date: 7/31/2015
- * Time: 11:41 AM
- */
+
 ?>
 <?php /* @var $reports Easol_Report[] */ ?>
 

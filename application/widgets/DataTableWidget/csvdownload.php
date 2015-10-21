@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/21/2015
- * Time: 10:59 AM
- */
+
 $csvOutput=[];
 $headers=[];
 foreach($columns as $column){
