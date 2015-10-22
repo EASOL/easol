@@ -68,7 +68,6 @@
                             <th>Educator</th>
                             <th>Students</th>
                             <th>Grades</th>
-                            <th>Grade Level</th>
                             <th>Term</th>
                           </tr>
                         </thead>
@@ -87,7 +86,6 @@
                                 <span class="label label-warning sections-grade"><?php echo $v->Numeric_D; ?></span>
                                 <span class="label label-danger sections-grade"><?php echo $v->Numeric_F; ?></span>                                
                               </td>
-                              <td><?php echo $v->Gradelevel; ?></td>
                               <td><?php echo $v->CodeValue; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>
