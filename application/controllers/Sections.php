@@ -47,7 +47,7 @@ public function index()
         }
 
         $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
-        Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, Grade.SchoolYear, 
+        Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
         sum(case when Grade.NumericGradeEarned >= 70 AND Grade.NumericGradeEarned < 80 THEN 1 ELSE 0 END) as Numeric_C,
@@ -71,7 +71,7 @@ public function index()
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
-        // exit(var_dump($data['results']));
+        // exit(print_r($this->db->last_query(), true));
         foreach ($data['results'] as $k => $v)
         {
             list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
