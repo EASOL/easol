@@ -66,7 +66,7 @@
                 <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
                         <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
-                            <select name="school" class="form-control" onchange="this.form.submit()">
+                            <select name="school" class="form-control" onChange="this.form.submit()">
                                 <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
                                     <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                                 <?php } ?>
@@ -89,7 +89,7 @@
                         <?php if($this->session->userdata('logged_in')== true)
                             { ?>
                             <li>
-                                <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
+                                <a href="<?= site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
                             </li>
                         <?php } ?>
                         </ul>
@@ -107,7 +107,7 @@
                     <ul class="nav" id="main-menu">
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
                             <li class="visible-xs-block"><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
-                                <select name="school" class="form-control" onchange="this.form.submit()">
+                                <select name="school" class="form-control" onChange="this.form.submit()">
                                     <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
                                         <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                                     <?php } ?>
@@ -149,7 +149,7 @@
                         <?php } ?>
                         
                         <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
+                            <a href="<?= site_url("/content") ?>"><i class="fa fa-table2"></i> Learning Lab</a>
                         </li>
                         
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
@@ -175,7 +175,7 @@
                         <?php } ?>
                         <?php if($this->session->userdata('logged_in')== true) { ?>
 				<li class="visible-xs-block">
-				    <a href="<?= site_url("/home/logout") ?>" onclick="signOut();"><i class="fa fa-user"></i> Logout</a>
+				    <a href="<?= site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
 				</li>
                         <?php } ?>
                     </ul>
