@@ -7,9 +7,9 @@ php:
   - 5.5
 
 # optionally specify a list of environments, for example to test different RDBMS
-#env:
+env:
 #  - DB=mysql
-- DB=odbc
+  - DB=odbc
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
