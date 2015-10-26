@@ -1,6 +1,6 @@
 # see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 
-sudo: required
+#sudo: required
 #dist: trusty
 language: php
 php:
@@ -11,10 +11,27 @@ env:
 #  - DB=mysql
   - DB=odbc
 
-# execute any number of scripts before the test run, custom env's are available as variables
-before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq tdsodbc libmyodbc php5-odbc freetds-bin unixodbc odbcinst1debian2 odbcinst libodbc1 php5-sybase libsybdb5 freetds-common sqsh unixodbc-bin libodbcinstq4-1 unixodbc-dev freetds-dev libct4
+addons:
+  apt:
+    packages:
+    - tdsodbc
+    - libmyodbc
+    - php5-odbc
+    - freetds-bin
+    - unixodbc
+    - odbcinst1debian2
+    - odbcinst
+    - libodbc1
+    - php5-sybase
+    - libsybdb5
+    - freetds-common
+    - sqsh
+    - unixodbc-bin
+    - libodbcinstq4-1
+    - unixodbc-dev
+    - freetds-dev
+    - libct4
+
 
 # omitting "script:" will default to phpunit
 script: phpunit --configuration application/tests/phpunit.xml
