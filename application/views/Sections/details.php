@@ -13,7 +13,6 @@
                 <thead>
                   <tr>
                     <th>Educator</th>
-                    <th>Grade Level</th>
                     <th>Course</th>
                     <th>Term</th>
                     <th>Period</th>
@@ -21,8 +20,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><?php echo $results[0]->Educator; ?></td>                             
-                    <td><?php echo $results[0]->Gradelevel; ?></td>                             
+                    <td><?php echo $results[0]->Educator; ?></td>                                              
                     <td><?php echo $results[0]->LocalCourseCode; ?></td>                             
                     <td><?php echo $results[0]->CodeValue; ?></td>                             
                     <td><?php echo $results[0]->Period; ?></td>

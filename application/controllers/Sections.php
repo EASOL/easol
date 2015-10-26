@@ -16,25 +16,27 @@ public function index()
         $data = array();
 
         $data['filters']                = $_GET;
-
+        var_dump($data['filters']);
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-        $data['currentYear_default']    = (isset($data['filters']['year']) and !empty($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
+        $data['currentYear_default']    = (isset($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
-        $data['currentTerm_default']    = (isset($data['filters']['term']) and !empty($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
+        $data['currentTerm_default']    = (isset($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
         $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
-
+        echo $data['currentYear_default']." < YEAR <br />";
         // define required filters
-        $where = array(
-                        'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
-                        'TermType.TermTypeId'  => $data['currentTerm_default'],
-                        'Section.SchoolYear'    => $data['currentYear_default']
-        );
+        $where = array();
+        $where['edfi.Grade.SchoolId'] = Easol_Authentication::userdata('SchoolId');
+        if (!empty($data['currentTerm_default']))
+             $where['TermType.TermTypeId'] = $data['currentTerm_default'];
+
+        if (!empty($data['currentYear_default']))
+             $where['Section.SchoolYear'] = $data['currentYear_default'];
+        
 
         // define optional filters
         $lookFor = array(
             'course'        => 'edfi.Course.CourseCode',
             'educator'      => 'edfi.StaffSectionAssociation.StaffUSI',
-            // 'gradelevel'    => '', there is no gradelevel db scheme in place yet.
         );
 
         if ($filters = $this->input->get()) {
@@ -88,8 +90,8 @@ public function index()
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 
-        $sql                    = "SELECT * FROM edfi.GradeLevelType";
-        $data['gradelevels']    = $this->db->query($sql)->result();
+       /* $sql                    = "SELECT * FROM edfi.GradeLevelType";
+        $data['gradelevels']    = $this->db->query($sql)->result();*/
 
         $sql                    = "SELECT
                                     edfi.Staff.StaffUSI,
@@ -114,7 +116,7 @@ public function index()
         $data = array();
         $data['section_id'] = $id;
 
-        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue as Term, [Section].ClassPeriodName, [Section].LocalCourseCode
+        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue, [Section].ClassPeriodName, [Section].LocalCourseCode
         FROM edfi.[Section] 
         LEFT JOIN edfi.StudentSectionAssociation ON 
         StudentSectionAssociation.SchoolId = Section.SchoolId AND 
@@ -146,8 +148,8 @@ public function index()
 
         foreach ($data['results'] as $k => $v)
         {
-            list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
-            $data['results'][$k]->Gradelevel = $gradelevel;
+           /* list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
+            $data['results'][$k]->Gradelevel = $gradelevel;*/
 
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             $data['results'][$k]->Period = $pCode;

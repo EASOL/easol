@@ -109,10 +109,11 @@ abstract class Easol_BaseEntity extends CI_Model{
         {
             if (strtolower(php_uname('s')) == 'linux') {
                 $params['['.$k.']'] = $v;
+                 unset($params[$k]);
             }else {
                 $params[$k] = $v;
             }
-            unset($params[$k]);
+           
         }
 
         $query = $this->db->get_where($this->getTableName(), $params);

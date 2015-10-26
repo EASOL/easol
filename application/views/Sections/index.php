@@ -44,17 +44,7 @@
 	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
-                  </div>                                       
-                  <div class="form-group">
-                    <label for="gradelevel">Grade Level</label><br />
-                    <select name="gradelevel">
-	                	<option value="">All Grade Levels</option>                    	
-                        <?php foreach($gradelevels as $k => $v): ?>
-                        <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if(isset($filters['gradelevel']) and $filters['gradelevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
-                        <?php endforeach; ?>                        
-                    </select>   
-                  </div>
-
+                  </div>                                      
                   <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
                 </form>
                 <?php if (isset($results) and !empty($results)): ?>
