@@ -13,7 +13,7 @@
 
     <?php if($this->router->class=='datamanagement') { ?>
         <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
     <?php } ?>    
@@ -125,11 +125,8 @@
                             </li>
                         <?php } ?>
                         
-                        <li <?= ($this->router->class=="grades") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/grades") ?>"><i class="fa fa-edit"></i> Grades</a>
-                        </li>
                         <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-th"></i> Sections</a>
+                            <a href="<?= site_url("/sections") ?>"><i class="fa fa-edit"></i> Sections</a>
                         </li>
                         
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
@@ -142,8 +139,12 @@
 				</li>
                         <?php } ?>
                         
-                        <li <?= ($this->router->class=="content") ? 'class="active-menu"' : '' ?>>
-                            <a href="<?= site_url("/content") ?>"><i class="fa fa-table"></i> Learning Lab</a>
+                        <li>
+                            <a href="#" id="learning-lab"><i class="fa fa-table"></i> Learning Lab</a>
+                            <ul class="sub-menu">
+                                <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content Search</a></li>
+                                <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>
+                            </ul>
                         </li>
                         
                         <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
@@ -154,12 +155,12 @@
 					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
 				</li>
 
-				<li <?= ($this->router->class=="datamanagement") ? 'class="active-menu"' : '' ?>>
+				<li>
 					<a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
 					<ul class="sub-menu">
-					    <li><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
-					    <li><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
-					    <li><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
+					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
+					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
+					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
 					</ul>
 				</li>
 
@@ -230,9 +231,10 @@
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement') { ?>
-        <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-        <script src="//cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
+        <script src="<?= site_url('assets/js/dataTables/jquery.dataTables.js') ?>"></script>
+        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
+        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->

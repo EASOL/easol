@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sections extends Easol_Controller {
+class Analytics extends Easol_Controller {
 
 
     protected function accessRules(){
@@ -16,27 +16,25 @@ public function index()
         $data = array();
 
         $data['filters']                = $_GET;
-        var_dump($data['filters']);
-        $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-        $data['currentYear_default']    = (isset($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
-        $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
-        $data['currentTerm_default']    = (isset($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
-        $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
-        echo $data['currentYear_default']." < YEAR <br />";
-        // define required filters
-        $where = array();
-        $where['edfi.Grade.SchoolId'] = Easol_Authentication::userdata('SchoolId');
-        if (!empty($data['currentTerm_default']))
-             $where['TermType.TermTypeId'] = $data['currentTerm_default'];
 
-        if (!empty($data['currentYear_default']))
-             $where['Section.SchoolYear'] = $data['currentYear_default'];
-        
+        $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
+        $data['currentYear_default']    = (isset($data['filters']['year']) and !empty($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
+        $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
+        $data['currentTerm_default']    = (isset($data['filters']['term']) and !empty($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
+        $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
+
+        // define required filters
+        $where = array(
+                        'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
+                        'TermType.TermTypeId'  => $data['currentTerm_default'],
+                        'Section.SchoolYear'    => $data['currentYear_default']
+        );
 
         // define optional filters
         $lookFor = array(
             'course'        => 'edfi.Course.CourseCode',
             'educator'      => 'edfi.StaffSectionAssociation.StaffUSI',
+            // 'gradelevel'    => '', there is no gradelevel db scheme in place yet.
         );
 
         if ($filters = $this->input->get()) {
@@ -69,17 +67,19 @@ public function index()
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,[Section].UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
-        // exit(print_r($this->db->last_query(), true));
         foreach ($data['results'] as $k => $v)
         {
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             $data['results'][$k]->Period = $pCode;
 
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+        
+            $this->load->model('entities/edfi/Edfi_Student');
+            $data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
         }
 
         $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
@@ -90,8 +90,8 @@ public function index()
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 
-       /* $sql                    = "SELECT * FROM edfi.GradeLevelType";
-        $data['gradelevels']    = $this->db->query($sql)->result();*/
+        $sql                    = "SELECT * FROM edfi.GradeLevelType";
+        $data['gradelevels']    = $this->db->query($sql)->result();
 
         $sql                    = "SELECT
                                     edfi.Staff.StaffUSI,
@@ -109,68 +109,4 @@ public function index()
             'data'  => $data,
         ]);
     }
-
-    public function details()
-    {
-        $id = $this->uri->segment(3, 0);
-        $data = array();
-        $data['section_id'] = $id;
-
-        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue, [Section].ClassPeriodName, [Section].LocalCourseCode
-        FROM edfi.[Section] 
-        LEFT JOIN edfi.StudentSectionAssociation ON 
-        StudentSectionAssociation.SchoolId = Section.SchoolId AND 
-        StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-        StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
-        StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-        StudentSectionAssociation.TermTypeId = Section.TermTypeId AND 
-        StudentSectionAssociation.SchoolYear = Section.SchoolYear 
-        LEFT JOIN edfi.StaffSectionAssociation ON 
-        StaffSectionAssociation.SchoolId = Section.SchoolId AND 
-        StaffSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-        StaffSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
-        StaffSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-        StaffSectionAssociation.TermTypeId = Section.TermTypeId AND 
-        StaffSectionAssociation.SchoolYear = Section.SchoolYear 
-        LEFT JOIN edfi.Staff ON 
-        Staff.StaffUSI = StaffSectionAssociation.StaffUSI 
-        INNER JOIN edfi.TermType ON 
-        TermType.TermTypeId = Section.TermTypeId 
-        INNER JOIN edfi.Course ON 
-        Course.CourseCode = Section.LocalCourseCode AND 
-        Course.EducationOrganizationId = Section.SchoolId 
-        WHERE [Section].UniqueSectionCode = '$id'
-        "; 
-
-        $data['results'] = $this->db->query($sql)->result();
-
-        // exit(var_dump($data['results']));
-
-        foreach ($data['results'] as $k => $v)
-        {
-           /* list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
-            $data['results'][$k]->Gradelevel = $gradelevel;*/
-
-            list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
-            $data['results'][$k]->Period = $pCode;
-
-            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
-        }        
-
-        $students = "(";
-        foreach ($data['results'] as $k => $v)
-            $students .= "'".$v->StudentUSI . "',";
-
-        $students = rtrim($students,",");
-        $students .= ")";
-
-        $sql = "select * from edfi.Student WHERE StudentUSI IN $students";
-        $data['students'] = $this->db->query($sql)->result();
-
-        $this->render("details",[
-            'data'  => $data,
-        ]);
-
-    }  
-
 }

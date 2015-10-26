@@ -8,6 +8,33 @@ class Edfi_Student extends Easol_baseentity {
     private $race;
     private $limitedEnglishProficiency;
 
+    public function getStudentsEmailsBySection($section = '')
+    {
+        $this->db->select("StudentSectionAssociation.StudentUSI");
+        $this->db->from("edfi.Section"); 
+        $this->db->join('edfi.StudentSectionAssociation', 
+        'StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+        StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+        StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
+        StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+        StudentSectionAssociation.TermTypeId = Section.TermTypeId AND 
+        StudentSectionAssociation.SchoolYear = Section.SchoolYear','left');
+        $this->db->where('[Section].UniqueSectionCode', $section);
+
+        $results = $this->db->get()->result();
+
+        $students = array();
+        foreach ($results as $k => $v)
+            $students[] = $v->StudentUSI;
+
+        $this->db->select("ElectronicMailAddress");
+        $this->db->from("edfi.StudentElectronicMail");
+        $this->db->where_in('StudentUSI', $students);
+        $results = $this->db->get()->result();
+
+        return $results;
+    }  
+
     /**
      * labels for the database fields
      * @return array

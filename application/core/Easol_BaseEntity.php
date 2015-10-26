@@ -94,8 +94,21 @@ abstract class Easol_BaseEntity extends CI_Model{
      */
     public function findOne($params=[]){
         if(!is_array($params)){
-            $params = [$this->getPrimaryKey()=>$params];
+            $params = [$this->getPrimaryKey()=>[$params]];
         }
+
+        // wrap array keys in [] brackets because the db structure uses sql reserved words as column names.
+        foreach ($params as $k => $v)
+        {
+            if (strtolower(php_uname('s')) == 'linux') {
+                $params['['.$k.']'] = $v;
+                 unset($params[$k]);
+            }else {
+                $params[$k] = $v;
+            }
+           
+        }
+
         $query = $this->db->get_where($this->getTableName(), $params);
 
         return $query->row();

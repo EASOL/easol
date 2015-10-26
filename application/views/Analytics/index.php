@@ -44,7 +44,17 @@
 	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
-                  </div>                                      
+                  </div>                                       
+                  <div class="form-group">
+                    <label for="gradelevel">Grade Level</label><br />
+                    <select name="gradelevel">
+	                	<option value="">All Grade Levels</option>                    	
+                        <?php foreach($gradelevels as $k => $v): ?>
+                        <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if(isset($filters['gradelevel']) and $filters['gradelevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
+                        <?php endforeach; ?>                        
+                    </select>   
+                  </div>
+
                   <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
                 </form>
                 <?php if (isset($results) and !empty($results)): ?>
@@ -57,7 +67,7 @@
                             <th>Period</th>
                             <th>Educator</th>
                             <th>Students</th>
-                            <th>Grades</th>
+                            <th>Analytics</th>
                             <th>Term</th>
                           </tr>
                         </thead>
@@ -69,13 +79,7 @@
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
-                              <td>
-                                <span class="label label-success sections-grade"><?php echo $v->Numeric_A; ?></span>
-                                <span class="label label-info sections-grade"><?php echo $v->Numeric_B; ?></span>
-                                <span class="label label-primary sections-grade"><?php echo $v->Numeric_C; ?></span>
-                                <span class="label label-warning sections-grade"><?php echo $v->Numeric_D; ?></span>
-                                <span class="label label-danger sections-grade"><?php echo $v->Numeric_F; ?></span>                                
-                              </td>
+                              <td>analytics data</td>
                               <td><?php echo $v->CodeValue; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>
