@@ -6,15 +6,13 @@ class Usermanagement_M extends CI_Model {
         parent::__construct();
     }
 
-    public function getEasolUsers($user = "", $where = array()) {
+    public function getEasolUsers($user = "", $key = "EFS.StaffUSI") {
         /*
         * Get listing of easol users with details from edfi tables for editing/deleting in easol
         * system via the UI.
         */
 
-        if (!empty($user)) {
-            $where['StaffUSI'] = $user;
-        } 
+        $where = (!empty($user)) ? "WHERE $key = '$user' AND SEM.PrimaryEmailAddressIndicator = '1'" : "WHERE SEM.PrimaryEmailAddressIndicator = '1'";       
 
         $query = "SELECT 
                     ESA.StaffUSI,
@@ -25,15 +23,16 @@ class Usermanagement_M extends CI_Model {
                     EFS.LastSurname,
                     SEM.ElectronicMailAddress
                     FROM easol.StaffAuthentication ESA
-                    LEFT OUTER JOIN easol.RoleType ERT 
+                    INNER JOIN easol.RoleType ERT 
                      ON ESA.RoleId = ERT.RoleTypeId 
-                    LEFT OUTER JOIN edfi.Staff EFS 
+                    INNER JOIN edfi.Staff EFS 
                      ON ESA.StaffUSI = EFS.StaffUSI
-                    LEFT OUTER JOIN edfi.StaffElectronicMail SEM 
+                    INNER JOIN edfi.StaffElectronicMail SEM 
                      ON ESA.StaffUSI = SEM.StaffUSI
-                ";                
+                      $where
+                ";              
 
-        $users = $this->db->where($where)->query($query)->result();
+        $users = $this->db->query($query)->result();
 
         foreach ($users as $key => $user) {
             $query = "SELECT 
@@ -41,16 +40,10 @@ class Usermanagement_M extends CI_Model {
                         FROM edfi.StaffEducationOrganizationEmploymentAssociation SEO
                         INNER JOIN edfi.EducationOrganization EO
                          ON EO.EducationOrganizationId = SEO.EducationOrganizationId
-                        WHERE SEO.StaffUSI = '$user->StaffUSI'
+                          WHERE SEO.StaffUSI = '$user->StaffUSI'
                     ";
 
             $users[$key]->Institutions = $this->db->query($query)->result();
-        
-            $query      = "SELECT * 
-                            FROM edfi.StaffElectronicMail 
-                            WHERE StaffUSI='$user->StaffUSI' AND PrimaryEmailAddressIndicator = '1'
-                          ";
-            $users[$key]->PrimaryEmailAddress  = ($this->db->query($query)->row() == null) ? '' : '1'; ;
         }
         return $users;
     }
@@ -139,6 +132,7 @@ class Usermanagement_M extends CI_Model {
     public function addEditEasolUser($post) {
         // unset and post data that does not get sent to the db.
         unset($post['school']);
+       
 
         $post['LastModifiedDate'] = date('Y-m-d G:i:s');
 
@@ -155,21 +149,19 @@ class Usermanagement_M extends CI_Model {
             // If they use password authentication and didnt enter a password then leave their db password unchanged.
             unset($post['Password']);
         }
-
+        if(@$post['newuser'] and !isset($post['Password'])){
+            $post['Password'] = "";
+        }
+        unset($post['newuser']);
         // exit(var_dump($post));
 
         // See whether we are running an insert or an update
         $user = $this->db->where('StaffUSI', $post['StaffUSI'])->get('easol.StaffAuthentication')->result();
-        
         if(empty($user)) {
             $post['CreateDate'] = date('Y-m-d G:i:s');
             $result = $this->db->insert('easol.StaffAuthentication', $post);
         }else {
-            $userData = $this->getEasolUsers($user[0]->StaffUSI);
-            if (is_array($userData) and !empty($userData[0]->ElectronicMailAddress))
-                $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
-            else
-                $result = false;
+            $result = $this->db->where('StaffUSI', $post['StaffUSI'])->update('easol.StaffAuthentication', $post);
         }
 
         // If there was no error then re-fetch the saved user values from the db to show as defaults when

@@ -18,7 +18,9 @@ Alternating field grey: #f9f9f9
 /*----------------------------------------------
     COMMON  STYLES
 ------------------------------------------------*/
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,700);
+
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -497,7 +499,7 @@ footer p {
 }
 
 .active-menu {
-    background-color: #fff !important;
+    background-color: #44a657 !important;
     color: #fff !important;
     border-right: 4px solid #44a657;
 }
@@ -710,7 +712,7 @@ i.fa.fa-graduation-cap { background: url(../img/st.png) no-repeat center; }
 i.fa.fa-edit { background: url(../img/gr.png) no-repeat center; }
 i.fa.fa-th { background: url(../img/se.png) no-repeat center; }
 i.fa.fa-qrcode { background: url(../img/at.png) no-repeat center; }
-i.fa.fa-table { background: url(/../img/as.png) no-repeat center; }
+i.fa.fa-table { background: url(../img/as.png) no-repeat center; }
 i.fa.fa-table2 { background: url(../img/ll.png) no-repeat center; }
 i.fa.fa-cubes { background: url(../img/co.png) no-repeat center; }
 i.fa.fa-bar-chart { background: url(../img/fr.png) no-repeat center; }
@@ -809,9 +811,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 }
 
 
-/* alternative styles added by Anwar */
 button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
-div#google_ajax_error {display:none}
 
 label.loginLabel {
 	width:87px;
@@ -837,6 +837,10 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   background: #f5f5f5;
 }
 
+.backToH2 { /* restore some of the values that were overridden. */
+  margin:8px;
+}
+
 .left {
   float: left;
 }
@@ -853,9 +857,23 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   width: 90%;
 }
 
+.content-title-publisher {
+  margin-top: 20px;
+}
+
 .content-title {
+  width: 49%;
   font-weight: bold;
   color: blue;
+  display: inline-block;
+}
+
+.content-publisher {
+  width: 49%;
+  font-weight: bold;
+  color: blue;
+  display: inline-block;
+  text-align: right;
 }
 
 .content-links {
@@ -863,12 +881,14 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 #main-menu .sub-menu {
+
     display: none;
     margin-bottom: 10px;
     list-style: none;
     padding: 9px 0px;
     background: #777;
 }
+
 
 
 .pre-data-table {

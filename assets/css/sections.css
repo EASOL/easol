@@ -1,0 +1,9 @@
+button#sections-filter {
+	margin: 0 10px;
+	vertical-align: bottom;
+}
+
+.sections-grade {
+	display: inline-block;
+	padding: 2.9px;
+}

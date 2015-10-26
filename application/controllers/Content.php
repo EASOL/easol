@@ -48,7 +48,7 @@ class Content extends Easol_Controller {
 
                 // Define a new query string without the page and limit values and get the full dataset
                 // for use in building the pagination links.
-                $base = $data;
+               $base = $data;
                 unset($base['page']);
                 unset($base['limit']);
                 $base_qs = http_build_query($base);
@@ -74,9 +74,6 @@ class Content extends Easol_Controller {
                 {
                     foreach ($filter as $key => $value) {
                         if ($value < 2) {
-                            unset($filter->$key);
-                        }
-                        if ($filtername == 'alignments' and !strstr($key, 'CCSS')) {
                             unset($filter->$key);
                         }
                     }
@@ -119,6 +116,19 @@ class Content extends Easol_Controller {
             if ($view == 'extension')
                 $this->layout = null;
 
+            // map the footnotes tags for iteration in the view to keep the code as DRY as possible.
+            $footnotes  = array(    'Subjects'  => array('subjects'       => 'name'),
+                                    'Standards' => array('alignments'     => 'name'),
+                                    'Grades'    => array('grades'         => 'grade'),
+                                    'Types'     => array('resource_types' => 'name'),
+                               
+                            );
+            $colors  = array(       'Subjects'  => '#337AB7',
+                                    'Standards' => '#7B1174',
+                                    'Grades'    => '#ACBB30',
+                                    'Types'     => '#2FB4AB'
+                               
+                            );
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
@@ -126,6 +136,8 @@ class Content extends Easol_Controller {
                 'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
                 'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
+                'footnotes'         => $footnotes,
+                'colors'            => $colors
             ]);
         }
 

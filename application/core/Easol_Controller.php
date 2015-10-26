@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/1/2015
- * Time: 11:16 PM
- */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**

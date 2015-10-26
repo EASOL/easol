@@ -1,11 +1,5 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/2/2015
- * Time: 9:53 PM
- */
+
 
 require_once APPPATH.'/core/Easol_BaseEntity.php';
 class Edfi_Student extends Easol_baseentity {
@@ -13,6 +7,33 @@ class Edfi_Student extends Easol_baseentity {
     private $sex;
     private $race;
     private $limitedEnglishProficiency;
+
+    public function getStudentsEmailsBySection($section = '')
+    {
+        $this->db->select("StudentSectionAssociation.StudentUSI");
+        $this->db->from("edfi.Section"); 
+        $this->db->join('edfi.StudentSectionAssociation', 
+        'StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+        StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+        StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
+        StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+        StudentSectionAssociation.TermTypeId = Section.TermTypeId AND 
+        StudentSectionAssociation.SchoolYear = Section.SchoolYear','left');
+        $this->db->where('[Section].UniqueSectionCode', $section);
+
+        $results = $this->db->get()->result();
+
+        $students = array();
+        foreach ($results as $k => $v)
+            $students[] = $v->StudentUSI;
+
+        $this->db->select("ElectronicMailAddress");
+        $this->db->from("edfi.StudentElectronicMail");
+        $this->db->where_in('StudentUSI', $students);
+        $results = $this->db->get()->result();
+
+        return $results;
+    }  
 
     /**
      * labels for the database fields
