@@ -20,12 +20,11 @@ class Attendance extends Easol_Controller {
      * index action
      */
     public function index($id=1){
+        echo "X";
         $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
-        if(!$currentTerm || !$currentYear){
-            return new \Exception("Current Term & Error not Found");
-        }
+       
 
         $query = "(SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.CodeValue as GradeLevel,GradeLevelType.GradeLevelTypeId, AttendanceEventCategoryType.CodeValue, COUNT(*) as Days, StudentSchoolAttendanceEvent.SchoolYear
 FROM edfi.StudentSchoolAttendanceEvent
