@@ -434,7 +434,7 @@ footer p {
     width: 90px;
     text-align: center;
     height: 90px;
-    background: #44a657 url(/assets/img/easollogo.png) no-repeat center;
+    background: #44a657 url("../img/easollogo.png") no-repeat center;
     overflow: hidden;
 }
 
@@ -704,18 +704,18 @@ svg { display: block;
     content: none !important;
 }
 
-i.fa.fa-dashboard { background: url(/assets/img/da.png) no-repeat center; }
-i.fa.fa-tachometer { background: url(/assets/img/da.png) no-repeat center; }
-i.fa.fa-graduation-cap { background: url(/assets/img/st.png) no-repeat center; }
-i.fa.fa-edit { background: url(/assets/img/gr.png) no-repeat center; }
-i.fa.fa-th { background: url(/assets/img/se.png) no-repeat center; }
-i.fa.fa-qrcode { background: url(/assets/img/at.png) no-repeat center; }
-i.fa.fa-table { background: url(/assets/img/as.png) no-repeat center; }
-i.fa.fa-table2 { background: url(/assets/img/ll.png) no-repeat center; }
-i.fa.fa-cubes { background: url(/assets/img/co.png) no-repeat center; }
-i.fa.fa-bar-chart { background: url(/assets/img/fr.png) no-repeat center; }
-i.fa.fa-cog { background: url(/assets/img/ma.png) no-repeat center; }
-i.fa.fa-sliders { background: url(/assets/img/ma.png) no-repeat center; }
+i.fa.fa-dashboard { background: url(../img/da.png) no-repeat center; }
+i.fa.fa-tachometer { background: url(../img/da.png) no-repeat center; }
+i.fa.fa-graduation-cap { background: url(../img/st.png) no-repeat center; }
+i.fa.fa-edit { background: url(../img/gr.png) no-repeat center; }
+i.fa.fa-th { background: url(../img/se.png) no-repeat center; }
+i.fa.fa-qrcode { background: url(../img/at.png) no-repeat center; }
+i.fa.fa-table { background: url(/../img/as.png) no-repeat center; }
+i.fa.fa-table2 { background: url(../img/ll.png) no-repeat center; }
+i.fa.fa-cubes { background: url(../img/co.png) no-repeat center; }
+i.fa.fa-bar-chart { background: url(../img/fr.png) no-repeat center; }
+i.fa.fa-cog { background: url(../img/ma.png) no-repeat center; }
+i.fa.fa-sliders { background: url(../img/ma.png) no-repeat center; }
 
 i.fa  { -webkit-filter: grayscale(100%); -moz-filter: grayscale(100%); -ms-filter: grayscale(100%); -o-filter: grayscale(100%); filter: grayscale(100%); background-size: contain !important; }
 i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filter: grayscale(0%); -o-filter: grayscale(0%); filter: grayscale(0%); }
