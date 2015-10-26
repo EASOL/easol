@@ -959,6 +959,9 @@ form#dataGridFormFilter {
     font-size: 17px;
 	margin: 0px;
 }
+form#dataGridFormFilter select {
+  color:black;
+}
 
 .panel-default {
     background: transparent;
