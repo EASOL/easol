@@ -4,6 +4,7 @@
          backupStaticAttributes="false"
          bootstrap="/path/to/bootstrap.php"
          cacheTokens="false"
+         columns="80"
          colors="false"
          stderr="false"
          convertErrorsToExceptions="true"
@@ -14,10 +15,16 @@
          printerClass="PHPUnit_TextUI_ResultPrinter"
          stopOnFailure="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+         beStrictAboutChangesToGlobalState="false"
+         beStrictAboutOutputDuringTests="false"
+         beStrictAboutResourceUsageDuringSmallTests="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutTodoAnnotatedTests="false"
+         checkForUnintentionallyCoveredCode="false"
+         enforceTimeLimit="false"
          timeoutForSmallTests="1"
          timeoutForMediumTests="10"
          timeoutForLargeTests="60"
-         strict="false"
          verbose="false">
          <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
              href="configuration.xml"
@@ -60,10 +67,5 @@
     <files name="foo" value="bar"/>
     <request name="foo" value="bar"/>
   </php>
-
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-      href="configuration.xml"
-      parse="xml"
-      xpointer="xpointer(/phpunit/selenium)" />
 </phpunit>
 
