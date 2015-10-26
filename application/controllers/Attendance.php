@@ -20,7 +20,7 @@ class Attendance extends Easol_Controller {
      * index action
      */
     public function index($id=1){
-        echo "X";
+       
         $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
