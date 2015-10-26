@@ -499,7 +499,7 @@ footer p {
 }
 
 .active-menu {
-    background-color: #44a657 !important;
+    background-color: #fff !important;
     color: #fff !important;
     border-right: 4px solid #44a657;
 }
