@@ -20,12 +20,11 @@ class Attendance extends Easol_Controller {
      * index action
      */
     public function index($id=1){
+       
         $currentTerm= Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
-        if(!$currentTerm || !$currentYear){
-            return new \Exception("Current Term & Error not Found");
-        }
+       
 
         $query = "(SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.CodeValue as GradeLevel,GradeLevelType.GradeLevelTypeId, AttendanceEventCategoryType.CodeValue, COUNT(*) as Days, StudentSchoolAttendanceEvent.SchoolYear
 FROM edfi.StudentSchoolAttendanceEvent
@@ -36,7 +35,7 @@ INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI 
    StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
 INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
 INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
-WHERE (AttendanceEventCategoryType.CodeValue = 'Excused Absence') AND StudentSchoolAttendanceEvent.TermTypeId = ".$currentTerm."  AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')."
+WHERE (AttendanceEventCategoryType.CodeValue = 'Excused Absence') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')."
 GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId)
 UNION
 (SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.CodeValue as GradeLevel,GradeLevelType.GradeLevelTypeId, AttendanceEventCategoryType.CodeValue, COUNT(*) as Days, StudentSchoolAttendanceEvent.SchoolYear
@@ -48,7 +47,7 @@ INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI 
    StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
 INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
 INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
-WHERE (AttendanceEventCategoryType.CodeValue='Unexcused Absence') AND StudentSchoolAttendanceEvent.TermTypeId = ".$currentTerm."  AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')."
+WHERE (AttendanceEventCategoryType.CodeValue='Unexcused Absence') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')."
 GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId)
 UNION
 (SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.CodeValue as GradeLevel,GradeLevelType.GradeLevelTypeId, AttendanceEventCategoryType.CodeValue, COUNT(*) as Days, StudentSchoolAttendanceEvent.SchoolYear
@@ -60,7 +59,7 @@ INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI 
    StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
 INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
 INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
-WHERE (AttendanceEventCategoryType.CodeValue = 'In Attendance') AND StudentSchoolAttendanceEvent.TermTypeId = ".$currentTerm."  AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')."
+WHERE (AttendanceEventCategoryType.CodeValue = 'In Attendance') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')."
 GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId)";
 
 
