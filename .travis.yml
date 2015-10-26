@@ -3,10 +3,8 @@
 sudo: required
 dist: trusty
 language: php
-
-# list any PHP version you want to test against
 php:
-	- 5.5
+  - 5.5
 
 # optionally specify a list of environments, for example to test different RDBMS
 #env:
@@ -15,8 +13,8 @@ php:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-	- sudo apt-get update -qq
-	- sudo apt-get install -qq tdsodbc libmyodbc php5-odbc freetds-bin unixodbc odbcinst1debian2 odbcinst libodbc1 php5-sybase libsybdb5 freetds-common sqsh unixodbc-bin libodbcinstq4-1 unixodbc-dev freetds-dev libct4
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq tdsodbc libmyodbc php5-odbc freetds-bin unixodbc odbcinst1debian2 odbcinst libodbc1 php5-sybase libsybdb5 freetds-common sqsh unixodbc-bin libodbcinstq4-1 unixodbc-dev freetds-dev libct4
 
 # omitting "script:" will default to phpunit
 script: phpunit --configuration application/tests/phpunit.xml
