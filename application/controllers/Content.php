@@ -48,7 +48,7 @@ class Content extends Easol_Controller {
 
                 // Define a new query string without the page and limit values and get the full dataset
                 // for use in building the pagination links.
-                $base = $data;
+               $base = $data;
                 unset($base['page']);
                 unset($base['limit']);
                 $base_qs = http_build_query($base);
