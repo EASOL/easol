@@ -22,7 +22,6 @@ public function index()
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $data['currentTerm_default']    = (isset($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
         $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
-        echo $data['currentYear_default']." < YEAR <br />";
         // define required filters
         $where = array();
         $where['edfi.Grade.SchoolId'] = Easol_Authentication::userdata('SchoolId');
