@@ -144,7 +144,7 @@
                             <a href="#" id="learning-lab"><i class="fa fa-table2"></i> Learning Lab</a>
                             <ul class="sub-menu">
                                 <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content Search</a></li>
-                                <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>
+                             <!---   <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>---->
                             </ul>
                         </li>
                         
