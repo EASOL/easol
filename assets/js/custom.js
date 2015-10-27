@@ -1,5 +1,4 @@
 $(function() {
-
 	if ($('table#manageusers').length) {
 		$('#manageusers').DataTable();
 	}
@@ -98,19 +97,23 @@ $(function() {
 		});
 	}
 
-	$("#main-menu #management").click(function(event) {
-		event.preventDefault();
-		var submenu = $('ul', $(this).parent());
-		if (submenu.length && submenu.is(':visible')) {
-			submenu.slideUp( "slow", function() {
-				// Animation complete.
-			});
-		} else {
-			submenu.slideDown( "slow", function() {
-				// Animation complete.
-			});
-		}
-	});
+    $("#main-menu #management, #main-menu #learning-lab").click(function(event) {
+    	event.preventDefault();
+    	var submenu = $('ul', $(this).parent());
+    	if (submenu.length && submenu.is(':visible')) {
+    		submenu.slideUp( "slow", function() {
+    		// Animation complete.
+    		});
+    	} else {
+    		submenu.slideDown( "slow", function() {
+    		// Animation complete.
+    		});
+    	}
+    });
+
+    if ($('.sublive').length) {
+        $('.sublive').parent().show();
+    }	
 
 	$( "#schoolFilter" ).change(function() {
 		var schoolId = $(this).val();
@@ -146,7 +149,6 @@ $(function() {
 		$('#usermanagement-addedit-password').toggle(this.checked == false)
 	});
 	$('[data-toggle="tooltip"]').tooltip();
-
 });
 
 
