@@ -9,11 +9,9 @@
 </head>
 <body>
   <div id="extension-wrapper" class="col-md-12 col-sm-12">
-    <div id="extension-header">
-        <a href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
-    </div>
+
     <div id="extension-body" class="panel panel-default">
-          <div class="panel-body">
+          <div class="panel-body" style="margin-top:20px">
               <form class="form-inline">
                  <div id="content-index-query" class="form-group">
                     <label for="query">Keywords</label>
