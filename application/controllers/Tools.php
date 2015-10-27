@@ -14,7 +14,7 @@ class Tools extends Easol_Controller {
     public function test() {
 
 	    chdir(APPPATH . "tests");
-	    system("phpunit", $output );
+	    system("php phpunit.phar", $output );
 
 	    echo $output;
     }
