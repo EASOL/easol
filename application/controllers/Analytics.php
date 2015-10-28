@@ -67,7 +67,7 @@ public function index()
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,[Section].UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
@@ -87,7 +87,7 @@ public function index()
         }
 
         $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.*"); 
-        $this->db->from("edfi.[Section]");
+        $this->db->from("edfi.Section");
         $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
             StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
             StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
@@ -96,7 +96,7 @@ public function index()
         $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
         $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
         $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-        $this->db->where_in("[Section].UniqueSectionCode", $sections);
+        $this->db->where_in("Section.UniqueSectionCode", $sections);
 
         exit(var_dump($this->db->get()->result()));
 
