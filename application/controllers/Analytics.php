@@ -71,16 +71,34 @@ public function index()
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
+
+        $sections = array();
         foreach ($data['results'] as $k => $v)
         {
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             $data['results'][$k]->Period = $pCode;
 
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+
+            $sections[] = $v->UniqueSectionCode;
         
-            $this->load->model('entities/edfi/Edfi_Student');
-            $data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
+            //$this->load->model('entities/edfi/Edfi_Student');
+            //$data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
         }
+
+        $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.*"); 
+        $this->db->from("edfi.[Section]");
+        $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+            StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+            StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+            StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+            StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+        $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+        $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+        $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+        $this->db->where_in("[Section].UniqueSectionCode", $sections);
+
+        exit(var_dump($this->db->get()->result()));
 
         $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
         $data['terms']          = $this->db->query($sql)->result();
