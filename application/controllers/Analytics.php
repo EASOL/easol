@@ -11,10 +11,8 @@ class Analytics extends Easol_Controller {
     }
 
 
-public function index()
-    {
+    public function index() {        
         $data = array();
-
         $data['filters']                = $_GET;
 
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
@@ -46,7 +44,7 @@ public function index()
             }
         }
 
-        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("TOP 2 Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -86,19 +84,26 @@ public function index()
             //$data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
         }
 
-        $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.*"); 
-        $this->db->from("edfi.[Section]");
-        $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
-            StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-            StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
-            StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-            StudentSectionAssociation.SchoolYear = Section.SchoolYear");
-        $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
-        $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
-        $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-        $this->db->where_in("[Section].UniqueSectionCode", $sections);
+        if (!empty($sections)) {
+            $this->db->select("StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
+            $this->db->from("edfi.[Section]");
+            $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+                StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+                StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+                StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+                StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+            $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+            $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+            $this->db->where_in("[Section].UniqueSectionCode", $sections);
+        }
 
-        exit(var_dump($this->db->get()->result()));
+        // sort the, hashed, student emails by section.
+        $students = $this->db->get()->result();
+        foreach ($students as $key => $value) {
+            $students[$value->UniqueSectionCode][] = $this->_encrypt_email($value->ElectronicMailAddress);
+            unset($students[$key]);
+        }
 
         $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
         $data['terms']          = $this->db->query($sql)->result();
@@ -127,4 +132,52 @@ public function index()
             'data'  => $data,
         ]);
     }
+
+    public function students() { 
+
+        $section    = $this->uri->segment(3, 0);
+        $data       = array();
+
+        // define required filters
+        $where = array(
+                        '[Section].UniqueSectionCode'   => $section,
+        );
+
+        $this->db->select("Course.CourseTitle");
+        $this->db->from('edfi.Course'); 
+        $this->db->join('edfi.Section', "Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId"); 
+
+        $data['section']    = $this->db->where($where)->get()->row();
+
+            $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
+            $this->db->from("edfi.[Section]");
+            $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+                StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+                StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+                StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+                StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+            $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+            $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+            $this->db->where("[Section].UniqueSectionCode", $section);
+
+        // sort the, hashed, student emails by section.
+        $data['students'] = $this->db->get()->result();
+        foreach ($data['students'] as $key => $value) {
+            $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = $value->FirstName . ' ' . $value->LastSurname;
+            unset($data['students'][$key]);
+        }
+
+        $this->render("students",[
+            'data'  => $data,
+        ]);
+    }
+
+    private function _encrypt_email ($email = "") {
+        $a             = $email . 'http://easol-dev.azurewebsites.net';
+        $b             = hash('sha256', $a);
+        $c             = substr(base64_encode($b),0,22);        
+        $options       = ['salt' => $c];
+        return password_hash($email, PASSWORD_BCRYPT, $options);
+    }    
 }

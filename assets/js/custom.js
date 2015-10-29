@@ -1,4 +1,6 @@
 $(function() {
+
+	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
 		$('#manageusers').DataTable();
 	}
@@ -9,6 +11,10 @@ $(function() {
 
 	if ($('table#manageschooldetails').length) {
 		$('#manageschooldetails').DataTable();
+	}
+
+	if ($('table#analyzestudents').length) {
+		$('#analyzestudents').DataTable();
 	}
 
 	$( "#filter-result" ).change(function() {
