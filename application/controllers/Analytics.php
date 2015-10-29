@@ -136,6 +136,11 @@ class Analytics extends Easol_Controller {
     public function students() { 
 
         $section    = $this->uri->segment(3, 0);
+
+        $api        = "https://analytics-staging.learningtapestry.com/api/v2/";
+        $api_key    = "51bb257c-c40a-4f51-bdb6-2ba697bb6167";
+        $api_pass   = "35d433acef73eb67bf4db5f0b68f3baca6b0";        
+
         $data       = array();
 
         // define required filters
@@ -163,10 +168,22 @@ class Analytics extends Easol_Controller {
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
+        $api_students = '$2a$10$YjlkNzNhODU1ODUxYTZkM.HaP/.r9ZJS91S.3pVxk6Xpjkym3uvu2';
         foreach ($data['students'] as $key => $value) {
-            $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = $value->FirstName . ' ' . $value->LastSurname;
+
+            $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
+                                                                                            );
             unset($data['students'][$key]);
+            $api_students .= $this->_encrypt_email($value->ElectronicMailAddress) . ',';
         }
+
+        // get the api data for each student
+        $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin' => '2015-01-01', 'date_end' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
+        $site       = $api.'pages?'.$query;
+        // exit($site);
+        $pages   = json_decode(file_get_contents($site, true));        
+
+        exit(var_dump($pages));
 
         $this->render("students",[
             'data'  => $data,
