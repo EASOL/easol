@@ -61,10 +61,27 @@
                     <?php foreach ($results as $obj): ?>
                       <div class="clear">
                         <div class="left content-desc">
-                          <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
+                          <div class="content-title-publisher">
+                            <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
+                            <div class="content-publisher"><?php foreach ($obj->identities as $i) { echo $i->name . "<br />"; }  ?></div>
+                          </div>
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
+                           <div class="btn-group btn-group-xs" role="group">
+                          <?php foreach ($footnotes as $key => $value) : $p = key($value); ?>
+                            <?php /* $key*/ ?>
+                           
+                              <?php $count = 0; foreach ($obj->$p as $k => $v) : $count++;  ?>
+                                <?php if ($count <= 5) : ?>
+                                  <button type="button" style="border-color:<?= $colors[$key]?>;background-color:<?= $colors[$key]?>" class="btn btn-primary"><?= $v->$value[$p]; ?></button>
+                                <?php elseif ($count == 6) : ?>
+                                  <button type="button" style="border-color:<?= $colors[$key]?>;background-color:<?= $colors[$key]?>" class="btn btn-primary">...</button>
+                                <?php endif; ?>
+                              <?php endforeach; ?>
+                           
+                          <?php endforeach; ?>
+                           </div>                      
                         </div>
                       </div>
                     <?php endforeach; ?>

@@ -1,11 +1,4 @@
 <?php
-/**
- * User: Nahid Hossain
- * Email: mail@akmnahid.com
- * Phone: +880 172 7456 280
- * Date: 6/5/2015
- * Time: 1:59 AM
- */
 
 class Easol_AuthorizationRoles extends CI_Model {
 
