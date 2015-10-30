@@ -864,16 +864,27 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 .content-title {
   width: 49%;
   font-weight: bold;
+  font-size: 1.2em;
   color: blue;
   display: inline-block;
 }
 
 .content-publisher {
-  width: 49%;
-  font-weight: bold;
-  color: blue;
+  font-weight: normal;
+  font-size: 0.9em;
   display: inline-block;
-  text-align: right;
+  position: absolute;
+  right: 110px;
+  text-align: center;
+  border-radius: 25px;
+  background: #51AE65;
+  padding: 0px; 
+  width: 190px;
+  height: 20px; 
+}
+
+.content-publisher a {
+  color: whitesmoke;
 }
 
 .content-links {
@@ -935,7 +946,7 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 .sub-menu a {
-    color: white;
+    color: #51AE65;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 1px;
@@ -1260,4 +1271,41 @@ a {
     text-align: left;
 }
 
+.tag {
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  padding: 3px 3px 3px 3px;
+  font-size: 12px;
+}
+
+.tag-subjects, .tag-subject {
+  border-color: #74C372 !important;
+  background-color: #74C372 !important;
+}
+
+.tag-types, .tag-type {
+  border-color: #81B6D5 !important;
+  background-color: #81B6D5 !important;
+}
+
+.tag-grades, .tag-grade {
+  border-color: #3787BC !important;
+  background-color: #3787BC !important;
+}
+
+.tag-standards, .tag-standard {
+  border-color: #B0DC7A !important;
+  background-color: #B0DC7A !important;
+}
+
+.tag-publisher {
+  border-color: #51AE65 !important;
+  background-color: #51AE65 !important;
+}
+
+.filter_active {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+  filter: alpha(opacity=75);
+  opacity: 0.75;
+}
 
