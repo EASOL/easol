@@ -1283,7 +1283,7 @@ a {
   background-color: #74C372 !important;
 }
 
-.tag-types, .tag-type {
+.tag-types, .tag-type, .tag-resource_type {
   border-color: #81B6D5 !important;
   background-color: #81B6D5 !important;
 }
