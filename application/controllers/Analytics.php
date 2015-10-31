@@ -133,7 +133,7 @@ class Analytics extends Easol_Controller {
         ]);
     }
 
-    public function students() { 
+    public function students() {
 
         $section    = $this->uri->segment(3, 0);
 
@@ -168,22 +168,39 @@ class Analytics extends Easol_Controller {
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
-        $api_students = '$2a$10$YjlkNzNhODU1ODUxYTZkM.HaP/.r9ZJS91S.3pVxk6Xpjkym3uvu2';
+
+        // todo: change this to $api_students = ''; after the db has some useful data and remove line 182
+        $api_students = '$2a$10$YjlkNzNhODU1ODUxYTZkM.HaP/.r9ZJS91S.3pVxk6Xpjkym3uvu2,';
         foreach ($data['students'] as $key => $value) {
 
             $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
+                                                                                            'page_count_total' => 0, // default these view values because the api simply doesnt return the user if there is no user data.
+                                                                                            'page_time_total'  => 0 // default these view values because the api simply doesnt return the user if there is no user data.
                                                                                             );
             unset($data['students'][$key]);
             $api_students .= $this->_encrypt_email($value->ElectronicMailAddress) . ',';
         }
 
+        $data['students']['$2a$10$YjlkNzNhODU1ODUxYTZkM.HaP/.r9ZJS91S.3pVxk6Xpjkym3uvu2'] = array('name' => 'Edgar');
+
+
         // get the api data for each student
         $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin' => '2015-01-01', 'date_end' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
         $site       = $api.'pages?'.$query;
-        // exit($site);
-        $pages   = json_decode(file_get_contents($site, true));        
+        $response    = json_decode(file_get_contents($site, true));        
 
-        exit(var_dump($pages));
+        foreach ($response->results as $student) {
+
+            $page_time_total    = 0;
+            $page_count_total   = 0;
+            foreach ($student->page_visits as $key => $page) {
+                $page_time_total += $page->total_time;
+                $page_count_total++;
+            }
+
+            $data['students'][$student->username]['page_count_total']     = $page_count_total;
+            $data['students'][$student->username]['page_time_total']      = $page_time_total;
+        }
 
         $this->render("students",[
             'data'  => $data,
@@ -193,8 +210,7 @@ class Analytics extends Easol_Controller {
     private function _encrypt_email ($email = "") {
         $a             = $email . 'http://easol-dev.azurewebsites.net';
         $b             = hash('sha256', $a);
-        $c             = substr(base64_encode($b),0,22);        
-        $options       = ['salt' => $c];
-        return password_hash($email, PASSWORD_BCRYPT, $options);
+        $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
+        return crypt($email, $c);
     }    
 }

@@ -21,12 +21,12 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach ($students as $hash => $name) : ?>
+                          <?php foreach ($students as $hash => $student) : ?>
                             <tr>
-                              <td><?php echo $name; ?></td>
+                              <td><?php echo $student['name']; ?></td>
+                              <td><?php echo $student['page_count_total']; ?></td>
                               <td></td>
-                              <td></td>
-                              <td></td>
+                              <td><?php echo $student['page_time_total']; ?></td>
                               <td></td>                                    
                             </tr>
                           <?php endforeach; ?>
