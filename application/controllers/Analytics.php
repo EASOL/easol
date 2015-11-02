@@ -84,6 +84,7 @@ class Analytics extends Easol_Controller {
             //$data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
         }
 
+
         if (!empty($sections)) {
             $this->db->select("StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
             $this->db->from("edfi.Section");
@@ -97,6 +98,7 @@ class Analytics extends Easol_Controller {
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
             $this->db->where_in("Section.UniqueSectionCode", $sections);
         }
+
 
         // sort the, hashed, student emails by section.
         $students = $this->db->get()->result();
