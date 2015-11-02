@@ -77,6 +77,7 @@
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
                           </div>
+
                            <div class="btn-group btn-group-xs" role="group">
                           <?php foreach ($footnotes as $key => $value) : $p = key($value); ?>
                               <?php $count = 0; foreach ($obj->$p as $k => $v) : $count++;  ?>
@@ -88,7 +89,11 @@
                               <?php endforeach; ?>
                     
                           <?php endforeach; ?>
-                           </div>                      
+                           </div> 
+                            <div class="right">
+                            <div class="right content-links"><a href="<?php echo $obj->resource_locators[0]->url; ?>" class="extension" title="<?php echo $obj->title; ?>" description="<?php echo $obj->description; ?>">Add to Assignment</a></div>                              
+                            <div class="right content-links"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new">Preview</a></div>
+                        </div>                     
                         </div>
                       </div>
                     <?php endforeach; ?>
