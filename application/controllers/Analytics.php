@@ -65,7 +65,7 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,[Section].UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
@@ -86,7 +86,7 @@ class Analytics extends Easol_Controller {
 
         if (!empty($sections)) {
             $this->db->select("StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
-            $this->db->from("edfi.[Section]");
+            $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
                 StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
@@ -95,7 +95,7 @@ class Analytics extends Easol_Controller {
             $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-            $this->db->where_in("[Section].UniqueSectionCode", $sections);
+            $this->db->where_in("Section.UniqueSectionCode", $sections);
         }
 
         // sort the, hashed, student emails by section.
@@ -145,7 +145,7 @@ class Analytics extends Easol_Controller {
 
         // define required filters
         $where = array(
-                        '[Section].UniqueSectionCode'   => $section,
+                        'Section.UniqueSectionCode'   => $section,
         );
 
         $this->db->select("Course.CourseTitle");
@@ -155,7 +155,7 @@ class Analytics extends Easol_Controller {
         $data['section']    = $this->db->where($where)->get()->row();
 
             $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
-            $this->db->from("edfi.[Section]");
+            $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
                 StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
@@ -164,13 +164,13 @@ class Analytics extends Easol_Controller {
             $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-            $this->db->where("[Section].UniqueSectionCode", $section);
+            $this->db->where("Section.UniqueSectionCode", $section);
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
 
         // todo: change this to $api_students = ''; after the db has some useful data and remove line 182
-        $api_students = '$2a$10$YjlkNzNhODU1ODUxYTZkM.HaP/.r9ZJS91S.3pVxk6Xpjkym3uvu2,';
+        $api_students = '';
         foreach ($data['students'] as $key => $value) {
 
             $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
@@ -181,7 +181,6 @@ class Analytics extends Easol_Controller {
             $api_students .= $this->_encrypt_email($value->ElectronicMailAddress) . ',';
         }
 
-        $data['students']['$2a$10$YjlkNzNhODU1ODUxYTZkM.HaP/.r9ZJS91S.3pVxk6Xpjkym3uvu2'] = array('name' => 'Edgar');
 
 
         // get the api data for each student
