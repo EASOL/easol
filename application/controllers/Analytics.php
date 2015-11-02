@@ -214,4 +214,24 @@ class Analytics extends Easol_Controller {
         $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
         return crypt($email, $c);
     }    
+    public function creating_hashes () {
+        // WARNING: This function won't check for existing values and also 
+        //a big increasement of PHP call should be done (this query runs a few minutes)
+        $s = $this->db->query("SELECT * FROM edfi.StudentElectronicMail")->result();
+        foreach ($s as $student){
+            $email = ""; $a = ""; $b = ""; $c = ""; $result = ""; $data = array();
+
+            $email = $student->ElectronicMailAddress;
+            $a             = $email . 'http://easol-dev.azurewebsites.net';
+            $b             = hash('sha256', $a);
+            $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
+            $result =  crypt($email, $c);       
+            $data = array(
+             'email' => $email ,
+             'HashedEmail' => $result
+            );
+            $this->db->insert('easol.EmailLookup', $data);
+        }
+
+    }    
 }
