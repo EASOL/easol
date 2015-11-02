@@ -44,7 +44,7 @@ class Analytics extends Easol_Controller {
             }
         }
 
-        $this->db->select("TOP 2 Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
