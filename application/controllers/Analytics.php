@@ -11,10 +11,8 @@ class Analytics extends Easol_Controller {
     }
 
 
-public function index()
-    {
+    public function index() {        
         $data = array();
-
         $data['filters']                = $_GET;
 
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
@@ -46,7 +44,7 @@ public function index()
             }
         }
 
-        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("TOP 2 Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -86,19 +84,28 @@ public function index()
             //$data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
         }
 
-        $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.*"); 
-        $this->db->from("edfi.Section");
-        $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
-            StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-            StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
-            StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-            StudentSectionAssociation.SchoolYear = Section.SchoolYear");
-        $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
-        $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
-        $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-        $this->db->where_in("Section.UniqueSectionCode", $sections);
 
-        exit(var_dump($this->db->get()->result()));
+        if (!empty($sections)) {
+            $this->db->select("StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
+            $this->db->from("edfi.Section");
+            $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+                StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+                StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+                StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+                StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+            $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+            $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+            $this->db->where_in("Section.UniqueSectionCode", $sections);
+        }
+
+
+        // sort the, hashed, student emails by section.
+        $students = $this->db->get()->result();
+        foreach ($students as $key => $value) {
+            $students[$value->UniqueSectionCode][] = $this->_encrypt_email($value->ElectronicMailAddress);
+            unset($students[$key]);
+        }
 
         $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
         $data['terms']          = $this->db->query($sql)->result();
@@ -127,4 +134,84 @@ public function index()
             'data'  => $data,
         ]);
     }
+
+    public function students() {
+
+        $section    = $this->uri->segment(3, 0);
+
+        $api        = "https://analytics-staging.learningtapestry.com/api/v2/";
+        $api_key    = "51bb257c-c40a-4f51-bdb6-2ba697bb6167";
+        $api_pass   = "35d433acef73eb67bf4db5f0b68f3baca6b0";        
+
+        $data       = array();
+
+        // define required filters
+        $where = array(
+                        'Section.UniqueSectionCode'   => $section,
+        );
+
+        $this->db->select("Course.CourseTitle");
+        $this->db->from('edfi.Course'); 
+        $this->db->join('edfi.Section', "Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId"); 
+
+        $data['section']    = $this->db->where($where)->get()->row();
+
+            $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
+            $this->db->from("edfi.Section");
+            $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+                StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+                StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+                StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+                StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+            $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+            $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+            $this->db->where("Section.UniqueSectionCode", $section);
+
+        // sort the, hashed, student emails by section.
+        $data['students'] = $this->db->get()->result();
+
+        // todo: change this to $api_students = ''; after the db has some useful data and remove line 182
+        $api_students = '';
+        foreach ($data['students'] as $key => $value) {
+
+            $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
+                                                                                            'page_count_total' => 0, // default these view values because the api simply doesnt return the user if there is no user data.
+                                                                                            'page_time_total'  => 0 // default these view values because the api simply doesnt return the user if there is no user data.
+                                                                                            );
+            unset($data['students'][$key]);
+            $api_students .= $this->_encrypt_email($value->ElectronicMailAddress) . ',';
+        }
+
+
+
+        // get the api data for each student
+        $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin' => '2015-01-01', 'date_end' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
+        $site       = $api.'pages?'.$query;
+        $response    = json_decode(file_get_contents($site, true));        
+
+        foreach ($response->results as $student) {
+
+            $page_time_total    = 0;
+            $page_count_total   = 0;
+            foreach ($student->page_visits as $key => $page) {
+                $page_time_total += $page->total_time;
+                $page_count_total++;
+            }
+
+            $data['students'][$student->username]['page_count_total']     = $page_count_total;
+            $data['students'][$student->username]['page_time_total']      = $page_time_total;
+        }
+
+        $this->render("students",[
+            'data'  => $data,
+        ]);
+    }
+
+    private function _encrypt_email ($email = "") {
+        $a             = $email . 'http://easol-dev.azurewebsites.net';
+        $b             = hash('sha256', $a);
+        $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
+        return crypt($email, $c);
+    }    
 }
