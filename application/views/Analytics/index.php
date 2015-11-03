@@ -8,7 +8,8 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <form class="form-inline form-horizontal undo-overrides">
+
+                <form class="form-inline" id="dataGridFormFilter">
                		<div class="form-group">
 	                    <label for="term">Term</label><br />
 	                    <select name="term">
@@ -45,15 +46,7 @@
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>                                       
-                  <div class="form-group">
-                    <label for="gradelevel">Grade Level</label><br />
-                    <select name="gradelevel">
-	                	<option value="">All Grade Levels</option>                    	
-                        <?php foreach($gradelevels as $k => $v): ?>
-                        <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if(isset($filters['gradelevel']) and $filters['gradelevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
-                        <?php endforeach; ?>                        
-                    </select>   
-                  </div>
+                 
 
                   <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
                 </form>

@@ -19,7 +19,8 @@ class Analytics extends Easol_Controller {
     }
 
 
-    public function index() {        
+    public function index() {   
+
         $data = array();
         $data['filters']                = $_GET;
 
@@ -28,7 +29,7 @@ class Analytics extends Easol_Controller {
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $data['currentTerm_default']    = (isset($data['filters']['term']) and !empty($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
         $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
-
+       
         // define required filters
         $where = array(
                         'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
@@ -153,8 +154,7 @@ class Analytics extends Easol_Controller {
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 
-        $sql                    = "SELECT * FROM edfi.GradeLevelType";
-        $data['gradelevels']    = $this->db->query($sql)->result();
+        
 
         $sql                    = "SELECT
                                     edfi.Staff.StaffUSI,
