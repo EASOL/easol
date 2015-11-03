@@ -159,9 +159,9 @@
 				<li>
 					<a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
 					<ul class="sub-menu">
-					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
-					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
-					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
+					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data</a></li>
+					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User</a></li>
+					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School</a></li>                                   
 					</ul>
 				</li>
 
