@@ -52,7 +52,7 @@ class Analytics extends Easol_Controller {
             }
         }
 
-        $this->db->select("TOP 2 Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -73,7 +73,7 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,[Section].UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
@@ -94,7 +94,7 @@ class Analytics extends Easol_Controller {
 
         if (!empty($sections)) {
             $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
-            $this->db->from("edfi.[Section]");
+            $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
                 StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
@@ -104,7 +104,7 @@ class Analytics extends Easol_Controller {
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
             $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');            
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-            $this->db->where_in("[Section].UniqueSectionCode", $sections);
+            $this->db->where_in("Section.UniqueSectionCode", $sections);
         }
 
         // sort the, hashed, student emails by section.
@@ -115,6 +115,7 @@ class Analytics extends Easol_Controller {
         }
 
         foreach ($data['results'] as $section => $obj) {
+           
             // get the sites api data for the section's students
             $api_students       = '';
             foreach ($obj->students as $key => $HashedEmail) {
@@ -123,8 +124,10 @@ class Analytics extends Easol_Controller {
 
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
             $site       = $this->api_url.'sites?'.$query;
-            $response   = json_decode(file_get_contents($site, true));        
-
+            $response   = json_decode(file_get_contents($site, true));       
+            
+           
+            $i++;
             $times = array();
             foreach ($response->results as $student) {
 
@@ -134,8 +137,11 @@ class Analytics extends Easol_Controller {
             }
 
             $data['results'][$section]->average = (!empty($times)) ? array_sum($times) / count($times) : 0; 
+     
+    
 
-        }        
+        }
+       
 
         // exit(var_dump($data['results']));        
 
@@ -174,7 +180,7 @@ class Analytics extends Easol_Controller {
 
         // define required filters
         $where = array(
-                        '[Section].UniqueSectionCode'   => $section,
+                        'Section.UniqueSectionCode'   => $section,
         );
 
         $this->db->select("Course.CourseTitle");
@@ -184,7 +190,7 @@ class Analytics extends Easol_Controller {
         $data['section']    = $this->db->where($where)->get()->row();
 
         $this->db->select("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
-        $this->db->from("edfi.[Section]");
+        $this->db->from("edfi.Section");
         $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
             StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
             StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
@@ -194,7 +200,7 @@ class Analytics extends Easol_Controller {
         $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
         $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
         $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-        $this->db->where("[Section].UniqueSectionCode", $section);
+        $this->db->where("Section.UniqueSectionCode", $section);
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
@@ -215,7 +221,7 @@ class Analytics extends Easol_Controller {
         $site       = $this->api_url.'pages?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
 
-        exit(var_dump($response));
+//exit(var_dump($response));
 
         foreach ($response->results as $student) {
 
@@ -235,7 +241,7 @@ class Analytics extends Easol_Controller {
         $site       = $this->api_url.'video-views?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
 
-        exit(var_dump($response));
+     //   exit(var_dump($response));
 
         foreach ($response->results as $student) {
 
