@@ -137,9 +137,10 @@ class Analytics extends Easol_Controller {
 
         $section    = $this->uri->segment(3, 0);
 
-        $api        = "https://analytics-staging.learningtapestry.com/api/v2/";
-        $api_key    = "51bb257c-c40a-4f51-bdb6-2ba697bb6167";
-        $api_pass   = "35d433acef73eb67bf4db5f0b68f3baca6b0";        
+        $api        = $this->config->item('analytics_api');
+        $api_url    = $api['url'];
+        $api_key    = $api['key'];
+        $api_pass   = $api['pass'];        
 
         $data       = array();
 
@@ -182,8 +183,10 @@ class Analytics extends Easol_Controller {
 
         // get the page api data for each student
         $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
-        $site       = $api.'pages?'.$query;
-        $response    = json_decode(file_get_contents($site, true));        
+        $site       = $api_url.'pages?'.$query;
+        $response   = json_decode(file_get_contents($site, true));        
+
+        exit(var_dump($response));
 
         foreach ($response->results as $student) {
 
@@ -200,8 +203,8 @@ class Analytics extends Easol_Controller {
 
         // get the video data for each student
         $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
-        $site       = $api.'video-views?'.$query;
-        $response    = json_decode(file_get_contents($site, true));        
+        $site       = $api_url.'video-views?'.$query;
+        $response   = json_decode(file_get_contents($site, true));        
 
         exit(var_dump($response));
 
