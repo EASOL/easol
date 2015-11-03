@@ -10,6 +10,14 @@ class Analytics extends Easol_Controller {
         ];
     }
 
+    public function __construct () {
+        parent::__construct();
+        $api              = $this->config->item('analytics_api');
+        $this->api_url    = $api['url'];
+        $this->api_key    = $api['key'];
+        $this->api_pass   = $api['pass'];  
+    }
+
 
     public function index() {        
         $data = array();
@@ -135,13 +143,7 @@ class Analytics extends Easol_Controller {
 
     public function students() {
 
-        $section    = $this->uri->segment(3, 0);
-
-        $api        = $this->config->item('analytics_api');
-        $api_url    = $api['url'];
-        $api_key    = $api['key'];
-        $api_pass   = $api['pass'];        
-
+        $section    = $this->uri->segment(3, 0);      
         $data       = array();
 
         // define required filters
@@ -183,8 +185,8 @@ class Analytics extends Easol_Controller {
         }
 
         // get the page api data for each student
-        $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
-        $site       = $api_url.'pages?'.$query;
+        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
+        $site       = $this->api_url.'pages?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
 
         exit(var_dump($response));
@@ -203,8 +205,8 @@ class Analytics extends Easol_Controller {
         }
 
         // get the video data for each student
-        $query      = http_build_query(array('org_api_key' => $api_key, 'org_secret_key' => $api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
-        $site       = $api_url.'video-views?'.$query;
+        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
+        $site       = $this->api_url.'video-views?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
 
         exit(var_dump($response));
