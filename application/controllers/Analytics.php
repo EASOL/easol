@@ -81,19 +81,19 @@ class Analytics extends Easol_Controller {
         $sections = array();
         foreach ($data['results'] as $k => $v)
         {
+            $data['results'][$v->UniqueSectionCode] = $v;
+
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
-            $data['results'][$k]->Period = $pCode;
+            $data['results'][$v->UniqueSectionCode]->Period = $pCode;
 
-            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+            $data['results'][$v->UniqueSectionCode]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+            unset($data['results'][$k]);
 
-            $sections[] = $v->UniqueSectionCode;
-        
-            //$this->load->model('entities/edfi/Edfi_Student');
-            //$data['students'] = $this->Edfi_Student->getStudentsEmailsBySection($v->UniqueSectionCode);
+            $sections[] = $v->UniqueSectionCode;        
         }
 
         if (!empty($sections)) {
-            $this->db->select("StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
+            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
             $this->db->from("edfi.[Section]");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -102,16 +102,42 @@ class Analytics extends Easol_Controller {
                 StudentSectionAssociation.SchoolYear = Section.SchoolYear");
             $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+            $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');            
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
             $this->db->where_in("[Section].UniqueSectionCode", $sections);
         }
 
         // sort the, hashed, student emails by section.
         $students = $this->db->get()->result();
+
         foreach ($students as $key => $value) {
-            $students[$value->UniqueSectionCode][] = $this->_encrypt_email($value->ElectronicMailAddress);
-            unset($students[$key]);
+            $data['results'][$value->UniqueSectionCode]->students[] = $value->HashedEmail;
         }
+
+        foreach ($data['results'] as $section => $obj) {
+            // get the sites api data for the section's students
+            $api_students       = '';
+            foreach ($obj->students as $key => $HashedEmail) {
+                $api_students .= $HashedEmail . ',';
+            }
+
+            $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
+            $site       = $this->api_url.'sites?'.$query;
+            $response   = json_decode(file_get_contents($site, true));        
+
+            $times = array();
+            foreach ($response->results as $student) {
+
+                foreach ($student->site_visits as $key => $site) {
+                    $times[] = $site->total_time;
+                }
+            }
+
+            $data['results'][$section]->average = (!empty($times)) ? array_sum($times) / count($times) : 0; 
+
+        }        
+
+        // exit(var_dump($data['results']));        
 
         $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
         $data['terms']          = $this->db->query($sql)->result();

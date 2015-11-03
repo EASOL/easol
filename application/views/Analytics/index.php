@@ -79,7 +79,7 @@
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
-                              <td>analytics data</td>
+                              <td><?php echo $v->average; ?></td>
                               <td><?php echo $v->CodeValue; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>
