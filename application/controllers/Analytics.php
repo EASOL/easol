@@ -155,17 +155,18 @@ class Analytics extends Easol_Controller {
 
         $data['section']    = $this->db->where($where)->get()->row();
 
-            $this->db->select("Student.FirstName, Student.LastSurname, StudentElectronicMail.ElectronicMailAddress, Section.UniqueSectionCode"); 
-            $this->db->from("edfi.[Section]");
-            $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
-                StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-                StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
-                StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-                StudentSectionAssociation.SchoolYear = Section.SchoolYear");
-            $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
-            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
-            $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-            $this->db->where("[Section].UniqueSectionCode", $section);
+        $this->db->select("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+        $this->db->from("edfi.[Section]");
+        $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+            StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+            StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+            StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+            StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+        $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+        $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+        $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
+        $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+        $this->db->where("[Section].UniqueSectionCode", $section);
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
@@ -173,12 +174,12 @@ class Analytics extends Easol_Controller {
         $api_students = '';
         foreach ($data['students'] as $key => $value) {
 
-            $data['students'][$this->_encrypt_email($value->ElectronicMailAddress)] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
+            $data['students'][$value->HashedEmail] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
                                                                                             'page_count_total' => 0, // default these view values because the api simply doesnt return the user if there is no user data.
                                                                                             'page_time_total'  => 0 // default these view values because the api simply doesnt return the user if there is no user data.
                                                                                             );
             unset($data['students'][$key]);
-            $api_students .= $this->_encrypt_email($value->ElectronicMailAddress) . ',';
+            $api_students .= $value->HashedEmail . ',';
         }
 
         // get the page api data for each student
@@ -227,6 +228,9 @@ class Analytics extends Easol_Controller {
         ]);
     }
 
+    // todo:
+    // this function should be used when adding/editing easol users to store their email as a hash
+    // for use in api requests.
     private function _encrypt_email ($email = "") {
         $a             = $email . 'http://easol-dev.azurewebsites.net';
         $b             = hash('sha256', $a);
