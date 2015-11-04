@@ -53,7 +53,7 @@ class Analytics extends Easol_Controller {
             }
         }
 
-        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("TOP 2 Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -137,10 +137,7 @@ class Analytics extends Easol_Controller {
                 }
             }
 
-            $data['results'][$section]->average = (!empty($times)) ? array_sum($times) / count($times) : 0; 
-     
-    
-
+            $data['results'][$section]->average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / count($response->results))) : 0; 
         }
        
 
@@ -153,8 +150,6 @@ class Analytics extends Easol_Controller {
 
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
-
-        
 
         $sql                    = "SELECT
                                     edfi.Staff.StaffUSI,
@@ -221,8 +216,6 @@ class Analytics extends Easol_Controller {
         $site       = $this->api_url.'pages?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
 
-//exit(var_dump($response));
-
         foreach ($response->results as $student) {
 
             $page_time_total    = 0;
@@ -233,7 +226,7 @@ class Analytics extends Easol_Controller {
             }
 
             $data['students'][$student->username]['page_count_total']     = $page_count_total;
-            $data['students'][$student->username]['page_time_total']      = $page_time_total;
+            $data['students'][$student->username]['page_time_total']      = gmdate('H:i', $page_time_total);
         }
 
         // get the video data for each student
@@ -253,7 +246,7 @@ class Analytics extends Easol_Controller {
             }
 
             $data['students'][$student->username]['page_count_total']     = $page_count_total;
-            $data['students'][$student->username]['page_time_total']      = $page_time_total;
+            $data['students'][$student->username]['page_time_total']      = gmdate('H:i', $page_time_total);
         }
 
 
