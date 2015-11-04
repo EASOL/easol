@@ -217,19 +217,17 @@ class Analytics extends Easol_Controller {
         $site       = $this->api_url.'video-views?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
 
-     //   exit(var_dump($response));
-
         foreach ($response->results as $student) {
 
-            $page_time_total    = 0;
-            $page_count_total   = 0;
-            foreach ($student->page_visits as $key => $page) {
-                $page_time_total += $page->total_time;
-                $page_count_total++;
+            $video_time_total    = 0;
+            $video_count_total   = 0;
+            foreach ($student->video_visits as $key => $video) {
+                $video_time_total += $video->total_time;
+                $video_count_total++;
             }
 
-            $data['students'][$student->username]['page_count_total']     = $page_count_total;
-            $data['students'][$student->username]['page_time_total']      = gmdate('H:i', $page_time_total);
+            $data['students'][$student->username]['video_count_total']     = $video_count_total;
+            $data['students'][$student->username]['video_time_total']      = gmdate('H:i', $video_time_total);
         }
 
 
