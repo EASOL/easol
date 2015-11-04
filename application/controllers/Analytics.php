@@ -53,19 +53,7 @@ class Analytics extends Easol_Controller {
             }
         }
 
-        $this->db->select("TOP 2 Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
-        Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
-        sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
-        sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
-        sum(case when Grade.NumericGradeEarned >= 70 AND Grade.NumericGradeEarned < 80 THEN 1 ELSE 0 END) as Numeric_C,
-        sum(case when Grade.NumericGradeEarned >= 60 AND Grade.NumericGradeEarned < 70 THEN 1 ELSE 0 END) as Numeric_D,
-        sum(case when Grade.NumericGradeEarned < 60 THEN 1 ELSE 0 END) as Numeric_F,
-        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'A' THEN 1 ELSE 0 END) as Letter_A,
-        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'B' THEN 1 ELSE 0 END) as Letter_B,
-        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'C' THEN 1 ELSE 0 END) as Letter_C,
-        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'D' THEN 1 ELSE 0 END) as Letter_D,
-        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'F' THEN 1 ELSE 0 END) as Letter_F, 
-        count(*) as StudentCount");
+        $this->db->select("TOP 4 Grade.LocalCourseCode, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade'); 
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
         $this->db->join('edfi.StudentSectionAssociation', 'StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner'); 
@@ -73,9 +61,7 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
-        $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
-        $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
+        $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
 
         $data['results']    = $this->db->where($where)->get()->result();
 
@@ -94,15 +80,14 @@ class Analytics extends Easol_Controller {
         }
 
         if (!empty($sections)) {
-            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+            $this->db->select("DISTINCT EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
             $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
                 StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
                 StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
                 StudentSectionAssociation.SchoolYear = Section.SchoolYear");
-            $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
-            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+            $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = StudentSectionAssociation.StudentUSI");
             $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');            
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
             $this->db->where_in("Section.UniqueSectionCode", $sections);
@@ -115,6 +100,9 @@ class Analytics extends Easol_Controller {
             }
 
             foreach ($data['results'] as $section => $obj) {
+
+                // define the number of student records for the section.
+                $data['results'][$section]->StudentCount = count($obj->students);
                
                 // get the sites api data for the section's students
                 $api_students       = '';
@@ -134,7 +122,7 @@ class Analytics extends Easol_Controller {
                     }
                 }
 
-                $data['results'][$section]->average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / count($response->results))) : 0; 
+                $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / count($response->results))) : 0; 
             }
         }
        
