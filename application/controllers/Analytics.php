@@ -122,7 +122,7 @@ class Analytics extends Easol_Controller {
                     }
                 }
 
-                $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / count($response->results))) : 0; 
+                $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
             }
         }
        
