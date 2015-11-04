@@ -33,7 +33,7 @@ class Analytics extends Easol_Controller {
         // define required filters
         $where = array(
                         'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
-                        'TermType.TermTypeId'  => $data['currentTerm_default'],
+                        'TermType.TermTypeId'   => $data['currentTerm_default'],
                         'Section.SchoolYear'    => $data['currentYear_default']
         );
 
@@ -55,6 +55,10 @@ class Analytics extends Easol_Controller {
 
         $this->db->select("TOP 4 Grade.LocalCourseCode, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade'); 
+
+        $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner'); 
+
+
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
         $this->db->join('edfi.StudentSectionAssociation', 'StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner'); 
         $this->db->join('edfi.Section', 'Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode', 'inner');
@@ -76,7 +80,20 @@ class Analytics extends Easol_Controller {
             $data['results'][$v->UniqueSectionCode]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
             unset($data['results'][$k]);
 
-            $sections[] = $v->UniqueSectionCode;        
+            $sections[] = $v->UniqueSectionCode;
+
+            // get the section datetime intervals
+            $urldates = ''; 
+            $SchoolId           = Easol_Authentication::userdata('SchoolId');
+            $ClassPeriodName    = $v->ClassPeriodName;
+            $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
+            $this->db->from("edfi.BellSchedule"); 
+            $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date'); 
+            $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
+            $intervals = $this->db->get()->result();
+            foreach ($intervals as $key => $value) {
+                $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+            }        
         }
 
         if (!empty($sections)) {
@@ -110,8 +127,8 @@ class Analytics extends Easol_Controller {
                     $api_students .= $HashedEmail . ',';
                 }
 
-                $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
-                $site       = $this->api_url.'sites?'.$query;
+                $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
+                $site       = $this->api_url.'sites?'.$query.$urldates;
                 $response   = json_decode(file_get_contents($site, true));
                 
                 $times = array();
