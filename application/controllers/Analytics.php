@@ -106,43 +106,38 @@ class Analytics extends Easol_Controller {
             $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');            
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
             $this->db->where_in("Section.UniqueSectionCode", $sections);
-        }
 
-        // sort the, hashed, student emails by section.
-        $students = $this->db->get()->result();
+            // sort the, hashed, student emails by section.
+            $students = $this->db->get()->result();
 
-        foreach ($students as $key => $value) {
-            $data['results'][$value->UniqueSectionCode]->students[] = $value->HashedEmail;
-        }
-
-        foreach ($data['results'] as $section => $obj) {
-           
-            // get the sites api data for the section's students
-            $api_students       = '';
-            foreach ($obj->students as $key => $HashedEmail) {
-                $api_students .= $HashedEmail . ',';
+            foreach ($students as $key => $value) {
+                $data['results'][$value->UniqueSectionCode]->students[] = $value->HashedEmail;
             }
 
-            $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
-            $site       = $this->api_url.'sites?'.$query;
-            $response   = json_decode(file_get_contents($site, true));       
-            
-           
-            
-            $times = array();
-            foreach ($response->results as $student) {
-
-                foreach ($student->site_visits as $key => $site) {
-                    $times[] = $site->total_time;
+            foreach ($data['results'] as $section => $obj) {
+               
+                // get the sites api data for the section's students
+                $api_students       = '';
+                foreach ($obj->students as $key => $HashedEmail) {
+                    $api_students .= $HashedEmail . ',';
                 }
-            }
 
-            $data['results'][$section]->average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / count($response->results))) : 0; 
+                $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
+                $site       = $this->api_url.'sites?'.$query;
+                $response   = json_decode(file_get_contents($site, true));
+                
+                $times = array();
+                foreach ($response->results as $student) {
+
+                    foreach ($student->site_visits as $key => $site) {
+                        $times[] = $site->total_time;
+                    }
+                }
+
+                $data['results'][$section]->average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / count($response->results))) : 0; 
+            }
         }
        
-
-        // exit(var_dump($data['results']));        
-
         $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
         $data['terms']          = $this->db->query($sql)->result();
 
