@@ -38,7 +38,7 @@
                   </div>
  				          <div class="form-group">
 	                    <label for="educator">Educator</label><br />
-	                    <select name="educator">
+                      <select name="educator" <?= (!$userCanFilter) ? 'disabled' : ''; ?>>
 	                        <option value="">All Educators</option>	                    	
 	                        <?php foreach($educators as $k => $v): ?>
 	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
