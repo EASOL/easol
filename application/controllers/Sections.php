@@ -21,7 +21,10 @@ public function index()
         $data['currentYear_default']    = (isset($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $data['currentTerm_default']    = (isset($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
-        $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
+        $data['userCanFilter']          = Easol_SchoolConfiguration::canFilterByEducator();
+        
+    
+
 
         // define required filters
         $where = array();
@@ -47,6 +50,8 @@ public function index()
                 }
             }
         }
+        // If it's educator who is logged in, we force change Where param
+         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
         $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 

@@ -25,9 +25,9 @@
                             <tr>
                               <td><?php echo $student['name']; ?></td>
                               <td><?php echo $student['page_count_total']; ?></td>
-                              <td></td>
+                              <td><?php echo (isset($student['video_count_total'])) ? $student['video_count_total'] : ''; ?></td>
                               <td><?php echo $student['page_time_total']; ?></td>
-                              <td></td>                                    
+                              <td><?php echo (isset($student['video_time_total'])) ? $student['video_time_total'] : ''; ?></td>
                             </tr>
                           <?php endforeach; ?>
                         </tbody>
