@@ -98,9 +98,9 @@ class Analytics extends Easol_Controller {
             }        
         }
         
-        var_dump($sections);
         if (!empty($sections)) {
-            $this->db->distinct("EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+            $this->db->distinct(); 
+            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode");
             $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -186,8 +186,8 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.Section', "Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId"); 
 
         $data['section']    = $this->db->where($where)->get()->row();
-
-        $this->db->distinct("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+        $this->db->distinct();
+        $this->db->select("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
         $this->db->from("edfi.Section");
         $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
             StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -202,7 +202,7 @@ class Analytics extends Easol_Controller {
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
-
+        echo $this->db->last_query();
         $api_students = '';
         foreach ($data['students'] as $key => $value) {
 
@@ -218,6 +218,7 @@ class Analytics extends Easol_Controller {
         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
         $site       = $this->api_url.'pages?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
+        
 
         foreach ($response->results as $student) {
 
