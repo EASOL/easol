@@ -29,7 +29,7 @@ class User extends Easol_Controller {
 		$data = array('school'=>'');
 		if ($StaffUSI) {
 			$data['user'] = $user = Model\Easol\StaffAuthentication::find($StaffUSI);
-			$data['post']['school'] = $user->staff()->educationOrganization()[0]->EducationOrganizationId;
+			$data['post']['school'] = $user->Staff()->EducationOrganization()[0]->EducationOrganizationId;
 			$data['post']['user'] = $user->record->get('data');
 		}
 

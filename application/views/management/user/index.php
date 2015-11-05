@@ -23,7 +23,7 @@
 
 					<tr>
 						<td>
-							<?php if (!$user->staff()->email()): ?>
+							<?php if (!$user->Staff()->Email()): ?>
 								<span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="right" title="Missing email address">	<?php echo ($user->StaffUSI) ? $user->StaffUSI : 'Error'; ?>
 								</span>
 							<?php else: ?>
@@ -31,14 +31,14 @@
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php if (!$user->staff()->FirstName and !$user->staff()->LastSurname): ?>
+							<?php if (!$user->Staff()->FirstName and !$user->Staff()->LastSurname): ?>
 								<span class="alert alert-danger alert-small">missing</span>
 							<?php else: ?>
-								<?php echo $user->staff()->FirstName . ' ' . $user->staff()->MiddleName . ' ' . $user->staff()->LastSurname; ?>
+								<?php echo $user->Staff()->FirstName . ' ' . $user->Staff()->MiddleName . ' ' . $user->Staff()->LastSurname; ?>
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php echo ($user->role()->RoleTypeName) ? $user->role()->RoleTypeName : '<span class="alert alert-danger alert-small">missing</span>'; ?>
+							<?php echo ($user->Role()->RoleTypeName) ? $user->Role()->RoleTypeName : '<span class="alert alert-danger alert-small">missing</span>'; ?>
 						</td>
 						<td>
 							<?php
@@ -49,7 +49,7 @@
 							?>
 						</td>
 						<td>
-							<?php if ($school = $user->staff()->educationOrganization()[0]): ?>
+							<?php if ($school = $user->Staff()->EducationOrganization()[0]): ?>
 								<?php echo $school->NameOfInstitution; ?>
 							<?php else: ?>
 								<span class="alert alert-danger alert-small">missing</span>

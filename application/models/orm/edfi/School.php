@@ -15,8 +15,9 @@ class School extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'educationOrganization'=> ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),
-			'staff' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\Staff')
+			'EducationOrganization'=> ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),
+			'Staff' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\Staff'),
+			'Cohort' => ORM::has_many('\\Model\\Edfi\\Cohort')
 		];
 
 		self::$fields = [

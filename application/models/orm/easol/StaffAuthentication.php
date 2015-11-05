@@ -14,8 +14,8 @@ class StaffAuthentication extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'staff' => ORM::belongs_to('\\Model\\Edfi\\Staff'),
-			'role' => ORM::belongs_to('\\Model\\Easol\\RoleType')
+			'Staff' => ORM::belongs_to('\\Model\\Edfi\\Staff'),
+			'Role' => ORM::belongs_to('\\Model\\Easol\\RoleType')
 		];
 
 		self::$fields = [

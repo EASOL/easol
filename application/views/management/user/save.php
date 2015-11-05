@@ -25,7 +25,7 @@
 							<option school="reset" value="">Choose a user to add or edit</option>
 							<?php foreach ($staff_listing as $staff): ?>
 
-								<option value="<?php echo $staff->StaffUSI ?>" school="<?php echo $staff->educationOrganization()[0]->EducationOrganizationId ?>" <?php echo ($post['user']['StaffUSI'] == $staff->StaffUSI) ? "selected" : "" ?>>
+								<option value="<?php echo $staff->StaffUSI ?>" school="<?php echo $staff->EducationOrganization()[0]->EducationOrganizationId ?>" <?php echo ($post['user']['StaffUSI'] == $staff->StaffUSI) ? "selected" : "" ?>>
 									<?php echo "$staff->FirstName $staff->LastSurname $staff->StaffUSI" ?>
 								</option>
 							<?php endforeach; ?>
@@ -37,7 +37,7 @@
 						<div class="form-group">
 							<label for="staffEmail">StaffUSI Email</label>
 
-							<input class="form-control" type="text" value="<?php echo $user->staff()->email()[0]->ElectronicMailAddress ?>" disabled>
+							<input class="form-control" type="text" value="<?php echo $user->Staff()->Email()[0]->ElectronicMailAddress ?>" disabled>
 
 
 						</div>

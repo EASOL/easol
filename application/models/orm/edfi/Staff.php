@@ -13,10 +13,10 @@ class Staff extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'address' => ORM::has_many('\\Model\\Edfi\\StaffAddress'),
-			'email' => ORM::has_many('\\Model\\Edfi\\StaffEmail'),
-			'authentication' => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),
-			'educationOrganization' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\EducationOrganization')
+			'Address' => ORM::has_many('\\Model\\Edfi\\StaffAddress'),
+			'Email' => ORM::has_many('\\Model\\Edfi\\StaffEmail'),
+			'Authentication' => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),
+			'EducationOrganization' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\EducationOrganization')
 		];
 
 		self::$fields = [

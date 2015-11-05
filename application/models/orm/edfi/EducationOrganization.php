@@ -13,7 +13,7 @@ class EducationOrganization extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'school'=> ORM::has_one('\\Model\\Edfi\\School')
+			'School'=> ORM::has_one('\\Model\\Edfi\\School')
 		];
 
 		self::$fields = [

@@ -14,8 +14,8 @@ class Staff extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'educationOrganization' => ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),
-			'staff' => ORM::belongs_to('\\Model\\Edfi\\Staff')
+			'EducationOrganization' => ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),
+			'Staff' => ORM::belongs_to('\\Model\\Edfi\\Staff')
 		];
 
 		self::$fields = [

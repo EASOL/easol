@@ -15,7 +15,7 @@ class StaffEmail extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'staff' => ORM::belongs_to('\\Model\\Edfi\\Staff')
+			'Staff' => ORM::belongs_to('\\Model\\Edfi\\Staff')
 		];
 
 		self::$fields = [

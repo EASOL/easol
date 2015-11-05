@@ -13,7 +13,9 @@ class RoleType extends ORM {
 	function _init() {
 
 		self::$relationships = [
-			'staffAuthentication'  => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),
+			'StaffAuthentication'  => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),
+			'ReportAccess' => ORM::has_many('\\Model\\Easol\\ReportAccess'),
+			'DashboardConfiguration' => ORM::has_many('\\Model\\Easol\\DashboardConfiguration'),
 		];
 
 		self::$fields = [
