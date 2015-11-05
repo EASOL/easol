@@ -97,7 +97,7 @@ class Analytics extends Easol_Controller {
         }
 
         if (!empty($sections)) {
-            $this->db->select("DISTINCT EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+            $this->db->distinct("EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
             $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -184,7 +184,7 @@ class Analytics extends Easol_Controller {
 
         $data['section']    = $this->db->where($where)->get()->row();
 
-        $this->db->select("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+        $this->db->distinct("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
         $this->db->from("edfi.Section");
         $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
             StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
