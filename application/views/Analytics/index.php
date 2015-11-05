@@ -37,15 +37,17 @@
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
+                    <?php if($userCanFilter){ ?>
  				          <div class="form-group">
 	                    <label for="educator">Educator</label><br />
-	                    <select name="educator" <?= (!$userCanFilter) ? 'disabled' : ''; ?>>
+	                    <select name="educator">
 	                        <option value="">All Educators</option>	                    	
 	                        <?php foreach($educators as $k => $v): ?>
 	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
-                  </div>                                       
+                  </div>    
+                  <?php } ?>                                   
                  
 
                   <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>

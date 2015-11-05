@@ -28,7 +28,7 @@ class Analytics extends Easol_Controller {
         $data['currentYear_default']    = (isset($data['filters']['year']) and !empty($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $data['currentTerm_default']    = (isset($data['filters']['term']) and !empty($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
-        $data['userCanFilter']          = Easol_SchoolConfiguration::userCanFilter();
+        $data['userCanFilter']          = Easol_SchoolConfiguration::canFilterByEducator();
        
         // define required filters
         $where = array(
@@ -52,8 +52,10 @@ class Analytics extends Easol_Controller {
                 }
             }
         }
+        // If it's educator who is logged in, we force change Where param
+        if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("TOP 4 Grade.LocalCourseCode, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade'); 
 
         $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner'); 
