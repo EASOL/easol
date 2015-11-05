@@ -202,7 +202,7 @@ class Analytics extends Easol_Controller {
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->get()->result();
-        echo $this->db->last_query();
+
         $api_students = '';
         foreach ($data['students'] as $key => $value) {
 
