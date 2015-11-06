@@ -54,13 +54,10 @@ class Analytics extends Easol_Controller {
         }
         // If it's educator who is logged in, we force change Where param
         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
-        $this->db->distinct();
-        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+
+        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade'); 
-
         $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner'); 
-
-
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
         $this->db->join('edfi.StudentSectionAssociation', 'StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner'); 
         $this->db->join('edfi.Section', 'Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode', 'inner');
@@ -68,21 +65,22 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
+        $this->db->order_by('Grade.LocalCourseCode');
 
-        $data['results']    = $this->db->where($where)->get()->result();
-
+        $data['results']    = $this->db->distinct()->where($where)->get()->result();
+        
         $sections = array();
         foreach ($data['results'] as $k => $v)
         {
-            $data['results'][$v->UniqueSectionCode] = $v;
+            $data['results'][$v->id] = $v;
 
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
-            $data['results'][$v->UniqueSectionCode]->Period = $pCode;
+            $data['results'][$v->id]->Period = $pCode;
 
-            $data['results'][$v->UniqueSectionCode]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+            $data['results'][$v->id]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
             unset($data['results'][$k]);
 
-            $sections[] = $v->UniqueSectionCode;
+            $sections[] = $v->id;
 
             // get the section datetime intervals
             $urldates = ''; 
@@ -97,10 +95,9 @@ class Analytics extends Easol_Controller {
                 $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
             }        
         }
-        
+
         if (!empty($sections)) {
-            $this->db->distinct(); 
-            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode");
+            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode, Section.id"); 
             $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -110,13 +107,12 @@ class Analytics extends Easol_Controller {
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = StudentSectionAssociation.StudentUSI");
             $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');            
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-            $this->db->where_in("Section.UniqueSectionCode", $sections);
+            $this->db->where_in("Section.id", $sections);
 
             // sort the, hashed, student emails by section.
-            $students = $this->db->get()->result();
-
+            $students = $this->db->distinct()->get()->result();
             foreach ($students as $key => $value) {
-                $data['results'][$value->UniqueSectionCode]->students[] = $value->HashedEmail;
+                $data['results'][$value->id]->students[] = $value->HashedEmail;
             }
 
             foreach ($data['results'] as $section => $obj) {
@@ -178,16 +174,29 @@ class Analytics extends Easol_Controller {
 
         // define required filters
         $where = array(
-                        'Section.UniqueSectionCode'   => $section,
+                        'Section.id'   => $section,
         );
 
-        $this->db->select("Course.CourseTitle");
-        $this->db->from('edfi.Course'); 
-        $this->db->join('edfi.Section', "Course.CourseCode = Section.LocalCourseCode AND Course.EducationOrganizationId = Section.SchoolId"); 
-
+    // This Separate SQL call is to get details about the Section
+        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->from('edfi.Grade'); 
+        $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner'); 
+        $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
+        $this->db->join('edfi.StudentSectionAssociation', 'StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner'); 
+        $this->db->join('edfi.Section', 'Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode', 'inner');
+        $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
+        $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
+        $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
+        $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
+        $this->db->where('Section.id',$section);
         $data['section']    = $this->db->where($where)->get()->row();
-        $this->db->distinct();
-        $this->db->select("Student.FirstName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+        $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
+        list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        $data['section']->Period = $pCode;      
+
+
+        // Getting list of students
+        $this->db->select("Student.FirstName, Student.MiddleName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
         $this->db->from("edfi.Section");
         $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
             StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -198,15 +207,15 @@ class Analytics extends Easol_Controller {
         $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
         $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
         $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-        $this->db->where("Section.UniqueSectionCode", $section);
+        $this->db->where("Section.id", $section);
 
         // sort the, hashed, student emails by section.
-        $data['students'] = $this->db->get()->result();
+        $data['students'] = $this->db->distinct()->get()->result();
 
         $api_students = '';
         foreach ($data['students'] as $key => $value) {
 
-            $data['students'][$value->HashedEmail] = array('name'  => $value->FirstName . ' ' . $value->LastSurname,
+            $data['students'][$value->HashedEmail] = array('name'  => $value->FirstName .' '.$value->MiddleName.' ' . $value->LastSurname,
                                                                                             'page_count_total' => 0, // default these view values because the api simply doesnt return the user if there is no user data.
                                                                                             'page_time_total'  => 0 // default these view values because the api simply doesnt return the user if there is no user data.
                                                                                             );
@@ -218,7 +227,6 @@ class Analytics extends Easol_Controller {
         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
         $site       = $this->api_url.'pages?'.$query;
         $response   = json_decode(file_get_contents($site, true));        
-        
 
         foreach ($response->results as $student) {
 

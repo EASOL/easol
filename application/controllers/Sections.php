@@ -22,9 +22,6 @@ public function index()
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $data['currentTerm_default']    = (isset($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
         $data['userCanFilter']          = Easol_SchoolConfiguration::canFilterByEducator();
-        
-    
-
 
         // define required filters
         $where = array();
@@ -53,7 +50,7 @@ public function index()
         // If it's educator who is logged in, we force change Where param
          if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -74,7 +71,7 @@ public function index()
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle, Section.UniqueSectionCode, Section.id,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
@@ -121,56 +118,29 @@ public function index()
         $data = array();
         $data['section_id'] = $id;
 
-        $sql = "SELECT StudentSectionAssociation.StudentUSI, StaffSectionAssociation.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue, [Section].ClassPeriodName, [Section].LocalCourseCode
-        FROM edfi.[Section] 
-        LEFT JOIN edfi.StudentSectionAssociation ON 
-        StudentSectionAssociation.SchoolId = Section.SchoolId AND 
-        StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-        StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
-        StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-        StudentSectionAssociation.TermTypeId = Section.TermTypeId AND 
-        StudentSectionAssociation.SchoolYear = Section.SchoolYear 
-        LEFT JOIN edfi.StaffSectionAssociation ON 
-        StaffSectionAssociation.SchoolId = Section.SchoolId AND 
-        StaffSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-        StaffSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
-        StaffSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-        StaffSectionAssociation.TermTypeId = Section.TermTypeId AND 
-        StaffSectionAssociation.SchoolYear = Section.SchoolYear 
-        LEFT JOIN edfi.Staff ON 
-        Staff.StaffUSI = StaffSectionAssociation.StaffUSI 
-        INNER JOIN edfi.TermType ON 
-        TermType.TermTypeId = Section.TermTypeId 
-        INNER JOIN edfi.Course ON 
-        Course.CourseCode = Section.LocalCourseCode AND 
-        Course.EducationOrganizationId = Section.SchoolId 
-        WHERE [Section].UniqueSectionCode = '$id'
-        "; 
+        $this->db->select('Student.StudentUSI, Student.FirstName, Student.MiddleName, Student.LastSurname, Grade.LocalCourseCode, Course.CourseTitle, Section.id,Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        Staff.FirstName AS "teacher_fname", Staff.LastSurname AS "teacher_lname", TermType.CodeValue, Grade.SchoolYear, Grade.NumericGradeEarned');
+        $this->db->from('edfi.Grade'); 
+        $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
+        $this->db->join('edfi.StudentSectionAssociation', 'StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner'); 
+        $this->db->join('edfi.Student', 'Student.StudentUSI = StudentSectionAssociation.StudentUSI'); 
+        $this->db->join('edfi.Section', 'Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode', 'inner');
+        $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
+        $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
+        $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
+        $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
+        $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
+        $this->db->where('Section.id', $id);
 
-        $data['results'] = $this->db->query($sql)->result();
-
+        $data['results'] = $this->db->get()->result();
         // exit(var_dump($data['results']));
 
         foreach ($data['results'] as $k => $v)
         {
-           /* list($junk,$gradelevel) = explode('-', $v->LocalCourseCode);
-            $data['results'][$k]->Gradelevel = $gradelevel;*/
-
             list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             $data['results'][$k]->Period = $pCode;
-
-            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
-        }        
-
-        $students = "(";
-        foreach ($data['results'] as $k => $v)
-            $students .= "'".$v->StudentUSI . "',";
-
-        $students = rtrim($students,",");
-        $students .= ")";
-
-        $sql = "select * from edfi.Student WHERE StudentUSI IN $students";
-        $data['students'] = $this->db->query($sql)->result();
+            $data['results'][$k]->Educator = $v->teacher_fname . ' ' . $v->teacher_lname;            
+        } 
 
         $this->render("details",[
             'data'  => $data,
