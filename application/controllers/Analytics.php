@@ -55,7 +55,7 @@ class Analytics extends Easol_Controller {
         // If it's educator who is logged in, we force change Where param
         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("top 5 Grade.LocalCourseCode, Section.UniqueSectionCode, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->select("top 5 Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade'); 
         $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner'); 
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
@@ -79,7 +79,7 @@ class Analytics extends Easol_Controller {
             $data['results'][$v->UniqueSectionCode]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
             unset($data['results'][$k]);
 
-            $sections[] = $v->UniqueSectionCode;
+            $sections[] = $v->id;
 
             // get the section datetime intervals
             $urldates = ''; 
@@ -96,7 +96,7 @@ class Analytics extends Easol_Controller {
         }
 
         if (!empty($sections)) {
-            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+            $this->db->select("EmailLookup.HashedEmail, Section.UniqueSectionCode, Section.id"); 
             $this->db->from("edfi.Section");
             $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
                 StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
@@ -106,7 +106,7 @@ class Analytics extends Easol_Controller {
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = StudentSectionAssociation.StudentUSI");
             $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');            
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-            $this->db->where_in("Section.UniqueSectionCode", $sections);
+            $this->db->where_in("Section.id", $sections);
 
             // sort the, hashed, student emails by section.
             $students = $this->db->distinct()->get()->result();
@@ -174,7 +174,7 @@ class Analytics extends Easol_Controller {
 
         // define required filters
         $where = array(
-                        'Section.UniqueSectionCode'   => $section,
+                        'Section.id'   => $section,
         );
 
         $this->db->select("Course.CourseTitle");
@@ -194,7 +194,7 @@ class Analytics extends Easol_Controller {
         $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
         $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
         $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
-        $this->db->where("Section.UniqueSectionCode", $section);
+        $this->db->where("Section.id", $section);
 
         // sort the, hashed, student emails by section.
         $data['students'] = $this->db->distinct()->get()->result();
