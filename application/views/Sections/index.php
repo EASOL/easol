@@ -11,7 +11,7 @@
                 <form class="form-inline" id="dataGridFormFilter">
                		<div class="form-group">
 	                    <label for="term">Term</label><br />
-	                    <select name="term">
+	                    <select name="term" class="form-control">
 	                        <option value="">All Terms</option>	                    	
 	                        <?php foreach($terms as $k => $v): ?>
 	                        	<option value="<?php echo $v->TermTypeId; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
@@ -20,7 +20,7 @@
                   </div>
  				          <div class="form-group">
 	                    <label for="year">School Year</label><br />
-	                    <select name="year">
+	                    <select name="year" class="form-control">
 	                        <option value="">All Years</option>	                    	
 	                        <?php foreach($years as $k => $v): ?>
 	                        	<option value="<?php echo $v; ?>" <?php if($currentYear_default == $v) {echo "selected";} ?> ><?php echo $v; ?></option>
@@ -29,7 +29,7 @@
                   </div>
  				          <div class="form-group">
 	                    <label for="course">Course</label><br />
-	                    <select name="course">
+	                    <select name="course" class="form-control">
 	                        <option value="">All Courses</option>	                    	
 	                        <?php foreach($courses as $k => $v): ?>
 	                        	<option value="<?php echo $v->CourseCode; ?>" <?php if(isset($filters['course']) and $filters['course'] == $v->CourseCode) {echo "selected";} ?> ><?php echo $v->CourseTitle; ?></option>
@@ -39,15 +39,18 @@
                   <?php if($userCanFilter){ ?>
  				          <div class="form-group">
 	                    <label for="educator">Educator</label><br />
-                      <select name="educator">
+                      <select name="educator" class="form-control">
 	                        <option value="">All Educators</option>	                    	
 	                        <?php foreach($educators as $k => $v): ?>
 	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
-                  <?php } ?>                                       
+                  <?php } ?>       
+                  <div class="form-group">                     
+                   <label for="filter">Submit</label><br />                               
                   <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
+                </div>
                 </form>
                 <?php if (isset($results) and !empty($results)): ?>
                   <div class="col-md-12 col-sm-12">
