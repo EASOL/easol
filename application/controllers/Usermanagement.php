@@ -95,16 +95,5 @@ class Usermanagement extends Easol_Controller {
         }
         // send them back to the user listing to see the list, sans the deleted user.
         redirect('/usermanagement');
-    }    
-
-    public function encrypt_email ()
-    {
-        $email         = $this->uri->segment('3', 'edgar.f91@gmail.com');
-        $a             = $email . 'http://easol-dev.azurewebsites.net';
-        $b             = hash('sha256', $a);
-        $c             = substr(base64_encode($b),0,22);        
-        $options       = ['salt' => $c];
-        echo password_hash($email, PASSWORD_BCRYPT, $options);
-        exit;
     }
 }

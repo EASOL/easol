@@ -434,7 +434,7 @@ footer p {
     width: 90px;
     text-align: center;
     height: 90px;
-    background: #44a657 url(/assets/img/easollogo.png) no-repeat center;
+    background: #44a657 url(../img/easollogo.png) no-repeat center;
     overflow: hidden;
 }
 
@@ -704,18 +704,18 @@ svg { display: block;
     content: none !important;
 }
 
-i.fa.fa-dashboard { background: url(/assets/img/da.png) no-repeat center; }
-i.fa.fa-tachometer { background: url(/assets/img/da.png) no-repeat center; }
-i.fa.fa-graduation-cap { background: url(/assets/img/st.png) no-repeat center; }
-i.fa.fa-edit { background: url(/assets/img/gr.png) no-repeat center; }
-i.fa.fa-th { background: url(/assets/img/se.png) no-repeat center; }
-i.fa.fa-qrcode { background: url(/assets/img/at.png) no-repeat center; }
-i.fa.fa-table { background: url(/assets/img/as.png) no-repeat center; }
-i.fa.fa-table2 { background: url(/assets/img/ll.png) no-repeat center; }
-i.fa.fa-cubes { background: url(/assets/img/co.png) no-repeat center; }
-i.fa.fa-bar-chart { background: url(/assets/img/fr.png) no-repeat center; }
-i.fa.fa-cog { background: url(/assets/img/ma.png) no-repeat center; }
-i.fa.fa-sliders { background: url(/assets/img/ma.png) no-repeat center; }
+i.fa.fa-dashboard { background: url(../img/da.png) no-repeat center; }
+i.fa.fa-tachometer { background: url(../img/da.png) no-repeat center; }
+i.fa.fa-graduation-cap { background: url(../img/st.png) no-repeat center; }
+i.fa.fa-edit { background: url(../img/gr.png) no-repeat center; }
+i.fa.fa-th { background: url(../img/se.png) no-repeat center; }
+i.fa.fa-qrcode { background: url(../img/at.png) no-repeat center; }
+i.fa.fa-table { background: url(../img/as.png) no-repeat center; }
+i.fa.fa-table2 { background: url(../img/ll.png) no-repeat center; }
+i.fa.fa-cubes { background: url(../img/co.png) no-repeat center; }
+i.fa.fa-bar-chart { background: url(../img/fr.png) no-repeat center; }
+i.fa.fa-cog { background: url(../img/ma.png) no-repeat center; }
+i.fa.fa-sliders { background: url(../img/ma.png) no-repeat center; }
 
 i.fa  { -webkit-filter: grayscale(100%); -moz-filter: grayscale(100%); -ms-filter: grayscale(100%); -o-filter: grayscale(100%); filter: grayscale(100%); background-size: contain !important; }
 i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filter: grayscale(0%); -o-filter: grayscale(0%); filter: grayscale(0%); }
@@ -854,8 +854,29 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 .content-title {
-  font-weight: bold;
-  color: blue;
+    color: blue;
+    display: inline-block;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 49%;
+}
+.content-publisher {
+  font-weight: normal;
+  font-size: 0.9em;
+  display: inline-block;
+  position: absolute;
+  right: 110px;
+  text-align: center;
+  border-radius: 25px;
+  background: #51AE65;
+  padding: 0px; 
+  width: 190px;
+  height: 20px; 
+}
+
+.content-publisher a {
+  color: whitesmoke;
+
 }
 
 .content-links {
@@ -885,7 +906,7 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 #extension-wrapper {
-   background: none repeat scroll 0 0 #2b2e33;
+   background: none repeat scroll 0 0 #ebebeb;
     min-height: 1200px;
 }
 
@@ -915,7 +936,7 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 .sub-menu a {
-    color: white;
+    color: #51AE65;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 1px;
@@ -1252,6 +1273,43 @@ a {
     text-align: left;
 }
 
+.tag {
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  padding: 3px 3px 3px 3px;
+  font-size: 12px;
+}
+
+.tag-subjects, .tag-subject {
+  border-color: #74C372 !important;
+  background-color: #74C372 !important;
+}
+
+.tag-types, .tag-type, .tag-resource_type {
+  border-color: #81B6D5 !important;
+  background-color: #81B6D5 !important;
+}
+
+.tag-grades, .tag-grade {
+  border-color: #3787BC !important;
+  background-color: #3787BC !important;
+}
+
+.tag-standards, .tag-standard {
+  border-color: #B0DC7A !important;
+  background-color: #B0DC7A !important;
+}
+
+.tag-publisher {
+  border-color: #51AE65 !important;
+  background-color: #51AE65 !important;
+}
+
+.filter_active {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+  filter: alpha(opacity=75);
+  opacity: 0.75;
+}
 
 .table-bordered tbody tr td:first-child a, .table-bordered tbody tr td:first-child {
     font-weight: bold;
@@ -1283,3 +1341,4 @@ tr:nth-child(even) {
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     border-top: 0px;
 }
+

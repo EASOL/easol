@@ -8,7 +8,8 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <form class="form-inline form-horizontal undo-overrides">
+
+                <form class="form-inline" id="dataGridFormFilter">
                		<div class="form-group">
 	                    <label for="term">Term</label><br />
 	                    <select name="term">
@@ -36,6 +37,7 @@
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
+                    <?php if($userCanFilter){ ?>
  				          <div class="form-group">
 	                    <label for="educator">Educator</label><br />
 	                    <select name="educator">
@@ -44,16 +46,9 @@
 	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
-                  </div>                                       
-                  <div class="form-group">
-                    <label for="gradelevel">Grade Level</label><br />
-                    <select name="gradelevel">
-	                	<option value="">All Grade Levels</option>                    	
-                        <?php foreach($gradelevels as $k => $v): ?>
-                        <option value="<?php echo $v->GradeLevelTypeId; ?>" <?php if(isset($filters['gradelevel']) and $filters['gradelevel'] == $v->GradeLevelTypeId) {echo "selected";} ?> ><?php echo $v->Description; ?></option>
-                        <?php endforeach; ?>                        
-                    </select>   
-                  </div>
+                  </div>    
+                  <?php } ?>                                   
+                 
 
                   <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
                 </form>
@@ -75,11 +70,11 @@
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
                               <td><?php echo $v->LocalCourseCode; ?></td>
-                              <td><a href="<?= site_url("/sections/details/$v->UniqueSectionCode") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
+                              <td><a href="<?= site_url("/analytics/students/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
-                              <td>analytics data</td>
+                              <td><?php echo $v->Average; ?></td>
                               <td><?php echo $v->CodeValue; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>

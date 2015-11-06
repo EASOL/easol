@@ -23,6 +23,11 @@ class Content extends Easol_Controller {
         }
     }
 
+    public function filter_name($filter)
+    {
+        echo $filter;
+    }
+
     /**
      * index action
      * @param null $id
@@ -41,20 +46,25 @@ class Content extends Easol_Controller {
                 $data['limit'] = EASOL_PAGINATION_PAGE_SIZE;
                 // fetch the limited dataset. There will be no page attribute if we are processing the html
                 // form and there will be a page attribute if we are following a pagination link.
-                // If there is no page param then the api starts with the first record through the limit param. 
+                // If there is no page param then the api starts with the first record through the limit param.
+
+
+                if (isset($data['query']) && $data['query'] == "search text") { $data['query'] = ""; }
                 $query = http_build_query($data);
                 $site = $this->config->item('content_api').$query;
                 $response = json_decode(file_get_contents($site, true));
-
+                
                 // Define a new query string without the page and limit values and get the full dataset
                 // for use in building the pagination links.
-               $base = $data;
+                $base = $data;
+                $base['limit'] = 1000;
                 unset($base['page']);
-                unset($base['limit']);
+             
                 $base_qs = http_build_query($base);
 
                 $site = $this->config->item('content_api').$base_qs;
                 $unlimited = json_decode(file_get_contents($site, true));
+                
             }
            
             // Set the base url for filter links
@@ -64,6 +74,8 @@ class Content extends Easol_Controller {
             $filters_active = $this->input->get();
             unset($filters_active['query']);
             unset($filters_active['page']);
+            unset($filters_active['limit']);
+
 
             if (isset($response->aggregations)) {
                 // Massage the filter data as required by the spec.
@@ -84,6 +96,7 @@ class Content extends Easol_Controller {
             }
 
             $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
+            
             // build the pagination links.
             $this->load->library('pagination');
             $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';
@@ -123,12 +136,6 @@ class Content extends Easol_Controller {
                                     'Types'     => array('resource_types' => 'name'),
                                
                             );
-            $colors  = array(       'Subjects'  => '#337AB7',
-                                    'Standards' => '#7B1174',
-                                    'Grades'    => '#ACBB30',
-                                    'Types'     => '#2FB4AB'
-                               
-                            );
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
@@ -136,8 +143,7 @@ class Content extends Easol_Controller {
                 'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
                 'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
-                'footnotes'         => $footnotes,
-                'colors'            => $colors
+                'footnotes'         => $footnotes
             ]);
         }
 

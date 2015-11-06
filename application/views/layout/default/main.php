@@ -13,7 +13,7 @@
 
     <?php if($this->router->class=='datamanagement') { ?>
         <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections' or $this->router->class=='analytics') { ?>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
     <?php } ?>    
@@ -144,7 +144,7 @@
                             <a href="#" id="learning-lab"><i class="fa fa-table2"></i> Learning Lab</a>
                             <ul class="sub-menu">
                                 <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content Search</a></li>
-                                <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>
+                             <!---   <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>---->
                             </ul>
                         </li>
                         
@@ -159,9 +159,9 @@
 				<li>
 					<a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
 					<ul class="sub-menu">
-					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data Management</a></li>
-					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User Management</a></li>
-					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School Management</a></li>                                   
+					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data</a></li>
+					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User</a></li>
+					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School</a></li>                                   
 					</ul>
 				</li>
 
@@ -232,7 +232,7 @@
     <?php if($this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
-    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections') { ?>
+    <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections' or $this->router->class=='analytics') { ?>
         <script src="<?= site_url('assets/js/dataTables/jquery.dataTables.js') ?>"></script>
         <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
         <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
