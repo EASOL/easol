@@ -22,9 +22,6 @@ public function index()
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $data['currentTerm_default']    = (isset($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);        
         $data['userCanFilter']          = Easol_SchoolConfiguration::canFilterByEducator();
-        
-    
-
 
         // define required filters
         $where = array();
@@ -53,7 +50,7 @@ public function index()
         // If it's educator who is logged in, we force change Where param
          if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Grade.ClassPeriodName, 
+        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.id, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -74,7 +71,7 @@ public function index()
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.UniqueSectionCode,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.id,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
@@ -144,7 +141,7 @@ public function index()
         INNER JOIN edfi.Course ON 
         Course.CourseCode = Section.LocalCourseCode AND 
         Course.EducationOrganizationId = Section.SchoolId 
-        WHERE [Section].UniqueSectionCode = '$id'
+        WHERE [Section].id = '$id'
         "; 
 
         $data['results'] = $this->db->query($sql)->result();

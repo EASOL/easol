@@ -1,7 +1,7 @@
 <?php extract($data); ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header">Section: <?= $section_id; ?></h1>
+        <h2 class="page-header">Section: <?= $section_id; ?></h2>
     </div>
 </div>
 <div class="row">
