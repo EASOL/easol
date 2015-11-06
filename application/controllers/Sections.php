@@ -118,7 +118,7 @@ public function index()
         $data = array();
         $data['section_id'] = $id;
 
-        $this->db->select('Student.StudentUSI, Student.FirstName, Student.MiddleName, Student.LastSurname, Grade.LocalCourseCode, Course.CourseTitle, Section.id, Grade.ClassPeriodName, 
+        $this->db->select('Student.StudentUSI, Student.FirstName, Student.MiddleName, Student.LastSurname, Grade.LocalCourseCode, Course.CourseTitle, Section.id,Section.UniqueSectionCode, Grade.ClassPeriodName, 
         Staff.FirstName AS "teacher_fname", Staff.LastSurname AS "teacher_lname", TermType.CodeValue, Grade.SchoolYear, Grade.NumericGradeEarned');
         $this->db->from('edfi.Grade'); 
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
