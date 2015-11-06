@@ -50,7 +50,7 @@ public function index()
         // If it's educator who is logged in, we force change Where param
          if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.id, Grade.ClassPeriodName, 
+        $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
         sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
         sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
@@ -71,7 +71,7 @@ public function index()
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
-        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle,Section.id,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
+        $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle, Section.UniqueSectionCode, Section.id,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
