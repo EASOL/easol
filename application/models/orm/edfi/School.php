@@ -17,6 +17,7 @@ class School extends ORM {
 		self::$relationships = [
 			'EducationOrganization'=> ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),
 			'Staff' => ORM::has_many('\\Model\\Edfi\\EducationOrganization\\Staff => \\Model\\Edfi\\Staff'),
+			'Student' => ORM::has_many('\\Model\\Edfi\\School\\Student => \\Model\\Edfi\\Student'),
 			'Cohort' => ORM::has_many('\\Model\\Edfi\\Cohort')
 		];
 

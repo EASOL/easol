@@ -31,7 +31,9 @@ class Student extends ORM {
 			'BirthCountryCodeType' => ORM::belongs_to('\\Model\\Edfi\\CountryCodeType'),
 			'Telephone' => ORM::has_many('\\Model\\Edfi\\StudentTelephone'),
 			'Parent' => ORM::has_many('\\Model\\Edfi\\StudentParent'),
-			'Section' => ORM::has_many('\\Model\\Edfi\\StudentSection')
+			'Section' => ORM::has_many('\\Model\\Edfi\\StudentSection'),
+			'Grade' => ORM::has_many('\\Model\\Edfi\\Grade'),
+			'School' => ORM::has_many('\\Model\\Edfi\\School\\Student => \\Model\\Edfi\\School')
 		];
 
 		self::$fields = [

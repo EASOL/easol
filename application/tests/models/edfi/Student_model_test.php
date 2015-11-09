@@ -33,9 +33,8 @@ class Student_model_test extends TestCase {
 		$this->assertEquals('123 Simons Way', $student->Address()[0]->StreetNumberName);
 	}
 
-/*	public function test_get_category_name() {
-		$actual   = $this->obj->get_category_name(1);
-		$expected = 'Book';
-		$this->assertEquals($expected, $actual);
+	/*public function test_student_grade() {
+		$student = Model\Edfi\Student::find(605537);
+		$this->assertEquals('10th Grade', $student->School()->GradeLevelDescriptor()->GradeLevelType()->Description);
 	}*/
 }
