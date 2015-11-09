@@ -40,6 +40,7 @@ class Easol_CSVProcessor extends CI_Model {
                         //insert data
                        // if(true){
                             $this->db->insert('edfi.' . $this->tableName, $insertData);
+                            echo $this->db->last_query();
                       //  }
 
                      /*   elseif($updateData){
