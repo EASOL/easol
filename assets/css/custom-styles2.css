@@ -53,7 +53,7 @@ body {
 
 h1, .h1, h2, .h2, h3, .h3 {
   margin-top: 7px;
-  margin-bottom: -5px;
+  
 }
 
 h2 {
@@ -584,10 +584,6 @@ ul.nav.nav-second-level.collapse.in {
   margin-right: 2px;
 }
 
-.top-navbar .navbar-brand:hover {
-    color: inherit;
-    background-color: #757575;
-}
 
 .dropdown-user li {
   margin: 8px 0;
@@ -1063,6 +1059,13 @@ tbody {
     text-decoration: none;
     background-color: #fff;
     border: 1px solid #ddd;
+}
+.pagination>li, .pagination>li {
+    
+    padding: 0px!important;
+    border: 0px!important;
+    margin: 0px!important;
+    
 }
 
 .table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {

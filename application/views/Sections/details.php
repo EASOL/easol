@@ -29,7 +29,7 @@
               </table>
               <?php if (isset($results) and !empty($results)): ?>
                 <h2 class="backToH2">Students</h2>
-                <div class="col-md-12 col-sm-12">
+                
                     <table id="managestudents" class="table table-striped table-bordered" cellspacing="0" width="100%">
                       <thead>
                         <tr>
@@ -44,7 +44,7 @@
                         <?php endforeach; ?>
                       </tbody>
                   </table>
-                </div>
+               
               <?php endif; ?>
             </div>
         </div>

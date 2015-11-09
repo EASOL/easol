@@ -62,7 +62,7 @@
                             <th>Period</th>
                             <th>Educator</th>
                             <th>Students</th>
-                            <th>Analytics</th>
+                            <th>AVG Time Spent Online</th>
                             <th>Term</th>
                           </tr>
                         </thead>

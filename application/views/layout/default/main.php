@@ -14,8 +14,9 @@
     <?php if($this->router->class=='datamanagement') { ?>
         <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
     <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections' or $this->router->class=='analytics') { ?>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
+       <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/s/dt/dt-1.10.10/datatables.min.css"/>
+        <link href="<?= site_url('assets/css/dataTables.CSV.css') ?>" rel="stylesheet"/>
+
     <?php } ?>    
     
     <!-- Custom Styles-->
@@ -207,18 +208,13 @@
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="<?= site_url('assets/js/jquery-1.10.2.js') ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
     <!-- Bootstrap Js -->
     <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- Metis Menu Js -->
-    <script src="<?= site_url('assets/js/jquery.metisMenu.js') ?>"></script>
+   
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
-    <?php /*
-
-        <!-- Custom Js -->
-        <script src="<?= site_url('assets/js/custom-scripts.js') ?>"></script>*/
-    ?>
-
+   
     <!-- 
     In an attempt to provide some order to the js functions, I am compartmentalizing my js into
     files named after the controller for which they are used and then dynamically loading those
@@ -233,9 +229,13 @@
         <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
         <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <?php }else if ($this->router->class=='usermanagement' or $this->router->class=='schoolmanagement' or $this->router->class=='sections' or $this->router->class=='analytics') { ?>
-        <script src="<?= site_url('assets/js/dataTables/jquery.dataTables.js') ?>"></script>
-        <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/s/dt/dt-1.10.10/datatables.min.js"></script> 
+        <script src="<?= site_url('assets/js/dataTables/dataTables.CSV.js') ?>"></script>
         <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
+                <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
+
+
+       
     <?php } ?>
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->

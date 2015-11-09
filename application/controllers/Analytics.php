@@ -68,7 +68,7 @@ class Analytics extends Easol_Controller {
         $this->db->order_by('Grade.LocalCourseCode');
 
         $data['results']    = $this->db->distinct()->where($where)->get()->result();
-        
+        $meeting_times = array();
         $sections = array();
         foreach ($data['results'] as $k => $v)
         {
@@ -93,7 +93,10 @@ class Analytics extends Easol_Controller {
             $intervals = $this->db->get()->result();
             foreach ($intervals as $key => $value) {
                 $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
-            }        
+            }  
+            $meeting_times[$v->id] = $urldates;
+            
+
         }
 
         if (!empty($sections)) {
@@ -125,9 +128,9 @@ class Analytics extends Easol_Controller {
                 foreach ($obj->students as $key => $HashedEmail) {
                     $api_students .= $HashedEmail . ',';
                 }
-
+                
                 $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
-                $site       = $this->api_url.'sites?'.$query.$urldates;
+                $site       = $this->api_url.'sites?'.$query.$meeting_times[$section];
                 $response   = json_decode(file_get_contents($site, true));
                 
                 $times = array();
@@ -137,8 +140,11 @@ class Analytics extends Easol_Controller {
                         $times[] = $site->total_time;
                     }
                 }
+                
 
-                $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
+
+                $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i:s', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
+                
             }
         }
        
@@ -222,6 +228,7 @@ class Analytics extends Easol_Controller {
             unset($data['students'][$key]);
             $api_students .= $value->HashedEmail . ',';
         }
+   
 
         // get the page api data for each student
         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
@@ -275,7 +282,7 @@ class Analytics extends Easol_Controller {
         return crypt($email, $c);
     }    
    
-    public function creating_hashes () {
+    private function creating_hashes () {
         // WARNING: This function won't check for existing values and also 
         //a big increasement of PHP call should be done (this query runs a few minutes)
         $s = $this->db->query("SELECT * FROM edfi.StudentElectronicMail")->result();

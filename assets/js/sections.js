@@ -1,3 +1,5 @@
 $(function () {
-	$('table#managesections').DataTable();
+	$('table#managesections').DataTable({
+        dom: 'Vlfrtip'
+    });
 })

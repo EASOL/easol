@@ -2,11 +2,15 @@ $(function() {
 
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
-		$('#manageusers').DataTable();
+		$('#manageusers').DataTable({
+        dom: 'Vlfrtip'
+  		  });
 	}
 
 	if ($('table#manageschools').length) {
-		$('#manageschools').DataTable();
+		$('#manageschools').DataTable({
+        dom: 'Vlfrtip'
+    });
 	}
 
 	if ($('table#manageschooldetails').length) {
