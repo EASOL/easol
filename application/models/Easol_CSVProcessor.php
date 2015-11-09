@@ -38,9 +38,9 @@ class Easol_CSVProcessor extends CI_Model {
                         $primaryKeyValue= null;
                         $insertData = $this->propagateColumnsToDbColumn($this->csvHeader, $row,$primaryKeyValue);
                         //insert data
-                        if($primaryKeyValue == null){
+                      //  if($primaryKeyValue == null){
                             $this->db->insert('edfi.' . $this->tableName, $insertData);
-                        }
+                      //  }
 
                         elseif($updateData){
                             $this->db->where($this->primaryColumn,$primaryKeyValue);
