@@ -19,6 +19,8 @@ class Easol_CSVProcessor extends CI_Model {
         $this->load->model('DataManagementQueries');
 
         $this->primaryColumn =  DataManagementQueries::getPrimaryKey($tableName);
+       
+       
     }
 
 
@@ -27,43 +29,62 @@ class Easol_CSVProcessor extends CI_Model {
      * @return bool
      */
     public function insert( $updateData = false){
-        try {
-            $db['default']['db_debug'] = FALSE;
-            $csv = array_map('str_getcsv', file($this->csvFile));
-            if (is_array($csv)) {
 
-                foreach ($csv as $key => $row) {
+        $db['default']['db_debug'] = FALSE;
+        $csv = array_map('str_getcsv', file($this->csvFile));
+        if (is_array($csv)) {
+            $skipped = array();
+            $inserted = array();
+            $updated = array();
+            foreach ($csv as $key => $row) {
+                //If this is not header line
+                if ($key != 0) {
+                   
+                    // Prepare an array for data insertion                   
+                    $insertData = $this->propagateColumnsToDbColumn($this->csvHeader, $row);
 
-                    if ($key != 0) {
-                        $primaryKeyValue= null;
-                        $insertData = $this->propagateColumnsToDbColumn($this->csvHeader, $row,$primaryKeyValue);
-                        //insert data
-                       // if(true){
-                            var_dump($insertData);
-                            $this->db->insert('edfi.' . $this->tableName, $insertData);
-                            echo $this->db->last_query();
-                      //  }
+                  
+                    //if current row doesn't have duplicats with the primary keys - we insert it
+                    if(!$this->rowExists($this->csvHeader,$row)){
+                      //Short fix for Student table - so far only this table has this property
+                      if($this->tableName == 'Student')
+                         $this->db->query("set identity_insert edfi.".$this->tableName." on");
+                      $this->db->insert('edfi.' . $this->tableName, $insertData);
+                      $inserted[] = $key;
+                    //else if we can update data, then we can work even with duplicated rows
+                    }elseif($updateData && !$this->identicalRow($insertData)){
+                        //get an array of all primary keys and their values
+                        $where = $this->getPrimaryKeysArray($this->csvHeader,$row);
 
-                     /*   elseif($updateData){
-                            $this->db->where($this->primaryColumn,$primaryKeyValue);
-                            $this->db->update('edfi.' . $this->tableName, $insertData);
+                        //removing primary keys from the data insertion
+                        foreach($where as $k => $v) unset($insertData[$k]);
 
-                        }*/
+                        $this->db->where($where);
+                        $this->db->update('edfi.' . $this->tableName, $insertData);
+                        $updated[] = $key;
+
+                    }else{
+                        //Data was a duplicate and Update was not allowed to be done
+                        $skipped[] = $key;
+                    }
+                    
+                                                                  
 
                     } else {
+                        //this is header and we save it
                         $this->csvHeader = $row;
                     }
                 }
             }
-
+           // var_dump($inserted);
+            //var_dump($updated);            
+           // var_dump($skipped);
 
             return true;
         }
-        catch(  \Exception $ex){
 
-        }
 
-    }
+    
 
     /**
      * @return bool
@@ -87,6 +108,7 @@ class Easol_CSVProcessor extends CI_Model {
                         $insertData = $this->propagateColumnsToDbColumn($this->csvHeader, $row,$primaryKeyValue);
                         //delete data
                         if($primaryKeyValue != null){
+
                             $this->db->delete('edfi.' . $this->tableName,array($this->primaryColumn => $primaryKeyValue));
 
                         }
@@ -124,20 +146,78 @@ class Easol_CSVProcessor extends CI_Model {
      * @param $row
      * @return array
      */
-    private function propagateColumnsToDbColumn($csvHeaders,$row, &$primaryKeyValue ){
+    private function propagateColumnsToDbColumn($csvHeaders,$row){
         $retData = [];
         $data = array_combine($csvHeaders,$row);
 
         foreach($data as $key => $value){
             if(trim($value)!==""){
-                if($key == $this->primaryColumn){
-                    $primaryKeyValue = $value;
-                }
-                else
-                    $retData[$key] = $value;
+                $retData[$key] = $value;
             }
         }
-
+        unset($retData['Id']);
+        unset($retData['LastModifiedDate']);
+        unset($retData['CreateDate']);
         return $retData;
+    }
+
+    /**
+     * @param $csvHeaders
+     * @param $row
+     * @return boolean
+     */
+    private function rowExists($csvHeaders, $row){
+
+        $data = array_combine($csvHeaders,$row);
+        
+        //If primary column is 1 value, then we just use 1 line, otherwise we need to loop through each.
+        if(is_array(($this->primaryColumn))){
+            $where = array();
+            foreach($this->primaryColumn as $key){
+
+                $where[$key] =  $data[$key];
+            }
+    
+        }else{
+            $where = array($this->primaryColumn => $data[$this->primaryColumn]); 
+        }
+        $this->db->where($where);
+        $num = $this->db->count_all_results("edfi.".$this->tableName);
+        if ($num > 0) return true;
+        return false;
+    }
+
+    /**
+     * @param $csvHeaders
+     * @param $row
+     * @return array
+     */
+    private function getPrimaryKeysArray($csvHeaders, $row){
+
+        $data = array_combine($csvHeaders,$row);
+        $result = array();
+        //If primary column is 1 value, then we just use 1 line, otherwise we need to loop through each.
+        if(is_array(($this->primaryColumn))){
+            $result = array();
+            foreach($this->primaryColumn as $key){
+                $result[$key] =  $data[$key];
+            }
+    
+        }else{
+            $result = array($this->primaryColumn => $data[$this->primaryColumn]); 
+        }
+        return $result;
+
+    }
+     /**
+     * @param $data
+     * @return boolean
+     */
+    private function identicalRow($data){
+
+        $this->db->where($data);
+        $num = $this->db->count_all_results("edfi.".$this->tableName);
+        if ($num > 0) return true;
+        return false;
     }
 }
