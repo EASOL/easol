@@ -193,7 +193,7 @@ class Analytics extends Easol_Controller {
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
         list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
-        $data['section']->Period = $pCode;  
+        $data['section']->Period = $pCode;
 
         // get the section datetime intervals
         $urldates = ''; 
@@ -278,6 +278,86 @@ class Analytics extends Easol_Controller {
             'data'  => $data,
         ]);
     }
+
+    public function student() {
+
+        $section    = $this->uri->segment(3, 0);
+        $student    = base64_decode($this->uri->segment(4, 0)); // decode the email hash that was base64 encoded so it could be passed in the url.                    
+        $data       = array();
+
+        $SchoolId           = Easol_Authentication::userdata('SchoolId');        
+
+        // This SQL call is to get details about the Section
+        $this->db->select("Grade.LocalCourseCode, SEC.UniqueSectionCode, SEC.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->from('edfi.Grade'); 
+        $this->db->join('edfi.Section as SEC', 'edfi.Grade.SchoolId = SEC.SchoolId AND 
+                                       edfi.Grade.SchoolYear = SEC.SchoolYear AND 
+                                       edfi.Grade.ClassPeriodName = SEC.ClassPeriodName AND
+                                       edfi.Grade.ClassroomIdentificationCode = SEC.ClassroomIdentificationCode AND
+                                       edfi.Grade.LocalCourseCode = SEC.LocalCourseCode AND
+                                       edfi.Grade.TermTypeId = SEC.TermTypeId', 'inner');
+        $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
+        $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
+        $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
+        $this->db->where('SEC.id',$section);
+        $data['section']    = $this->db->get()->row();
+        $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
+        list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        $data['section']->Period = $pCode;  
+
+        // get the section datetime intervals
+        $urldates = ''; 
+        $ClassPeriodName    = $data['section']->ClassPeriodName;
+        $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
+        $this->db->from("edfi.BellSchedule"); 
+        $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date'); 
+        $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
+        $intervals = $this->db->get()->result();
+        foreach ($intervals as $key => $value) {
+            $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+        }
+
+        // Get the student record.
+        $this->db->select("Student.FirstName, Student.MiddleName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
+        $this->db->from("edfi.Section");
+        $this->db->join("edfi.StudentSectionAssociation", "StudentSectionAssociation.SchoolId = Section.SchoolId AND 
+            StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
+            StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND 
+            StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
+            StudentSectionAssociation.SchoolYear = Section.SchoolYear");
+        $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
+        $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
+        $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
+        $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
+        $this->db->where("Section.id", $section);
+        $this->db->where("EmailLookup.HashedEmail", $student);
+
+        // sort the, hashed, student emails by section.
+        $data['student'] = $this->db->distinct()->get()->row();
+
+        // get the page api data for each student
+        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $student));
+        $site       = $this->api_url.'pages?'.$query.$urldates;
+        $response   = json_decode(file_get_contents($site, true));        
+
+        foreach ($response->results as $student)
+            $data['student']->pages = $student->page_visits;
+
+        // get the video data for each student
+        
+        /* commented out until the api people match the response data format to that of the page views call/response. 
+        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
+        $site       = $this->api_url.'video-views?'.$query.$urldates;
+        $response   = json_decode(file_get_contents($site, true));
+
+        foreach ($response->results as $student)
+            $data['student']->videos = $student->video_visits;
+        */
+
+        $this->render("student",[
+            'data'  => $data,
+        ]);
+    }   
 
     // todo:
     // this function should be used when adding/editing easol users to store their email as a hash

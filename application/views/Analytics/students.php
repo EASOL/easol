@@ -42,7 +42,7 @@
                         <tbody>
                           <?php foreach ($students as $hash => $student) : ?>
                             <tr>
-                              <td><?php echo $student['name']; ?></td>
+                              <td><?php echo anchor('analytics/student/'.urlencode($section->id).'/'.base64_encode($hash), $student['name']); ?></td>
                               <td><?php echo $student['page_count_total']; ?></td>
                               <td><?php echo (isset($student['video_count_total'])) ? $student['video_count_total'] : ''; ?></td>
                               <td><?php echo $student['page_time_total']; ?></td>
