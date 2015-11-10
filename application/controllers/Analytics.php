@@ -175,10 +175,7 @@ class Analytics extends Easol_Controller {
         $section    = $this->uri->segment(3, 0);      
         $data       = array();
 
-        // define required filters
-        $where = array(
-                        'Section.id'   => $section,
-        );
+        $SchoolId           = Easol_Authentication::userdata('SchoolId');        
 
         // This Separate SQL call is to get details about the Section
         $this->db->select("Grade.LocalCourseCode, SEC.UniqueSectionCode, SEC.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
@@ -196,8 +193,19 @@ class Analytics extends Easol_Controller {
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
         list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
-        $data['section']->Period = $pCode;      
+        $data['section']->Period = $pCode;  
 
+        // get the section datetime intervals
+        $urldates = ''; 
+        $ClassPeriodName    = $data['section']->ClassPeriodName;
+        $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
+        $this->db->from("edfi.BellSchedule"); 
+        $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date'); 
+        $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
+        $intervals = $this->db->get()->result();
+        foreach ($intervals as $key => $value) {
+            $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+        }
 
         // Getting list of students
         $this->db->select("Student.FirstName, Student.MiddleName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
@@ -214,7 +222,7 @@ class Analytics extends Easol_Controller {
         $this->db->where("Section.id", $section);
 
         // sort the, hashed, student emails by section.
-        $data['students'] = $this->db->distinct()->get()->result();
+        $data['students'] = $this->db->distinct()->get()->result();           
 
         $api_students = '';
         foreach ($data['students'] as $key => $value) {
@@ -226,11 +234,10 @@ class Analytics extends Easol_Controller {
             unset($data['students'][$key]);
             $api_students .= $value->HashedEmail . ',';
         }
-   
 
         // get the page api data for each student
-        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'type' => 'detail', 'usernames' => $api_students));
-        $site       = $this->api_url.'pages?'.$query;
+        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
+        $site       = $this->api_url.'pages?'.$query.$urldates;
         $response   = json_decode(file_get_contents($site, true));        
 
         foreach ($response->results as $student) {
@@ -247,9 +254,11 @@ class Analytics extends Easol_Controller {
         }
 
         // get the video data for each student
+        
+        /* commented out until the api people match the response data format to that of the page views call/response. 
         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
-        $site       = $this->api_url.'video-views?'.$query;
-        $response   = json_decode(file_get_contents($site, true));        
+        $site       = $this->api_url.'video-views?'.$query.$urldates;
+        $response   = json_decode(file_get_contents($site, true));
 
         foreach ($response->results as $student) {
 
@@ -263,7 +272,7 @@ class Analytics extends Easol_Controller {
             $data['students'][$student->username]['video_count_total']     = $video_count_total;
             $data['students'][$student->username]['video_time_total']      = gmdate('H:i', $video_time_total);
         }
-
+        */
 
         $this->render("students",[
             'data'  => $data,
