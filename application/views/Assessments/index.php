@@ -15,11 +15,21 @@
                 'columns'   =>
                     [
 
-                        ['name' => 'AssessmentTitle', 'title' => 'Assessment Name'],
-                        ['name' => 'Version', 'title' => 'Version'],
-                        ['name' => 'AdministrationDate', 'title' => 'Administration Date'],
-                        ['name' => 'StudentCount', 'title' => 'Students' ],
-                        ['name' => 'AverageResult', 'title' => 'Average Result' ],
+					[
+					    'name' => 'AssessmentTitle',
+					    'title' => 'Assessment Name',
+					    'type' => 'url',
+					    'url' =>
+						    function ($model) {
+							    return site_url("assessments/detail/{model->AssessmentTitle}/{$model->AcademicSubjectDescriptorId}/{$model->AssessedGradeLevelDescriptorId}/{$model->Version}" );
+						    },
+					],
+					['name' => 'Grade', 'title' => 'Grade'],
+					['name' => 'Subject', 'title' => 'Subject'],
+					['name' => 'Version', 'title' => 'Version'],
+					['name' => 'AdministrationDate', 'title' => 'Administration Date'],
+					['name' => 'StudentCount', 'title' => 'Students' ],
+					['name' => 'AverageResult', 'title' => 'Average Result' ],
 
                     ],
                 'downloadCSV' => true

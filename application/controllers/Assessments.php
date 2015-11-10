@@ -21,18 +21,34 @@ class Assessments extends Easol_Controller {
     public function index($id=1) {
 	$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
-        
-        $query = "SELECT AssessmentTitle, Version, AdministrationDate,
+
+        $query = "SELECT
+               AssessmentTitle,
+               edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId,
+               edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId,
+               Version, AdministrationDate,
+               edfi.AcademicSubjectType.CodeValue as Subject,
+               edfi.GradeLevelType.CodeValue as Grade,
 AVG(CAST(StudentAssessmentScoreResult.Result as INT)) as AverageResult,
-COUNT(*) as StudentCount FROM edfi.StudentAssessmentScoreResult
-WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
-                  ";
+COUNT(*) as StudentCount
+FROM edfi.StudentAssessmentScoreResult
+JOIN edfi.AcademicSubjectDescriptor ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessmentScoreResult
+.AcademicSubjectDescriptorId
+JOIN edfi.AcademicSubjectType ON edfi.AcademicSubjectType.AcademicSubjectTypeId = edfi.AcademicSubjectDescriptor
+.AcademicSubjectTypeId
+
+JOIN edfi.GradeLevelDescriptor ON edfi.GradeLevelDescriptor.GradeLevelDescriptorId = edfi.StudentAssessmentScoreResult
+.AssessedGradeLevelDescriptorId
+JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
+.GradeLevelTypeId
+
+WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 ";
 
 
         $this->render("index", [
             'query' => $query,
             'colOrderBy' => ['AssessmentTitle'],
-            'colGroupBy' => ['AssessmentTitle','Version','AdministrationDate'],
+            'colGroupBy' => ['AssessmentTitle','Version','AdministrationDate', 'edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId', 'edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId', 'edfi.AcademicSubjectType.CodeValue', 'edfi.GradeLevelType.CodeValue'],
             'filter' => [
                 'dataBind' => true,
                 'bindIndex' => ['Year' => ['glue'=>'and']],
