@@ -250,7 +250,7 @@ class Analytics extends Easol_Controller {
             }
 
             $data['students'][$student->username]['page_count_total']     = $page_count_total;
-            $data['students'][$student->username]['page_time_total']      = gmdate('H:i', $page_time_total);
+            $data['students'][$student->username]['page_time_total']      = gmdate('H:i:s', $page_time_total);
         }
 
         // get the video data for each student
