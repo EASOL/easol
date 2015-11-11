@@ -17,6 +17,11 @@
                 <div class="pull-right">
                   <img src="<?php echo base_url().'/assets/img/learning_tapestry.png' ?>" border="0" />
                 </div>  
+                <?php if (!empty($total_count)): ?>
+                  <div>
+                    Showing records <?= $start_count ?> to <?= $end_count ?> of <?= $total_count ?>
+                  </div>
+                <?php endif; ?>
                 <?php if (isset($results)): ?>
                  <div class="left content-filters">
                     <?php foreach($filters_active as $k => $v) : ?>
