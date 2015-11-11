@@ -361,7 +361,11 @@ class Analytics extends Easol_Controller {
         // Since the api does not return the timestamp for the video records, there is a random number as a placeholder.
         // todo: replace random number with timestamp from the api when it is included in the api response data.
         foreach ($response->results as $r)
-            $data['student']->records[] = array(rand(100000, 1000000), $r->url, $r->time_viewed);
+        {
+            $date = new DateTime($r->date_started);
+            $date = $date->format('Y-m-d H:i:s');
+            $data['student']->records[] = array($date, $r->url, $r->time_viewed);
+        }
 
         $this->render("student",[
             'data'  => $data,
