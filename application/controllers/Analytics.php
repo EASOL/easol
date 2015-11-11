@@ -55,7 +55,7 @@ class Analytics extends Easol_Controller {
         // If it's educator who is logged in, we force change Where param
         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("top 2 Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade'); 
         $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner'); 
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner'); 
@@ -362,7 +362,7 @@ class Analytics extends Easol_Controller {
         // todo: replace random number with timestamp from the api when it is included in the api response data.
         foreach ($response->results as $r)
         {
-            $date = new DateTime($r->date_started);
+            $date = new DateTime(@$r->date_started);
             $date = $date->format('Y-m-d H:i:s');
             $data['student']->records[] = array($date, $r->url, $r->time_viewed);
         }
