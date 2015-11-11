@@ -40,11 +40,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach ($student->records as $date_visited => $r) : ?>
+                          <?php foreach ($student->records as $r) : ?>
                             <tr>
-                              <td><?php echo $date_visited; ?></td>
-                              <td><?php echo anchor($r[0]); ?></td>
-                              <td><?php echo gmdate('H:i:s', $r[1]); ?></td>
+                              <td><?php echo $r[0]; ?></td>
+                              <td><?php echo anchor($r[1]); ?></td>
+                              <td><?php echo gmdate('H:i:s', $r[2]); ?></td>
                             </tr>
                           <?php endforeach; ?>                   
                         </tbody>

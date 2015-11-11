@@ -347,7 +347,11 @@ class Analytics extends Easol_Controller {
         // are converted to a uniform structure before going to the view.
         foreach ($response->results as $r)
             foreach ($r->page_visits as $v)
-                $data['student']->records[$v->date_visited] = array($v->page_url, $v->total_time);
+            {
+                $date = new DateTime($v->date_visited);
+                $date = $date->format('Y-m-d H:i:s');
+                $data['student']->records[] = array($date, $v->page_url, $v->total_time);
+            }
 
         // get the video data for each student
         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'usernames' => $student));
@@ -357,7 +361,7 @@ class Analytics extends Easol_Controller {
         // Since the api does not return the timestamp for the video records, there is a random number as a placeholder.
         // todo: replace random number with timestamp from the api when it is included in the api response data.
         foreach ($response->results as $r)
-            $data['student']->records[rand(100000, 1000000)] = array($r->url, $r->time_viewed);
+            $data['student']->records[] = array(rand(100000, 1000000), $r->url, $r->time_viewed);
 
         $this->render("student",[
             'data'  => $data,
