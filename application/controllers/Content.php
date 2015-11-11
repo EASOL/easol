@@ -39,6 +39,8 @@ class Content extends Easol_Controller {
             $this->config->load('gradelevels');
             $this->config->load('standards');
 
+            $total_count = 0;
+
             // show the results if we are processing the html form or parsing url attributes directly.
             if ($data = $this->input->get()) {
 
