@@ -343,19 +343,21 @@ class Analytics extends Easol_Controller {
         $site       = $this->api_url.'pages?'.$query.$urldates;
         $response   = json_decode(file_get_contents($site, true));        
 
-        foreach ($response->results as $student)
-            $data['student']->pages = $student->page_visits;
+        // Since the api returns different data structures for pages and videos, but they are all the same to the view, they
+        // are converted to a uniform structure before going to the view.
+        foreach ($response->results as $r)
+            foreach ($r->page_visits as $v)
+                $data['student']->records[$v->date_visited] = array($v->page_url, $v->total_time);
 
         // get the video data for each student
-        
-        /* commented out until the api people match the response data format to that of the page views call/response. 
-        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
+        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'usernames' => $student));
         $site       = $this->api_url.'video-views?'.$query.$urldates;
         $response   = json_decode(file_get_contents($site, true));
 
-        foreach ($response->results as $student)
-            $data['student']->videos = $student->video_visits;
-        */
+        // Since the api does not return the timestamp for the video records, there is a random number as a placeholder.
+        // todo: replace random number with timestamp from the api when it is included in the api response data.
+        foreach ($response->results as $r)
+            $data['student']->records[rand(100000, 1000000)] = array($r->url, $r->time_viewed);
 
         $this->render("student",[
             'data'  => $data,

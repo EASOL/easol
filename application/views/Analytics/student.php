@@ -29,7 +29,7 @@
                   </tr>
                 </tbody>
               </table>
-                <?php if (isset($student->pages) and !empty($student->pages) or isset($student->videos) and !empty($student->videos)): ?>
+                <?php if (isset($student->records) and !empty($student->records)): ?>
                   <div class="col-md-12 col-sm-12">
                       <table id="analyzestudents" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
@@ -40,24 +40,13 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php if (isset($student->pages) and !empty($student->pages)): ?>
-                            <?php foreach ($student->pages as $page) : ?>
-                              <tr>
-                                <td><?php echo $page->date_visited; ?></td>
-                                <td><?php echo anchor($page->page_url); ?></td>
-                                <td><?php echo gmdate('H:i:s', $page->total_time); ?></td>
-                              </tr>
-                            <?php endforeach; ?>
-                          <?php endif; ?>
-                          <?php if (isset($student->videos) and !empty($student->videos)): ?>
-                            <?php foreach ($student->videos as $video) : ?>
-                              <tr>
-                                <td><?php echo $video->date_visited; ?></td>
-                                <td><?php echo anchor($video->video_url); ?></td>
-                                <td><?php echo gmdate('H:i:s', $video->total_time); ?></td>
-                              </tr>
-                            <?php endforeach; ?>
-                          <?php endif; ?>                          
+                          <?php foreach ($student->records as $date_visited => $r) : ?>
+                            <tr>
+                              <td><?php echo $date_visited; ?></td>
+                              <td><?php echo anchor($r[0]); ?></td>
+                              <td><?php echo gmdate('H:i:s', $r[1]); ?></td>
+                            </tr>
+                          <?php endforeach; ?>                   
                         </tbody>
                     </table>
                 </div>
