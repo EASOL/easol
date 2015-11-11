@@ -240,39 +240,42 @@ class Analytics extends Easol_Controller {
         $site       = $this->api_url.'pages?'.$query.$urldates;
         $response   = json_decode(file_get_contents($site, true));        
 
-        foreach ($response->results as $student) {
+        foreach ($response->results as $r) {
 
             $page_time_total    = 0;
             $page_count_total   = 0;
-            foreach ($student->page_visits as $key => $page) {
+            foreach ($r->page_visits as $key => $page) {
                 $page_time_total += $page->total_time;
                 $page_count_total++;
             }
 
-            $data['students'][$student->username]['page_count_total']     = $page_count_total;
-            $data['students'][$student->username]['page_time_total']      = gmdate('H:i:s', $page_time_total);
+            $data['students'][$r->username]['page_count_total']     = $page_count_total;
+            $data['students'][$r->username]['page_time_total']      = gmdate('H:i:s', $page_time_total);
         }
 
-        // get the video data for each student
-        
-        /* commented out until the api people match the response data format to that of the page views call/response. 
+        // get the video data for each student        
         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
         $site       = $this->api_url.'video-views?'.$query.$urldates;
         $response   = json_decode(file_get_contents($site, true));
 
-        foreach ($response->results as $student) {
+        // Since the api returns video data in a different structure than page visits, this is where the data is restructured to match the page visits data.
+        foreach ($response->results as $r)
+            $data['students'][$r->username]['video_visits'][] = $r;
+
+        foreach ($data['students'] as $student => $s) {
 
             $video_time_total    = 0;
             $video_count_total   = 0;
-            foreach ($student->video_visits as $key => $video) {
-                $video_time_total += $video->total_time;
-                $video_count_total++;
+            if (isset($s['video_visits']) and !empty($s['video_visits'])) {
+                foreach ($s['video_visits'] as $video) {
+                    $video_time_total += $video->time_viewed;
+                    $video_count_total++;
+                }
             }
 
-            $data['students'][$student->username]['video_count_total']     = $video_count_total;
-            $data['students'][$student->username]['video_time_total']      = gmdate('H:i', $video_time_total);
+            $data['students'][$student]['video_count_total']     = $video_count_total;
+            $data['students'][$student]['video_time_total']      = gmdate('H:i:s', $video_time_total);
         }
-        */
 
         $this->render("students",[
             'data'  => $data,
