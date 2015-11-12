@@ -26,27 +26,12 @@ public function index()
         // define required filters
         $where = array();
         $where['edfi.Grade.SchoolId'] = Easol_Authentication::userdata('SchoolId');
-        if (!empty($data['currentTerm_default']))
-             $where['TermType.TermTypeId'] = $data['currentTerm_default'];
-
-        if (!empty($data['currentYear_default']))
-             $where['Section.SchoolYear'] = $data['currentYear_default'];
-        
 
         // define optional filters
         $lookFor = array(
-            'course'        => 'edfi.Course.CourseCode',
             'educator'      => 'edfi.StaffSectionAssociation.StaffUSI',
         );
-
-        if ($filters = $this->input->get()) {
-            foreach ($filters as $k => $v)
-            {
-                if (isset($lookFor[$k]) and !empty($lookFor[$k]) and $v !== '') {
-                    $where[$lookFor[$k]] = $v;
-                }
-            }
-        }
+        
         // If it's educator who is logged in, we force change Where param
          if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
