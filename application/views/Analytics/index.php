@@ -15,7 +15,7 @@
 	                    <select name="term" class="form-control">
 	                        <option value="">All Terms</option>	                    	
 	                        <?php foreach($terms as $k => $v): ?>
-	                        	<option value="<?php echo $v->TermTypeId; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
+	                        	<option value="<?php echo $v->CodeValue; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
@@ -33,7 +33,7 @@
 	                    <select name="course" class="form-control">
 	                        <option value="">All Courses</option>	                    	
 	                        <?php foreach($courses as $k => $v): ?>
-	                        	<option value="<?php echo $v->CourseCode; ?>" <?php if(isset($filters['course']) and $filters['course'] == $v->CourseCode) {echo "selected";} ?> ><?php echo $v->CourseTitle; ?></option>
+	                        	<option value="<?php echo $v->CourseTitle; ?>"><?php echo $v->CourseTitle; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
@@ -43,15 +43,18 @@
 	                    <select name="educator" class="form-control">
 	                        <option value="">All Educators</option>	                    	
 	                        <?php foreach($educators as $k => $v): ?>
-	                        	<option value="<?php echo $v->StaffUSI; ?>" <?php if(isset($filters['educator']) and $filters['educator'] == $v->StaffUSI) {echo "selected";} ?> ><?php echo $v->FullName; ?></option>
+	                        	<option value="<?php echo $v->FullName; ?>"><?php echo $v->FullName; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>    
-                  <?php } ?>                                   
-                 
+                  <?php } ?>
 
-                  <button type="submit" class="btn btn-primary" id="sections-filter">Filter</button>
+                  <div class="form-group">
+                    <div id="csv-button"></div>
+                  </div>                                                     
+                
                 </form>
+
                 <?php if (isset($results) and !empty($results)): ?>
                   <div class="col-md-12 col-sm-12">
                       <table id="manageanalytics" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -64,6 +67,7 @@
                             <th>Students</th>
                             <th>AVG Time Spent Online</th>
                             <th>Term</th>
+                            <th>Year</th>                            
                           </tr>
                         </thead>
                         <tbody>
@@ -76,6 +80,7 @@
                               <td><?php echo $v->StudentCount; ?></td>
                               <td><?php echo $v->Average; ?></td>
                               <td><?php echo $v->CodeValue; ?></td>                                    
+                              <td><?php echo $v->SchoolYear; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>
                         </tbody>
