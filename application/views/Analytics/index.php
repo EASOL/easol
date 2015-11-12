@@ -33,7 +33,7 @@
 	                    <select name="course" class="form-control">
 	                        <option value="">All Courses</option>	                    	
 	                        <?php foreach($courses as $k => $v): ?>
-	                        	<option value="<?php echo $v->CourseTitle; ?>"><?php echo $v->CourseTitle; ?></option>
+	                        	<option value="<?php echo $v->CourseCode; ?>"><?php echo $v->CourseTitle; ?></option>
 	                        <?php endforeach; ?>                        
 	                    </select>   
                   </div>
