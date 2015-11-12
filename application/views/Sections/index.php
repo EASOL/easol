@@ -11,7 +11,7 @@
 
                 <form class="form-inline" id="dataGridFormFilter">
                   <div class="form-group">
-                      <label for="term">Term</label><br />
+                      <label for="term">Term</label>
                       <select name="term" class="form-control">
                           <option value="">All Terms</option>                       
                           <?php foreach($terms as $k => $v): ?>
@@ -20,7 +20,7 @@
                       </select>   
                   </div>
                   <div class="form-group">
-                      <label for="year">School Year</label><br />
+                      <label for="year">School Year</label>
                       <select name="year" class="form-control">
                           <option value="">All Years</option>                       
                           <?php foreach($years as $k => $v): ?>
@@ -29,7 +29,7 @@
                       </select>   
                   </div>
                   <div class="form-group">
-                      <label for="course">Course</label><br />
+                      <label for="course">Course</label>
                       <select name="course" class="form-control">
                           <option value="">All Courses</option>                       
                           <?php foreach($courses as $k => $v): ?>
@@ -39,7 +39,7 @@
                   </div>
                     <?php if($userCanFilter){ ?>
                   <div class="form-group">
-                      <label for="educator">Educator</label><br />
+                      <label for="educator">Educator</label>
                       <select name="educator" class="form-control">
                           <option value="">All Educators</option>                       
                           <?php foreach($educators as $k => $v): ?>
@@ -49,14 +49,14 @@
                   </div>    
                   <?php } ?>
 
-                  <div class="form-group">
+                  <div class="form-group">                   
                     <div id="csv-button"></div>
                   </div>                                                     
                 
                 </form>
  
                 <?php if (isset($results) and !empty($results)): ?>
-                  <div class="col-md-12 col-sm-12">
+                  <div class="datatablegrid">
                       <table id="managesections" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
