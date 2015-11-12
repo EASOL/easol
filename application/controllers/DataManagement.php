@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+set_time_limit(0);
 class DataManagement extends Easol_Controller {
 
     /**
@@ -153,7 +153,8 @@ class DataManagement extends Easol_Controller {
         else{ //data_action
             if(isset($_FILES['csvFile'])) {
                 if($_FILES['csvFile']['error']==0) {
-                    if($_FILES['csvFile']['type']=='text/csv') {
+
+                    if($this->checkFile($_FILES['csvFile']['tmp_name'], $_POST['tableName'])) {
                         $this->load->model('DataManagementQueries');
                         $this->load->model('Easol_CSVProcessor');
                         $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
@@ -199,7 +200,7 @@ class DataManagement extends Easol_Controller {
                     }
                     else {
                         $msg['status']['type'] = 'failed';
-                        $msg['status']['msg'] = 'File Upload Error Core : Only .csv files are allowed';
+                        $msg['status']['msg'] = 'File Upload Error Core : The file structure is not correct.';
                     }
                 }
                 else {
@@ -213,5 +214,22 @@ class DataManagement extends Easol_Controller {
             }
         }
         echo json_encode($msg);
+    }
+
+    public function checkFile($file, $tableName) {
+
+        $this->load->model('DataManagementQueries');
+
+        $content = array_map('str_getcsv', file($file));
+        $columns = DataManagementQueries::getTableDetails($tableName);
+
+
+        foreach ($content[0] as $k=>$column_name) {
+            if (trim(strtolower($columns[$k]->COLUMN_NAME)) !== trim(strtolower($column_name))) {
+               return false;
+            }
+        }
+
+        return true;
     }
 }
