@@ -9,6 +9,8 @@ class Easol_CSVProcessor extends CI_Model {
 
     private $primaryColumn="";
 
+    public $result = ['inserted'=>[], 'updated'=>[], 'skipped'=>[], 'deleted'=>[], 'error'=>[]];
+
     /**
      * @param $csvData
      * @param $tableName
@@ -33,9 +35,7 @@ class Easol_CSVProcessor extends CI_Model {
         $this->db->db_debug = false;
         $csv = array_map('str_getcsv', file($this->csvFile));
         if (is_array($csv)) {
-            $skipped = array();
-            $inserted = array();
-            $updated = array();
+
             foreach ($csv as $key => $row) {
                 //If this is not header line
                 if ($key != 0) {
@@ -51,7 +51,11 @@ class Easol_CSVProcessor extends CI_Model {
                             $this->db->query("set identity_insert edfi.".$this->tableName." on");
                         $this->db->insert('edfi.' . $this->tableName, $insertData);
 
-                        $inserted[] = $key;
+                        if ($this->db->insert_id())
+                            $this->result['inserted'][] = $key;
+                        else
+                            $this->result['error'][] = $key;
+
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
                         //get an array of all primary keys and their values
@@ -62,11 +66,14 @@ class Easol_CSVProcessor extends CI_Model {
 
                         $this->db->where($where);
                         $this->db->update('edfi.' . $this->tableName, $insertData);
-                        $updated[] = $key;
+                        if ($this->db->affected_rows() > 0)
+                            $this->result['updated'][] = $key;
+                        else
+                            $this->result['error'][] = $key;
 
                     }else{
                         //Data was a duplicate and Update was not allowed to be done
-                        $skipped[] = $key;
+                        $this->result['skipped'][] = $key;
                     }
 
 
@@ -118,6 +125,11 @@ class Easol_CSVProcessor extends CI_Model {
                         }
                         $this->db->where($where);
                         $this->db->delete('edfi.' . $this->tableName);
+
+                        if ($this->db->affected_rows() > 0 )
+                            $this->result['deleted'][] = $key;
+                        else
+                            $this->result['error'][] = $key;
 
                     } else {
                         $this->csvHeader = $row;

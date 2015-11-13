@@ -163,7 +163,7 @@ class DataManagement extends Easol_Controller {
                             case 'insert' :
                                 try {
                                     if($csvProcessor->insert()){
-                                        $msg['status']['msg'] = 'Data Inserted Successfully';
+                                        $msg['status']['msg'] = '<p>Data Inserted Successfully</p>';
                                     }
                                 }
                                 catch(\Exception $ex){
@@ -174,7 +174,7 @@ class DataManagement extends Easol_Controller {
                             case 'update' :
                                 try {
                                     if($csvProcessor->update()){
-                                        $msg['status']['msg'] = 'Data Updated Successfully';
+                                        $msg['status']['msg'] = '<p>Data Updated Successfully</p>';
                                     }
                                 }
                                 catch(\Exception $ex){
@@ -185,7 +185,7 @@ class DataManagement extends Easol_Controller {
                             case 'delete' :
                                 try {
                                     if($csvProcessor->delete()){
-                                        $msg['status']['msg'] = 'Data Deleted Successfully';
+                                        $msg['status']['msg'] = '<p>Data Deleted Successfully</p>';
                                     }
                                 }
                                 catch(\Exception $ex){
@@ -196,6 +196,16 @@ class DataManagement extends Easol_Controller {
                             default:
                                 $msg['status']['type'] = 'failed';
                                 $msg['status']['msg'] = 'Invalid Operation Selected';
+                        }
+                        if ($msg['status']['type'] != 'failed') {
+                            foreach ($csvProcessor->result as $type=>$result) {
+                                if (!empty($result)) {
+                                    if ($type == 'error')
+                                        $msg['status']['msg'] .= "<p>" . sizeof($result) . " records produced errors and could not be processed.</p>";
+                                    else
+                                        $msg['status']['msg'] .= "<p>".sizeof($result)." records $type</p>";
+                                }
+                            }
                         }
                     }
                     else {

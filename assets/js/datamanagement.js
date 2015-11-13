@@ -318,6 +318,7 @@ $(function() {
     $("#dm_upload_form").on('submit', function(e) {
         e.preventDefault();
 
+        var $form = $(this);
         var formData = new FormData($('#dm_upload_form')[0]);
         $.ajax({
             /*statusCode: {
@@ -335,17 +336,28 @@ $(function() {
             cache: false,
             type: 'POST',
             beforeSend: function(  ) {
-                $('#loading-img').show();
+                loading($form);
             }
         })
-            .success(function(data  ) {
-                $('#msgBox').html(($.parseJSON(data))['status']['msg']);
-                $('#loading-img').hide();
-            })
-            .fail(function( data ) {
-                $('#msgBox').html(data.responseText);
-                $('#loading-img').hide();
-            });
+        .success(function(data  ) {
+             var response = $.parseJSON(data);
+             var $response_message = $form.find('.response-message');
+             $response_message.removeClass('panel-success panel-danger');
+             if (response.status.type == 'failed') $response_message.addClass('panel-danger');
+             else $response_message.addClass('panel-success');
+
+             $response_message.stop().fadeIn().delay(4000).fadeOut().find('.panel-body').html(response.status.msg);
+        })
+        .fail(function( data ) {
+             var $response_message = $form.find('.response-message');
+             $response_message.removeClass('panel-success panel-danger');
+             $response_message.addClass('panel-danger');
+
+             $response_message.stop().fadeIn().delay(4000).fadeOut().find('.panel-body').html(data.responseText);
+        })
+        .complete(function() {
+            unloading($form);
+         });
 
     });
 
