@@ -210,7 +210,6 @@
     <!-- Metis Menu Js -->
 
     <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-    <script src="<?= site_url('assets/js/datamanagement.js') ?>"></script>
     <script src="<?= site_url('assets/js/dataTables/dataTables.CSV.js') ?>"></script>
     <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
     <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>

@@ -123,7 +123,7 @@ $(function() {
 
     if ($('.sublive').length) {
         $('.sublive').parent().show();
-    }	
+    }
 
 	$( "#schoolFilter" ).change(function() {
 		var schoolId = $(this).val();
@@ -159,6 +159,8 @@ $(function() {
 		$('#usermanagement-addedit-password').toggle(this.checked == false)
 	});
 	$('[data-toggle="tooltip"]').tooltip();
+
+
 });
 
 
@@ -177,7 +179,7 @@ function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	var uemail = profile.getEmail();
 	var name = profile.getName();
-	
+
 
 	var localbe = 'http://localhost/easol/';
 	var devbe = 'http://easol-dev.azurewebsites.net/';
@@ -216,6 +218,19 @@ function signOut() { console.log('Attempting Google Logout');
 		console.log('User signed out.');
 	});
 	console.log('End Google Logout');
+}
+
+function loading($node) {
+
+	var $box = $node.closest('.loading-box');
+	if ($box.length == 0) $box = $node.css('position', 'relative');
+	if ($box.find('.loading-img').length == 0) $box.append('<div class="loading-img"></div>');
+
+	$box.find('.loading-img').fadeIn();
+}
+function unloading($node) {
+	var $box = $node.closest('.loading-box');
+	$box.find('.loading-img').fadeOut();
 }
 
 
