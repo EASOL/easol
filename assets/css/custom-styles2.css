@@ -1386,3 +1386,12 @@ tr:nth-child(even) {
 
 }
 
+/* 
+* Since the previous devs decided to customize a general use class of table-bordered and then bury the 
+* heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a 
+* custom classname here.
+*/
+#contacts .student-contacts td {
+  font-weight: normal;
+}
+

@@ -4,9 +4,9 @@
 <div class="col-md-12">
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <strong>Address:</strong>
+            <strong>Address</strong>
 
-            <table class="table table-bordered">
+            <table class="table student-contacts table-bordered">
                 <tr>
                     <th>Type</th>
                     <th>Street</th>
@@ -26,7 +26,7 @@
             </table>
         </div>
         <div class="col-md-12 col-sm-12">
-            <strong>Parents / Guardians:</strong>
+            <strong>Parents / Guardians</strong>
             <table class="table table-bordered">
                 <tr>
                     <th>Name</th>
@@ -45,7 +45,7 @@
             </table>
         </div>
         <div class="col-md-6 col-sm-6">
-            <strong>Telephone Numbers:</strong>
+            <strong>Telephone Numbers</strong>
             <table class="table table-bordered">
                 <tr>
                     <th>Type</th>
@@ -60,7 +60,7 @@
             </table>
         </div>
         <div class="col-md-6 col-sm-6">
-            <strong>Email Addresses:</strong>
+            <strong>Email Addresses</strong>
             <table class="table table-bordered">
                 <tr>
                     <th>Type</th>
