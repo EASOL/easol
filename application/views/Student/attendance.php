@@ -22,11 +22,10 @@ if (empty($attendances)) {
                 <tr>
                     <td><? list($pCode,$pName) = explode(' - ', $attendance->ClassPeriodName); echo $pCode; ?></td>
                     <td><?= $attendance->LocalCourseCode ?></td>
-                    <td><?= $attendance->UniqueSectionCode ?></td>
+                    <td><?= anchor('sections/details/'.$attendance->id, $attendance->UniqueSectionCode, 'target="_blank"'); ?></td>
                     <td><?= ($attendance->CodeValue=='In Attendance') ? $attendance->Days : "" ?></td>
                     <td><?= ($attendance->CodeValue=='Tardy') ? $attendance->Days : "" ?></td>
                     <td><?= ($attendance->CodeValue=='Excused Absence' || $attendance->CodeValue=='Unexcused Absence') ? $attendance->Days : "" ?></td>
-
                 </tr>
             <?php }  ?>
             </tbody>
