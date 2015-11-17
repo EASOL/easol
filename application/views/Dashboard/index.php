@@ -48,7 +48,7 @@
     <div class="chardinjs-ext-el" data-chardin-ext="below-intro">
         <div class="row">
             <div class="col-md-12 col-sm-12">
-                <p>This features and more... the EASOL interface is designed to help educators access resources and analyze data quickly and easily. Below are screenshots from the "Data Center" portion of the EASOL platform where teachers, school leaders and administrators can quickly access up-to-date information about students and their perfomance.</p>
+                <p>The EASOL interface is designed to help educators access resources and analyze data quickly and easily. Below are screenshots from the "Data Center" portion of the EASOL platform where teachers, school leaders and administrators can quickly access up-to-date information about students and their performance.</p>
             </div>
             <div class="col-md-12 col-sm-12">
                 <div class="center-block text-center">
