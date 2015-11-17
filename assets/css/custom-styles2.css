@@ -18,9 +18,7 @@ Alternating field grey: #f9f9f9
 /*----------------------------------------------
     COMMON  STYLES
 ------------------------------------------------*/
-
 @import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,700);
-
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -55,7 +53,7 @@ body {
 
 h1, .h1, h2, .h2, h3, .h3 {
   margin-top: 7px;
-  margin-bottom: -5px;
+
 }
 
 h2 {
@@ -436,7 +434,7 @@ footer p {
     width: 90px;
     text-align: center;
     height: 90px;
-    background: #44a657 url("../img/easollogo.png") no-repeat center;
+    background: #44a657 url(../img/easollogo.png) no-repeat center;
     overflow: hidden;
 }
 
@@ -586,10 +584,6 @@ ul.nav.nav-second-level.collapse.in {
   margin-right: 2px;
 }
 
-.top-navbar .navbar-brand:hover {
-    color: inherit;
-    background-color: #757575;
-}
 
 .dropdown-user li {
   margin: 8px 0;
@@ -691,7 +685,7 @@ svg { display: block;
 
 
 .fa-dashboard:before,
-.fa-tachometer:before, 
+.fa-tachometer:before,
 .fa-graduation-cap:before,
 .fa-edit:before,
 .fa-th:before,
@@ -811,7 +805,9 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 }
 
 
+/* alternative styles added by Anwar */
 button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
+div#google_ajax_error {display:none}
 
 label.loginLabel {
 	width:87px;
@@ -837,10 +833,6 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   background: #f5f5f5;
 }
 
-.backToH2 { /* restore some of the values that were overridden. */
-  margin:8px;
-}
-
 .left {
   float: left;
 }
@@ -857,23 +849,30 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   width: 90%;
 }
 
-.content-title-publisher {
-  margin-top: 20px;
-}
-
 .content-title {
-  width: 49%;
-  font-weight: bold;
-  color: blue;
+    color: blue;
+    display: inline-block;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 49%;
+}
+.content-publisher {
+  font-weight: normal;
+  font-size: 0.9em;
   display: inline-block;
+  position: absolute;
+  right: 110px;
+  text-align: center;
+  border-radius: 25px;
+  background: #51AE65;
+  padding: 0px;
+  width: 190px;
+  height: 20px;
 }
 
-.content-publisher {
-  width: 49%;
-  font-weight: bold;
-  color: blue;
-  display: inline-block;
-  text-align: right;
+.content-publisher a {
+  color: whitesmoke;
+
 }
 
 .content-links {
@@ -881,14 +880,12 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 #main-menu .sub-menu {
-
     display: none;
     margin-bottom: 10px;
     list-style: none;
     padding: 9px 0px;
     background: #777;
 }
-
 
 
 .pre-data-table {
@@ -935,7 +932,7 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 .sub-menu a {
-    color: white;
+    color: #51AE65;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 1px;
@@ -958,9 +955,6 @@ form#dataGridFormFilter {
     color: white;
     font-size: 17px;
 	margin: 0px;
-}
-form#dataGridFormFilter select {
-  color:black;
 }
 
 .panel-default {
@@ -1066,6 +1060,13 @@ tbody {
     background-color: #fff;
     border: 1px solid #ddd;
 }
+.pagination>li, .pagination>li {
+
+    padding: 0px!important;
+    border: 0px!important;
+    margin: 0px!important;
+
+}
 
 .table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
     padding: 10px;
@@ -1113,7 +1114,7 @@ tbody {
     font-size: 17px;
     font-weight: 300;
 	}
-	
+
 	.nav-tabs>li>a:hover {
     border-color: inherit;
     border-radius: 5px 5px 0px 0px;
@@ -1151,18 +1152,18 @@ tbody {
 
 .table-bordered th {
     font-weight: 300;
-    font-size: 17px;
+    font-size: 14px;
     color: #adb3ba;
 }
+
 .table-bordered td {
     font-weight: 400;
-    font-size: 17px;
+    font-size: 14px;
 }
 
-
 #contacts .table-bordered td {
-    font-weight: 600;
-    font-size: 18px;
+  /*  font-weight: 600;*/
+    font-size: 14px;
 }
 
 .table-bordered thead {
@@ -1170,16 +1171,17 @@ tbody {
 }
 
 .table-bordered thead th {
-    color: #44a657;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-size: 13px;
-	font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
-
-.table-bordered thead tr{
-    border-bottom: 1px solid #44a657;
+.table-bordered thead tr {
+    border-bottom: none;
+    background: #757575;
+    color: white;
 }
 
 .panel-title {
@@ -1223,7 +1225,7 @@ a {
     border-radius: 4px;
 }
 
-.nv-bar:nth-of-type(1), .nv-slice:nth-of-type(1), .nv-series:nth-of-type(1) .nv-legend-symbol {
+.nv-bar:nth-of-type(3), .nv-slice:nth-of-type(3), .nv-series:nth-of-type(3) .nv-legend-symbol {
     fill: #b0dc7a !important;
     stroke: #b0dc7a !important;
 }
@@ -1233,25 +1235,39 @@ a {
     stroke: #74c372 !important;
 }
 
-.nv-bar:nth-of-type(3), .nv-slice:nth-of-type(3), .nv-series:nth-of-type(3) .nv-legend-symbol  {
+.nv-bar:nth-of-type(1), .nv-slice:nth-of-type(1), .nv-series:nth-of-type(1) .nv-legend-symbol  {
     fill: #26a15d !important;
     stroke: #26a15d !important;
 }
 
-.nv-bar:nth-of-type(4), .nv-slice:nth-of-type(4), .nv-series:nth-of-type(4) .nv-legend-symbol  {
+.nv-bar:nth-of-type(5), .nv-slice:nth-of-type(5), .nv-series:nth-of-type(5) .nv-legend-symbol {
     fill: #3787bc !important;
     stroke: #3787bc !important;
 }
 
-.nv-bar:nth-of-type(5), .nv-slice:nth-of-type(5), .nv-series:nth-of-type(5) .nv-legend-symbol  {
+.nv-bar:nth-of-type(4), .nv-slice:nth-of-type(4), .nv-series:nth-of-type(4) .nv-legend-symbol  {
     fill: #81b6d5 !important;
     stroke: #81b6d5 !important;
 }
 
-.nv-bar:nth-of-type(6), .nv-slice:nth-of-type(6), .nv-series:nth-of-type(6) .nv-legend-symbol  {
-    fill: #b5deeb !important;
-    stroke: #b5deeb !important;
+
+.label-Default {
+    background-color: #b0dc7a !important;
 }
+.label-Success {
+    background-color: #74c372 !important;
+}
+.label-Primary  {
+    background-color: #26a15d !important;
+}
+.label-Warning  {
+    background-color: #3787bc !important;
+}
+ .label-Info  {
+    background-color: #81b6d5 !important;
+}
+
+
 
 
 .form-horizontal .control-label {
@@ -1260,4 +1276,122 @@ a {
     text-align: left;
 }
 
+.tag {
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  padding: 3px 3px 3px 3px;
+  font-size: 12px;
+}
+
+.tag-subjects, .tag-subject {
+  border-color: #74C372 !important;
+  background-color: #74C372 !important;
+}
+
+.tag-types, .tag-type, .tag-resource_type {
+  border-color: #81B6D5 !important;
+  background-color: #81B6D5 !important;
+}
+
+.tag-grades, .tag-grade {
+  border-color: #3787BC !important;
+  background-color: #3787BC !important;
+}
+
+.tag-standards, .tag-standard {
+  border-color: #B0DC7A !important;
+  background-color: #B0DC7A !important;
+}
+
+.tag-publisher {
+  border-color: #51AE65 !important;
+  background-color: #51AE65 !important;
+}
+
+.filter_active {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+  filter: alpha(opacity=75);
+  opacity: 0.75;
+}
+
+.table-bordered tbody tr td:first-child a, .table-bordered tbody tr td:first-child {
+    /*font-weight: bold;*/
+}
+
+form#dataGridFormFilter .btn-primary{
+    color: #44a657;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+
+form#dataGridFormFilter .btn-primary:hover{
+    color: #fff;
+    background-color: #555;
+    border-color: #555;
+}
+
+button a.datatable-get-csv {
+  /* height: 38px !important;*/
+  position: relative;
+  float: none;
+  margin-right: 0px;
+  padding: 0px !important;
+  border: 0px solid #999;
+  cursor: pointer;
+  font-size: 0.88em;
+  color: inherit !important;
+  white-space: nowrap;
+  border-radius: 0px;
+  box-shadow: 0px 0px 0px #CCC;
+  background: none;
+  text-decoration: none;
+  width: 100%;
+  display: inline-block;
+}
+
+button a.datatable-get-csv:hover {
+  border: 0px solid #666;
+  text-decoration: none !important;
+  -webkit-box-shadow: 0px 0px 0px #999;
+  -moz-box-shadow: 0px 0px 0px #999;
+  background: none;
+}
+
+form.form-inline {
+    background: #fff;
+    padding: 20px 20px 10px 20px;
+    border-radius: 10px;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    border-top: 0px;
+}
+
+.loading-box {
+  position: relative;
+}
+.loading-box .loading-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fff url('../img/loading2.gif') no-repeat center;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+
+}
+
+/* 
+* Since the previous devs decided to customize a general use class of table-bordered and then bury the 
+* heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a 
+* custom classname here.
+*/
+#contacts .student-contacts td {
+  font-weight: normal;
+}
 

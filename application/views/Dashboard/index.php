@@ -20,7 +20,7 @@
                     $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(),['model' => $dashboardConf->getLeftChart(), 'displayTitle' => false ]);
                             ?>
                     <div class="caption">
-                        <h3><?= $dashboardConf->getLeftChart()->ReportName; ?> </h3>
+                        <?= anchor('reports/view/'.$dashboardConf->getLeftChart()->ReportId, '<h3>'.$dashboardConf->getLeftChart()->ReportName.'</h3>'); ?>
                         <br>
                     </div>
                 </div></div>
@@ -29,7 +29,7 @@
                     $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false]);
                     ?>
                     <div class="caption">
-                        <h3><?= $dashboardConf->getRightChart()->ReportName; ?> </h3>
+                        <?= anchor('reports/view/'.$dashboardConf->getRightChart()->ReportId, '<h3>'.$dashboardConf->getRightChart()->ReportName.'</h3>'); ?>
                         <br>
                     </div>
                 </div></div>

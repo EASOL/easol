@@ -4,36 +4,10 @@
 require_once APPPATH.'/core/Easol_BaseEntity.php';
 class Edfi_Student extends Easol_baseentity {
 
+
     private $sex;
     private $race;
     private $limitedEnglishProficiency;
-
-    public function getStudentsEmailsBySection($section = '')
-    {
-        $this->db->select("StudentSectionAssociation.StudentUSI");
-        $this->db->from("edfi.Section"); 
-        $this->db->join('edfi.StudentSectionAssociation', 
-        'StudentSectionAssociation.SchoolId = Section.SchoolId AND 
-        StudentSectionAssociation.ClassPeriodName = Section.ClassPeriodName AND 
-        StudentSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND
-        StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND 
-        StudentSectionAssociation.TermTypeId = Section.TermTypeId AND 
-        StudentSectionAssociation.SchoolYear = Section.SchoolYear','left');
-        $this->db->where('[Section].UniqueSectionCode', $section);
-
-        $results = $this->db->get()->result();
-
-        $students = array();
-        foreach ($results as $k => $v)
-            $students[] = $v->StudentUSI;
-
-        $this->db->select("ElectronicMailAddress");
-        $this->db->from("edfi.StudentElectronicMail");
-        $this->db->where_in('StudentUSI', $students);
-        $results = $this->db->get()->result();
-
-        return $results;
-    }  
 
     /**
      * labels for the database fields
@@ -210,7 +184,7 @@ ORDER BY Grade.BeginDate DESC",
      * @return mixed
      */
     public function getAttendance(){
-        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Days
+        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, CodeValue, COUNT(*) as Days
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -223,9 +197,9 @@ INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDesc
 INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
 WHERE StudentUSI = [StudentUSI]
 AND (CodeValue = 'Excused Absence' OR CodeValue='Unexcused Absence') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
-GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
 UNION
-SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Tardy
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, CodeValue, COUNT(*) as Tardy
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -238,9 +212,9 @@ INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDesc
 INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
 WHERE StudentUSI = [StudentUSI]
 AND (CodeValue = 'Tardy') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
-GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
 UNION
-SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Present
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, CodeValue, COUNT(*) as Present
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -253,7 +227,7 @@ INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDesc
 INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
 WHERE StudentUSI = [StudentUSI]
 AND (CodeValue = 'In Attendance') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
-GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue";
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue";
 
         $termId = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $schoolYear = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');

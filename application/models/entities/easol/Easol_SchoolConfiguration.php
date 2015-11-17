@@ -69,6 +69,16 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
 	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { $data['allowedUser'] = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
 	return $data;
     }
+
+    /**
+     * returns whether user can filter by Educator in current controller
+     * @return boolean
+     */
+    public static function canFilterByEducator() {
+      
+      if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) return true;
+      return false;
+    }
     /**
      * sets default of filter field
      * @return string

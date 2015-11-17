@@ -84,10 +84,14 @@ $this->load->model("DataManagementQueries");
                         <div role="tabpanel" class="tab-pane" id="table_upload">
                             <h2 class="tableName"></h2>
                             <div>
-                                <div class="container">
-                                    <div class="row" style="padding-top:10px;">
-                                        <form action="#" method="post" id="dm_upload_form" enctype="multipart/form-data">
-                                            <input id="form-table-name" type="hidden" name="tableName" value="" >
+
+                                <div class="row loading-box" style="padding-top:10px;">
+                                    <form action="#" method="post" id="dm_upload_form" enctype="multipart/form-data">
+                                        <div class="panel response-message">
+                                            <div class="panel-body">
+                                            </div>
+                                        </div>
+                                        <input id="form-table-name" type="hidden" name="tableName" value="" >
                                         <div class="form-group">
                                             <label for="data-up-csv">Filename</label>
                                             <input type="file" id="data-up-csv" name="csvFile" accept="text/csv" required >
@@ -117,17 +121,9 @@ $this->load->model("DataManagementQueries");
                                                 <button type="submit" class="btn btn-default">Upload</button>
                                             </div>
                                         </div>
-                                        </form>
+                                    </form>
 
-                                    </div>
-                                    <div class="row" style="padding-top:10px;">
-                                        <div class="col-xs-10">
-                                            <div id="msgBox">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-
 
                             </div>
 
