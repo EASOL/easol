@@ -117,7 +117,7 @@
 					<a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
 				    </li>
 			    <?php } /* */ ?>
-                        <div data-intro="Student Data Management" data-position="right">
+                        <div data-intro="Student Data Management: View students, sections and grades, attendance and assessments" data-position="right">
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
@@ -139,7 +139,7 @@
                             <?php } ?>
                         </div>
 
-                        <li data-intro="Learning Lab: Free, Open Education Resources (OER) for supplemental classroom use" data-position="right">
+                        <li data-intro="Learning Lab: Free, Open Education Resources (OER) for supplemental classroom use with usage analytics" data-position="right">
                             <a href="#" id="learning-lab"><i class="fa fa-table2"></i> Learning Lab</a>
                             <ul class="sub-menu">
                                 <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content</a></li>
@@ -151,7 +151,7 @@
 				<li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
 				</li>
-                        <li data-intro="Dynamic reports" data-position="right" <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
+                        <li data-intro="Flex Reports:  customized and dynamic reporting based on school needs" data-position="right" <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
 					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
 				</li>
 
