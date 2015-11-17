@@ -87,8 +87,34 @@ $this->load->model("DataManagementQueries");
 
                                 <div class="row loading-box" style="padding-top:10px;">
                                     <form action="#" method="post" id="dm_upload_form" enctype="multipart/form-data">
-                                        <div class="panel response-message">
-                                            <div class="panel-body">
+                                        <div class="panel response-message" id="upload-result">
+
+
+                                            <div class="panel-heading default">
+                                                <button type="button" class="close"
+                                                        data-target="#upload-result"
+                                                        data-dismiss="alert">
+                                                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                                </button>
+
+                                                Upload Results
+                                            </div>
+                                            <div class="panel-body default">
+                                                <div class="summary"></div>
+                                                <div class="details">
+                                                    <table id="upload-result-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Line</th>
+                                                                <th>Result</th>
+                                                                <th>Reason</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                         <input id="form-table-name" type="hidden" name="tableName" value="" >
