@@ -58,7 +58,8 @@ foreach($model->getReportData() as $key => $value){
                             .x(function(d) { return d.key })
                             .y(function(d) { return d.y })
                             .width(width)
-                            .height(height);
+                            .height(height)
+                            .valueFormat(d3.format(".0f"));
                         d3.select("#pieChartDisp")
                             .datum(chartData)
                             .transition().duration(1200)

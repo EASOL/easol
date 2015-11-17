@@ -23,6 +23,11 @@ class Content extends Easol_Controller {
         }
     }
 
+    public function filter_name($filter)
+    {
+        echo $filter;
+    }
+
     /**
      * index action
      * @param null $id
@@ -34,6 +39,8 @@ class Content extends Easol_Controller {
             $this->config->load('gradelevels');
             $this->config->load('standards');
 
+            $total_count = 0;
+
             // show the results if we are processing the html form or parsing url attributes directly.
             if ($data = $this->input->get()) {
 
@@ -41,20 +48,31 @@ class Content extends Easol_Controller {
                 $data['limit'] = EASOL_PAGINATION_PAGE_SIZE;
                 // fetch the limited dataset. There will be no page attribute if we are processing the html
                 // form and there will be a page attribute if we are following a pagination link.
-                // If there is no page param then the api starts with the first record through the limit param. 
-                $query = http_build_query($data);
-                $site = $this->config->item('content_api').$query;
-                $response = json_decode(file_get_contents($site, true));
+                // If there is no page param then the api starts with the first record through the limit param.
 
-                // Define a new query string without the page and limit values and get the full dataset
+                if (isset($data['query']) && $data['query'] == "search text") { $data['query'] = ""; }
+                $query          = http_build_query($data);
+                $site           = $this->config->item('content_api').$query;
+                $headers        = get_headers($site, 1);
+                $response       = json_decode(file_get_contents($site, true));
+
+                // Get the pagination record metrics for display in the view file(s).
+                $page           = ($this->input->get('page')) ? $this->input->get('page') : 1;
+                $total_count    = $headers['x-total-count'];
+                $start_count    = ((($page - 1) * EASOL_PAGINATION_PAGE_SIZE) + 1);
+                $end_count      = (($start_count + EASOL_PAGINATION_PAGE_SIZE) - 1);
+
+                if ($end_count < EASOL_PAGINATION_PAGE_SIZE)   // happens when records less than per page  
+                    $end_count = EASOL_PAGINATION_PAGE_SIZE;  
+                else if ($end_count > $total_count)  // happens when result end is greater than total records  
+                    $end_count = $total_count;                
+
+                // Define a new query string without the page and limit values
                 // for use in building the pagination links.
                 $base = $data;
+                unset($base['limit']);                
                 unset($base['page']);
-                unset($base['limit']);
-                $base_qs = http_build_query($base);
-
-                $site = $this->config->item('content_api').$base_qs;
-                $unlimited = json_decode(file_get_contents($site, true));
+                $base_qs = http_build_query($base);                
             }
            
             // Set the base url for filter links
@@ -64,6 +82,8 @@ class Content extends Easol_Controller {
             $filters_active = $this->input->get();
             unset($filters_active['query']);
             unset($filters_active['page']);
+            unset($filters_active['limit']);
+
 
             if (isset($response->aggregations)) {
                 // Massage the filter data as required by the spec.
@@ -82,16 +102,15 @@ class Content extends Easol_Controller {
                         unset($response->aggregations->$filtername);
                 }
             }
-
-            $total_count = (isset($unlimited)) ? count($unlimited->results) : 0;
+            
             // build the pagination links.
             $this->load->library('pagination');
-            $config['base_url'] = (isset($base_qs))? 'content?'.$base_qs : 'content?';
-            $config['page_query_string'] = TRUE; 
-            $config['use_page_numbers'] = TRUE;
-            $config['per_page'] = EASOL_PAGINATION_PAGE_SIZE;
+            $config['base_url']             = (isset($base_qs))? 'content?'.$base_qs : 'content?';
+            $config['page_query_string']    = TRUE; 
+            $config['use_page_numbers']     = TRUE;
+            $config['per_page']             = EASOL_PAGINATION_PAGE_SIZE;
             $config['query_string_segment'] = 'page';
-            $config['total_rows'] = $total_count;
+            $config['total_rows']           = $total_count;
            
             /* This Application Must Be Used With BootStrap 3 *  */
             $config['full_tag_open'] = "<ul class='pagination'>";
@@ -123,12 +142,6 @@ class Content extends Easol_Controller {
                                     'Types'     => array('resource_types' => 'name'),
                                
                             );
-            $colors  = array(       'Subjects'  => '#337AB7',
-                                    'Standards' => '#7B1174',
-                                    'Grades'    => '#ACBB30',
-                                    'Types'     => '#2FB4AB'
-                               
-                            );
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
@@ -137,7 +150,9 @@ class Content extends Easol_Controller {
                 'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
                 'footnotes'         => $footnotes,
-                'colors'            => $colors
+                'total_count'       => isset($total_count) ? $total_count : 0,
+                'start_count'       => isset($start_count) ? $start_count : 0,
+                'end_count'         => isset($end_count) ? $end_count : 0,                
             ]);
         }
 

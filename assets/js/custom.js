@@ -1,15 +1,24 @@
 $(function() {
 
+	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
-		$('#manageusers').DataTable();
+		$('#manageusers').DataTable({
+        dom: 'Vlfrtip'
+  		  });
 	}
 
 	if ($('table#manageschools').length) {
-		$('#manageschools').DataTable();
+		$('#manageschools').DataTable({
+        dom: 'Vlfrtip'
+    });
 	}
 
 	if ($('table#manageschooldetails').length) {
 		$('#manageschooldetails').DataTable();
+	}
+
+	if ($('table#analyzestudents').length) {
+		$('#analyzestudents').DataTable();
 	}
 
 	$( "#filter-result" ).change(function() {
@@ -98,19 +107,23 @@ $(function() {
 		});
 	}
 
-	$("#main-menu #management").click(function(event) {
-		event.preventDefault();
-		var submenu = $('ul', $(this).parent());
-		if (submenu.length && submenu.is(':visible')) {
-			submenu.slideUp( "slow", function() {
-				// Animation complete.
-			});
-		} else {
-			submenu.slideDown( "slow", function() {
-				// Animation complete.
-			});
-		}
-	});
+    $("#main-menu #management, #main-menu #learning-lab").click(function(event) {
+    	event.preventDefault();
+    	var submenu = $('ul', $(this).parent());
+    	if (submenu.length && submenu.is(':visible')) {
+    		submenu.slideUp( "slow", function() {
+    		// Animation complete.
+    		});
+    	} else {
+    		submenu.slideDown( "slow", function() {
+    		// Animation complete.
+    		});
+    	}
+    });
+
+    if ($('.sublive').length) {
+        $('.sublive').parent().show();
+    }
 
 	$( "#schoolFilter" ).change(function() {
 		var schoolId = $(this).val();
@@ -147,6 +160,7 @@ $(function() {
 	});
 	$('[data-toggle="tooltip"]').tooltip();
 
+
 });
 
 
@@ -165,7 +179,7 @@ function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	var uemail = profile.getEmail();
 	var name = profile.getName();
-	
+
 
 	var localbe = 'http://localhost/easol/';
 	var devbe = 'http://easol-dev.azurewebsites.net/';
@@ -204,6 +218,19 @@ function signOut() { console.log('Attempting Google Logout');
 		console.log('User signed out.');
 	});
 	console.log('End Google Logout');
+}
+
+function loading($node) {
+
+	var $box = $node.closest('.loading-box');
+	if ($box.length == 0) $box = $node.css('position', 'relative');
+	if ($box.find('.loading-img').length == 0) $box.append('<div class="loading-img"></div>');
+
+	$box.find('.loading-img').fadeIn();
+}
+function unloading($node) {
+	var $box = $node.closest('.loading-box');
+	$box.find('.loading-img').fadeOut();
 }
 
 

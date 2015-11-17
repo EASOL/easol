@@ -79,15 +79,18 @@ class Home extends Easol_Controller {
 		    		$this->session->set_userdata($data);
 		    		echo "gloginValid";
 		 		} else { 
-		 			/* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support."; 
+		 		$this->session->set_flashdata('error', 'Error Logging in - Easol authentication failed - Please contact Support.');
+		 		/* authentication failed */ echo "Error Logging in - Easol authentication failed - Please contact Support."; 
 		 		}
 
 	 		} else { 
-	 			/* Google authentication failed */ echo "Error Logging in - Google authentication failed - Please contact Support."; 
+	 			$this->session->set_flashdata('error', 'Error Logging in - Google authentication failed - Please contact Support.');
+				/* Google authentication failed */ echo "Error Logging in - Google authentication failed - Please contact Support."; 
 	 		}
 	      
 		} else { 
-		/* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support."; 
+			$this->session->set_flashdata('error', '"Error Logging in - no matching email - Please contact Support.');
+			/* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support."; 
 		}
 	}
 

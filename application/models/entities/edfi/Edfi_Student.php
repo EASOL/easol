@@ -4,6 +4,7 @@
 require_once APPPATH.'/core/Easol_BaseEntity.php';
 class Edfi_Student extends Easol_baseentity {
 
+
     private $sex;
     private $race;
     private $limitedEnglishProficiency;
