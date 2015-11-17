@@ -1173,7 +1173,7 @@ tbody {
 }
 
 #contacts .table-bordered td {
-    font-weight: 600;
+  /*  font-weight: 600;*/
     font-size: 14px;
 }
 
@@ -1326,7 +1326,7 @@ a {
 }
 
 .table-bordered tbody tr td:first-child a, .table-bordered tbody tr td:first-child {
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
 
 form#dataGridFormFilter .btn-primary{
@@ -1419,4 +1419,13 @@ form.default-form-inline {
 
 .chardinjs-helper-layer.chardinjs-right {
     border-radius: 5px;
+}
+
+/* 
+* Since the previous devs decided to customize a general use class of table-bordered and then bury the 
+* heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a 
+* custom classname here.
+*/
+#contacts .student-contacts td {
+  font-weight: normal;
 }

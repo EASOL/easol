@@ -338,7 +338,7 @@ class Analytics extends Easol_Controller {
             {
                 $date = new DateTime($v->date_visited);
                 $date = $date->format('Y-m-d H:i:s');
-                $data['student']->records[] = array($date, $v->page_url, $v->total_time);
+                $data['student']->records[] = array($date, $v->page_url, $v->total_time, $v->page_name);
             }
 
         // get the video data for each student
@@ -352,7 +352,7 @@ class Analytics extends Easol_Controller {
         {
             $date = new DateTime(@$r->date_started);
             $date = $date->format('Y-m-d H:i:s');
-            $data['student']->records[] = array($date, $r->url, $r->time_viewed);
+            $data['student']->records[] = array($date, $r->url, $r->time_viewed, $r->title);
         }
 
         $this->render("student",[
