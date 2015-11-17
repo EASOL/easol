@@ -20,7 +20,7 @@ if (empty($attendances)) {
             <tbody>
             <?php  foreach($attendances as $attendance){ ?>
                 <tr>
-                    <td><?= $attendance->ClassPeriodName ?></td>
+                    <td><? list($pCode,$pName) = explode(' - ', $attendance->ClassPeriodName); echo $pCode; ?></td>
                     <td><?= $attendance->LocalCourseCode ?></td>
                     <td><?= $attendance->UniqueSectionCode ?></td>
                     <td><?= ($attendance->CodeValue=='In Attendance') ? $attendance->Days : "" ?></td>
