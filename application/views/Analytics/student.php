@@ -43,7 +43,7 @@
                           <?php foreach ($student->records as $r) : ?>
                             <tr>
                               <td><?php echo $r[0]; ?></td>
-                              <td><?php echo anchor($r[1]); ?></td>
+                              <td><?php echo anchor($r[1], $r[1], 'target="_blank"'); ?></td>
                               <td><?php echo gmdate('H:i:s', $r[2]); ?></td>
                             </tr>
                           <?php endforeach; ?>                   

@@ -41,7 +41,7 @@
                       <tbody>
                         <?php foreach ($students as $k => $v) : ?>
                           <tr>
-                            <td><a href="<?= site_url("/student/profile/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
+                            <td><a href="<?= site_url("/student/profile/$v->StudentUSI") ?>" target="_blank"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
                           </tr>
                         <?php endforeach; ?>
                       </tbody>
