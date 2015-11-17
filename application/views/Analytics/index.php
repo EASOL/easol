@@ -60,27 +60,27 @@
                       <table id="manageanalytics" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
+                            <th>Term</th>
+                            <th>Year</th>
                             <th>Course</th>
                             <th>Section Name</th>
                             <th>Period</th>
                             <th>Educator</th>
                             <th>Students</th>
                             <th>AVG Time Spent Online</th>
-                            <th>Term</th>
-                            <th>Year</th>                            
                           </tr>
                         </thead>
                         <tbody>
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
+                              <td><?php echo $v->CodeValue; ?></td>
+                              <td><?php echo $v->SchoolYear; ?></td>
                               <td><?php echo $v->LocalCourseCode; ?></td>
                               <td><a href="<?= site_url("/analytics/students/$v->id") ?>" target="_blank"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
                               <td><?php echo $v->Average; ?></td>
-                              <td><?php echo $v->CodeValue; ?></td>                                    
-                              <td><?php echo $v->SchoolYear; ?></td>                                    
                             </tr>
                           <?php endforeach; ?>
                         </tbody>
