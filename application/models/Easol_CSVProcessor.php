@@ -51,10 +51,11 @@ class Easol_CSVProcessor extends CI_Model {
                         $this->db->query("set identity_insert edfi.".$this->tableName." on");
                         $this->db->insert('edfi.' . $this->tableName, $insertData);
 
-                        if ($this->db->insert_id())
+                        $error = $this->db->error();
+
+                        if (!$error['message'])
                             $this->result['inserted'][] = ['line'=>$key];
                         else {
-                            $error = $this->db->error();
                             $this->result['error'][] = ['line' => $key, 'reason' => $error['code'].' - '.$error['message']];
                         }
 
@@ -123,9 +124,9 @@ class Easol_CSVProcessor extends CI_Model {
                         //If primary column is 1 value, then we just use 1 line, otherwise we need to loop through each.
                         if (is_array(($this->primaryColumn))) {
                             $where = array();
-                            foreach ($this->primaryColumn as $key) {
+                            foreach ($this->primaryColumn as $k) {
 
-                                $where[$key] = $data[$key];
+                                $where[$k] = $data[$k];
                             }
                         } else {
                             $where = array($this->primaryColumn => $data[$this->primaryColumn]);

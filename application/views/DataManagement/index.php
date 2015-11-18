@@ -17,7 +17,7 @@ $this->load->model("DataManagementQueries");
                     <div class="panel-heading">Objects</div>
                     <div class="panel-body">
                         <select class="form-control dm_select" size="10" id="dm_select_obj">
-                            <?php foreach(DataManagementQueries::getObjectsList() as $obj) {  ?>
+                            <?php foreach(DataManagementQueries::getObjectsList(false) as $obj) {  ?>
                             <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                             <?php } ?>
 
