@@ -84,7 +84,9 @@ p {
   border-radius: 0px;
 }
 
-.navbar-side .nav > li > a > i {
+.navbar-side .nav > li > a > i, 
+.navbar-side .nav > div > li > a > i
+ {
     color: #757575;
     width: 100%;
     text-align: center;
@@ -114,7 +116,9 @@ p {
   top: 55px;
 }
 
-.top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {
+.top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus,
+.top-navbar .nav > div > li > a:hover, .top-navbar .nav > div > li > a:focus
+ {
   text-decoration: none;
   background-color: #2497BA;
   color: #fff;
@@ -539,7 +543,9 @@ footer p {
   padding: 0;
 }
 
-.sidebar-collapse .nav > li > a {
+.sidebar-collapse .nav > li > a,
+.sidebar-collapse .nav > div > li > a
+ {
     color: #757575;
     background: transparent;
     text-shadow: none;
@@ -549,11 +555,13 @@ footer p {
     letter-spacing: 0px;
 }
 
-.sidebar-collapse > .nav > li > a {
+.sidebar-collapse > .nav > li > a, 
+.sidebar-collapse > .nav > div > li > a {
     padding: 7px 0px;
 }
 
-.sidebar-collapse > .nav > li {
+.sidebar-collapse > .nav > li,
+.sidebar-collapse > .nav > div > li {
     border-bottom: none;
 }
 
@@ -562,7 +570,8 @@ ul.nav.nav-second-level.collapse.in {
   background: #17191B;
 }
 
-.sidebar-collapse .nav > li > a:hover, .sidebar-collapse .nav > li > a:focus {
+.sidebar-collapse .nav > li > a:hover, .sidebar-collapse .nav > li > a:focus,
+.sidebar-collapse .nav > div > li > a:hover, .sidebar-collapse .nav > div > li > a:focus {
     outline: 0;
     color: #44a657;
 }
@@ -609,7 +618,9 @@ ul.nav.nav-second-level.collapse.in {
   background-color: #FFF;
 }
 
-.nav > li > a > i {
+.nav > li > a > i,
+.nav > div > li > a > i 
+ {
   margin-right: 10px;
   color: #666;
 }
@@ -1121,7 +1132,7 @@ tbody {
     background: #fff;
 }
 
-.nav>li>a {
+.nav>li>a, .nav > div > li > a  {
     position: relative;
     display: block;
     padding: 7px 20px;
@@ -1386,6 +1397,30 @@ tr:nth-child(even) {
 
 }
 
+/* Splash window styles */
+.chardinjs-ext-el {
+    padding-left: 40px;
+    padding-right: 40px;
+    width: calc(100% - 90px);
+    left: 90px; /* value of sidebar */
+}
+
+.chardinjs-ext-el > div.row > div {
+    padding-bottom: 50px;
+}
+
+#chardin_template { display: none;}
+
+form.default-form-inline {
+    background: none;
+    padding: 0px;
+    border-radius: 0px;
+}
+
+.chardinjs-helper-layer.chardinjs-right {
+    border-radius: 5px;
+}
+
 /* 
 * Since the previous devs decided to customize a general use class of table-bordered and then bury the 
 * heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a 
@@ -1394,4 +1429,3 @@ tr:nth-child(even) {
 #contacts .student-contacts td {
   font-weight: normal;
 }
-
