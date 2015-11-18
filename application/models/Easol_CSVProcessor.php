@@ -47,14 +47,17 @@ class Easol_CSVProcessor extends CI_Model {
                     //if current row doesn't have duplicats with the primary keys - we insert it
                     if(!$this->rowExists($this->csvHeader,$row)){
                         //Short fix for Student table - so far only this table has this property
-                        if($this->tableName == 'Student')
-                            $this->db->query("set identity_insert edfi.".$this->tableName." on");
+                     //   if($this->tableName == 'Student')
+                        $this->db->query("set identity_insert edfi.".$this->tableName." on");
                         $this->db->insert('edfi.' . $this->tableName, $insertData);
 
                         if ($this->db->insert_id())
                             $this->result['inserted'][] = ['line'=>$key];
-                        else
-                            $this->result['error'][] = ['line' => $key, 'reason' => $this->db->_error_message()];
+                        else {
+                            $error = $this->db->error();
+                            $this->result['error'][] = ['line' => $key, 'reason' => $error['code'].' - '.$error['message']];
+                        }
+
 
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
@@ -66,10 +69,14 @@ class Easol_CSVProcessor extends CI_Model {
 
                         $this->db->where($where);
                         $this->db->update('edfi.' . $this->tableName, $insertData);
-                        if ($this->db->affected_rows() > 0)
+
+                        $error = $this->db->error();
+
+                        if (!$error['message'])
                             $this->result['updated'][] = ['line' => $key];
-                        else
-                            $this->result['error'][] = ['line' => $key, 'reason'=> $this->db->_error_message()];
+                        else {
+                            $this->result['error'][] = ['line' => $key, 'reason' => $error['code'] . ' - ' . $error['message']];
+                        }
 
                     }else{
                         //Data was a duplicate and Update was not allowed to be done
@@ -126,10 +133,13 @@ class Easol_CSVProcessor extends CI_Model {
                         $this->db->where($where);
                         $this->db->delete('edfi.' . $this->tableName);
 
-                        if ($this->db->affected_rows() > 0 )
+                        $error = $this->db->error();
+
+                        if (!$error['message'])
                             $this->result['deleted'][] = ['line'=>$key];
-                        else
-                            $this->result['error'][] = ['line' => $key, 'reason' => $this->db->_error_message()];
+                        else {
+                            $this->result['error'][] = ['line' => $key, 'reason' => $error['code'] . ' - ' . $error['message']];
+                        }
 
                     } else {
                         $this->csvHeader = $row;

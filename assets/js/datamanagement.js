@@ -8,6 +8,8 @@ var currentTable = null;
 var dm_currentPage = 1;
 var dm_PageSize = 50;
 
+var upload_result_table;
+
 $(function() {
 
 
@@ -156,6 +158,11 @@ $(function() {
         // IF CSV, don't do event.preventDefault() or return false
         // We actually need this to be a typical hyperlink
     });
+
+    $(document).on('click', '.response-message .close', function(e) {
+        e.preventDefault();
+        $(this).closest('.response-message').stop().fadeOut();
+    })
 
     $('#dm_data_tabs a[href="#table_browse"]').click(function (e) {
         e.preventDefault();
@@ -338,6 +345,9 @@ $(function() {
             cache: false,
             type: 'POST',
             beforeSend: function(  ) {
+                if (upload_result_table) upload_result_table.destroy();
+                $("#upload-result .summary").html('');
+                $("#upload-result .details tbody").empty();
                 loading($form);
             }
         })
@@ -360,7 +370,7 @@ $(function() {
                 }
 
              }
-             details_table.dataTable();
+             upload_result_table = details_table.DataTable();
         })
         .fail(function( data ) {
              var $response_message = $form.find('.response-message');
