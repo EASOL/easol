@@ -361,8 +361,8 @@ footer p {
   font-size: 13px;
   line-height: 21px;
   padding-top: 4px;
+<<<<<<< HEAD
 }*/
-
 
 /*----------------------------------------------
     UI ELEMENTS STYLES
@@ -793,7 +793,7 @@ tbody {
     padding: 10px;
 }
 
-.table-condensed tr td:first-child a, .table-condensed tr td:first-child{ color: #44a657; font-weight: bold; font-size: 16px;}
+.table-condensed tr td:first-child a, .table-condensed tr td:first-child{/* color: #44a657; font-weight: bold; font-size: 16px;*/}
 .table>caption+thead>tr:first-child>td, .table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>td, .table>thead:first-child>tr:first-child>th {
     border: 0;
 }
@@ -842,6 +842,14 @@ tbody {
     background: #fff;
 }
 
+<<<<<<< HEAD
+=======
+.nav>li>a, .nav > div > li > a  {
+    position: relative;
+    display: block;
+    padding: 7px 20px;
+}
+>>>>>>> development
 
 .tab-content>.active {
     display: block;
@@ -1100,6 +1108,30 @@ tr:nth-child(even) {
 
 }
 
+/* Splash window styles */
+.chardinjs-ext-el {
+    padding-left: 40px;
+    padding-right: 40px;
+    width: calc(100% - 90px);
+    left: 90px; /* value of sidebar */
+}
+
+.chardinjs-ext-el > div.row > div {
+    padding-bottom: 50px;
+}
+
+#chardin_template { display: none;}
+
+form.default-form-inline {
+    background: none;
+    padding: 0px;
+    border-radius: 0px;
+}
+
+.chardinjs-helper-layer.chardinjs-right {
+    border-radius: 5px;
+}
+
 /* 
 * Since the previous devs decided to customize a general use class of table-bordered and then bury the 
 * heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a 
@@ -1108,4 +1140,3 @@ tr:nth-child(even) {
 #contacts .student-contacts td {
   font-weight: normal;
 }
-

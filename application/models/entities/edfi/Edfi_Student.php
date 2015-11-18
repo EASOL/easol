@@ -135,7 +135,7 @@ where StudentElectronicMail.StudentUSI = ?",
 
     public function getSections(){
         return $this->db->query("select StudentSectionAssociation.ClassPeriodName, StudentSectionAssociation.ClassroomIdentificationCode,
- StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, TermType.Description,
+StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, [Section].id, TermType.Description, TermType.CodeValue,
 StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname
 from edfi.StudentSectionAssociation
 inner join edfi.[Section] on
@@ -144,7 +144,7 @@ inner join edfi.[Section] on
      StudentSectionAssociation.LocalCourseCode = [Section].LocalCourseCode and
      StudentSectionAssociation.ClassroomIdentificationCode = [Section].ClassroomIdentificationCode and
      StudentSectionAssociation.TermTypeId = [Section].TermTypeId AND
-		 StudentSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
+	 StudentSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
 inner join edfi.TermType ON
      StudentSectionAssociation.TermTypeId = TermType.TermTypeId
 left join edfi.StaffSectionAssociation on
