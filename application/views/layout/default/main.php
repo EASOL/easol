@@ -228,7 +228,9 @@
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
     <script src="<?= site_url('assets/js/layout.js') ?>"></script>
 
-
+    <?php if ($this->router->class=='content') { ?>
+        <script src="<?= site_url('assets/lib/list.min.js') ?>"></script>
+    <?php } ?>
     <!--
     In an attempt to provide some order to the js functions, I am compartmentalizing my js into
     files named after the controller for which they are used and then dynamically loading those

@@ -40,9 +40,25 @@
 
                     <?php if (isset($filters->publishers)) { $filter = $filters->publishers; $filtername = 'publishers'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
-                    <?php foreach ($filter as $key => $val) : ?>
-                      <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
-                    <?php endforeach; } ?>
+                    <div id="publishers-list" class="filter-big-lists">                        
+                        <form class="form-inline undo-overrides default-form-inline">
+                            <div class="form-group">
+                                <input class="search form-control input-sm" placeholder="Filter.."/>
+                                <span class="sort" data-sort="filter-name"><i class="fa fa-lg ea-sort-alpha"></i></span>
+                                <span class="sort" data-sort="filter-count"><i class="fa fa-lg ea-sort-numeric"></i></span>
+                             </div>
+                        </form>
+                        <ul class="list list-unstyled">
+                            <?php foreach ($filter as $key => $val) : ?>
+                            <li>
+                                <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>">
+                                    <span class="filter-name"><?= ucwords($key) ?></span>
+                                    <span class="filter-count">(<?= $val ?>)</span>
+                                </a>
+                            </li>
+                            <?php endforeach; } ?>
+                        </ul>
+                    </div>
 
                     <?php if (isset($filters->resource_types)) { $filter = $filters->resource_types; $filtername = 'resource_types'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
@@ -58,10 +74,25 @@
 
                     <?php if (isset($filters->alignments)) { $filter = $filters->alignments; $filtername = 'standards'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
-                    <?php foreach ($filter as $key => $val) : ?>
-                      <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
-                    <?php endforeach; } ?>
-
+                    <div id="standards-list" class="filter-big-lists"> 
+                        <form class="form-inline undo-overrides default-form-inline">
+                            <div class="form-group">
+                                <input class="search form-control input-sm" placeholder="Filter.."/>
+                                <span class="sort" data-sort="filter-name"><i class="fa fa-lg ea-sort-alpha"></i></span>
+                                <span class="sort" data-sort="filter-count"><i class="fa fa-lg ea-sort-numeric"></i></span>
+                             </div>
+                        </form>
+                        <ul class="list list-unstyled">
+                            <?php foreach ($filter as $key => $val) : ?>
+                            <li>    
+                                <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>">
+                                   <span class="filter-name"><?= ucwords($key) ?></span>
+                                   <span class="filter-count">(<?= $val ?>)</span>
+                                </a>
+                            </li>
+                            <?php endforeach; } ?>
+                         </ul>
+                    </div>
                   </div>
                   <div class="left content-results">
                     <?php foreach ($results as $obj): ?>

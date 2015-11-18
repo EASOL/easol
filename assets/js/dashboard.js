@@ -7,7 +7,7 @@
 
     function updateIntro() {
         $('#chardin_template .chardinjs-ext-el').each(function () {
-            $el = $(this).clone();
+            var $el = $(this).clone();
             $el.addClass('chardinjs-helper-layer');
             if ($el.data('chardin-ext') == 'above-intro') {
                 addElementToIntro($el, $('.chardinjs-helper-layer').first(), "before", -80);
