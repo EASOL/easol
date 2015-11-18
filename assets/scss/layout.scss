@@ -17,63 +17,102 @@ $padding-xs-vertical:       1px !default;
 $padding-xs-horizontal:     5px !default;
 
 $navbar-height: 35px;
-$sidebar-width: 90px;
+$sidebar-width: 85px;
 $navbar-brand-height: 90px;
+$logo-height: 55px;
+
+body {background-color: $ea-light-gray; }
 
 #wrapper {
      background-color: $ea-light-gray;
-    .navbar-top {
-        height: $navbar-height;
-        background-color: $ea-light-gray;
-        .navbar-top-links {
-            margin-right: $padding-large-vertical;
-            .dropdown-menu {
-                min-width: 230px;
-                border-radius: 0 0 4px 4px;
-            }
-            .dropdown.open > a {
-                &:hover, &:focus, & {
-                    background-color: transparent;
+     #navbar-wrapper {
+         width: calc(100% - #{$sidebar-width}); float: right;
+        .navbar-top {
+            height: $navbar-height;
+            background-color: $ea-light-gray; border: none;
+            .navbar-top-links {
+                margin-right: $padding-large-vertical;
+                .dropdown-user li {
+                  margin: 8px 0;
+                }
+                .dropdown-menu {
+                    min-width: 230px;
+                    border-radius: 0 0 4px 4px;
+                }
+                .dropdown.open > a {
+                    &:hover, &:focus, & {
+                        background-color: transparent;
+                    }
+                }
+                li > a {
+                   &:hover, &:focus {
+                        background-color: transparent;
+                        color: $ea-green;
+                   }
                 }
             }
-            li > a {
-               &:hover, &:focus {
-                    background-color: transparent;
-                    color: $ea-green;
-               }
-            }
         }
-    }
-    .navbar-side {
-        height: 100%;  width: $sidebar-width;
-        &.affix-top {position: static; top: 0px;}
-        &.affix {position: fixed; top: 0px;}
-        .navbar-brand{
-            height: $navbar-brand-height;
-            text-align: center;
-            background: $ea-green url(../img/easollogo.png) no-repeat center;
-        }
-        .nav {
-            > li > a > i {
-                color: $ea-gray;
-                width: 100%;
+     }
+    #sidebar-wrapper { 
+        width: $sidebar-width; float: left;
+        min-height: 100%;
+        //height: calc(100% - #{$navbar-height}); 
+        background-color: white;
+        //margin-top: -$navbar-height;
+        .navbar-side {
+            background-color: white; border-color: white; text-align: center; min-height: 100%;
+            position: fixed; top: 0px;
+            &.affix-top {position: static; top: 0px;}
+            &.affix {position: fixed; bottom: 0px; top: initial;}
+            .logo-header {height: $navbar-brand-height;}
+            .navbar-brand{
+                height: $navbar-brand-height;
+                width: $sidebar-width;
                 text-align: center;
-                display: block;
-                height: 24px;
-                margin-bottom: 2px;
+                background-color: $ea-green; 
+                img {height: $logo-height;}
+            }
+            .sidebar-collapse {padding-left: 0px; padding-right: 0px; padding-top: $padding-base-vertical;}
+            .nav {
+                > li > a > i, > div > li > a > i {
+                    color: $ea-gray;
+                    width: 100%;
+                    text-align: center;
+                    display: block;
+                    height: 24px;
+                    margin-bottom: 2px;
+                }
             }
         }
     }
-    .page-wrapper {
-        margin-left: $sidebar-width;
-        .page-inner {
-            width: 100%;
+    #page-wrapper {
+        width: calc(100% - #{$sidebar-width}); float: left;
+        padding: 1px 15px;
+        #page-inner {
             padding: $padding-large-vertical;
-            .page-header{
-                margin-top: -30px;
+            > div.row:first-child {
+                .page-header {margin-top: -55px;}
             }
         }
     }
+}
+
+.navbar-top .nav > li {
+  position: relative;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+}
+
+.navbar-top .nav > li > a {
+    position: relative;
+    display: block;
+    padding-top: 15px; padding-left: 0px;
+    margin: 0px;
+}
+
+.navbar-top .nav > li > a > i:first-child {
+  margin-right: 2px;
 }
 
 .active-menu {
@@ -110,45 +149,39 @@ $navbar-brand-height: 90px;
   padding-left: 55px;
 }
 
-.sidebar-collapse , .sidebar-collapse .nav {
-  background: none;
-}
-
-.sidebar-collapse .nav {
-  padding: 0;
-}
-
-.sidebar-collapse .nav > li > a {
-    color: #757575;
-    background: transparent;
-    text-shadow: none;
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0px;
-}
-
 .sidebar-collapse {
-     > .nav > li > a { 
+    //background-color: white;
+    .nav {padding: 0;}
+     > .nav > li > a, > .nav > div > li > a  { 
          padding: 7px 0px;
          &:hover, &:focus {outline: 0; color: #44a657;}
      }
-     > .nav > li { border-bottom: none;}
+     > .nav > li,  > .nav > div > li { border-bottom: none;}
+    .nav > li > a, .nav > div > li > a {
+        color: $ea-gray;
+        background: transparent;
+        text-shadow: none;
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0px;
+    }
 }
-
-.sidebar-collapse 
 
 
 ul.nav.nav-second-level.collapse.in {
   background: #17191B;
 }
 
-.nav > li > a > i {
-  margin-right: 10px;
-  color: #666;
+.nav > li > a > i,
+.nav > div > li > a > i {
+    margin-right: 10px;
+    color: #666;
 }
 
-.sidebar-collapse .nav > li.active-menu > a {
+.sidebar-collapse .nav > li.active-menu > a,
+.sidebar-collapse .nav > div > li.active-menu > a 
+ {
     color: #44a657 !important;
     font-weight: bold;
 }
@@ -160,8 +193,95 @@ ul.nav.nav-second-level.collapse.in {
     letter-spacing: 1px;
 }
 
-.nav>li>a {
+.nav>li>a, .nav > div > li > a {
     position: relative;
     display: block;
     padding: 7px 20px;
+}
+
+/*----------------------------------------------
+    MEDIA QUERIES
+------------------------------------------------*/
+
+@media(min-width:901px) {
+/*#page-wrapper {
+    margin: 0 0 0 90px;
+    padding: 1px 30px;
+}
+
+.navbar-side {
+    z-index: 1;
+    width: 90px;
+    text-align: center;
+}
+
+  .navbar {
+    border-radius: 0px;
+  }*/
+}
+
+@media(max-width: 900px) {
+  /*#page-wrapper {
+    margin: 0 0 0 180px;
+    padding: 15px 30px;
+    min-height: 1200px;
+  }
+
+  .top-navbar .navbar-brand { width: 180px;}
+
+  .navbar-side {
+    z-index: 1;
+    width: 180px;
+  }*/
+
+}
+
+@media(max-width: 768px) {
+  /*#page-wrapper {
+    margin: 0 0 0 0px;
+    padding: 15px 30px;
+    min-height: 1200px;
+  }
+
+  .top-navbar .navbar-brand { width: 260px;}
+
+  .navbar-side {
+    z-index: 1500;
+    width: 260px;
+    background-color: #2b2e33;
+    top: 60px;
+  }
+
+  .navbar-default .navbar-form {
+     border: none;
+     box-shadow: none;
+     padding-left: 25px; padding-right: 25px;
+  }*/
+
+}
+
+@media(max-width:480px) {
+  .page-header small {
+    display: block;
+    padding-top: 14px;
+    font-size: 19px;
+  }
+}
+
+/* Splash window styles */
+.chardinjs-ext-el {
+    padding-left: 40px;
+    padding-right: 40px;
+    width: calc(100% - #{$sidebar-width});
+    left: $sidebar-width; /* value of sidebar */
+}
+
+.chardinjs-ext-el > div.row > div {
+    padding-bottom: 50px;
+}
+
+#chardin_template { display: none;}
+
+.chardinjs-helper-layer.chardinjs-right {
+    border-radius: 5px;
 }

@@ -410,12 +410,11 @@ svg { display: block;
     font-weight: 300;
 }
 
-.navbar-side {
+/*.navbar-side {
     z-index: 1;
     width: 90px;
     text-align: center;
-}
-
+}*/
 
 .fa-dashboard:before,
 .fa-tachometer:before,
@@ -452,79 +451,11 @@ i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filt
 
 .active-menu i.fa  { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filter: grayscale(0%); -o-filter: grayscale(0%); filter: grayscale(0%); }
 
-/*----------------------------------------------
-    MEDIA QUERIES
-------------------------------------------------*/
-
-@media(min-width:901px) {
-#page-wrapper {
-    margin: 0 0 0 90px;
-    padding: 1px 30px;
-    /*min-height: 1200px;*/
-}
-
-.navbar-side {
-    z-index: 1;
-    width: 90px;
-    text-align: center;
-}
-
-  .navbar {
-    border-radius: 0px;
-  }
-}
-
-@media(max-width: 900px) {
-  /*#page-wrapper {
-    margin: 0 0 0 180px;
-    padding: 15px 30px;
-    min-height: 1200px;
-  }
-
-  .top-navbar .navbar-brand { width: 180px;}
-
-  .navbar-side {
-    z-index: 1;
-    width: 180px;
-  }*/
-
-}
-
-@media(max-width: 768px) {
-  #page-wrapper {
-    margin: 0 0 0 0px;
-    padding: 15px 30px;
-    min-height: 1200px;
-  }
-
-  .top-navbar .navbar-brand { width: 260px;}
-
-  .navbar-side {
-    z-index: 1500;
-    width: 260px;
-    background-color: #2b2e33;
-    top: 60px;
-  }
-
-  .navbar-default .navbar-form {
-     border: none;
-     box-shadow: none;
-     padding-left: 25px; padding-right: 25px;
-  }
-
-}
 
 div#chart1 {
     height: 300px;
 }
 
-@media(max-width:480px) {
-  .page-header small {
-    display: block;
-    padding-top: 14px;
-    font-size: 19px;
-  }
-}
 
 div.dataTables_wrapper {
   width: 100%;
@@ -842,15 +773,6 @@ tbody {
     background: #fff;
 }
 
-<<<<<<< HEAD
-=======
-.nav>li>a, .nav > div > li > a  {
-    position: relative;
-    display: block;
-    padding: 7px 20px;
-}
->>>>>>> development
-
 .tab-content>.active {
     display: block;
     margin: 0px 60px;
@@ -1086,6 +1008,12 @@ form.form-inline {
     border-radius: 10px;
 }
 
+form.default-form-inline {
+    background: none;
+    padding: 0px;
+    border-radius: 0px;
+}
+
 tr:nth-child(even) {
     background: #f9f9f9;
 }
@@ -1106,30 +1034,6 @@ tr:nth-child(even) {
   top: 0;
   left: 0;
 
-}
-
-/* Splash window styles */
-.chardinjs-ext-el {
-    padding-left: 40px;
-    padding-right: 40px;
-    width: calc(100% - 90px);
-    left: 90px; /* value of sidebar */
-}
-
-.chardinjs-ext-el > div.row > div {
-    padding-bottom: 50px;
-}
-
-#chardin_template { display: none;}
-
-form.default-form-inline {
-    background: none;
-    padding: 0px;
-    border-radius: 0px;
-}
-
-.chardinjs-helper-layer.chardinjs-right {
-    border-radius: 5px;
 }
 
 /* 
