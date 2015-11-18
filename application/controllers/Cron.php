@@ -13,7 +13,7 @@ class Cron extends CI_Controller {
 
     public function create_hashes () 
     {            
-        set_time_limit(300); // kill after 5 minutes 
+        set_time_limit(900); // kill after 15 minutes 
         $this->load->library('Easol_Generic_L');
 
         $students = $this->db->query("SELECT ElectronicMailAddress FROM edfi.StudentElectronicMail")->result();
