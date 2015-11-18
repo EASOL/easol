@@ -1,0 +1,167 @@
+﻿$ea-green: #44a657;
+$ea-gray: #757575;
+$ea-light-gray: #ebebeb;
+$ea-blue: #2497BA;
+$ea-blue1: #428bca;
+
+$padding-base-vertical:     6px !default;
+$padding-base-horizontal:   12px !default;
+
+$padding-large-vertical:    10px !default;
+$padding-large-horizontal:  16px !default;
+
+$padding-small-vertical:    5px !default;
+$padding-small-horizontal:  10px !default;
+
+$padding-xs-vertical:       1px !default;
+$padding-xs-horizontal:     5px !default;
+
+$navbar-height: 35px;
+$sidebar-width: 90px;
+$navbar-brand-height: 90px;
+
+#wrapper {
+     background-color: $ea-light-gray;
+    .navbar-top {
+        height: $navbar-height;
+        background-color: $ea-light-gray;
+        .navbar-top-links {
+            margin-right: $padding-large-vertical;
+            .dropdown-menu {
+                min-width: 230px;
+                border-radius: 0 0 4px 4px;
+            }
+            .dropdown.open > a {
+                &:hover, &:focus, & {
+                    background-color: transparent;
+                }
+            }
+            li > a {
+               &:hover, &:focus {
+                    background-color: transparent;
+                    color: $ea-green;
+               }
+            }
+        }
+    }
+    .navbar-side {
+        height: 100%;  width: $sidebar-width;
+        &.affix-top {position: static; top: 0px;}
+        &.affix {position: fixed; top: 0px;}
+        .navbar-brand{
+            height: $navbar-brand-height;
+            text-align: center;
+            background: $ea-green url(../img/easollogo.png) no-repeat center;
+        }
+        .nav {
+            > li > a > i {
+                color: $ea-gray;
+                width: 100%;
+                text-align: center;
+                display: block;
+                height: 24px;
+                margin-bottom: 2px;
+            }
+        }
+    }
+    .page-wrapper {
+        margin-left: $sidebar-width;
+        .page-inner {
+            width: 100%;
+            padding: $padding-large-vertical;
+            .page-header{
+                margin-top: -30px;
+            }
+        }
+    }
+}
+
+.active-menu {
+    background-color: #fff !important;
+    color: #fff !important;
+    border-right: 4px solid #44a657;
+}
+.active-menu i {
+  color: #fff !important;
+}
+.arrow {
+  float: right;
+  margin-top: 8px;
+}
+
+.fa.arrow:before {
+  content: "\f104";
+}
+
+.active > a > .fa.arrow:before {
+  content: "\f107";
+}
+
+.nav-second-level li,
+.nav-third-level li {
+  border-bottom: none !important;
+}
+
+.nav-second-level li a {
+  padding-left: 37px;
+}
+
+.nav-third-level li a {
+  padding-left: 55px;
+}
+
+.sidebar-collapse , .sidebar-collapse .nav {
+  background: none;
+}
+
+.sidebar-collapse .nav {
+  padding: 0;
+}
+
+.sidebar-collapse .nav > li > a {
+    color: #757575;
+    background: transparent;
+    text-shadow: none;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0px;
+}
+
+.sidebar-collapse {
+     > .nav > li > a { 
+         padding: 7px 0px;
+         &:hover, &:focus {outline: 0; color: #44a657;}
+     }
+     > .nav > li { border-bottom: none;}
+}
+
+.sidebar-collapse 
+
+
+ul.nav.nav-second-level.collapse.in {
+  background: #17191B;
+}
+
+.nav > li > a > i {
+  margin-right: 10px;
+  color: #666;
+}
+
+.sidebar-collapse .nav > li.active-menu > a {
+    color: #44a657 !important;
+    font-weight: bold;
+}
+
+.sub-menu a {
+    color: #51AE65;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 7px 20px;
+}

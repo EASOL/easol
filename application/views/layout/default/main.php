@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -42,7 +42,7 @@
 <body>
     <div id="wrapper">
         <!--/. NAV TOP  -->
-        <nav class="navbar navbar-default top-navbar" role="navigation">
+        <nav class="navbar navbar-default navbar-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
@@ -50,9 +50,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?= site_url("/") ?>"><img src="<?= site_url("/assets/img/easol_logo.png") ?>"/></a>
             </div>
-
             <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                 <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
@@ -74,13 +72,13 @@
                         <ul class="dropdown-menu dropdown-user">
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
-                                <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
+                                <a href="<?= site_url("/admin") ?>">Administration</a>
                             </li>
                         <?php } ?>
                         <?php if($this->session->userdata('logged_in')== true)
                             { ?>
                             <li>
-                                <a href="<?= site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
+                                <a href="<?= site_url("/home/logout") ?>" onClick="signOut();">Logout</a>
                             </li>
                         <?php } ?>
                         </ul>
@@ -91,100 +89,101 @@
             <?php } ?>
         </nav>
 
-        <nav class="navbar-default navbar-side" role="navigation">
-
-            <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
+        <nav class="navbar-default navbar-side affix" role="navigation">
+            <a class="navbar-brand" href="<?= site_url(" />") ?>"><img src="<?= site_url(" />assets/img/easol_logo.png") ?>"/></a>               
+            <div class="collapse navbar-collapse sidebar-collapse">
                 <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
-                    <ul class="nav" id="main-menu">
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
-                            <li class="visible-xs-block"><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
-                                <select name="school" class="form-control" onChange="this.form.submit()">
-                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
-                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
-                                    <?php } ?>
-                                </select>
-                            </form></li>
-                            <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
-                               <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                <ul class="nav" id="main-menu">
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                    <li class="visible-xs-block">
+                        <form class="navbar-form" action="<?= site_url(" schools />choose") ?>" method="post">
+                        <select name="school" class="form-control" onchange="this.form.submit()">
+                            <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
+                            <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                             <?php } ?>
-                            <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
+                        </select>
+                        </form>
+                    </li>
+                    <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
+                    <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                    <?php } ?>
+                    <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                                <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                             </li>
-			    <?php /* if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-				    <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
+                    <?php /* if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                    <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
 					<a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
 				    </li>
-			    <?php } /* */ ?>
+                    <?php } /* */ ?>
 
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                            <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
+                    <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                    <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
-                        <?php } ?>
+                    <?php } ?>
 
-                        <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
+                    <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-edit"></i> Sections</a>
                         </li>
 
-                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
-				<li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
+                    <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
+                    <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
 				</li>
 
-				<li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
+                    <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
 				</li>
-                        <?php } ?>
+                    <?php } ?>
 
 
-                        <li>
-                            <a href="#" id="learning-lab"><i class="fa fa-table2"></i> Learning Lab</a>
-                            <ul class="sub-menu">
-                                <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content</a></li>
-                                <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>
-                            </ul>
-                        </li>
+                    <li>
+                        <a href="#" id="learning-lab"><i class="fa fa-table2"></i> Learning Lab</a>
+                        <ul class="sub-menu">
+                            <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content</a></li>
+                            <li <?= ($this->router->class=="analytics") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/analytics") ?>">Analytics</a></li>
+                        </ul>
+                    </li>
 
-                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
-				<li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
+                    <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
+                    <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
 				</li>
-				<li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
+                    <li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
 					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
 				</li>
 
-				<li>
-					<a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
-					<ul class="sub-menu">
-					    <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data</a></li>
-					    <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User</a></li>
-					    <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School</a></li>
-					</ul>
-				</li>
+                    <li>
+                        <a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
+                        <ul class="sub-menu">
+                            <li <?= ($this->router->class=="datamanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/datamanagement") ?>">Data</a></li>
+                            <li <?= ($this->router->class=="usermanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/usermanagement") ?>">User</a></li>
+                            <li <?= ($this->router->class=="schoolmanagement") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/schoolmanagement") ?>">School</a></li>
+                        </ul>
+                    </li>
 
-				<li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
+                    <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
 					    <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
 				</li>
-                        <?php } ?>
-                        <?php if($this->session->userdata('logged_in')== true) { ?>
-				<li class="visible-xs-block">
-				    <a href="<?= site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
-				</li>
-                        <?php } ?>
-                    </ul>
+                    <?php } ?>
+                    <?php if($this->session->userdata('logged_in')== true) { ?>
+                    <li class="visible-xs-block">
+                        <a href="<?= site_url(" />home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
+                    </li>
+                    <?php } ?>
+                </ul>
                 <?php } ?>
             </div>
-
         </nav>
         <!-- /. NAV SIDE  -->
 
-        <div id="page-wrapper">
-            <div id="page-inner">
+        <div class="page-wrapper">
+            <div class="page-inner">
                 <!-- Show flashdata messages for general confirmation/error messages -->
                 <?php if (!empty($error)) { ?>
-                    <div class="alert alert-danger"><?php echo $error ?></div>
+                <div class="alert alert-danger"><?php echo $error ?></div>
                 <?php }else if (!empty($success)) { ?>
-                    <div class="alert alert-success"><?php echo $success ?></div>
+                <div class="alert alert-success"><?php echo $success ?></div>
                 <?php } ?>
                 <?= $content ?>
                 <div class="row">

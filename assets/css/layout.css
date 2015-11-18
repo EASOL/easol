@@ -1,0 +1,151 @@
+#wrapper {
+  background-color: #ebebeb;
+}
+#wrapper .navbar-top {
+  height: 35px;
+  background-color: #ebebeb;
+}
+#wrapper .navbar-top .navbar-top-links {
+  margin-right: 10px;
+}
+#wrapper .navbar-top .navbar-top-links .dropdown-menu {
+  min-width: 230px;
+  border-radius: 0 0 4px 4px;
+}
+#wrapper .navbar-top .navbar-top-links .dropdown.open > a:hover, #wrapper .navbar-top .navbar-top-links .dropdown.open > a:focus, #wrapper .navbar-top .navbar-top-links .dropdown.open > a {
+  background-color: transparent;
+}
+#wrapper .navbar-top .navbar-top-links li > a:hover, #wrapper .navbar-top .navbar-top-links li > a:focus {
+  background-color: transparent;
+  color: #44a657;
+}
+#wrapper .navbar-side {
+  height: 100%;
+  width: 90px;
+}
+#wrapper .navbar-side.affix-top {
+  position: static;
+  top: 0px;
+}
+#wrapper .navbar-side.affix {
+  position: fixed;
+  top: 0px;
+}
+#wrapper .navbar-side .navbar-brand {
+  height: 90px;
+  text-align: center;
+  background: #44a657 url(../img/easollogo.png) no-repeat center;
+}
+#wrapper .navbar-side .nav > li > a > i {
+  color: #757575;
+  width: 100%;
+  text-align: center;
+  display: block;
+  height: 24px;
+  margin-bottom: 2px;
+}
+#wrapper .page-wrapper {
+  margin-left: 90px;
+}
+#wrapper .page-wrapper .page-inner {
+  width: 100%;
+  padding: 10px;
+}
+#wrapper .page-wrapper .page-inner .page-header {
+  margin-top: -30px;
+}
+
+.active-menu {
+  background-color: #fff !important;
+  color: #fff !important;
+  border-right: 4px solid #44a657;
+}
+
+.active-menu i {
+  color: #fff !important;
+}
+
+.arrow {
+  float: right;
+  margin-top: 8px;
+}
+
+.fa.arrow:before {
+  content: "\f104";
+}
+
+.active > a > .fa.arrow:before {
+  content: "\f107";
+}
+
+.nav-second-level li,
+.nav-third-level li {
+  border-bottom: none !important;
+}
+
+.nav-second-level li a {
+  padding-left: 37px;
+}
+
+.nav-third-level li a {
+  padding-left: 55px;
+}
+
+.sidebar-collapse, .sidebar-collapse .nav {
+  background: none;
+}
+
+.sidebar-collapse .nav {
+  padding: 0;
+}
+
+.sidebar-collapse .nav > li > a {
+  color: #757575;
+  background: transparent;
+  text-shadow: none;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+.sidebar-collapse > .nav > li > a {
+  padding: 7px 0px;
+}
+.sidebar-collapse > .nav > li > a:hover, .sidebar-collapse > .nav > li > a:focus {
+  outline: 0;
+  color: #44a657;
+}
+.sidebar-collapse > .nav > li {
+  border-bottom: none;
+}
+
+.sidebar-collapse
+ul.nav.nav-second-level.collapse.in {
+  background: #17191B;
+}
+
+.nav > li > a > i {
+  margin-right: 10px;
+  color: #666;
+}
+
+.sidebar-collapse .nav > li.active-menu > a {
+  color: #44a657 !important;
+  font-weight: bold;
+}
+
+.sub-menu a {
+  color: #51AE65;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 7px 20px;
+}
+
+/*# sourceMappingURL=layout.css.map */

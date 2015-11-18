@@ -13,55 +13,15 @@ BG Grey: #ebebeb
 Alternating field grey: #f9f9f9
 
 ------------------------------------------------*/
-
+@import "_typography.css";
+@import "layout.css";
 
 /*----------------------------------------------
     COMMON  STYLES
 ------------------------------------------------*/
-@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,700);
-
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
-#wrapper {
-    width: 100%;
-    background: white;
-}
-
-#page-wrapper {
-  padding: 15px 15px;
-  min-height: 600px;
-  background: #ebebeb;
-}
-
-#page-inner {
-  width: 100%;
-  margin: 10px 20px 10px 0px;
-  background-color: transparent;
-  padding: 10px;
-  min-height: 1200px;
-}
-
-.text-center {
-  text-align: center;
-}
 
 .no-boder {
   border: 1px solid #f3f3f3;
-}
-
-h1, .h1, h2, .h2, h3, .h3 {
-  margin-top: 7px;
-
-}
-
-h2 {
-  color: #000;
-}
-
-h4 {
-  padding-top: 10px;
 }
 
 .square-btn-adjust {
@@ -71,58 +31,12 @@ h4 {
   border-radius: 0px;
 }
 
-p {
-  font-size: 16px;
-  line-height: 25px;
-  padding-top: 20px;
-}
 .alert p {
   padding-top: 0;
 }
 
 .panel {
   border-radius: 0px;
-}
-
-.navbar-side .nav > li > a > i {
-    color: #757575;
-    width: 100%;
-    text-align: center;
-    display: block;
-    height: 24px;
-    margin-bottom: 2px;
-}
-
-
-
-.top-navbar {
-    position: fixed;
-    width: 100%;
-    z-index: 300;
-}
-
-
-.navbar-side {
-  z-index: 1;
-  position: fixed;
-  width: 260px;
-  top: 80px;
-}
-
-#page-wrapper {
-  position: relative;
-  top: 55px;
-}
-
-.top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {
-  text-decoration: none;
-  background-color: #2497BA;
-  color: #fff;
-}
-
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-  background-color: #2497BA;
-  border-color: #428bca;
 }
 
 .breadcrumb {
@@ -426,55 +340,8 @@ footer p {
   max-width: 170px;
 }
 
-.top-navbar {
-  margin: 0px;
-}
 
-.top-navbar .navbar-brand {
-    width: 90px;
-    text-align: center;
-    height: 90px;
-    background: #44a657 url(../img/easollogo.png) no-repeat center;
-    overflow: hidden;
-}
-
-.navbar-brand b {
-  color: #2DAFCB;
-}
-
-.top-navbar .nav > li {
-  position: relative;
-  display: inline-block;
-  margin: 0px;
-  padding: 0px;
-}
-
-.top-navbar .nav > li > a {
-    position: relative;
-    display: block;
-    padding: 15px 60px 0px 0px;
-    color: #FFFFFF;
-    margin: 0px;
-}
-
-
-.top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {
-  text-decoration: none;
-  color: #319DB5 !important;
-  background: transparent;
-}
-
-.top-navbar .dropdown-menu {
-  min-width: 230px;
-  border-radius: 0 0 4px 4px;
-}
-
-.top-navbar .dropdown-menu > li > a:hover, .top-navbar .dropdown-menu > li > a:focus {
-  color: #225081;
-  background: none;
-}
-
-.dropdown-tasks {
+/*.dropdown-tasks {
   width: 255px;
 }
 
@@ -494,125 +361,9 @@ footer p {
   font-size: 13px;
   line-height: 21px;
   padding-top: 4px;
-}
-
-.active-menu {
-    background-color: #fff !important;
-    color: #fff !important;
-    border-right: 4px solid #44a657;
-}
-.active-menu i {
-  color: #fff !important;
-}
-
-.arrow {
-  float: right;
-  margin-top: 8px;
-}
-
-.fa.arrow:before {
-  content: "\f104";
-}
-
-.active > a > .fa.arrow:before {
-  content: "\f107";
-}
-
-.nav-second-level li,
-.nav-third-level li {
-  border-bottom: none !important;
-}
-
-.nav-second-level li a {
-  padding-left: 37px;
-}
-
-.nav-third-level li a {
-  padding-left: 55px;
-}
-
-.sidebar-collapse , .sidebar-collapse .nav {
-  background: none;
-}
-
-.sidebar-collapse .nav {
-  padding: 0;
-}
-
-.sidebar-collapse .nav > li > a {
-    color: #757575;
-    background: transparent;
-    text-shadow: none;
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0px;
-}
-
-.sidebar-collapse > .nav > li > a {
-    padding: 7px 0px;
-}
-
-.sidebar-collapse > .nav > li {
-    border-bottom: none;
-}
+}*/
 
 
-ul.nav.nav-second-level.collapse.in {
-  background: #17191B;
-}
-
-.sidebar-collapse .nav > li > a:hover, .sidebar-collapse .nav > li > a:focus {
-    outline: 0;
-    color: #44a657;
-}
-
-
-.navbar-side {
-  border: none;
-  background-color: transparent;
-}
-
-.top-navbar {
-    border-bottom: none;
-    height: 55px;
-    background: transparent;
-}
-
-
-.top-navbar .nav > li > a > i {
-  margin-right: 2px;
-}
-
-
-.dropdown-user li {
-  margin: 8px 0;
-}
-
-.navbar-default {
-  border: 0px solid black;
-}
-
-.navbar-header {
-  background: transparent;
-}
-
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-  background-color: #B40101;
-}
-
-.navbar-default .navbar-toggle {
-  border-color: #fff;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #FFF;
-}
-
-.nav > li > a > i {
-  margin-right: 10px;
-  color: #666;
-}
 /*----------------------------------------------
     UI ELEMENTS STYLES
 ------------------------------------------------*/
@@ -632,24 +383,6 @@ ul.nav.nav-second-level.collapse.in {
     EASOL STYLES
 ------------------------------------------------*/
 .txt-annotation { color: #cccccc; }
-.navbar-brand {
-
-}
-.navbar-brand img {
-    display: none;
-}
-.navbar-default .navbar-toggle .icon-bar {background-color: #2b2e33;}
-.navbar-default .navbar-toggle { border-color: #2b2e33;}
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus { background-color: #cccccc;}
-.sidebar-collapse.navbar-collapse {
-    padding-right: 0px;
-    padding-left: 0px;
-    margin-top: 15px;
-}
-#page-wrapper { top: 0px!important;}
-#page-wrapper #page-inner {
-    padding-top: 0;
-}
 
 .form-inline .form-group {
   margin-bottom: 15px;
@@ -718,10 +451,7 @@ i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filt
 
 
 .active-menu i.fa  { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filter: grayscale(0%); -o-filter: grayscale(0%); filter: grayscale(0%); }
-.sidebar-collapse .nav > li.active-menu > a {
-    color: #44a657 !important;
-    font-weight: bold;
-}
+
 /*----------------------------------------------
     MEDIA QUERIES
 ------------------------------------------------*/
@@ -730,7 +460,7 @@ i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filt
 #page-wrapper {
     margin: 0 0 0 90px;
     padding: 1px 30px;
-    min-height: 1200px;
+    /*min-height: 1200px;*/
 }
 
 .navbar-side {
@@ -745,7 +475,7 @@ i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filt
 }
 
 @media(max-width: 900px) {
-  #page-wrapper {
+  /*#page-wrapper {
     margin: 0 0 0 180px;
     padding: 15px 30px;
     min-height: 1200px;
@@ -756,7 +486,7 @@ i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filt
   .navbar-side {
     z-index: 1;
     width: 180px;
-  }
+  }*/
 
 }
 
@@ -926,18 +656,9 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 
 }
 
-
 .alert-small {
   padding: 5px;
 }
-
-.sub-menu a {
-    color: #51AE65;
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 1px;
-}
-
 
 .navbar-right {
     background: #ebebeb;
@@ -1115,17 +836,12 @@ tbody {
     font-weight: 300;
 	}
 
-	.nav-tabs>li>a:hover {
+.nav-tabs>li>a:hover {
     border-color: inherit;
     border-radius: 5px 5px 0px 0px;
     background: #fff;
 }
 
-.nav>li>a {
-    position: relative;
-    display: block;
-    padding: 7px 20px;
-}
 
 .tab-content>.active {
     display: block;
@@ -1215,8 +931,6 @@ a {
 .form-control {
     border: 1px solid #44a657;
 }
-
-
 
 .pagination {
     display: inline-block;
