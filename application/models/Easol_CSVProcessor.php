@@ -54,7 +54,7 @@ class Easol_CSVProcessor extends CI_Model {
                         if ($this->db->insert_id())
                             $this->result['inserted'][] = ['line'=>$key];
                         else
-                            $this->result['error'][] = ['line' => $key, 'reason' => $this->db->_error_message()];
+                            $this->result['error'][] = ['line' => $key, 'reason' =>'Temporary']; // $this->db->_error_message()];
 
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
