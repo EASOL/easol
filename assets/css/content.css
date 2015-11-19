@@ -35,3 +35,6 @@
     border-radius: 0px;
     line-height: 1.5;
 }
+
+#extension-wrapper .filter-big-lists .sort {padding-left: 1px; }
+#extension-wrapper .filter-big-lists .input-sm {width: 65%; display: inline-block;}
