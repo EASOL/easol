@@ -42,57 +42,6 @@
 </head>
 <body>
     <div id="wrapper">
-        <!--/. NAV TOP  -->
-        <div id="navbar-wrapper">
-            <nav class="navbar navbar-default navbar-top" role="navigation">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
-                    <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
-                            <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
-                                <select name="school" class="form-control" onChange="this.form.submit()">
-                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
-                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
-                                    <?php } ?>
-                                </select>
-                            </form></li>
-                            <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
-                            <li><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
-                        <?php } ?>
-
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                                <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
-                                    <a href="<?= site_url("/admin") ?>">Administration</a>
-                                </li>
-                            <?php } ?>
-                            <?php if($this->session->userdata('logged_in')== true)
-                                { ?>
-                                <li>
-                                    <a href="<?= site_url("/home/logout") ?>" onClick="signOut();">Logout</a>
-                                </li>
-                            <?php } ?>
-                            </ul>
-                            <!-- /.dropdown-user -->
-                        </li>
-                        <!-- /.dropdown -->
-                   </ul>
-                <?php } ?>
-            </nav>
-        </div>
-
         <div id="sidebar-wrapper">
             <nav class="navbar-default navbar-side" role="navigation">
                 <div class="logo-header">
@@ -188,6 +137,57 @@
             <!-- /. NAV SIDE  -->
        </div>
 
+       <!--/. NAV TOP  -->
+        <div id="navbar-wrapper">
+            <nav class="navbar navbar-default navbar-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
+                    <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                            <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
+                                <select name="school" class="form-control" onChange="this.form.submit()">
+                                    <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
+                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                    <?php } ?>
+                                </select>
+                            </form></li>
+                            <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
+                            <li><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                        <?php } ?>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                                <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
+                                    <a href="<?= site_url("/admin") ?>">Administration</a>
+                                </li>
+                            <?php } ?>
+                            <?php if($this->session->userdata('logged_in')== true)
+                                { ?>
+                                <li>
+                                    <a href="<?= site_url("/home/logout") ?>" onClick="signOut();">Logout</a>
+                                </li>
+                            <?php } ?>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
+                        <!-- /.dropdown -->
+                   </ul>
+                <?php } ?>
+            </nav>
+        </div>
+
         <div id="page-wrapper">
             <div id="page-inner">
                 <!-- Show flashdata messages for general confirmation/error messages -->
@@ -209,7 +209,7 @@
             <footer></footer>
             <!-- /. PAGE INNER  -->
         </div>
-        <!-- /. PAGE WRAPPER  -->     
+        <!-- /. PAGE WRAPPER  -->
     </div>
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->

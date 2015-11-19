@@ -27,7 +27,7 @@ body {background-color: $ea-light-gray; }
 #wrapper {
      background-color: $ea-light-gray;
      #navbar-wrapper {
-         width: calc(100% - #{$sidebar-width}); float: right;
+         width: calc(100% - #{$sidebar-width}); float: left; min-height: 1px;
         .navbar-top {
             min-height: $navbar-height; height: $navbar-height;
             background-color: $ea-light-gray; border: none;
@@ -56,7 +56,7 @@ body {background-color: $ea-light-gray; }
      }
     #sidebar-wrapper {
         width: $sidebar-width; float: left;
-        min-height: 100%;
+        min-height: 1px; height: 100%;
         //height: calc(100% - #{$navbar-height});
         background-color: white;
         //margin-top: -$navbar-height;
@@ -88,6 +88,7 @@ body {background-color: $ea-light-gray; }
     }
     #page-wrapper {
         width: calc(100% - #{$sidebar-width}); float: left;
+        min-height: 1px;
         padding: 1px 15px;
         #page-inner {
             padding: $padding-large-vertical;
