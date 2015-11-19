@@ -4,6 +4,8 @@
   overflow: auto;
 }
 
+.filter-big-lists .sort {cursor: pointer;}
+
 .filter-big-lists .sort.asc .ea-sort-alpha:before,
 .filter-big-lists .sort .ea-sort-alpha:before {
 	content: "\f15d";

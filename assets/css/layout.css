@@ -287,3 +287,7 @@ ul.nav.nav-second-level.collapse.in {
 .chardinjs-helper-layer.chardinjs-right {
   border-radius: 5px;
 }
+
+.chardinjs-show-element {
+  z-index: 0;
+}
