@@ -67,7 +67,11 @@
                             <th>Period</th>
                             <th>Educator</th>
                             <th>Students</th>
-                            <th>Grades</th>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C</th>
+                            <th>D</th>
+                            <th>F</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -80,13 +84,11 @@
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
-                              <td>
-                                <span class="label sections-grade sections-a"><?php echo $v->Numeric_A; ?></span>
-                                <span class="label sections-grade sections-b"><?php echo $v->Numeric_B; ?></span>
-                                <span class="label sections-grade sections-c"><?php echo $v->Numeric_C; ?></span>
-                                <span class="label sections-grade sections-d"><?php echo $v->Numeric_D; ?></span>
-                                <span class="label sections-grade sections-f"><?php echo $v->Numeric_F; ?></span>                                
-                              </td>                                   
+                              <td><span class="label sections-grade sections-a"><?php echo $v->Numeric_A; ?></span></td>
+                              <td><span class="label sections-grade sections-b"><?php echo $v->Numeric_B; ?></span></td>
+                              <td><span class="label sections-grade sections-c"><?php echo $v->Numeric_C; ?></span></td>
+                              <td><span class="label sections-grade sections-d"><?php echo $v->Numeric_D; ?></span></td>
+                              <td><span class="label sections-grade sections-f"><?php echo $v->Numeric_F; ?></span></td>                                   
                             </tr>
                           <?php endforeach; ?>
                         </tbody>

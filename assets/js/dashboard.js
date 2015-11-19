@@ -7,7 +7,7 @@
 
     function updateIntro() {
         $('#chardin_template .chardinjs-ext-el').each(function () {
-            $el = $(this).clone();
+            var $el = $(this).clone();
             $el.addClass('chardinjs-helper-layer');
             if ($el.data('chardin-ext') == 'above-intro') {
                 addElementToIntro($el, $('.chardinjs-helper-layer').first(), "before", -80);
@@ -17,7 +17,7 @@
         });
         $('.chardin-form').submit(function () {
             if ($('[type="checkbox"]', this).is(':checked')) {
-                Cookies.set('show-intro', 'false');
+                Cookies.set('show-intro', 'false', { expires: 365 * 10 });
             }
             $('body').chardinJs('stop');
             return false;

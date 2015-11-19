@@ -119,6 +119,7 @@ $(function() {
     		// Animation complete.
     		});
     	}
+    	$.fixSidebarLayout();
     });
 
     if ($('.sublive').length) {
@@ -159,7 +160,6 @@ $(function() {
 		$('#usermanagement-addedit-password').toggle(this.checked == false)
 	});
 	$('[data-toggle="tooltip"]').tooltip();
-
 
 });
 
