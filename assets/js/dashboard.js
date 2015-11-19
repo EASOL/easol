@@ -17,7 +17,7 @@
         });
         $('.chardin-form').submit(function () {
             if ($('[type="checkbox"]', this).is(':checked')) {
-                Cookies.set('show-intro', 'false');
+                Cookies.set('show-intro', 'false', { expires: 365 * 10 });
             }
             $('body').chardinJs('stop');
             return false;
