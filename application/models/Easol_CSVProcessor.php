@@ -55,6 +55,7 @@ class Easol_CSVProcessor extends CI_Model {
 
                         if (!$error['message'])
                             $this->result['inserted'][] = ['line'=>$key];
+
                         else {
                             $this->result['error'][] = ['line' => $key, 'reason' => $error['code'].' - '.$error['message']];
                         }

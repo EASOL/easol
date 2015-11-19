@@ -58,32 +58,39 @@ class Analytics extends Easol_Controller {
         $data['results']    = $this->db->distinct()->where($where)->get()->result();
         $meeting_times = array();
         $sections = array();
-        foreach ($data['results'] as $k => $v)
-        {
-            $data['results'][$v->id] = $v;
 
-            list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
-            $data['results'][$v->id]->Period = $pCode;
+        if (!empty($data['results'])) {
 
-            $data['results'][$v->id]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
-            unset($data['results'][$k]);
+            foreach ($data['results'] as $k => $v)
+            {
+                $data['results'][$v->id] = $v;
 
-            $sections[] = $v->id;
+                list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+                $data['results'][$v->id]->Period = $pCode;
 
-            // get the section datetime intervals
-            $urldates = ''; 
-            $SchoolId           = Easol_Authentication::userdata('SchoolId');
-            $ClassPeriodName    = $v->ClassPeriodName;
-            $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
-            $this->db->from("edfi.BellSchedule"); 
-            $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date'); 
-            $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
-            $intervals = $this->db->get()->result();
-            foreach ($intervals as $key => $value) {
-                $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
-            }  
-            $meeting_times[$v->id] = $urldates;            
+                $data['results'][$v->id]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+                unset($data['results'][$k]);
 
+                $sections[] = $v->id;
+
+                // get the section datetime intervals
+                $urldates = ''; 
+                $SchoolId           = Easol_Authentication::userdata('SchoolId');
+                $ClassPeriodName    = $v->ClassPeriodName;
+                $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
+                $this->db->from("edfi.BellSchedule"); 
+                $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date'); 
+                $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
+                $intervals = $this->db->get()->result();
+
+                if (!empty($intervals)) {
+                    foreach ($intervals as $key => $value) {
+                        $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+                    }
+                } 
+
+                $meeting_times[$v->id] = $urldates;            
+            }
         }
 
         if (!empty($sections)) {
@@ -101,35 +108,48 @@ class Analytics extends Easol_Controller {
 
             // sort the, hashed, student emails by section.
             $students = $this->db->distinct()->get()->result();
-            foreach ($students as $key => $value) {
-                $data['results'][$value->id]->students[] = $value->HashedEmail;
+
+            if (!empty($students)) {
+                foreach ($students as $key => $value) {
+                    $data['results'][$value->id]->students[] = $value->HashedEmail;
+                }
             }
 
-            foreach ($data['results'] as $section => $obj) {
+            if (!empty($data['results'])) {
 
-                // define the number of student records for the section.
-                $data['results'][$section]->StudentCount = count($obj->students);
-               
-                // get the sites api data for the section's students
-                $api_students       = '';
-                foreach ($obj->students as $key => $HashedEmail) {
-                    $api_students .= $HashedEmail . ',';
-                }
-                
-                $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
-                $site       = $this->api_url.'sites?'.$query.$meeting_times[$section];
-                $response   = json_decode(file_get_contents($site, true));
-                
-                $times = array();
-                foreach ($response->results as $student) {
+                foreach ($data['results'] as $section => $obj) 
+                {
+                    // define the number of student records for the section.
+                    $data['results'][$section]->StudentCount = (count($obj->students)) ? count($obj->students) : 0;
+                   
+                    // get the sites api data for the section's students
+                    $api_students       = '';
 
-                    foreach ($student->site_visits as $key => $site) {
-                        $times[] = $site->total_time;
+                    if (isset($obj->students) and !empty($obj->students)) {
+                        foreach ($obj->students as $key => $HashedEmail) 
+                        {
+                            $api_students .= $HashedEmail . ',';
+                        }
                     }
+                    
+                    $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
+                    $site       = $this->api_url.'sites?'.$query.$meeting_times[$section];
+                    $response   = json_decode(file_get_contents($site, true));
+                    
+                    $times = array();
+
+                    if (!empty($response->results)) {
+                        foreach ($response->results as $student) 
+                        {
+                            foreach ($student->site_visits as $key => $site) 
+                            {
+                                $times[] = $site->total_time;
+                            }
+                        }
+                    }
+                    
+                    $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i:s', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
                 }
-                
-                $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i:s', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
-                
             }
         }
        
@@ -338,7 +358,7 @@ class Analytics extends Easol_Controller {
             {
                 $date = new DateTime($v->date_visited);
                 $date = $date->format('Y-m-d H:i:s');
-                $data['student']->records[] = array($date, $v->page_url, $v->total_time);
+                $data['student']->records[] = array($date, $v->page_url, $v->total_time, $v->page_name);
             }
 
         // get the video data for each student
@@ -352,42 +372,11 @@ class Analytics extends Easol_Controller {
         {
             $date = new DateTime(@$r->date_started);
             $date = $date->format('Y-m-d H:i:s');
-            $data['student']->records[] = array($date, $r->url, $r->time_viewed);
+            $data['student']->records[] = array($date, $r->url, $r->time_viewed, $r->title);
         }
 
         $this->render("student",[
             'data'  => $data,
         ]);
-    }   
-
-    // todo:
-    // this function should be used when adding/editing easol users to store their email as a hash
-    // for use in api requests.
-    private function _encrypt_email ($email = "") {
-        $a             = $email . 'http://easol-dev.azurewebsites.net';
-        $b             = hash('sha256', $a);
-        $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
-        return crypt($email, $c);
-    }    
-   
-    private function creating_hashes () {
-        // WARNING: This function won't check for existing values and also 
-        //a big increasement of PHP call should be done (this query runs a few minutes)
-        $s = $this->db->query("SELECT * FROM edfi.StudentElectronicMail")->result();
-        foreach ($s as $student){
-            $email = ""; $a = ""; $b = ""; $c = ""; $result = ""; $data = array();
-
-            $email = $student->ElectronicMailAddress;
-            $a             = $email . 'http://easol-dev.azurewebsites.net';
-            $b             = hash('sha256', $a);
-            $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
-            $result =  crypt($email, $c);       
-            $data = array(
-             'email' => $email ,
-             'HashedEmail' => $result
-            );
-            $this->db->insert('easol.EmailLookup', $data);
-        }
-
-    }    
+    }
 }

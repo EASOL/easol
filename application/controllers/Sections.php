@@ -118,7 +118,6 @@ public function index()
         $this->db->where('Section.id', $id);
 
         $data['results'] = $this->db->get()->result();
-        // exit(var_dump($data['results']));
 
         foreach ($data['results'] as $k => $v)
         {

@@ -13,6 +13,7 @@
 
 	<link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
 	<link href="<?= site_url('assets/css/dataTables.CSV.css') ?>" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/chardinjs.css') ?>" rel="stylesheet"/>
 
 
     <!-- Custom Styles-->
@@ -26,6 +27,7 @@
         <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
         <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
     <?php } ?>
+
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="1046550702050-or91v65jm72mmdv8tjesehm3qbq3d4ol.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -107,7 +109,7 @@
                             <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
                                <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
                             <?php } ?>
-                            <li <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
+                            <li data-intro="Dashboard: Customized reporting tool per school for administrators and teachers" data-position="right" <?= ($this->router->class=="dashboard") ? 'class="active-menu"' : '' ?>>
                                <a href="<?= site_url("/dashboard") ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                             </li>
 			    <?php /* if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
@@ -115,29 +117,29 @@
 					<a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
 				    </li>
 			    <?php } /* */ ?>
-
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                        <div data-intro="Student Data Management: View students, sections and grades, attendance and assessments" data-position="right">
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
-                        <?php } ?>
+                            <?php } ?>
 
-                        <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
+                            <li <?= ($this->router->class=="sections") ? 'class="active-menu"' : '' ?>>
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-edit"></i> Sections</a>
                         </li>
 
-                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
-				<li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
+                            <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
+                            <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
 				</li>
 
-				<li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
+                            <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
 				</li>
-                        <?php } ?>
+                            <?php } ?>
+                        </div>
 
-
-                        <li>
+                        <li data-intro="Learning Lab: Free, Open Education Resources (OER) for supplemental classroom use with usage analytics" data-position="right">
                             <a href="#" id="learning-lab"><i class="fa fa-table2"></i> Learning Lab</a>
                             <ul class="sub-menu">
                                 <li <?= ($this->router->class=="content") ? 'class="active-menu sublive"' : '' ?>><a href="<?= site_url("/content") ?>">Content</a></li>
@@ -149,7 +151,7 @@
 				<li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
 				</li>
-				<li <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
+                        <li data-intro="Flex Reports:  customized and dynamic reporting based on school needs" data-position="right" <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
 					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
 				</li>
 
@@ -213,7 +215,8 @@
     <script src="<?= site_url('assets/js/dataTables/dataTables.CSV.js') ?>"></script>
     <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
     <script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
-
+    <script src="<?= site_url('assets/js/chardinjs.min.js') ?>"></script>
+    <script src="<?= site_url('assets/js/js.cookie-2.0.4.min.js') ?>"></script>
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
 
 

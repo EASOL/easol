@@ -102,6 +102,14 @@ class Content extends Easol_Controller {
                         unset($response->aggregations->$filtername);
                 }
             }
+            // Trim the description to 465 chars.
+              if(isset($response->results)) {               
+                foreach ($response->results as $obj)
+                {
+                 if(strlen($obj->description) > 465)
+                       $obj->description = mb_strimwidth($obj->description, 0, 465, "...");
+                }  
+            }
             
             // build the pagination links.
             $this->load->library('pagination');
