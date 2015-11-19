@@ -10,6 +10,7 @@ body {
   float: right;
 }
 #wrapper #navbar-wrapper .navbar-top {
+  min-height: 35px;
   height: 35px;
   background-color: #ebebeb;
   border: none;
@@ -88,7 +89,10 @@ body {
   padding: 10px;
 }
 #wrapper #page-wrapper #page-inner > div.row:first-child .page-header {
-  margin-top: -55px;
+  margin-top: -43px;
+}
+#wrapper #page-wrapper #page-inner .choose-school {
+  margin-top: -43px;
 }
 
 .navbar-top .nav > li {

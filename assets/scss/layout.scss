@@ -17,6 +17,7 @@ $padding-xs-vertical:       1px !default;
 $padding-xs-horizontal:     5px !default;
 
 $navbar-height: 35px;
+$navbar-offset: ($navbar-height + 8px);
 $sidebar-width: 85px;
 $navbar-brand-height: 90px;
 $logo-height: 55px;
@@ -28,7 +29,7 @@ body {background-color: $ea-light-gray; }
      #navbar-wrapper {
          width: calc(100% - #{$sidebar-width}); float: right;
         .navbar-top {
-            height: $navbar-height;
+            min-height: $navbar-height; height: $navbar-height;
             background-color: $ea-light-gray; border: none;
             .navbar-top-links {
                 margin-right: $padding-large-vertical;
@@ -53,10 +54,10 @@ body {background-color: $ea-light-gray; }
             }
         }
      }
-    #sidebar-wrapper { 
+    #sidebar-wrapper {
         width: $sidebar-width; float: left;
         min-height: 100%;
-        //height: calc(100% - #{$navbar-height}); 
+        //height: calc(100% - #{$navbar-height});
         background-color: white;
         //margin-top: -$navbar-height;
         .navbar-side {
@@ -69,7 +70,7 @@ body {background-color: $ea-light-gray; }
                 height: $navbar-brand-height;
                 width: $sidebar-width;
                 text-align: center;
-                background-color: $ea-green; 
+                background-color: $ea-green;
                 img {height: $logo-height;}
             }
             .sidebar-collapse {padding-left: 0px; padding-right: 0px; padding-top: $padding-base-vertical;}
@@ -91,8 +92,9 @@ body {background-color: $ea-light-gray; }
         #page-inner {
             padding: $padding-large-vertical;
             > div.row:first-child {
-                .page-header {margin-top: -55px;}
+                .page-header {margin-top: -$navbar-offset;}
             }
+            .choose-school {margin-top: -$navbar-offset;}
         }
     }
 }
@@ -152,7 +154,7 @@ body {background-color: $ea-light-gray; }
 .sidebar-collapse {
     //background-color: white;
     .nav {padding: 0;}
-     > .nav > li > a, > .nav > div > li > a  { 
+     > .nav > li > a, > .nav > div > li > a  {
          padding: 7px 0px;
          &:hover, &:focus {outline: 0; color: #44a657;}
      }
@@ -180,7 +182,7 @@ ul.nav.nav-second-level.collapse.in {
 }
 
 .sidebar-collapse .nav > li.active-menu > a,
-.sidebar-collapse .nav > div > li.active-menu > a 
+.sidebar-collapse .nav > div > li.active-menu > a
  {
     color: #44a657 !important;
     font-weight: bold;
