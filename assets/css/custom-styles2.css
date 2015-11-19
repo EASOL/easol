@@ -1396,6 +1396,9 @@ tr:nth-child(even) {
   left: 0;
 
 }
+.response-message p {
+  padding: 0 0 5px 0;
+}
 
 /* Splash window styles */
 .chardinjs-ext-el {

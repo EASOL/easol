@@ -91,9 +91,7 @@ $this->load->model("DataManagementQueries");
 
 
                                             <div class="panel-heading default">
-                                                <button type="button" class="close"
-                                                        data-target="#upload-result"
-                                                        data-dismiss="alert">
+                                                <button type="button" class="close">
                                                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                                                 </button>
 
