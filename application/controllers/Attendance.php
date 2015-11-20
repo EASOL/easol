@@ -41,6 +41,7 @@ class Attendance extends Easol_Controller {
         $data['results'] = $this->db->query($query)->result();
 
         foreach ($data['results'] as $k => $v) {
+            $data['results'][$v->StudentUSI][$v->SchoolYear]['StudentUSI'] = $v->StudentUSI;            
             $data['results'][$v->StudentUSI][$v->SchoolYear]['Name'] = $v->FirstName . ' ' . $v->LastSurname;
             $data['results'][$v->StudentUSI][$v->SchoolYear]['GradeLevel'] = $v->GradeLevel;                        
             $data['results'][$v->StudentUSI][$v->SchoolYear][$v->CodeValue] = $v->Days;
