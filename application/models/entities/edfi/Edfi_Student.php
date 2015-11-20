@@ -253,6 +253,7 @@ INNER JOIN edfi.StudentAssessmentScoreResult ON edfi.StudentAssessmentScoreResul
 AND edfi.StudentAssessmentScoreResult.AssessmentTitle = edfi.StudentAssessment.AssessmentTitle
 AND edfi.StudentAssessmentScoreResult.AdministrationDate = edfi.StudentAssessment.AdministrationDate
 AND edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId = edfi.StudentAssessment.AssessedGradeLevelDescriptorId
+AND edfi.StudentAssessmentScoreResult.Version = edfi.StudentAssessment.Version
 INNER JOIN edfi.AcademicSubjectDescriptor
 ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessment.AcademicSubjectDescriptorId
 INNER JOIN edfi.AcademicSubjectType
