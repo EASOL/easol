@@ -15,7 +15,11 @@ if (empty($sections)) {
                                 <th>Section Name</th>
                                 <th>Period</th>
                                 <th>Educator</th>
-                                <th>Grades</th>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>C</th>
+                                <th>D</th>
+                                <th>F</th>
                                 <th>Term</th>
                                 <th>Year</th>
                                 <th>Course</th>
@@ -29,13 +33,11 @@ if (empty($sections)) {
                                   <td><?php echo anchor('sections/details/'.$v->id, $v->UniqueSectionCode, 'target="_blank"'); ?></td>
                                   <td><?php echo $pCode; ?></td>
                                   <td><?php echo $v->FirstName . ' ' . $v->LastSurname; ?></td>
-                                  <td>
-                                    <span class="label label-success sections-grade"><?php echo $v->Numeric_A; ?></span>
-                                    <span class="label label-info sections-grade"><?php echo $v->Numeric_B; ?></span>
-                                    <span class="label label-primary sections-grade"><?php echo $v->Numeric_C; ?></span>
-                                    <span class="label label-warning sections-grade"><?php echo $v->Numeric_D; ?></span>
-                                    <span class="label label-danger sections-grade"><?php echo $v->Numeric_F; ?></span>                                
-                                  </td>                                  
+                                  <td><span class="label sections-grade sections-a"><?php echo $v->Numeric_A; ?></span></td>
+                                  <td><span class="label sections-grade sections-b"><?php echo $v->Numeric_B; ?></span></td>
+                                  <td><span class="label sections-grade sections-c"><?php echo $v->Numeric_C; ?></span></td>
+                                  <td><span class="label sections-grade sections-d"><?php echo $v->Numeric_D; ?></span></td>
+                                  <td><span class="label sections-grade sections-f"><?php echo $v->Numeric_F; ?></span></td>                                
                                   <td><?php echo $v->CodeValue; ?></td>
                                   <td><?php echo $v->SchoolYear; ?></td>                                    
                                   <td><?php echo $v->LocalCourseCode; ?></td>
