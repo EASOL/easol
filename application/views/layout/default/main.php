@@ -10,8 +10,8 @@
     <!-- FontAwesome Styles-->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-	<link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-	<link href="<?= site_url('assets/css/dataTables.CSV.css') ?>" rel="stylesheet"/>
+    <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
+    <link href="<?= site_url('assets/css/dataTables.CSV.css') ?>" rel="stylesheet"/>
     <link href="<?= site_url('assets/css/chardinjs.css') ?>" rel="stylesheet"/>
 
 
@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
                     <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                     <ul class="nav" id="main-menu">
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator'])) {  ?>
                         <li class="visible-xs-block">
                             <form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
                             <select name="school" class="form-control" onchange="this.form.submit()">
@@ -70,11 +70,11 @@
                             </li>
                         <?php /* if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                         <li <?= ($this->router->class=="schools") ? 'class="active-menu"' : '' ?>>
-					<a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
-				    </li>
+                    <a href="<?= site_url("/schools") ?>"><i class="fa fa-edit"></i> Schools</a>
+                    </li>
                         <?php } /* */ ?>
                         <div data-intro="Student Data Management: View students, sections and grades, attendance and assessments" data-position="right">
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
@@ -84,14 +84,18 @@
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-edit"></i> Sections</a>
                         </li>
 
-                            <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
+                            <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator']) ) { ?>
                             <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
-				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
-				</li>
+                    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
+                </li>
 
-                            <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
-				    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
-				</li>
+                <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
+                    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
+                </li>
+
+                <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
+                    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
+                </li>
                             <?php } ?>
                         </div>
 
@@ -103,13 +107,10 @@
                             </ul>
                         </li>
 
-                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
-                        <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
-				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
-				</li>
+                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator']) ) { ?>
                         <li data-intro="Flex Reports:  customized and dynamic reporting based on school needs" data-position="right" <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
-					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
-				</li>
+                    <a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
+                </li>
 
                         <li>
                             <a href="#" id="management"><i class="fa fa-sliders"></i> Management</a>
@@ -121,8 +122,8 @@
                         </li>
 
                         <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
-					    <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
-				</li>
+                        <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
+                </li>
                         <?php } ?>
                         <?php if($this->session->userdata('logged_in')== true) { ?>
                         <li class="visible-xs-block">
@@ -239,13 +240,6 @@
     <?php if(file_exists(APPPATH.'../assets/js/'.$this->router->class.'.js')) : ?>
         <script src="<?= site_url('assets/js/'.$this->router->class.'.js') ?>"></script>
     <?php endif; ?>
-
-
-
-
-
-
-
 
     <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div><!-- we need this here for google logout to work -->
