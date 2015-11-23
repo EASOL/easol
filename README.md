@@ -33,5 +33,3 @@ The EASOL Dashboard is licensed under the GNU Affero General Public License, ver
 ## Copyright
 
 (c) 2015 Heimes Communications LLC.
-
-https://github.com/EASOL/easol/wiki/EASOL:-Environment-Installation
