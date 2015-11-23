@@ -11,7 +11,7 @@
     define('THUMBNAIL_DIR', 'stw_thumbs/'); // set permissions to 0755
     define('INSIDE_PAGES', true); // set to true if inside capturing should be allowed
     define('CUSTOM_MSG_URL', ''); // i.e. 'http://yourdomain.com/path/to/your/custom/msgs'
-    define('CACHE_DAYS', 3); // how many days should the local copy be valid?
+    define('CACHE_DAYS', 0); // how many days should the local copy be valid?
                              // Enter 0 (zero) to never update screenshots once cached
                              // Enter -1 to disable caching and always use embedded method instead
     define('VER', '2.0.5'); // allows us to identify known bugs and version control; DONT touch!
@@ -168,7 +168,7 @@
      */
     function _generateOptions($aOptions) {
         // check if there are options set, otherwise set it to default or false
-        $aOptions['Size'] = isset($aOptions['Size']) ? $aOptions['Size'] : 'lg';
+        $aOptions['Size'] = isset($aOptions['Size']) ? $aOptions['Size'] : 'sm';
         $aOptions['SizeCustom'] = isset($aOptions['SizeCustom']) ? $aOptions['SizeCustom'] : false;
         $aOptions['FullSizeCapture'] = isset($aOptions['FullSizeCapture']) ? $aOptions['FullSizeCapture'] : false;
         $aOptions['MaxHeight'] = isset($aOptions['MaxHeight']) ? $aOptions['MaxHeight'] : false;
