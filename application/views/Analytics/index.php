@@ -76,7 +76,7 @@
                               <td><?php echo $v->CodeValue; ?></td>
                               <td><?php echo $v->SchoolYear; ?></td>
                               <td><?php echo $v->LocalCourseCode; ?></td>
-                              <td><a href="<?= site_url("/analytics/students/$v->id") ?>" target="_blank"><?php echo $v->UniqueSectionCode; ?></a></td>
+                              <td><a href="<?= site_url("/analytics/students/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>
