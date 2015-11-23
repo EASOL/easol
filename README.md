@@ -14,6 +14,8 @@ The EASOL Dashboard is a PHP web application, chosen for its easy-to-deploy and 
 
 EASOL uses Ed-Fi Alliance common data model as its data store schema.  Currently, the Ed-Fi schema is designed for Microsoft SQL Server.  Please see http://ed-fi.org for more information.
 
+EASOL is currently in an active development and beta state.
+
 ## Installation
 
 * Download the EASOL Dashboard from GitHub
