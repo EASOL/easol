@@ -198,12 +198,14 @@ class DataManagement extends Easol_Controller {
                                 $msg['status']['msg'] = 'Invalid Operation Selected';
                         }
                         if ($msg['status']['type'] != 'failed') {
+                            $msg['status']['result'] = $csvProcessor->result;
                             foreach ($csvProcessor->result as $type=>$result) {
                                 if (!empty($result)) {
                                     if ($type == 'error')
                                         $msg['status']['msg'] .= "<p>" . sizeof($result) . " records produced errors and could not be processed.</p>";
                                     else
                                         $msg['status']['msg'] .= "<p>".sizeof($result)." records $type</p>";
+
                                 }
                             }
                         }

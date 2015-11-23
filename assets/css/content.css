@@ -1,0 +1,42 @@
+.content-filters .filter-big-lists .list {
+  margin-top: 20px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.filter-big-lists .sort {cursor: pointer;}
+
+.filter-big-lists .sort.asc .ea-sort-alpha:before,
+.filter-big-lists .sort .ea-sort-alpha:before {
+	content: "\f15d";
+}
+
+.filter-big-lists .sort.desc .ea-sort-alpha:before {
+	content: "\f15e";
+}
+.filter-big-lists .sort.desc .ea-sort-numeric:before,
+.filter-big-lists .sort .ea-sort-numeric:before {
+	content: "\f163";
+}
+
+.filter-big-lists .sort.asc .ea-sort-numeric:before {
+	content: "\f162";
+}
+
+.filter-big-lists .sort {padding-left: 5px; }
+
+.tags-toggle.collapsed {display: block;}
+.tags-toggle {display: none;}
+
+.tags-collapsed .btn {
+	display: inline-block;
+	padding: 1px 5px;
+	margin-left: -1px;
+	position: relative;
+	float: left;
+    border-radius: 0px;
+    line-height: 1.5;
+}
+
+#extension-wrapper .filter-big-lists .sort {padding-left: 1px; }
+#extension-wrapper .filter-big-lists .input-sm {width: 65%; display: inline-block;}

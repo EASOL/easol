@@ -8,6 +8,8 @@ var currentTable = null;
 var dm_currentPage = 1;
 var dm_PageSize = 50;
 
+var upload_result_table;
+
 $(function() {
 
 
@@ -156,6 +158,11 @@ $(function() {
         // IF CSV, don't do event.preventDefault() or return false
         // We actually need this to be a typical hyperlink
     });
+
+    $(document).on('click', '.response-message .close', function(e) {
+        e.preventDefault();
+        $(this).closest('.response-message').stop().fadeOut();
+    })
 
     $('#dm_data_tabs a[href="#table_browse"]').click(function (e) {
         e.preventDefault();
@@ -312,6 +319,8 @@ $(function() {
         $('#table_upload .tableName').html(currentTable);
         $('#form-table-name').val(currentTable);
         $(this).tab('show');
+        $("#upload-result").stop().hide();
+        $(".summary, .details tbody", '#upload-result').html('');
 
     });
 
@@ -336,6 +345,9 @@ $(function() {
             cache: false,
             type: 'POST',
             beforeSend: function(  ) {
+                if (upload_result_table) upload_result_table.destroy();
+                $("#upload-result .summary").html('');
+                $("#upload-result .details tbody").empty();
                 loading($form);
             }
         })
@@ -346,14 +358,26 @@ $(function() {
              if (response.status.type == 'failed') $response_message.addClass('panel-danger');
              else $response_message.addClass('panel-success');
 
-             $response_message.stop().fadeIn().delay(4000).fadeOut().find('.panel-body').html(response.status.msg);
+             $response_message.stop().fadeIn().find('.panel-body .summary').html(response.status.msg);
+             var details_table = $response_message.find('#upload-result-table');
+
+             for (var i in response.status.result) {
+                for (var j in response.status.result[i]) {
+                    var result = response.status.result[i][j];
+                    var reason = '';
+                    if (result.reason != undefined) reason = result.reason;
+                    details_table.find('tbody').append('<tr><td>' + result.line + '</td><td>' + i + '</td><td>' + reason + '</td></tr>');
+                }
+
+             }
+             upload_result_table = details_table.DataTable();
         })
         .fail(function( data ) {
              var $response_message = $form.find('.response-message');
              $response_message.removeClass('panel-success panel-danger');
              $response_message.addClass('panel-danger');
 
-             $response_message.stop().fadeIn().delay(4000).fadeOut().find('.panel-body').html(data.responseText);
+             $response_message.stop().fadeIn().find('.panel-body .summary').html(data.responseText);
         })
         .complete(function() {
             unloading($form);
