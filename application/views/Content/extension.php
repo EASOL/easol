@@ -17,7 +17,7 @@
             <div class="panel-body">
                 <form class="form-inline undo-overrides">
                   <div id="content-index-query" class="form-group">
-                    <label for="query">Keywords</label>
+                   
                     <input id="content-query" type="text" class="form-control input-sm" name="query" value="<?php echo (isset($_GET['query']) and !empty($_GET['query'])) ? $_GET['query'] : 'search text'; ?>">
                   </div>
                   <button type="submit" class="btn btn-default" id="content-search">Search</button>
