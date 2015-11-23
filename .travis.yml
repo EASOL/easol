@@ -1,28 +1,37 @@
 # see http://about.travis-ci.org/docs/user/languages/php/ for more hints
+
+#sudo: required
+#dist: trusty
 language: php
-
-# list any PHP version you want to test against
 php:
-  # using major version aliases
-
-  # aliased to 5.2.17
-  #- 5.2
-  # aliased to a recent 5.3.x version
-  - 5.3
-  # aliased to a recent 5.4.x version
   - 5.4
 
 # optionally specify a list of environments, for example to test different RDBMS
-#env:
+env:
 #  - DB=mysql
-#  - DB=pgsql
+  - DB=odbc
 
-# execute any number of scripts before the test run, custom env's are available as variables
-#before_script:
+addons:
+  apt:
+    packages:
+    - tdsodbc
+    - libmyodbc
+    - php5-odbc
+    - freetds-bin
+    - unixodbc
+    - odbcinst1debian2
+    - odbcinst
+    - libodbc1
+    - php5-sybase
+    - libsybdb5
+    - freetds-common
+    - sqsh
+    - unixodbc-bin
+    - libodbcinstq4-1
+    - unixodbc-dev
+    - freetds-dev
+    - libct4
+
 
 # omitting "script:" will default to phpunit
-script: phpunit --configuration phpunit.xml
-
-# configure notifications (email, IRC, campfire etc)
-#notifications:
-#  irc: "irc.freenode.org#travis"
+script: phpunit --configuration application/tests/phpunit.xml
