@@ -50,7 +50,7 @@
                         <tbody>
                           <?php foreach ($results as $student => $data) : foreach ($data as $year => $v) : ?>
                             <tr>
-                              <td><?php echo anchor('student/profile/'.$v['StudentUSI'], $v['Name'], 'target="_blank"'); ?></td>
+                              <td><?php echo anchor('student/profile/'.$v['StudentUSI'], $v['Name']); ?></td>
                               <td><?php echo $v['GradeLevel'] ?></td>
                               <td><?php echo (isset($v['In Attendance'])) ? $v['In Attendance'] : '-';  ?></td>
                               <td><?php echo (isset($v['Excused Absence'])) ? $v['Excused Absence'] : '-';  ?></td>
