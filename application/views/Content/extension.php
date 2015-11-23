@@ -139,7 +139,9 @@
                         </div>
                       </div>
                     <?php endforeach; ?>
+                     <div class="clear">
                     <?php echo $this->pagination->create_links(); ?>
+                     </div>
                   </div>
                 <?php endif; ?>
             </div>
