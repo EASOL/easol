@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
                     <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
                     <ul class="nav" id="main-menu">
-                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
+                        <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator'])) {  ?>
                         <li class="visible-xs-block">
                             <form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
                             <select name="school" class="form-control" onchange="this.form.submit()">
@@ -74,7 +74,7 @@
 				    </li>
                         <?php } /* */ ?>
                         <div data-intro="Student Data Management: View students, sections and grades, attendance and assessments" data-position="right">
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator'])) { ?>
                             <li <?= ($this->router->class=="student") ? 'class="active-menu"' : '' ?>>
                                 <a href="<?= site_url("/student") ?>"><i class="fa fa-graduation-cap"></i> Students</a>
                             </li>
@@ -84,14 +84,18 @@
                             <a href="<?= site_url("/sections") ?>"><i class="fa fa-edit"></i> Sections</a>
                         </li>
 
-                            <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
+                            <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator']) ) { ?>
                             <li <?= ($this->router->class=="attendance") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/attendance") ?>"><i class="fa fa-qrcode"></i> Attendance</a>
 				</li>
 
-                            <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
+                <li <?= ($this->router->class=="assessments") ? 'class="active-menu"' : '' ?>>
 				    <a href="<?= site_url("/assessments") ?>"><i class="fa fa-table"></i> Assessments</a>
 				</li>
+
+                <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
+                    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
+                </li>
                             <?php } ?>
                         </div>
 
@@ -103,10 +107,7 @@
                             </ul>
                         </li>
 
-                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) ) { ?>
-                        <li <?= ($this->router->class=="cohorts") ? 'class="active-menu"' : '' ?>>
-				    <a href="<?= site_url("/cohorts") ?>"><i class="fa fa-cubes"></i> Cohorts</a>
-				</li>
+                        <?php if( Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator', 'School Administrator']) ) { ?>
                         <li data-intro="Flex Reports:  customized and dynamic reporting based on school needs" data-position="right" <?= ($this->router->class=="reports") ? 'class="active-menu"' : '' ?>>
 					<a href="<?= site_url("/reports") ?>"><i class="fa fa-bar-chart"></i> Flex Reports</a>
 				</li>
