@@ -95,5 +95,5 @@ class Usermanagement extends Easol_Controller {
         }
         // send them back to the user listing to see the list, sans the deleted user.
         redirect('/usermanagement');
-    }    
+    }
 }

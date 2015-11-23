@@ -56,10 +56,18 @@ ORDER BY ORDINAL_POSITION",[$tableName])->result();
     }
 
     public static function getPrimaryKey($tableName){
-        $row=self::$dbObj->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA+'.'+CONSTRAINT_NAME), 'IsPrimaryKey') = 1 AND TABLE_NAME = ?",[$tableName])->row();
-        if($row){
-            return $row->COLUMN_NAME;
+        
+        $result=self::$dbObj->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA+'.'+CONSTRAINT_NAME), 'IsPrimaryKey') = 1 AND TABLE_NAME = ?",[$tableName]);
+       
+        if ($result->num_rows() == 1){ $row = $result->row(); return $row->COLUMN_NAME;}
+        if ($result->num_rows() > 1){ 
+            $res = array();
+            $values = $result->result(); 
+            foreach($values as $v){ $res[] = $v->COLUMN_NAME; }
+            return $res;
+
         }
-        else return "";
+         
+        return "";
     }
 }

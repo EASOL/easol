@@ -4,6 +4,7 @@
 require_once APPPATH.'/core/Easol_BaseEntity.php';
 class Edfi_Student extends Easol_baseentity {
 
+
     private $sex;
     private $race;
     private $limitedEnglishProficiency;
@@ -132,18 +133,33 @@ where StudentElectronicMail.StudentUSI = ?",
             ]);
     }
 
-    public function getSections(){
+    public function getSections()
+    {
         return $this->db->query("select StudentSectionAssociation.ClassPeriodName, StudentSectionAssociation.ClassroomIdentificationCode,
- StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, TermType.Description,
-StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname
+StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, [Section].id, TermType.Description, TermType.CodeValue,
+StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname,
+        sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
+        sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
+        sum(case when Grade.NumericGradeEarned >= 70 AND Grade.NumericGradeEarned < 80 THEN 1 ELSE 0 END) as Numeric_C,
+        sum(case when Grade.NumericGradeEarned >= 60 AND Grade.NumericGradeEarned < 70 THEN 1 ELSE 0 END) as Numeric_D,
+        sum(case when Grade.NumericGradeEarned < 60 THEN 1 ELSE 0 END) as Numeric_F,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'A' THEN 1 ELSE 0 END) as Letter_A,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'B' THEN 1 ELSE 0 END) as Letter_B,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'C' THEN 1 ELSE 0 END) as Letter_C,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'D' THEN 1 ELSE 0 END) as Letter_D,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'F' THEN 1 ELSE 0 END) as Letter_F
 from edfi.StudentSectionAssociation
+
+inner join edfi.Grade ON StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName
+inner join edfi.GradingPeriod ON GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId
+
 inner join edfi.[Section] on
      StudentSectionAssociation.SchoolId = [Section].SchoolId and
      StudentSectionAssociation.SchoolYear = [Section].SchoolYear and
      StudentSectionAssociation.LocalCourseCode = [Section].LocalCourseCode and
      StudentSectionAssociation.ClassroomIdentificationCode = [Section].ClassroomIdentificationCode and
      StudentSectionAssociation.TermTypeId = [Section].TermTypeId AND
-		 StudentSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
+	 StudentSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
 inner join edfi.TermType ON
      StudentSectionAssociation.TermTypeId = TermType.TermTypeId
 left join edfi.StaffSectionAssociation on
@@ -155,7 +171,11 @@ left join edfi.StaffSectionAssociation on
      StaffSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
 left join edfi.Staff ON
      Staff.StaffUSI = StaffSectionAssociation.StaffUSI
-where StudentUSI = ?",
+where Grade.StudentUSI = ?
+group by StudentSectionAssociation.ClassPeriodName, StudentSectionAssociation.ClassroomIdentificationCode,
+StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, [Section].id, TermType.Description, TermType.CodeValue,
+StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname,Grade.NumericGradeEarned,Grade.LetterGradeEarned
+",
             [
                 $this->StudentUSI
             ]);
@@ -183,7 +203,7 @@ ORDER BY Grade.BeginDate DESC",
      * @return mixed
      */
     public function getAttendance(){
-        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Days
+        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, CodeValue, COUNT(*) as Days
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -196,9 +216,9 @@ INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDesc
 INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
 WHERE StudentUSI = [StudentUSI]
 AND (CodeValue = 'Excused Absence' OR CodeValue='Unexcused Absence') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
-GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
 UNION
-SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Tardy
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, CodeValue, COUNT(*) as Tardy
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -211,9 +231,9 @@ INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDesc
 INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
 WHERE StudentUSI = [StudentUSI]
 AND (CodeValue = 'Tardy') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
-GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue
 UNION
-SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, CodeValue, COUNT(*) as Present
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, CodeValue, COUNT(*) as Present
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -226,7 +246,7 @@ INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDesc
 INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
 WHERE StudentUSI = [StudentUSI]
 AND (CodeValue = 'In Attendance') AND StudentSectionAttendanceEvent.TermTypeId = [TermTypeId] AND StudentSectionAttendanceEvent.SchoolYear = [SchoolYear]
-GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue";
+GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, AttendanceEventCategoryType.CodeValue";
 
         $termId = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $schoolYear = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
