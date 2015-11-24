@@ -54,8 +54,10 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
         $this->db->order_by('Grade.LocalCourseCode');
-
+        
         $data['results']    = $this->db->distinct()->where($where)->get()->result();
+        
+        //exit(print_r($this->db->last_query(), true));
         $meeting_times = array();
         $sections = array();
         foreach ($data['results'] as $k => $v)
@@ -133,7 +135,12 @@ class Analytics extends Easol_Controller {
             }
         }
        
-        $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
+        $sql                    = 'SELECT TermTypeId, CodeValue FROM edfi.TermType WHERE TermTypeId in (SELECT distinct TermType.TermTypeId FROM "edfi"."Grade" 
+INNER JOIN "edfi"."School" ON "School"."SchoolId" = "Grade"."SchoolId" 
+INNER JOIN "edfi"."Course" ON "edfi"."Course"."EducationOrganizationId" = "edfi"."Grade"."SchoolId" AND "edfi"."Course"."CourseCode" = "edfi"."Grade"."LocalCourseCode" 
+INNER JOIN "edfi"."TermType" ON "edfi"."TermType"."TermTypeId" = "edfi"."Grade"."TermTypeId" 
+WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
+
         $data['terms']          = $this->db->query($sql)->result();
 
         $data['years']          = range($data['currentYear'], date('Y'));

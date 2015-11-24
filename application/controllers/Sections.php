@@ -69,7 +69,15 @@ public function index()
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
         }
 
-        $sql                    = "SELECT TermTypeId, CodeValue FROM edfi.TermType";
+        $sql                    = 'SELECT TermTypeId, CodeValue FROM edfi.TermType WHERE TermTypeId in (SELECT distinct TermType.TermTypeId FROM "edfi"."Grade" 
+INNER JOIN "edfi"."GradingPeriod" ON "GradingPeriod"."EducationOrganizationId" = "Grade"."SchoolId" AND "GradingPeriod"."BeginDate" = "Grade"."BeginDate" AND "GradingPeriod"."GradingPeriodDescriptorId" = "Grade"."GradingPeriodDescriptorId" 
+INNER JOIN "edfi"."StudentSectionAssociation" ON "StudentSectionAssociation"."StudentUSI" = "Grade"."StudentUSI" AND "StudentSectionAssociation"."SchoolId" = "Grade"."SchoolId" AND "StudentSectionAssociation"."LocalCourseCode" = "Grade"."LocalCourseCode" AND "StudentSectionAssociation"."TermTypeId" = "Grade"."TermTypeId" AND "StudentSectionAssociation"."SchoolYear" = "Grade"."SchoolYear" AND "StudentSectionAssociation"."TermTypeId" = "Grade"."TermTypeId" AND "StudentSectionAssociation"."ClassroomIdentificationCode" = "Grade"."ClassroomIdentificationCode" AND "StudentSectionAssociation"."ClassPeriodName" = "Grade"."ClassPeriodName" 
+INNER JOIN "edfi"."Section" ON "Section"."LocalCourseCode" = "StudentSectionAssociation"."LocalCourseCode" AND "Section"."SchoolYear" = "StudentSectionAssociation"."SchoolYear" AND "Section"."TermTypeId" = "StudentSectionAssociation"."TermTypeId" AND "Section"."SchoolId" = "StudentSectionAssociation"."SchoolId" AND "Section"."ClassPeriodName" = "StudentSectionAssociation"."ClassPeriodName" AND "Section"."ClassroomIdentificationCode" = "StudentSectionAssociation"."ClassroomIdentificationCode" 
+INNER JOIN "edfi"."StaffSectionAssociation" ON "StaffSectionAssociation"."SchoolId" = "Grade"."SchoolId" AND "StaffSectionAssociation"."LocalCourseCode" = "Grade"."LocalCourseCode" AND "StaffSectionAssociation"."TermTypeId" = "Grade"."TermTypeId" AND "StaffSectionAssociation"."SchoolYear" = "Grade"."SchoolYear" AND "StaffSectionAssociation"."TermTypeId" = "Grade"."TermTypeId" AND "StaffSectionAssociation"."ClassroomIdentificationCode" = "Grade"."ClassroomIdentificationCode" AND "StaffSectionAssociation"."ClassPeriodName" = "Grade"."ClassPeriodName" 
+INNER JOIN "edfi"."Staff" ON "Staff"."StaffUSI" = "StaffSectionAssociation"."StaffUSI" 
+INNER JOIN "edfi"."Course" ON "edfi"."Course"."EducationOrganizationId" = "edfi"."Grade"."SchoolId" AND "edfi"."Course"."CourseCode" = "edfi"."Grade"."LocalCourseCode" 
+INNER JOIN "edfi"."TermType" ON "edfi"."TermType"."TermTypeId" = "edfi"."Grade"."TermTypeId" 
+WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
         $data['terms']          = $this->db->query($sql)->result();
 
         $data['years']          = range($data['currentYear'], date('Y'));
