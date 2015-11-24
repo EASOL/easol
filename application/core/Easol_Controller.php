@@ -42,7 +42,7 @@ class Easol_Controller extends CI_Controller {
                     'content'   =>  $content,
                     'title'     =>  $this->pageTitle,
                     'error'     =>  $this->session->flashdata('error'),
-                    'success'   =>  $this->session->flashdata('success'),                    
+                    'success'   =>  $this->session->flashdata('success'),
                 ]
             );
         }
@@ -59,13 +59,14 @@ class Easol_Controller extends CI_Controller {
 
     }
 
-    public function renderPartial($view,$params=[],$return=false){
+    public function renderPartial($view, $params = [], $return = false) {
         ob_start();
-        $this->load->view(get_called_class().'/'.$view,$params);
-        $content= ob_get_contents();
+
+        $this->load->view($this->router->fetch_directory() . $this->router->fetch_class() . '/' . $view, $params);
+        $content = ob_get_contents();
         ob_clean();
 
-        if($return){
+        if ($return) {
             return $content;
         }
         echo $content;

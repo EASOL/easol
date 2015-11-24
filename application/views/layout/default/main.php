@@ -14,6 +14,8 @@
 	<link href="<?= site_url('assets/css/dataTables.CSV.css') ?>" rel="stylesheet"/>
     <link href="<?= site_url('assets/css/chardinjs.css') ?>" rel="stylesheet"/>
 
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 
     <!-- Custom Styles-->
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
@@ -128,7 +130,7 @@
                                 <a href="#" id="management"><i class="fa fa-sliders"></i> System</a>
                                 <ul class="sub-menu">
                                     <li <?= ($this->router->class == "module") ? 'class="active-menu sublive"' : '' ?>>
-                                        <a href="<?= site_url("/system/module") ?>">Modules</a></li>
+                                        <a href="<?= site_url("/system-settings/module") ?>">Modules</a></li>
 
                                 </ul>
                             </li>
@@ -231,6 +233,8 @@
     <!-- Bootstrap Js -->
     <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- Metis Menu Js -->
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 
     <script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= site_url('assets/js/dataTables/dataTables.CSV.js') ?>"></script>
