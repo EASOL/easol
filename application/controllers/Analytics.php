@@ -132,23 +132,25 @@ class Analytics extends Easol_Controller {
                         }
                     }
                     
-                    $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
-                    $site       = $this->api_url.'sites?'.$query.$meeting_times[$section];
-                    $response   = json_decode(file_get_contents($site, true));
-                    
-                    $times = array();
+                    if (isset($meeting_times[$section]) and !empty($meeting_times[$section])) {
+                        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
+                        $site       = $this->api_url.'sites?'.$query.$meeting_times[$section];
+                        $response   = json_decode(file_get_contents($site, true));
+                        
+                        $times = array();
 
-                    if (!empty($response->results)) {
-                        foreach ($response->results as $student) 
-                        {
-                            foreach ($student->site_visits as $key => $site) 
+                        if (!empty($response->results)) {
+                            foreach ($response->results as $student) 
                             {
-                                $times[] = $site->total_time;
+                                foreach ($student->site_visits as $key => $site) 
+                                {
+                                    $times[] = $site->total_time;
+                                }
                             }
                         }
+                        
+                        $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i:s', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
                     }
-                    
-                    $data['results'][$section]->Average = (!empty($times)) ? gmdate('H:i:s', (array_sum($times) / $data['results'][$section]->StudentCount)) : 0; 
                 }
             }
         }
@@ -243,46 +245,48 @@ class Analytics extends Easol_Controller {
             $api_students .= $value->HashedEmail . ',';
         }
 
-        // get the page api data for each student
-        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
-        $site       = $this->api_url.'pages?'.$query.$urldates;
-        $response   = json_decode(file_get_contents($site, true));        
+        if (isset($urldates) and !empty($urldates)) {
+            // get the page api data for each student
+            $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
+            $site       = $this->api_url.'pages?'.$query.$urldates;
+            $response   = json_decode(file_get_contents($site, true));        
 
-        foreach ($response->results as $r) {
+            foreach ($response->results as $r) {
 
-            $page_time_total    = 0;
-            $page_count_total   = 0;
-            foreach ($r->page_visits as $key => $page) {
-                $page_time_total += $page->total_time;
-                $page_count_total++;
-            }
-
-            $data['students'][$r->username]['page_count_total']     = $page_count_total;
-            $data['students'][$r->username]['page_time_total']      = gmdate('H:i:s', $page_time_total);
-        }
-
-        // get the video data for each student        
-        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
-        $site       = $this->api_url.'video-views?'.$query.$urldates;
-        $response   = json_decode(file_get_contents($site, true));
-
-        // Since the api returns video data in a different structure than page visits, this is where the data is restructured to match the page visits data.
-        foreach ($response->results as $r)
-            $data['students'][$r->username]['video_visits'][] = $r;
-
-        foreach ($data['students'] as $student => $s) {
-
-            $video_time_total    = 0;
-            $video_count_total   = 0;
-            if (isset($s['video_visits']) and !empty($s['video_visits'])) {
-                foreach ($s['video_visits'] as $video) {
-                    $video_time_total += $video->time_viewed;
-                    $video_count_total++;
+                $page_time_total    = 0;
+                $page_count_total   = 0;
+                foreach ($r->page_visits as $key => $page) {
+                    $page_time_total += $page->total_time;
+                    $page_count_total++;
                 }
+
+                $data['students'][$r->username]['page_count_total']     = $page_count_total;
+                $data['students'][$r->username]['page_time_total']      = gmdate('H:i:s', $page_time_total);
             }
 
-            $data['students'][$student]['video_count_total']     = $video_count_total;
-            $data['students'][$student]['video_time_total']      = gmdate('H:i:s', $video_time_total);
+            // get the video data for each student        
+            $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
+            $site       = $this->api_url.'video-views?'.$query.$urldates;
+            $response   = json_decode(file_get_contents($site, true));
+
+            // Since the api returns video data in a different structure than page visits, this is where the data is restructured to match the page visits data.
+            foreach ($response->results as $r)
+                $data['students'][$r->username]['video_visits'][] = $r;
+
+            foreach ($data['students'] as $student => $s) {
+
+                $video_time_total    = 0;
+                $video_count_total   = 0;
+                if (isset($s['video_visits']) and !empty($s['video_visits'])) {
+                    foreach ($s['video_visits'] as $video) {
+                        $video_time_total += $video->time_viewed;
+                        $video_count_total++;
+                    }
+                }
+
+                $data['students'][$student]['video_count_total']     = $video_count_total;
+                $data['students'][$student]['video_time_total']      = gmdate('H:i:s', $video_time_total);
+            }
         }
 
         $this->render("students",[
@@ -346,33 +350,35 @@ class Analytics extends Easol_Controller {
         // sort the, hashed, student emails by section.
         $data['student'] = $this->db->distinct()->get()->row();
 
-        // get the page api data for each student
-        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $student));
-        $site       = $this->api_url.'pages?'.$query.$urldates;
-        $response   = json_decode(file_get_contents($site, true));        
+        if (isset($urldates) and !empty($urldates)) {
+            // get the page api data for each student
+            $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $student));
+            $site       = $this->api_url.'pages?'.$query.$urldates;
+            $response   = json_decode(file_get_contents($site, true));        
 
-        // Since the api returns different data structures for pages and videos, but they are all the same to the view, they
-        // are converted to a uniform structure before going to the view.
-        foreach ($response->results as $r)
-            foreach ($r->page_visits as $v)
+            // Since the api returns different data structures for pages and videos, but they are all the same to the view, they
+            // are converted to a uniform structure before going to the view.
+            foreach ($response->results as $r)
+                foreach ($r->page_visits as $v)
+                {
+                    $date = new DateTime($v->date_visited);
+                    $date = $date->format('Y-m-d H:i:s');
+                    $data['student']->records[] = array($date, $v->page_url, $v->total_time, $v->page_name);
+                }
+
+            // get the video data for each student
+            $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'usernames' => $student));
+            $site       = $this->api_url.'video-views?'.$query.$urldates;
+            $response   = json_decode(file_get_contents($site, true));
+
+            // Since the api does not return the timestamp for the video records, there is a random number as a placeholder.
+            // todo: replace random number with timestamp from the api when it is included in the api response data.
+            foreach ($response->results as $r)
             {
-                $date = new DateTime($v->date_visited);
+                $date = new DateTime(@$r->date_started);
                 $date = $date->format('Y-m-d H:i:s');
-                $data['student']->records[] = array($date, $v->page_url, $v->total_time, $v->page_name);
+                $data['student']->records[] = array($date, $r->url, $r->time_viewed, $r->title);
             }
-
-        // get the video data for each student
-        $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'usernames' => $student));
-        $site       = $this->api_url.'video-views?'.$query.$urldates;
-        $response   = json_decode(file_get_contents($site, true));
-
-        // Since the api does not return the timestamp for the video records, there is a random number as a placeholder.
-        // todo: replace random number with timestamp from the api when it is included in the api response data.
-        foreach ($response->results as $r)
-        {
-            $date = new DateTime(@$r->date_started);
-            $date = $date->format('Y-m-d H:i:s');
-            $data['student']->records[] = array($date, $r->url, $r->time_viewed, $r->title);
         }
 
         $this->render("student",[
