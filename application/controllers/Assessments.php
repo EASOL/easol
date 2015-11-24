@@ -27,8 +27,8 @@ class Assessments extends Easol_Controller {
                edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId,
                edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId,
                Version, AdministrationDate,
-               edfi.AcademicSubjectType.CodeValue as Subject,
-               edfi.GradeLevelType.CodeValue as Grade,
+               edfi.AcademicSubjectType.CodeValue +'' as Subject,
+               edfi.GradeLevelType.CodeValue +'' as Grade,
 			AVG(CAST(StudentAssessmentScoreResult.Result as FLOAT)) as AverageResult,
 			COUNT(*) as StudentCount
 			FROM edfi.StudentAssessmentScoreResult
@@ -83,8 +83,8 @@ class Assessments extends Easol_Controller {
                edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId,
                edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId,
                Version, AdministrationDate,
-               edfi.AcademicSubjectType.CodeValue as Subject,
-               edfi.GradeLevelType.CodeValue as Grade,
+               edfi.AcademicSubjectType.CodeValue +'' as Subject,
+               edfi.GradeLevelType.CodeValue +'' as Grade,
 			AVG(CAST(StudentAssessmentScoreResult.Result as FLOAT)) as AverageResult,
 			COUNT(*) as StudentCount
 			FROM edfi.StudentAssessmentScoreResult
