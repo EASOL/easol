@@ -22,7 +22,7 @@ class Reports extends Easol_Controller {
      */
     public function index()
 	{
-	
+
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();
@@ -78,13 +78,13 @@ class Reports extends Easol_Controller {
                         }
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
-                        
+
                         $this->load->library('Easol_logs');
                         $logs = new Easol_logs();
-                        $logs->logs( array(
-                            "StaffUSI"=>$_SESSION['StaffUSI'], 
-                            'Description'=>'Flex Report (create)', 
-                            "Controller"=>'Report', 
+                        $logs->Log( array(
+                            "StaffUSI"=>$_SESSION['StaffUSI'],
+                            'Description'=>'Flex Report (create)',
+                            "Controller"=>'Report',
                             "Method"=>'Create',
                             "ModelId"=>$model->ReportId,
                             "IpAddress"=>$this->input->ip_address())
@@ -125,7 +125,7 @@ class Reports extends Easol_Controller {
             if ($this->form_validation->run() != FALSE) {
                 $arrOldValue = $this->stdToArray($model->findOne($id));
                 if($model->save()){
-                    
+
                     $this->load->model('entities/easol/Easol_ReportAccess');
 /*
                     foreach($this->input->post('access[access]') as $access){
@@ -156,14 +156,14 @@ class Reports extends Easol_Controller {
 
                     $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
                     $this->session->set_flashdata('type', 'success');
-                    
+
                     unset($arrOldValue['ReportId'], $arrOldValue['CreatedBy'], $arrOldValue['CreatedOn'], $arrOldValue['UpdatedBy'], $arrOldValue['UpdatedOn'], $arrOldValue['SchoolId']);
                     $this->load->library('Easol_logs');
                     $logs = new Easol_logs();
-                    $logs->logs( array(
-                        "StaffUSI"=>$_SESSION['StaffUSI'], 
-                        'Description'=>'Flex Report (Update)', 
-                        "Controller"=>'Report', 
+                    $logs->Log( array(
+                        "StaffUSI"=>$_SESSION['StaffUSI'],
+                        'Description'=>'Flex Report (Update)',
+                        "Controller"=>'Report',
                         "Method"=>'edit',
                         "ModelId"=>$model->ReportId,
                         "OldValue"=>json_encode($this->stdToArray($arrOldValue)),
@@ -192,7 +192,7 @@ class Reports extends Easol_Controller {
         }
         return $reaged;
     }
-    
+
     public function view($id=null, $pageNo=1){
         if($id==null)
             throw new \Exception("Invalid report Id");
@@ -226,7 +226,7 @@ class Reports extends Easol_Controller {
 
     public function preview() {
         $post = $this->input->post();
-       
+
         if ($this->form_validation->run() == FALSE) {
             $response = array('status'=>'error', 'message'=>validation_errors());
             exit(json_encode($response));
@@ -272,13 +272,13 @@ class Reports extends Easol_Controller {
 
         $this->session->set_flashdata('message', 'Report Successfully deleted');
         $this->session->set_flashdata('type', 'success');
-        
+
         $this->load->library('Easol_logs');
         $logs = new Easol_logs();
-        $logs->logs( array(
-            "StaffUSI"=>$_SESSION['StaffUSI'], 
-            'Description'=>'Flex Report (delete)', 
-            "Controller"=>'Report', 
+        $logs->Log( array(
+            "StaffUSI"=>$_SESSION['StaffUSI'],
+            'Description'=>'Flex Report (delete)',
+            "Controller"=>'Report',
             "Method"=>'delete',
             "ModelId"=>$id,
             "IpAddress"=>$this->input->ip_address())

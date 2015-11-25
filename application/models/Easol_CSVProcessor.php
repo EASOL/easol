@@ -6,6 +6,7 @@ class Easol_CSVProcessor extends CI_Model {
     private $tableName;
     private $tableColumns;
     private $csvHeader;
+    /* Tarlles: Let's remove those variables. We already have that info available with the $result array. We just need to do a count on the entry we want. So instead of retrieve the value for $insertCount, we could just count($result['inserted']). Please also remove the get and set methods for those */
     private $insertCount=0;
     private $updateCount=0;
     private $deleteCount=0;
@@ -239,7 +240,7 @@ class Easol_CSVProcessor extends CI_Model {
         return $result;
 
     }
-    
+
     /**
      * @param $data
      * @return boolean
@@ -259,7 +260,7 @@ class Easol_CSVProcessor extends CI_Model {
     private function setCount($varName) {
         eval('$this->'.$varName.' ++;');
     }
-    
+
     /**
      * @param string
      * @return interger

@@ -160,6 +160,7 @@ class DataManagement extends Easol_Controller {
                         $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
                         $this->importedFileName = $_FILES['csvFile']['name'];
                         //print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
+					/* Tarlles: Why do we have $this->insertCount, $this->failCount, etc in the controller if we already have it in the Easol_CSVProcessor? I guess we can remove it, no? */
                         switch($_POST['data_action']){
                             case 'insert' :
                                 try {
@@ -254,22 +255,42 @@ class DataManagement extends Easol_Controller {
     }
 
     private function writeLog ($csvProcessor){
+	    /* Tarlles: Instead of doing $this->insertCount = $csvProcessor->__getCount... we could just do count($csvProcessor->result['inserted'] */
         $this->insertCount = $csvProcessor->__getCount('insertCount');
         $this->updateCount = $csvProcessor->__getCount('updateCount');
         $this->deleteCount = $csvProcessor->__getCount('deleteCount');
         $this->failCount = $csvProcessor->__getCount('failCount');
-        $this->load->library('Easol_logs');
-        $logs = new Easol_logs();
-        $logs->logs( array(
-            "StaffUSI"=>$_SESSION['StaffUSI'], 
-            'Description'=>'Data Management (Data Upload)', 
-            "Controller"=>'DataManagement', 
-            "Method"=>'uploadcsv',
+
+	    /* Tarlles: if you already autoloaded the library (in the autoload.php config file), you don't need to load it again with $this->load->library */
+        //$this->load->library('Easol_logs');
+
+	    /* Tarlles: Instead of instantiate a new Easol_logs(), CodeIgniter gets it ready to be used, so you can do $this->easol_logs->Log() -- note the library name must be lowercase. Instantiate is fine too, but using $this->easol_logs keeps the code shorter. */
+        //$logs = new Easol_logs();
+
+	    /* Tarlles: I removed the StaffUSI, Controller, Method, and IpAddress from here. They will be set in the library class itself, so we don't need to set that up every time we want to call the Log function. */
+	    /* Tarlles: A minor detail here. PHP now allows you to declare and set up arrays with a shorter syntax. Instead of $someArray = array('a', 'b', 'c'), we can now do $someArray = ['a', 'b', 'c']. Let's stick with that syntax. */
+        $this->easol_logs->Log( [
+            'Description'=>'Data Management (Data Upload)',
             "Object"=>$this->objectDescription,
             "ImportedFileName"=>$this->importedFileName,
             "RowsDetails"=>'Inserted['.$this->insertCount.'] Updated['.$this->updateCount.'] Deleted['.$this->deleteCount.'] Failed['.$this->failCount.']',
-            "IpAddress"=>$this->input->ip_address())
-        );
+
+        ]);
+
+	    /* One last note: This log feature can and probably will be applied in other areas, and more specific fields may be needed. At the end, we may have a lot of columns, and the values would be null for a lot of other columns that wouldn't be used for each log case. For example, we already have the ModelId column that is not being used here. Consider to create a column for "Data" or "Details", and store additional info in a json encoded array. Something like that:
+
+	    $this->easol_logs->Log([
+	    	'Description'=>'Data Management (Data Upload)',
+	    	'Data'=>["Object"=>$this->objectDescription, "ImportedFileName"=>$this->importedFileName, "Result"=>$csvProcessor->result],
+	    ]);
+
+	    In the Easol_Log library, we would do that: $data['Data'] = json_encode($data['Data']).
+
+	    Note that MSSQL has JSON functions so I think it's a good idea to store in json format.
+
+	    If you agree and have time to implement that, please do it. Otherwise, leave as it is, but keep that in mind, so for future implementation of a Log feature in a different area that would require another specific column, then we move to that approach.
+
+	    */
     }
-    
+
 }

@@ -18,9 +18,9 @@ class Home extends Easol_Controller {
     public function index() {
 
         if ($this->session->userdata('logged_in') == true){
-            
+
             $this->writeLog();
-            
+
             return redirect('/dashboard');
         }
 
@@ -45,10 +45,10 @@ class Home extends Easol_Controller {
     private function writeLog (){
         $this->load->library('Easol_logs');
         $logs = new Easol_logs();
-        $logs->logs( array(
-            "StaffUSI"=>$_SESSION['StaffUSI'], 
-            'Description'=>'Login', 
-            "Controller"=>'Home', 
+        $logs->Log( array(
+            "StaffUSI"=>$_SESSION['StaffUSI'],
+            'Description'=>'Login',
+            "Controller"=>'Home',
             "Method"=>'index',
             "IpAddress"=>$this->input->ip_address())
         );
@@ -90,9 +90,9 @@ class Home extends Easol_Controller {
                     }
 
                     $this->session->set_userdata($data);
-                    
+
                     $this->writeLog();
-                    
+
                     echo "gloginValid";
                 } else {
                     $this->session->set_flashdata('error', 'Error Logging in - Easol authentication failed - Please contact Support.');
@@ -137,9 +137,9 @@ class Home extends Easol_Controller {
                 }
 
                 $this->session->set_userdata($data);
-                
+
                 $this->writeLog();
-                
+
                 redirect('/student');
             }
         }
