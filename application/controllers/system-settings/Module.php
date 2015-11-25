@@ -45,7 +45,7 @@ class Module extends Easol_Controller {
 			return redirect('system-settings/module');
 		}
 
-		$data['configuration'] = unserialize($data['configuration']['Value']); 
+		$data['configuration'] = unserialize($data['configuration']['Value']);
 
 		$this->render('index', $data);
 	}
