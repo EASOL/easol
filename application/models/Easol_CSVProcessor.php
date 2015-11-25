@@ -6,6 +6,10 @@ class Easol_CSVProcessor extends CI_Model {
     private $tableName;
     private $tableColumns;
     private $csvHeader;
+    private $insertCount=0;
+    private $updateCount=0;
+    private $deleteCount=0;
+    private $failCount=0;
 
     private $primaryColumn="";
 
@@ -51,10 +55,13 @@ class Easol_CSVProcessor extends CI_Model {
                             $this->db->query("set identity_insert edfi.".$this->tableName." on");
                         $this->db->insert('edfi.' . $this->tableName, $insertData);
 
-                        if ($this->db->insert_id())
+                        if ($this->db->insert_id()){
                             $this->result['inserted'][] = $key;
-                        else
+                            $this->setCount('insertCount');
+                        } else {
                             $this->result['error'][] = $key;
+                            $this->setCount('failCount');
+                        }
 
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
@@ -66,14 +73,18 @@ class Easol_CSVProcessor extends CI_Model {
 
                         $this->db->where($where);
                         $this->db->update('edfi.' . $this->tableName, $insertData);
-                        if ($this->db->affected_rows() > 0)
+                        if ($this->db->affected_rows() > 0){
                             $this->result['updated'][] = $key;
-                        else
+                            $this->setCount('updateCount');
+                        } else {
                             $this->result['error'][] = $key;
+                            $this->setCount('failCount');
+                        }
 
                     }else{
                         //Data was a duplicate and Update was not allowed to be done
                         $this->result['skipped'][] = $key;
+                        $this->setCount('failCount');
                     }
 
 
@@ -126,10 +137,13 @@ class Easol_CSVProcessor extends CI_Model {
                         $this->db->where($where);
                         $this->db->delete('edfi.' . $this->tableName);
 
-                        if ($this->db->affected_rows() > 0 )
+                        if ($this->db->affected_rows() > 0 ) {
                             $this->result['deleted'][] = $key;
-                        else
+                            $this->setCount('deleteCount');
+                        } else {
                             $this->result['error'][] = $key;
+                            $this->setCount('failCount');
+                        }
 
                     } else {
                         $this->csvHeader = $row;
@@ -225,6 +239,7 @@ class Easol_CSVProcessor extends CI_Model {
         return $result;
 
     }
+    
     /**
      * @param $data
      * @return boolean
@@ -236,4 +251,22 @@ class Easol_CSVProcessor extends CI_Model {
         if ($num > 0) return true;
         return false;
     }
+
+    /**
+     * @param string
+     * @return void
+     */
+    private function setCount($varName) {
+        eval('$this->'.$varName.' ++;');
+    }
+    
+    /**
+     * @param string
+     * @return interger
+     */
+    public function __getCount($varName) {
+        eval('$varName = $this->'.$varName.';');
+        return $varName;
+    }
+
 }

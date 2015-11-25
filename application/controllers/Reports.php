@@ -62,7 +62,7 @@ class Reports extends Easol_Controller {
         $this->load->model('entities/easol/Easol_Report');
 
         $model= new Easol_Report();
-       //die(print_r($this->input->post('access[access]')));
+        //die(print_r($this->input->post('access[access]')));
         if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
 
                 if ($this->form_validation->run() != FALSE) {
@@ -71,13 +71,24 @@ class Reports extends Easol_Controller {
                         $this->load->model('entities/easol/Easol_ReportAccess');
 
                         foreach($this->input->post('access[access]') as $access){
-                           $displayAccess = new Easol_ReportAccess();
+                            $displayAccess = new Easol_ReportAccess();
                             $displayAccess->ReportId = $model->ReportId;
                             $displayAccess->RoleTypeId = $access;
                             $displayAccess->save();
                         }
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
+                        
+                        $this->load->library('Easol_logs');
+                        $logs = new Easol_logs();
+                        $logs->logs( array(
+                            "StaffUSI"=>$_SESSION['StaffUSI'], 
+                            'Description'=>'Flex Report (create)', 
+                            "Controller"=>'Report', 
+                            "Method"=>'Create',
+                            "ModelId"=>$model->ReportId,
+                            "IpAddress"=>$this->input->ip_address())
+                        );
 
                         return redirect(site_url("reports/index"));
 
@@ -107,22 +118,23 @@ class Reports extends Easol_Controller {
         $model= new Easol_Report();
         $model= $model->hydrate($model->findOne($id));
 
-       // die(print_r($model));
+        // die(print_r($model));
         //die(print_r($this->input->post('access[access]')));
         if($this->input->post('report') && $model->populateForm($this->input->post('report'))) {
 
             if ($this->form_validation->run() != FALSE) {
+                $arrOldValue = $this->stdToArray($model->findOne($id));
                 if($model->save()){
-
+                    
                     $this->load->model('entities/easol/Easol_ReportAccess');
-    /*
+/*
                     foreach($this->input->post('access[access]') as $access){
                         $displayAccess = new Easol_ReportAccess();
                         $displayAccess->ReportId = $model->ReportId;
                         $displayAccess->RoleTypeId = $access;
                         $displayAccess->save();
                     }
-    */
+*/
 
                     $aRoles=[];
                     foreach($model->getAccessTypes() as $role){
@@ -144,6 +156,20 @@ class Reports extends Easol_Controller {
 
                     $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
                     $this->session->set_flashdata('type', 'success');
+                    
+                    unset($arrOldValue['ReportId'], $arrOldValue['CreatedBy'], $arrOldValue['CreatedOn'], $arrOldValue['UpdatedBy'], $arrOldValue['UpdatedOn'], $arrOldValue['SchoolId']);
+                    $this->load->library('Easol_logs');
+                    $logs = new Easol_logs();
+                    $logs->logs( array(
+                        "StaffUSI"=>$_SESSION['StaffUSI'], 
+                        'Description'=>'Flex Report (Update)', 
+                        "Controller"=>'Report', 
+                        "Method"=>'edit',
+                        "ModelId"=>$model->ReportId,
+                        "OldValue"=>json_encode($this->stdToArray($arrOldValue)),
+                        "NewValue"=>json_encode($this->input->post('report')),
+                        "IpAddress"=>$this->input->ip_address())
+                    );
 
                     return  redirect(site_url("reports/edit/".$model->ReportId));
 
@@ -158,6 +184,15 @@ class Reports extends Easol_Controller {
 
     }
 
+    public function stdToArray($obj) {
+        $reaged = (array) $obj;
+        foreach ($reaged as $key => &$field) {
+            if (is_object($field))
+                $field = stdToArray($field);
+        }
+        return $reaged;
+    }
+    
     public function view($id=null, $pageNo=1){
         if($id==null)
             throw new \Exception("Invalid report Id");
@@ -237,6 +272,17 @@ class Reports extends Easol_Controller {
 
         $this->session->set_flashdata('message', 'Report Successfully deleted');
         $this->session->set_flashdata('type', 'success');
+        
+        $this->load->library('Easol_logs');
+        $logs = new Easol_logs();
+        $logs->logs( array(
+            "StaffUSI"=>$_SESSION['StaffUSI'], 
+            'Description'=>'Flex Report (delete)', 
+            "Controller"=>'Report', 
+            "Method"=>'delete',
+            "ModelId"=>$id,
+            "IpAddress"=>$this->input->ip_address())
+        );
 
         return  redirect(site_url("reports"));
 
