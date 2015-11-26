@@ -6,11 +6,6 @@ class Easol_CSVProcessor extends CI_Model {
     private $tableName;
     private $tableColumns;
     private $csvHeader;
-    /* Tarlles: Let's remove those variables. We already have that info available with the $result array. We just need to do a count on the entry we want. So instead of retrieve the value for $insertCount, we could just count($result['inserted']). Please also remove the get and set methods for those */
-    private $insertCount=0;
-    private $updateCount=0;
-    private $deleteCount=0;
-    private $failCount=0;
 
     private $primaryColumn="";
 
@@ -56,13 +51,10 @@ class Easol_CSVProcessor extends CI_Model {
                             $this->db->query("set identity_insert edfi.".$this->tableName." on");
                         $this->db->insert('edfi.' . $this->tableName, $insertData);
 
-                        if ($this->db->insert_id()){
+                        if ($this->db->insert_id())
                             $this->result['inserted'][] = $key;
-                            $this->setCount('insertCount');
-                        } else {
+                        else
                             $this->result['error'][] = $key;
-                            $this->setCount('failCount');
-                        }
 
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
@@ -74,18 +66,14 @@ class Easol_CSVProcessor extends CI_Model {
 
                         $this->db->where($where);
                         $this->db->update('edfi.' . $this->tableName, $insertData);
-                        if ($this->db->affected_rows() > 0){
+                        if ($this->db->affected_rows() > 0)
                             $this->result['updated'][] = $key;
-                            $this->setCount('updateCount');
-                        } else {
+                        else
                             $this->result['error'][] = $key;
-                            $this->setCount('failCount');
-                        }
 
-                    }else{
+                    } else {
                         //Data was a duplicate and Update was not allowed to be done
                         $this->result['skipped'][] = $key;
-                        $this->setCount('failCount');
                     }
 
 
@@ -138,13 +126,10 @@ class Easol_CSVProcessor extends CI_Model {
                         $this->db->where($where);
                         $this->db->delete('edfi.' . $this->tableName);
 
-                        if ($this->db->affected_rows() > 0 ) {
+                        if ($this->db->affected_rows() > 0 ) 
                             $this->result['deleted'][] = $key;
-                            $this->setCount('deleteCount');
-                        } else {
+                        else 
                             $this->result['error'][] = $key;
-                            $this->setCount('failCount');
-                        }
 
                     } else {
                         $this->csvHeader = $row;
@@ -251,23 +236,6 @@ class Easol_CSVProcessor extends CI_Model {
         $num = $this->db->count_all_results("edfi.".$this->tableName);
         if ($num > 0) return true;
         return false;
-    }
-
-    /**
-     * @param string
-     * @return void
-     */
-    private function setCount($varName) {
-        eval('$this->'.$varName.' ++;');
-    }
-
-    /**
-     * @param string
-     * @return interger
-     */
-    public function __getCount($varName) {
-        eval('$varName = $this->'.$varName.';');
-        return $varName;
     }
 
 }

@@ -79,16 +79,11 @@ class Reports extends Easol_Controller {
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
 
-                        $this->load->library('Easol_logs');
-                        $logs = new Easol_logs();
-                        $logs->Log( array(
-                            "StaffUSI"=>$_SESSION['StaffUSI'],
+                        $this->easol_logs->Log( [
                             'Description'=>'Flex Report (create)',
-                            "Controller"=>'Report',
-                            "Method"=>'Create',
-                            "ModelId"=>$model->ReportId,
-                            "IpAddress"=>$this->input->ip_address())
-                        );
+                            'Data'=>["ModelId"=>$model->ReportId]
+                        ]);
+                        
 
                         return redirect(site_url("reports/index"));
 
@@ -158,18 +153,10 @@ class Reports extends Easol_Controller {
                     $this->session->set_flashdata('type', 'success');
 
                     unset($arrOldValue['ReportId'], $arrOldValue['CreatedBy'], $arrOldValue['CreatedOn'], $arrOldValue['UpdatedBy'], $arrOldValue['UpdatedOn'], $arrOldValue['SchoolId']);
-                    $this->load->library('Easol_logs');
-                    $logs = new Easol_logs();
-                    $logs->Log( array(
-                        "StaffUSI"=>$_SESSION['StaffUSI'],
+                    $this->easol_logs->Log( [
                         'Description'=>'Flex Report (Update)',
-                        "Controller"=>'Report',
-                        "Method"=>'edit',
-                        "ModelId"=>$model->ReportId,
-                        "OldValue"=>json_encode($this->stdToArray($arrOldValue)),
-                        "NewValue"=>json_encode($this->input->post('report')),
-                        "IpAddress"=>$this->input->ip_address())
-                    );
+                        'Data'=>["ModelId"=>$model->ReportId, 'OldValue'=>json_encode($this->stdToArray($arrOldValue)),'NewValue'=>json_encode($this->input->post('report'))]
+                    ]);
 
                     return  redirect(site_url("reports/edit/".$model->ReportId));
 
@@ -273,16 +260,10 @@ class Reports extends Easol_Controller {
         $this->session->set_flashdata('message', 'Report Successfully deleted');
         $this->session->set_flashdata('type', 'success');
 
-        $this->load->library('Easol_logs');
-        $logs = new Easol_logs();
-        $logs->Log( array(
-            "StaffUSI"=>$_SESSION['StaffUSI'],
+        $this->easol_logs->Log( [
             'Description'=>'Flex Report (delete)',
-            "Controller"=>'Report',
-            "Method"=>'delete',
-            "ModelId"=>$id,
-            "IpAddress"=>$this->input->ip_address())
-        );
+            'Data'=>["ModelId"=>$id]
+        ]);
 
         return  redirect(site_url("reports"));
 

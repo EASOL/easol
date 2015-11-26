@@ -43,15 +43,7 @@ class Home extends Easol_Controller {
     }
 
     private function writeLog (){
-        $this->load->library('Easol_logs');
-        $logs = new Easol_logs();
-        $logs->Log( array(
-            "StaffUSI"=>$_SESSION['StaffUSI'],
-            'Description'=>'Login',
-            "Controller"=>'Home',
-            "Method"=>'index',
-            "IpAddress"=>$this->input->ip_address())
-        );
+        $this->easol_logs->Log( ['Description'=>'Login']);        
     }
 
     private function _idtoken_login() {
