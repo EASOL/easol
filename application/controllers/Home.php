@@ -41,6 +41,12 @@ class Home extends Easol_Controller {
 
 	private function _idtoken_login ()
 	{
+
+		if (system_google_auth_enabled() != 'yes') {
+			$this->session->set_flashdata('error', 'Google Sign In is disabled.');
+			return;
+		}
+
 		$this->load->model('Usermanagement_M');
 		$user = $this->Usermanagement_M->getEasolUsers($_REQUEST['uemail'], "SEM.ElectronicMailAddress");
 

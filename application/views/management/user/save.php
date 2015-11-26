@@ -56,12 +56,14 @@
 							Password </label> <input type="text" class="form-control input-sm" name="user[Password]" value="" />
 					</div>
 
+					<?php if (system_google_auth_enabled()): ?>
 					<div id="usermanagement-addedit-authtype" class="checkbox">
 						<label for="GoogleAuth">
 							<input type="checkbox" name="user[GoogleAuth]" value="1" <?php echo ($post['user']['GoogleAuth']) ? 'checked' : ''; ?>>
 							Google Authorization
 						</label>
 					</div>
+					<?php endif; ?>
 
 					<?php if (isset($user)): ?>
 						<input type="hidden" name="user[StaffUSI]" value="<?php echo $user->StaffUSI; ?>">

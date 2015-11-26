@@ -61,7 +61,7 @@ $config['menu'] = [
 		'label'  => 'Data',
 		'parent' => 'management'
 	],
-	'usermanagement' => [
+	'management/user' => [
 		'label'  => 'User',
 		'parent' => 'management'
 	],
