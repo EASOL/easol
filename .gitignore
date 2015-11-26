@@ -5,3 +5,5 @@ application/config/database.php
 
 /docs
 
+logs
+/application/tests/build/coverage
