@@ -30,7 +30,8 @@ $config['menu'] = [
 		'label' => 'Learning Lab',
 		'url' => '#',
 		'attr' => 'data-intro="Learning Lab: Free, Open Education Resources (OER) for supplemental classroom use with usage analytics" data-position="right"',
-		'icon'=>'table2'
+		'icon'=>'table2',
+		'auth'=>"@"
 	],
 	'content' => [
 		'label' => 'Content',

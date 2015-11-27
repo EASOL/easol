@@ -45,7 +45,15 @@ class Easol_AuthorizationRoles extends CI_Model {
      * $allowedRoles * for grant all access, @ for all logged in users, [] for specific user
      * @return bool
      */
-    public static function hasAccess($allowedRoles=[]){
+    public static function hasAccess($allowedRoles=[], $section=null){
+
+        if ($section) {
+            $ci = &get_instance();
+            if ($ci->easol_module->is_module($section) && !$ci->easol_module->is_enabled($section)) {
+                return false;
+            }
+        }
+
         if(!is_array($allowedRoles)){
             if($allowedRoles=='*')
                 return true;

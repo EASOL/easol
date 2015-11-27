@@ -15,7 +15,6 @@ class System extends Easol_Controller {
 	}
 
 	public function index() 	{
-		$this->load->library('Easol_Module');
 
 		$data['module_listing'] = $this->easol_module->listing();
 

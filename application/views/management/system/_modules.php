@@ -4,13 +4,23 @@
 	</div>
 	<div class="panel-body default">
 
-		<ul class="list-group">
-			<?php foreach ($module_listing as $k => $row): ?>
-				<li class="list-group-item">
-					<input <?php echo (isset($module[$k])) ? "checked" : "" ?> data-toggle="toggle" type="checkbox" name="module[<?php echo $k ?>]" value="1"> <?php echo $row ?>
-				</li>
+		<?php foreach ($module_listing as $k => $row): ?>
+			<h4 class="bg-success section-title clearfix">
+				<?php echo $row['label'] ?>
+				<div class="pull-right"><input <?php echo (isset($module[$k]['enabled'])) ? "checked" : "" ?> data-toggle="toggle" type="checkbox" name="module[<?php echo $k ?>][enabled]" value="1"></div>
+			</h4>
+
+
+			<?php foreach ($row['config'] as $field=>$label): ?>
+			<div class="form-group">
+				<label><?php echo $label ?>:</label>
+				<input type="text" name="module[<?php echo $k ?>][<?php echo $field ?>]" value="<?php echo isset($module[$k][$field]) ? $module[$k][$field] : "" ?>" class="form-control">
+			</div>
 			<?php endforeach; ?>
-		</ul>
+
+
+		<?php endforeach; ?>
+
 
 		<input type="submit" class="btn btn-default" value="Save">
 

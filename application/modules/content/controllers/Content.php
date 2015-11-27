@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Content extends Easol_Controller {
 
+     public function __construct() {
+
+          parent::__construct();
+
+          $content_config = $this->easol_module->module_config('content');
+
+          $this->config->set_item('content_api', $content_config->api_url);
+
+     }
+
 
     protected function accessRules(){
         return [
@@ -62,19 +72,19 @@ class Content extends Easol_Controller {
                 $start_count    = ((($page - 1) * EASOL_PAGINATION_PAGE_SIZE) + 1);
                 $end_count      = (($start_count + EASOL_PAGINATION_PAGE_SIZE) - 1);
 
-                if ($end_count < EASOL_PAGINATION_PAGE_SIZE)   // happens when records less than per page  
-                    $end_count = EASOL_PAGINATION_PAGE_SIZE;  
-                else if ($end_count > $total_count)  // happens when result end is greater than total records  
-                    $end_count = $total_count;                
+                if ($end_count < EASOL_PAGINATION_PAGE_SIZE)   // happens when records less than per page
+                    $end_count = EASOL_PAGINATION_PAGE_SIZE;
+                else if ($end_count > $total_count)  // happens when result end is greater than total records
+                    $end_count = $total_count;
 
                 // Define a new query string without the page and limit values
                 // for use in building the pagination links.
                 $base = $data;
-                unset($base['limit']);                
+                unset($base['limit']);
                 unset($base['page']);
-                $base_qs = http_build_query($base);                
+                $base_qs = http_build_query($base);
             }
-           
+
             // Set the base url for filter links
             $filter_base_url = current_url_full();
 
@@ -103,23 +113,23 @@ class Content extends Easol_Controller {
                 }
             }
             // Trim the description to 465 chars.
-              if(isset($response->results)) {               
+              if(isset($response->results)) {
                 foreach ($response->results as $obj)
                 {
                  if(strlen($obj->description) > 465)
                        $obj->description = mb_strimwidth($obj->description, 0, 465, "...");
-                }  
+                }
             }
-            
+
             // build the pagination links.
             $this->load->library('pagination');
             $config['base_url']             = (isset($base_qs))? 'content?'.$base_qs : 'content?';
-            $config['page_query_string']    = TRUE; 
+            $config['page_query_string']    = TRUE;
             $config['use_page_numbers']     = TRUE;
             $config['per_page']             = EASOL_PAGINATION_PAGE_SIZE;
             $config['query_string_segment'] = 'page';
             $config['total_rows']           = $total_count;
-           
+
             /* This Application Must Be Used With BootStrap 3 *  */
             $config['full_tag_open'] = "<ul class='pagination'>";
             $config['full_tag_close'] ="</ul>";
@@ -136,10 +146,10 @@ class Content extends Easol_Controller {
             $config['last_tag_open'] = "<li>";
             $config['last_tagl_close'] = "</li>";
 
-            $this->pagination->initialize($config); 
+            $this->pagination->initialize($config);
 
             $view = (!empty($view)) ? $view : 'index';
-            
+
             if ($view == 'extension')
                 $this->layout = null;
 
@@ -148,7 +158,7 @@ class Content extends Easol_Controller {
                                     'Standards' => array('alignments'     => 'name'),
                                     'Grades'    => array('grades'         => 'grade'),
                                     'Types'     => array('resource_types' => 'name'),
-                               
+
                             );
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
@@ -160,7 +170,7 @@ class Content extends Easol_Controller {
                 'footnotes'         => $footnotes,
                 'total_count'       => isset($total_count) ? $total_count : 0,
                 'start_count'       => isset($start_count) ? $start_count : 0,
-                'end_count'         => isset($end_count) ? $end_count : 0,                
+                'end_count'         => isset($end_count) ? $end_count : 0,
             ]);
         }
 

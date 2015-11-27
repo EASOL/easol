@@ -92,6 +92,10 @@ class Easol_Controller extends CI_Controller {
 	 */
 	protected function authorize($allowedRoles=[]){
 
+		if ($this->easol_module->is_module($this->router->fetch_class()) && !$this->easol_module->is_enabled($this->router->fetch_class())) {
+			return redirect('home/accessdenied');
+		}
+
 
 		if($allowedRoles=='@' && !Easol_Authentication::isLoggedIn())
 			return redirect('home');

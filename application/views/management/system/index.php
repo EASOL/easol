@@ -13,18 +13,13 @@
 
 		<div class="col-md-6 col-sm-12">
 			<?php $this->load->view('management/system/_timezone'); ?>
+			<?php $this->load->view('management/system/_google_auth'); ?>
+			<?php $this->load->view('management/system/_language'); ?>
 		</div>
 
 		<div class="col-md-6 col-sm-12">
 			<?php $this->load->view('management/system/_modules'); ?>
 		</div>
-
-		<div class="col-md-6 col-sm-12">
-			<?php $this->load->view('management/system/_google_auth'); ?>
-		</div>
-
-		<div class="col-md-6 col-sm-12">
-			<?php $this->load->view('management/system/_language'); ?>
-		</div>
 	</div>
+
 </form>
