@@ -46,6 +46,9 @@ $(function() {
     };
 
     $('#dm_select_obj').filterByText($('#dm_search_obj'), false);
+    $('#dm_select_association').filterByText($('#dm_search_association'), false);
+    $('#dm_select_type').filterByText($('#dm_search_type'), false);
+    $('#dm_select_descriptor').filterByText($('#dm_search_descriptor'), false);
 
     /* end dynamic object filtering */
 

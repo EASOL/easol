@@ -32,6 +32,11 @@ $this->load->model("DataManagementQueries");
                 <div class="panel panel-default dm_tables" id="dm_association">
                     <div class="panel-heading">Associations</div>
                     <div class="panel-body">
+                        <form class="form-inline undo-overrides default-form-inline">
+                            <div class="form-group">
+                                <input id="dm_search_association" class="form-control input-sm" placeholder="Filter.."/>
+                             </div>
+                        </form>                        
                         <select class="form-control dm_select" size="10" id="dm_select_association">
                             <?php foreach(DataManagementQueries::getAssociationsList() as $obj) {  ?>
                                 <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
@@ -46,6 +51,11 @@ $this->load->model("DataManagementQueries");
                 <div class="panel panel-default dm_tables" id="dm_type">
                     <div class="panel-heading">Types</div>
                     <div class="panel-body">
+                        <form class="form-inline undo-overrides default-form-inline">
+                            <div class="form-group">
+                                <input id="dm_search_type" class="form-control input-sm" placeholder="Filter.."/>
+                             </div>
+                        </form>                        
                         <select class="form-control dm_select" size="10" id="dm_select_type">
                             <?php foreach(DataManagementQueries::getTypesList() as $obj) {  ?>
                                 <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
@@ -58,6 +68,11 @@ $this->load->model("DataManagementQueries");
                 <div class="panel panel-default dm_tables" id="dm_descriptor">
                     <div class="panel-heading">Descriptors</div>
                     <div class="panel-body">
+                        <form class="form-inline undo-overrides default-form-inline">
+                            <div class="form-group">
+                                <input id="dm_search_descriptor" class="form-control input-sm" placeholder="Filter.."/>
+                             </div>
+                        </form>                        
                         <select class="form-control dm_select" size="10" id="dm_select_descriptor">
                             <?php foreach(DataManagementQueries::getDescriptorsList() as $obj) {  ?>
                                 <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
