@@ -101,7 +101,7 @@ $.fn.dataTableExt.aoFeatures.push({
 			return false;
 		});
 
-		btn.appendChild(document.createTextNode("CSV"));
+		btn.appendChild(document.createTextNode("Download CSV"));
 		return btn;
 	},
 	cFeature: "V",

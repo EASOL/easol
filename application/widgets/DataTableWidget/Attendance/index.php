@@ -194,7 +194,7 @@ echo $dataContents;
             <?php if($downloadCSV==true){?>
                 <div class="col-md-7">
 
-                    <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button class="btn btn-default"><i class="fa fa-download"> </i> Download CSV</button></a>
+                    <a href="<?= ($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING']."&downloadcsv=y" : "?downloadcsv=y" ?>"><button class="btn btn-default">Download CSV <i class="fa fa-download"> </i> </button></a>
                 </div>
             <?php } ?>
 

@@ -48,11 +48,11 @@
                       </select>   
                   </div>    
                   <?php } ?>
-
-                  <div class="form-group">                   
-                    <div id="csv-button"></div>
-                  </div>                                                     
-                
+                    
+                    <div class="form-group">
+                        <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
+                        <label for="filter-PageLength">Records Per Page</label>
+                    </div>
                 </form>
  
                 <?php if (isset($results) and !empty($results)): ?>
@@ -91,6 +91,9 @@
                           <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <div class="pull-right form-group" style="padding-top: 0.25em;">                   
+                        <div id="csv-button"></div>
+                    </div>
                 </div>
               <?php endif; ?>
             </div>
