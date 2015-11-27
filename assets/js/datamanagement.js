@@ -12,6 +12,24 @@ var upload_result_table;
 
 $(function() {
 
+    /* begin dynamic object filtering */
+
+    function createFilters(id) {
+       var options = {
+         valueNames: [ 'filter-name', 'filter-count' ]
+        };
+
+       var filterList = new List(id, options);
+       filterList.sort('filter-count', { order: "desc" });        
+    }
+
+    function ready() {
+        ['publishers-list', 'standards-list'].forEach(function (filterName){
+            createFilters(filterName);
+        })
+    }
+
+    /* end dynamic object filtering */
 
     $( ".dm_tables .panel-footer a" ).click(function(event) {
 

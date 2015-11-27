@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 set_time_limit(0);
-class DataManagement extends Easol_Controller {
+class Datamanagement extends Easol_Controller {
 
     /**
      * default constructor

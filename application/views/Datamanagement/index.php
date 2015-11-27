@@ -12,7 +12,6 @@ $this->load->model("DataManagementQueries");
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
-
                 <div class="panel panel-default dm_tables"  id="dm_object">
                     <div class="panel-heading">Objects</div>
                     <div class="panel-body">
@@ -20,11 +19,9 @@ $this->load->model("DataManagementQueries");
                             <?php foreach(DataManagementQueries::getObjectsList() as $obj) {  ?>
                             <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                             <?php } ?>
-
                         </select>
                     </div>
                     <div class="panel-footer" style="text-align: right"><a href="#">Show All</a></div>
-
                 </div>
 
                 <div class="panel panel-default dm_tables" id="dm_association">
