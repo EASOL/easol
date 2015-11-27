@@ -15,6 +15,11 @@ $this->load->model("DataManagementQueries");
                 <div class="panel panel-default dm_tables"  id="dm_object">
                     <div class="panel-heading">Objects</div>
                     <div class="panel-body">
+                        <form class="form-inline undo-overrides default-form-inline">
+                            <div class="form-group">
+                                <input id="dm_search_obj" class="form-control input-sm" placeholder="Filter.."/>
+                             </div>
+                        </form>
                         <select class="form-control dm_select" size="10" id="dm_select_obj">
                             <?php foreach(DataManagementQueries::getObjectsList() as $obj) {  ?>
                             <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>

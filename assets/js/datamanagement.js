@@ -12,22 +12,40 @@ var upload_result_table;
 
 $(function() {
 
-    /* begin dynamic object filtering */
+    /* 
+    * begin dynamic object filtering 
+    * http://www.lessanvaezi.com/filter-select-list-options 
+    */
+    jQuery.fn.filterByText = function(textbox, selectSingleMatch) {
+      return this.each(function() {
+        var select = this;
+        var options = [];
+        $(select).find('option').each(function() {
+          options.push({value: $(this).val(), text: $(this).text()});
+        });
+        $(select).data('options', options);
+        $(textbox).bind('change keyup', function() {
+          var options = $(select).empty().scrollTop(0).data('options');
+          var search = $.trim($(this).val());
+          var regex = new RegExp(search,'gi');
 
-    function createFilters(id) {
-       var options = {
-         valueNames: [ 'filter-name', 'filter-count' ]
-        };
+          $.each(options, function(i) {
+            var option = options[i];
+            if(option.text.match(regex) !== null) {
+              $(select).append(
+                 $('<option>').text(option.text).val(option.value)
+              );
+            }
+          });
+          if (selectSingleMatch === true && 
+              $(select).children().length === 1) {
+            $(select).children().get(0).selected = true;
+          }
+        });
+      });
+    };
 
-       var filterList = new List(id, options);
-       filterList.sort('filter-count', { order: "desc" });        
-    }
-
-    function ready() {
-        ['publishers-list', 'standards-list'].forEach(function (filterName){
-            createFilters(filterName);
-        })
-    }
+    $('#dm_select_obj').filterByText($('#dm_search_obj'), false);
 
     /* end dynamic object filtering */
 

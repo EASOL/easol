@@ -229,7 +229,7 @@
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
     <script src="<?= site_url('assets/js/layout.js') ?>"></script>
 
-    <?php if ($this->router->class=='content') { ?>
+    <?php if ($this->router->class=='content' or $this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/list.min.js') ?>"></script>
     <?php } ?>
     <!--
