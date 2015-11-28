@@ -94,6 +94,7 @@ WHERE
                                   'default'   => $this->input->get('filter[Cohort]'),
 
                               ],
+                        
                         'Result'    =>
                             [
                                 'range'     =>
@@ -102,11 +103,12 @@ WHERE
                                         'set'   =>  [25,50,100]
                                     ],
                                 'default'   =>   ($this->input->get('filter[Result]')===false) ? 0 : $this->input->get('filter[Result]'),
-                                'label'     =>  'Results',
+                                'label'     =>  'Records Per Page',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
                                 'fieldType' => 'pageSize'
                             ],
+  
                         'Sort'    =>
                             [
                                 'label'     =>  'Sort Column',

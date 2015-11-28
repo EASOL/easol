@@ -122,20 +122,20 @@
         <?php } ?>
 
 
-            <div class="col-md-4 pull-right">
-                <?php if(isset($filter) && isset($filter['fields']) && isset($filter['fields']['Result'])) { ?>
+            <div class="row pull-right">
+                <?php /*if(isset($filter) && isset($filter['fields']) && isset($filter['fields']['Result'])) { ?>
                     <div class="col-md-5">
-                <select class="form-control" id="filter-result" >
-                    <?php
-                    foreach($filter['fields']['Result']['range']['set'] as $key => $value){
-                        ?>
-                        <option value="<?= $key ?>" <?php if($key==$filter['fields']['Result']['default']) echo 'selected' ?>><?= $value ?></option>
-                        <?php
-                    }
-                    ?>
-                </select>
+                        <select class="form-control" id="filter-result" >
+                            <?php
+                            foreach($filter['fields']['Result']['range']['set'] as $key => $value){
+                                ?>
+                                <option value="<?= $key ?>" <?php if($key==$filter['fields']['Result']['default']) echo 'selected' ?>><?= $value ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
                     </div>
-                <?php } ?>
+                <?php } */ ?>
                 <?php if($downloadCSV==true){?>
                     <div class="col-md-7">
 
