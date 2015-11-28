@@ -56,9 +56,10 @@
                                     <span class="filter-count">(<?= $val ?>)</span>
                                 </a>
                             </li>
-                            <?php endforeach; } ?>
+                            <?php endforeach;  ?>
                         </ul>
                     </div>
+                    <?php } ?>
 
                     <?php if (isset($filters->resource_types)) { $filter = $filters->resource_types; $filtername = 'resource_types'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
@@ -90,9 +91,10 @@
                                    <span class="filter-count">(<?= $val ?>)</span>
                                 </a>
                             </li>
-                            <?php endforeach; } ?>
+                            <?php endforeach;  ?>
                          </ul>
                     </div>
+                    <?php } ?>
                   </div>
                   <div class="left content-results">
                     <?php foreach ($results as $idx => $obj): ?>

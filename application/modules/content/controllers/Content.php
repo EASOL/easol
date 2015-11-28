@@ -61,11 +61,16 @@ class Content extends Easol_Controller {
                 // If there is no page param then the api starts with the first record through the limit param.
 
                 if (isset($data['query']) && $data['query'] == "search text") { $data['query'] = ""; }
+                
+                if(isset($data['standard'])){
+                    $data['alignment'] = $data['standard'];
+                    unset($data['standard']);
+                   }   
                 $query          = http_build_query($data);
                 $site           = $this->config->item('content_api').$query;
                 $headers        = get_headers($site, 1);
                 $response       = json_decode(file_get_contents($site, true));
-
+               
                 // Get the pagination record metrics for display in the view file(s).
                 $page           = ($this->input->get('page')) ? $this->input->get('page') : 1;
                 $total_count    = $headers['x-total-count'];
@@ -103,7 +108,7 @@ class Content extends Easol_Controller {
                 foreach ($response->aggregations as $filtername => $filter)
                 {
                     foreach ($filter as $key => $value) {
-                        if ($value < 2) {
+                        if ($value < 0) {
                             unset($filter->$key);
                         }
                     }
@@ -160,6 +165,7 @@ class Content extends Easol_Controller {
                                     'Types'     => array('resource_types' => 'name'),
 
                             );
+            
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
