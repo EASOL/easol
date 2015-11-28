@@ -7,11 +7,11 @@ class Analytics extends Easol_Controller {
 
         parent::__construct();
 
-        $config = $this->easol_module->module_config('content');
+        $config = $this->easol_module->module_config('analytics');
         $this->api_url = $config->api_url;
         $this->api_key = $config->api_key;
         $this->api_pass = $config->api_pass;
-
+        
     }
 
 
