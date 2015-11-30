@@ -6,7 +6,7 @@ var  ajxTabDisplayHidden = true;
 
 var currentTable = null;
 var dm_currentPage = 1;
-var dm_PageSize = 50;
+var dm_PageSize = 100;
 
 var upload_result_table;
 
