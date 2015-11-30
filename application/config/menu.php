@@ -5,26 +5,37 @@ $config['menu'] = [
 	'dashboard' => [
 		'label' => 'Dashboard',
 		'icon'  => 'dashboard',
+		'attr'  => 'data-intro="Dashboard: Customized reporting tool per school for administrators and teachers" data-position="right"',
 		'auth'  => ['System Administrator', 'Data Administrator']
 	],
 	'student'=>[
 		'label'=>'Students',
 		'icon'=>'graduation-cap',
-		'auth'=> ['System Administrator', 'Data Administrator']
+		'auth'=> ['System Administrator', 'Data Administrator'],
+		'group'=>'student',
 	],
 	'sections' => [
 		'label' => 'Sections',
-		'icon'  => 'edit'
+		'icon'  => 'edit',
+		'group' => 'student',
 	],
 	'attendance' => [
 		'label' => 'Attendance',
 		'icon' => 'qrcode',
-		'auth' => ['System Administrator', 'Data Administrator']
+		'auth' => ['System Administrator', 'Data Administrator'],
+		'group' => 'student',
 	],
 	'assessments' => [
 		'label' => 'Assessments',
 		'icon'  => 'table',
-		'auth'  => ['System Administrator', 'Data Administrator']
+		'auth'  => ['System Administrator', 'Data Administrator'],
+		'group' => 'student',
+	],
+	'cohorts' => [
+		'label' => 'Cohorts',
+		'icon'  => 'cubes',
+		'auth'  => ['System Administrator', 'Data Administrator'],
+		'group' => 'student',
 	],
 	'learning-lab' => [
 		'label' => 'Learning Lab',
@@ -40,11 +51,6 @@ $config['menu'] = [
 	'analytics' => [
 		'label'  => 'Analytics',
 		'parent' => 'learning-lab'
-	],
-	'cohorts' => [
-		'label' => 'Cohorts',
-		'icon'  => 'cubes',
-		'auth'  => ['System Administrator', 'Data Administrator']
 	],
 	'reports' => [
 		'label' => 'Flex Reports',
@@ -73,5 +79,11 @@ $config['menu'] = [
 	'management/system' => [
 		'label'  => 'System',
 		'parent' => 'management'
+	]
+];
+
+$config['menu_group'] = [
+	'student'=>[
+		'attr'=>'data-intro="Student Data Management: View students, sections and grades, attendance and assessments" data-position="right"'
 	]
 ];

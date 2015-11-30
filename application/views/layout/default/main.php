@@ -30,9 +30,9 @@
     <?php } ?>
 
     <?php if (system_google_auth_enabled()): ?>
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="<?php echo system_google_auth_app_id() ?>.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="<?php echo system_google_auth_app_id() ?>.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     <?php endif; ?>
 
     <!--
@@ -75,42 +75,29 @@
                             <?php if (!empty($item['auth']) && !Easol_AuthorizationRoles::hasAccess($item['auth'])) continue; ?>
 
                             <?php
+                            if (!empty($item['submenu'])) {
+                                $skip = true;
+                                foreach ($item['submenu'] as $submenu_slug => $submenu_item) {
+                                    if (empty($submenu_item['auth'])) $submenu_item['auth'] = $item['auth'];
 
-                                if (!empty($item['submenu'])) {
-                                    foreach ($item['submenu'] as $submenu_slug => $submenu_item) {
-                                        if (empty($submenu_item['auth'])) $submenu_item['auth'] = $item['auth'];
-                                        if (!empty($submenu_item['auth']) && !Easol_AuthorizationRoles::hasAccess($submenu_item['auth'], $submenu_slug)) $skip = true;
-                                        else $skip = false;
-
+                                    if (!empty($submenu_item['auth']) && Easol_AuthorizationRoles::hasAccess($submenu_item['auth'], $submenu_slug)) {
+                                        $skip = false;
                                     }
                                 }
+                            }
 
-                                if ($skip) continue;
+                            if ($skip) continue;
                             ?>
 
+                            <?php if ($item['type'] == 'group'): ?>
 
-                            <li class="<?php echo ($this->router->fetch_class() == $slug) ? 'active-menu' : '' ?>" <?php echo (isset($item['attr'])) ? $item['attr'] : '' ?>>
-                                <a id="<?php echo $slug; ?>" href="<?php echo (isset($item['url'])) ?  site_url($item['url']) : site_url($slug) ?>">
-                                    <i class="fa fa-<?php echo $item['icon'] ?>"></i>
-                                    <?php echo $item['label'] ?>
-                                </a>
-                                <?php if (!empty($item['submenu'])): ?>
-
-                                    <ul class="sub-menu">
-
-                                        <?php foreach ($item['submenu'] as $submenu_slug => $submenu_item) :?>
-                                             <?php if (empty($submenu_item['auth'])) $submenu_item['auth'] = $item['auth']; ?>
-                                            <?php if (!empty($submenu_item['auth']) && !Easol_AuthorizationRoles::hasAccess($submenu_item['auth'], $submenu_slug))   continue; ?>
-                                            <li class="<?php echo ($this->router->fetch_class() == $submenu_slug) ? 'active-menu sublive' : '' ?>">
-                                                <a id="<?php echo $submenu_slug; ?>" href="<?php echo (isset($submenu_item['url'])) ?  site_url($submenu_item['url']) : site_url($submenu_slug) ?>">
-                                                    <?php echo $submenu_item['label'] ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endif; ?>
-
-                            </li>
+                                <div <?php echo (isset($item['attr'])) ? $item['attr'] : '' ?>>
+                                    <?php foreach ($item['items'] as $sub_slug=>$group_item): ?>                                                                            <?php $this->load->view('layout/default/_menu_item', ['item'=>$group_item, 'slug'=>$sub_slug]); ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <?php $this->load->view('layout/default/_menu_item', ['item' => $item, 'slug' => $slug]); ?>
+                            <?php endif; ?>
                         <?php endforeach; ?>
 
                         <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
@@ -209,7 +196,7 @@
 
 <div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
 <?php if (system_google_auth_enabled()): ?>
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div>
 <?php endif; ?>
 <!-- JS Scripts-->
 <!-- jQuery Js -->

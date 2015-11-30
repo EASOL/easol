@@ -28,7 +28,7 @@ class Home extends Easol_Controller {
         	}
 
 		    if( isset($_POST['login']) && $data=$this->input->post('login')) {
-				$this->_password_login($data);
+				return $this->_password_login($data);
 		    }
 		}
 
