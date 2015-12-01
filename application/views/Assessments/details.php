@@ -27,7 +27,7 @@
 						<td><?php echo $assessment->Grade ?></td>
 						<td><?php echo easol_date($assessment->AdministrationDate) ?></td>
 						<td><?php echo $assessment->StudentCount ?></td>
-						<td><?php echo $assessment->AverageResult ?></td>
+						<td><?php echo round($assessment->AverageResult) ?></td>
 
 					</tr>
 					</tbody>
