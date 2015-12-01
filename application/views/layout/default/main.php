@@ -72,8 +72,6 @@
 
                         <?php foreach (menu_items() as $slug=>$item): ?>
 
-                            <?php if (!empty($item['auth']) && !Easol_AuthorizationRoles::hasAccess($item['auth'])) continue; ?>
-
                             <?php
                             if (!empty($item['submenu'])) {
                                 $skip = true;
@@ -89,10 +87,13 @@
                             if ($skip) continue;
                             ?>
 
+
+
                             <?php if ($item['type'] == 'group'): ?>
 
                                 <div <?php echo (isset($item['attr'])) ? $item['attr'] : '' ?>>
-                                    <?php foreach ($item['items'] as $sub_slug=>$group_item): ?>                                                                            <?php $this->load->view('layout/default/_menu_item', ['item'=>$group_item, 'slug'=>$sub_slug]); ?>
+                                    <?php foreach ($item['items'] as $sub_slug=>$group_item): ?>
+								<?php $this->load->view('layout/default/_menu_item', ['item'=>$group_item, 'slug'=>$sub_slug]); ?>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else: ?>

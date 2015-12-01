@@ -55,7 +55,7 @@ class Easol_AuthorizationRoles extends CI_Model {
         }
 
         if(!is_array($allowedRoles)){
-            if($allowedRoles=='*')
+            if($allowedRoles=='*' || $allowedRoles == '')
                 return true;
             if($allowedRoles=='@' && Easol_Authentication::isLoggedIn())
                 return true;

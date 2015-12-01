@@ -1,3 +1,4 @@
+<?php if (Easol_AuthorizationRoles::hasAccess($item['auth'])): ?>
 <li class="<?php echo ($this->router->fetch_class() == $slug) ? 'active-menu' : '' ?>" <?php echo (isset($item['attr'])) ? $item['attr'] : '' ?>>
 	<a id="<?php echo $slug; ?>" href="<?php echo (isset($item['url'])) ? site_url($item['url']) : site_url($slug) ?>">
 		<i class="fa fa-<?php echo $item['icon'] ?>"></i>
@@ -22,3 +23,4 @@
 	<?php endif; ?>
 
 </li>
+<?php endif; ?>

@@ -6,7 +6,7 @@ $config['menu'] = [
 		'label' => 'Dashboard',
 		'icon'  => 'dashboard',
 		'attr'  => 'data-intro="Dashboard: Customized reporting tool per school for administrators and teachers" data-position="right"',
-		'auth'  => ['System Administrator', 'Data Administrator']
+		'auth'  => '@'
 	],
 	'student'=>[
 		'label'=>'Students',
