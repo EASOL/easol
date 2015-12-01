@@ -30,12 +30,12 @@ $(function() {
 		$('#analyzestudents').DataTable();
 	}
 
-	$( "#filter-result" ).change(function() {
-		$("#filter-form-result").val($( "#filter-result" ).val());
+	$( "#filter-result, #filter-form-result" ).change(function() {
+		$("#filter-form-result").val($( "#filter-result , #filter-form-result" ).val());
 		$( "#dataGridFormFilter").submit();
 	});
-
-
+        
+        
 	$("[data-toggle='modal']").on('click', function(e) {
 		e.preventDefault();
 		var $that = $(this);
