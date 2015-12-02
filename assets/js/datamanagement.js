@@ -76,7 +76,12 @@ $(function() {
                     alert(msg['status']['msg']);
                 }
                 else if(msg['status']['type']=='success'){
-                    var htmlData= '<select class="form-control" size="10">';
+                    var htmlData= '<form class="form-inline undo-overrides default-form-inline">\
+                                   <div class="form-group">\
+                                   <input id="dm_search_'+reqType+'" class="form-control input-sm" placeholder="Filter.."/>\
+                                   </div>\
+                                   </form>\
+                                   <select class="form-control dm_select" size="10" id="dm_select_'+reqType+'">';
                     $.each(  msg['objects'], function( key, obj ) {
                         htmlData+='<option value="'+obj.TableName+'">'+obj.TableName+'</option>';
 
@@ -85,8 +90,7 @@ $(function() {
                     $('#dm_'+reqType+' .panel-body').html(htmlData);
                     $('#dm_'+reqType+' .panel-footer').html("Showing All");
                     $('#loading-img').hide();
-
-
+                    $('#dm_select_'+reqType).filterByText($('#dm_search_'+reqType), false);
                 }
                 else {
                     alert('Data Transport Error');

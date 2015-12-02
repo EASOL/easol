@@ -35,7 +35,7 @@ class Datamanagement extends Easol_Controller {
             $msg['status']['msg'] = 'Table Type Not Set';
         }
         else{
-            $this->load->model('DataManagementQueries');
+            $this->load->model('Datamanagementqueries');
             switch($_POST['tableType']){
                 case 'object':
                     $msg['objects'] = DataManagementQueries::getObjectsList(false);
