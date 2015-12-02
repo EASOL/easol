@@ -50,3 +50,14 @@ function easol_time($time, $timezone=null) {
 	return $date->format('H:i:s.u');
 
 }
+
+function easol_datetime_from_utc($time, $timezone=null) {
+	if (!$timezone) {
+		$timezone = get_timezone();
+	}
+
+	$dt = new DateTime($time, new DateTimeZone('UTC'));
+	$dt->setTimeZone(new DateTimeZone($timezone));
+
+	return $dt->format('m/d/Y H:i:s');
+}

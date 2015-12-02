@@ -20,9 +20,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><?php echo $section->Educator; ?></td>                                              
-                    <td><?php echo $section->LocalCourseCode; ?></td>                             
-                    <td><?php echo $section->CodeValue; ?></td>                             
+                    <td><?php echo $section->Educator; ?></td>
+                    <td><?php echo $section->LocalCourseCode; ?></td>
+                    <td><?php echo $section->CodeValue; ?></td>
                     <td><?php echo $section->Period; ?></td>
                   </tr>
                 </tbody>
@@ -40,11 +40,11 @@
                         <tbody>
                           <?php foreach ($student->records as $r) : ?>
                             <tr>
-                              <td><?php echo $r[0]; ?></td>
+                              <td><?php echo easol_datetime_from_utc($r[0]); ?></td>
                               <td><?php echo anchor($r[1], $r[3] ? $r[3] : $r[1], 'target="_blank"'); ?></td>
                               <td><?php echo gmdate('H:i:s', $r[2]); ?></td>
                             </tr>
-                          <?php endforeach; ?>                   
+                          <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
