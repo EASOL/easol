@@ -178,7 +178,7 @@ echo $dataContents;
 
 
         <div class="row pull-right">
-            <?php /* if(isset($filter) && isset($filter['fields']) && isset($filter['fields']['Result'])) { ?>
+            <?php  if(isset($filter) && isset($filter['fields']) && isset($filter['fields']['Result'])) { ?>
                 <div class="col-md-5">
                     <select class="form-control" id="filter-result" >
                         <?php
@@ -190,7 +190,7 @@ echo $dataContents;
                         ?>
                     </select>
                 </div>
-            <?php } */?>
+            <?php } ?>
             <?php if($downloadCSV==true){?>
                 <div class="col-md-7">
 
