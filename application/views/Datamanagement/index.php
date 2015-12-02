@@ -1,6 +1,6 @@
 <?php
 
-$this->load->model("DataManagementQueries");
+$this->load->model("Datamanagementqueries");
 ?>
 
 <div class="row">
@@ -21,7 +21,7 @@ $this->load->model("DataManagementQueries");
                              </div>
                         </form>
                         <select class="form-control dm_select" size="10" id="dm_select_obj">
-                            <?php foreach(DataManagementQueries::getObjectsList() as $obj) {  ?>
+                            <?php foreach(Datamanagementqueries::getObjectsList() as $obj) {  ?>
                             <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                             <?php } ?>
                         </select>
@@ -38,7 +38,7 @@ $this->load->model("DataManagementQueries");
                              </div>
                         </form>                        
                         <select class="form-control dm_select" size="10" id="dm_select_association">
-                            <?php foreach(DataManagementQueries::getAssociationsList() as $obj) {  ?>
+                            <?php foreach(Datamanagementqueries::getAssociationsList() as $obj) {  ?>
                                 <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                             <?php } ?>
 
@@ -57,7 +57,7 @@ $this->load->model("DataManagementQueries");
                              </div>
                         </form>                        
                         <select class="form-control dm_select" size="10" id="dm_select_type">
-                            <?php foreach(DataManagementQueries::getTypesList() as $obj) {  ?>
+                            <?php foreach(Datamanagementqueries::getTypesList() as $obj) {  ?>
                                 <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                             <?php } ?>
                         </select>
@@ -74,7 +74,7 @@ $this->load->model("DataManagementQueries");
                              </div>
                         </form>                        
                         <select class="form-control dm_select" size="10" id="dm_select_descriptor">
-                            <?php foreach(DataManagementQueries::getDescriptorsList() as $obj) {  ?>
+                            <?php foreach(Datamanagementqueries::getDescriptorsList() as $obj) {  ?>
                                 <option value="<?= $obj->TableName ?>"><?= $obj->TableName ?></option>
                             <?php } ?>
 
