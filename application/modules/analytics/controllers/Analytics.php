@@ -89,7 +89,7 @@ class Analytics extends Easol_Controller {
 
 				if (!empty($intervals)) {
 					foreach ($intervals as $key => $value) {
-						$urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+						$urldates .= '&date_begin[]=' . $value->date . 'T' . easol_time($value->starttime, 'UTC') . '&date_end[]=' . $value->date . 'T' . easol_time($value->endtime, 'UTC');
 					}
 				}
 
@@ -216,7 +216,7 @@ class Analytics extends Easol_Controller {
 		$this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
 		$intervals = $this->db->get()->result();
 		foreach ($intervals as $key => $value) {
-			$urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+			$urldates .= '&date_begin[]=' . $value->date . 'T' . easol_time($value->starttime, 'UTC') . '&date_end[]=' . $value->date . 'T' . easol_time($value->endtime, 'UTC');
 		}
 
 		// Getting list of students
@@ -329,7 +329,7 @@ class Analytics extends Easol_Controller {
 		$this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
 		$intervals = $this->db->get()->result();
 		foreach ($intervals as $key => $value) {
-			$urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
+			$urldates .= '&date_begin[]=' . $value->date . 'T' . easol_time($value->starttime, 'UTC') . '&date_end[]=' . $value->date . 'T' . easol_time($value->endtime, 'UTC');
 		}
 
 		// Get the student record.
