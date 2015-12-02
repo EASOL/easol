@@ -130,7 +130,7 @@ class Home extends Easol_Controller {
 			    }
 
 			    $this->session->set_userdata($data);
-			    redirect('/student');
+			    redirect('/');
 			}
 	     }
 
