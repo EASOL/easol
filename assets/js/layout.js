@@ -2,8 +2,8 @@
 
     function fixSidebarLayout() {
         var hViewPort = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        var hSideBar = $('.navbar-side').height();
-        if (hSideBar > hViewPort) {
+        var hSideBar = $('.navbar-side').height(), hPage = $('#page-inner').outerHeight() + $('.navbar-top').outerHeight();
+        if ((hSideBar < hPage) && (hSideBar > hViewPort)) {
             $(window).on('.affix');
             $('.navbar-side').affix({
                 offset: {
@@ -13,6 +13,7 @@
         } else {
             $(window).off('.affix');
             $('.navbar-side').removeData('bs.affix').removeData('.affix').removeClass('affix affix-top affix-bottom');
+            if (hSideBar > hPage) $('.navbar-side').addClass('affix-top');
         }
     }
 
