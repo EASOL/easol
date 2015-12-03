@@ -331,7 +331,7 @@ class Analytics extends Easol_Controller {
         foreach ($intervals as $key => $value) {
             $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
         }
-
+        echo $urldates;
         // Get the student record.
         $this->db->select("Student.FirstName, Student.MiddleName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
         $this->db->from("edfi.Section");
