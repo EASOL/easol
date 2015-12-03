@@ -65,7 +65,10 @@ class Analytics extends Easol_Controller {
             {
                 $data['results'][$v->id] = $v;
 
-                list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+                if(strpos($v->ClassPeriodName, " - ")!== false)
+                    list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+                else 
+                    $pCode = $v->ClassPeriodName; 
                 $data['results'][$v->id]->Period = $pCode;
 
                 $data['results'][$v->id]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
@@ -202,7 +205,11 @@ class Analytics extends Easol_Controller {
         $this->db->where('SEC.id',$section);
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
-        list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        
+        if(strpos($data['section']->ClassPeriodName, " - ")!== false)
+            list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        else 
+            $pCode = $data['section']->ClassPeriodName; 
         $data['section']->Period = $pCode;
 
         // get the section datetime intervals
@@ -317,7 +324,11 @@ class Analytics extends Easol_Controller {
         $this->db->where('SEC.id',$section);
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
-        list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        if(strpos($data['section']->ClassPeriodName, " - ")!== false)
+            list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        else 
+            $pCode = $data['section']->ClassPeriodName;
+
         $data['section']->Period = $pCode;  
 
         // get the section datetime intervals
@@ -331,7 +342,7 @@ class Analytics extends Easol_Controller {
         foreach ($intervals as $key => $value) {
             $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
         }
-
+        
         // Get the student record.
         $this->db->select("Student.FirstName, Student.MiddleName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
         $this->db->from("edfi.Section");
@@ -355,7 +366,7 @@ class Analytics extends Easol_Controller {
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $student));
             $site       = $this->api_url.'pages?'.$query.$urldates;
             $response   = json_decode(file_get_contents($site, true));        
-
+            
             // Since the api returns different data structures for pages and videos, but they are all the same to the view, they
             // are converted to a uniform structure before going to the view.
             foreach ($response->results as $r)

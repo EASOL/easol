@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 set_time_limit(0);
-class DataManagement extends Easol_Controller {
+class Datamanagement extends Easol_Controller {
 
     /**
      * default constructor
@@ -35,19 +35,19 @@ class DataManagement extends Easol_Controller {
             $msg['status']['msg'] = 'Table Type Not Set';
         }
         else{
-            $this->load->model('DataManagementQueries');
+            $this->load->model('Datamanagementqueries');
             switch($_POST['tableType']){
                 case 'object':
-                    $msg['objects'] = DataManagementQueries::getObjectsList(false);
+                    $msg['objects'] = Datamanagementqueries::getObjectsList(false);
                     break;
                 case 'association':
-                    $msg['objects'] = DataManagementQueries::getAssociationsList(false);
+                    $msg['objects'] = Datamanagementqueries::getAssociationsList(false);
                     break;
                 case 'type':
-                    $msg['objects'] = DataManagementQueries::getTypesList(false);
+                    $msg['objects'] = Datamanagementqueries::getTypesList(false);
                     break;
                 case 'descriptor':
-                    $msg['objects'] = DataManagementQueries::getDescriptorsList(false);
+                    $msg['objects'] = Datamanagementqueries::getDescriptorsList(false);
                     break;
                 default:
                     $msg['status']['type'] = 'failed';
@@ -68,8 +68,8 @@ class DataManagement extends Easol_Controller {
             $msg['status']['msg'] = 'Table Name Not Set';
         }
         else{
-            $this->load->model('DataManagementQueries');
-            $msg['objects'] = DataManagementQueries::getTableDetails($_POST['tableName']);
+            $this->load->model('Datamanagementqueries');
+            $msg['objects'] = Datamanagementqueries::getTableDetails($_POST['tableName']);
         }
         echo json_encode($msg);
     }
@@ -87,9 +87,9 @@ class DataManagement extends Easol_Controller {
             $msg['status']['msg'] = 'Table Name Not Set';
         }
         else{
-            $this->load->model('DataManagementQueries');
-            $msg['total'] = DataManagementQueries::getTableDataCount($_POST['tableName'])->total;
-            $msg['objects'] = DataManagementQueries::getTableData($_POST['tableName'],$_POST['start'],$_POST['pageSize']);
+            $this->load->model('Datamanagementqueries');
+            $msg['total'] = Datamanagementqueries::getTableDataCount($_POST['tableName'])->total;
+            $msg['objects'] = Datamanagementqueries::getTableData($_POST['tableName'],$_POST['start'],$_POST['pageSize']);
         }
         echo json_encode($msg);
 
@@ -104,12 +104,12 @@ class DataManagement extends Easol_Controller {
             throw new \Exception("Table not Set");
 
 
-        $this->load->model('DataManagementQueries');
+        $this->load->model('Datamanagementqueries');
         header("Content-type: text/csv");
         header("Content-Disposition: attachment; filename=".$tableName);
         header("Pragma: no-cache");
         header("Expires: 0");
-        echo $this->renderPartial("download-table-headers",['data' => DataManagementQueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
+        echo $this->renderPartial("download-table-headers",['data' => Datamanagementqueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
     }
 
     /**
@@ -121,13 +121,13 @@ class DataManagement extends Easol_Controller {
             throw new \Exception("Table not Set");
 
 
-        $this->load->model('DataManagementQueries');
+        $this->load->model('Datamanagementqueries');
         header("Content-type: text/csv");
         header("Content-Disposition: attachment; filename=".$tableName.'_'.date('Y_m_d_h:i_a').".csv");
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo $this->renderPartial("download-table-data",['data' => DataManagementQueries::getAllTableData($tableName) ]);
+        echo $this->renderPartial("download-table-data",['data' => Datamanagementqueries::getAllTableData($tableName) ]);
 
 
 
@@ -137,8 +137,8 @@ class DataManagement extends Easol_Controller {
      *
      */
     public function uploadcsv(){
-        //$this->load->model('DataManagementQueries');
-       // echo DataManagementQueries::getPrimaryKey($_POST['tableName']);
+        //$this->load->model('Datamanagementqueries');
+       // echo Datamanagementqueries::getPrimaryKey($_POST['tableName']);
 
        // print_r($_FILES);
        // print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
@@ -155,7 +155,7 @@ class DataManagement extends Easol_Controller {
                 if($_FILES['csvFile']['error']==0) {
 
                     if($this->checkFile($_FILES['csvFile']['tmp_name'], $_POST['tableName'])) {
-                        $this->load->model('DataManagementQueries');
+                        $this->load->model('Datamanagementqueries');
                         $this->load->model('Easol_CSVProcessor');
                         $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
                         //print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
@@ -230,10 +230,10 @@ class DataManagement extends Easol_Controller {
 
     public function checkFile($file, $tableName) {
 
-        $this->load->model('DataManagementQueries');
+        $this->load->model('Datamanagementqueries');
 
         $content = array_map('str_getcsv', file($file));
-        $columns = DataManagementQueries::getTableDetails($tableName);
+        $columns = Datamanagementqueries::getTableDetails($tableName);
 
 
         foreach ($content[0] as $k=>$column_name) {

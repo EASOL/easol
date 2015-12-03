@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -229,7 +229,7 @@
     <script src="<?= site_url('assets/js/custom.js') ?>"></script>
     <script src="<?= site_url('assets/js/layout.js') ?>"></script>
 
-    <?php if ($this->router->class=='content') { ?>
+    <?php if ($this->router->class=='content' or $this->router->class=='datamanagement') { ?>
         <script src="<?= site_url('assets/lib/list.min.js') ?>"></script>
     <?php } ?>
     <!--

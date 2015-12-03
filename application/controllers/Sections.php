@@ -63,7 +63,11 @@ public function index()
         // exit(print_r($this->db->last_query(), true));
         foreach ($data['results'] as $k => $v)
         {
-            list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+
+            if(strpos($v->ClassPeriodName, " - ")!== false)
+                list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+            else 
+                $pCode = $v->ClassPeriodName; 
             $data['results'][$k]->Period = $pCode;
 
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
@@ -120,8 +124,13 @@ public function index()
         $data['results'] = $this->db->get()->result();
 
         foreach ($data['results'] as $k => $v)
-        {
-            list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+        {   
+             
+            if(strpos($v->ClassPeriodName, " - ")!== false)
+                list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+            else 
+                $pCode = $v->ClassPeriodName; 
+          
             $data['results'][$k]->Period = $pCode;
             $data['results'][$k]->Educator = $v->teacher_fname . ' ' . $v->teacher_lname;            
         } 
