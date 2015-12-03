@@ -19,7 +19,7 @@ if (empty($attendances)) {
             <?php  foreach($attendances as $attendance){ ?>
                 <tr>
                     <td><?php
-                    $attendance->ClassPeriodName = "09980 - sdas";
+                   
                     if(strpos($attendance->ClassPeriodName, " - ")!== false)
                      list($pCode,$pName) = explode(' - ', $attendance->ClassPeriodName);
                     else 
