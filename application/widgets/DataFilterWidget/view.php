@@ -11,11 +11,13 @@
         <?php continue; } ?>
 
         <?php if($key=='Result'){?>
-            <!-- <input type="hidden" name="filter[Result]" value="<? //= $field['default'] ?>" id='filter-form-result'> -->
+            <input type="hidden" name="filter[Result]" value="<?= $field['default'] ?>" id='filter-form-result'>
+            <!-- 
             <div class="form-group">
-                <?php echo form_dropdown('filter[Result]', ['0' => '25', '1' => '50', '2' => '100'], $field['default'], "class='form-control' id='filter-form-result'"); ?>
+                <?php // echo form_dropdown('filter[Result]', ['0' => '25', '1' => '50', '2' => '100'], $field['default'], "class='form-control' id='filter-form-result'"); ?>
                 <label for="filter-PageLength">Records Per Page</label>
             </div>
+             -->
 
         <?php continue; } ?>
 

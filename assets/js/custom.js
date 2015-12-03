@@ -30,6 +30,11 @@ $(function() {
 		$('#analyzestudents').DataTable();
 	}
 
+	$( "#filter-result" ).change(function() {
+		$("#filter-form-result").val($( "#filter-result" ).val());
+		$( "#dataGridFormFilter").submit();
+	});
+/*
 	$( "#filter-form-result" ).change(function() {
 		$( "#filter-form-result").val($( "#filter-form-result, #filter-result" ).val());
 		$( "#dataGridFormFilter").submit();
@@ -40,7 +45,7 @@ $(function() {
 		$( "#filter-result").val($( "#filter-form-result" ).val());
 		$( "#dataGridFormFilter").submit();
 	});
-        
+*/        
         
 	$("[data-toggle='modal']").on('click', function(e) {
 		e.preventDefault();
