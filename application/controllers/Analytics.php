@@ -331,7 +331,7 @@ class Analytics extends Easol_Controller {
         foreach ($intervals as $key => $value) {
             $urldates .= '&date_begin[]=' . $value->date . 'T' . $value->starttime . '&date_end[]=' . $value->date . 'T' . $value->endtime;
         }
-        echo $urldates;
+        
         // Get the student record.
         $this->db->select("Student.FirstName, Student.MiddleName, Student.LastSurname, EmailLookup.HashedEmail, Section.UniqueSectionCode"); 
         $this->db->from("edfi.Section");
@@ -355,7 +355,7 @@ class Analytics extends Easol_Controller {
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $student));
             $site       = $this->api_url.'pages?'.$query.$urldates;
             $response   = json_decode(file_get_contents($site, true));        
-
+            echo $site;
             // Since the api returns different data structures for pages and videos, but they are all the same to the view, they
             // are converted to a uniform structure before going to the view.
             foreach ($response->results as $r)
