@@ -38,6 +38,7 @@ class Easol_Form_validation extends CI_Form_validation {
 			}
 		}
 
+		$this->CI->db->db_debug = false;
 		$result = $this->CI->db->query($sql);
 		if (!$result) {
 			$error = $this->CI->db->error();

@@ -18,9 +18,9 @@ class Easol_CSVProcessor extends CI_Model {
     public function __construct($csvFile="",$tableName=""){
         $this->csvFile = $csvFile;
         $this->tableName = $tableName;
-        $this->load->model('DataManagementQueries');
+        $this->load->model('Datamanagementqueries');
 
-        $this->primaryColumn =  DataManagementQueries::getPrimaryKey($tableName);
+        $this->primaryColumn =  Datamanagementqueries::getPrimaryKey($tableName);
 
 
     }
@@ -47,14 +47,19 @@ class Easol_CSVProcessor extends CI_Model {
                     //if current row doesn't have duplicats with the primary keys - we insert it
                     if(!$this->rowExists($this->csvHeader,$row)){
                         //Short fix for Student table - so far only this table has this property
-                        if($this->tableName == 'Student')
-                            $this->db->query("set identity_insert edfi.".$this->tableName." on");
+                     //   if($this->tableName == 'Student')
+                        $this->db->query("set identity_insert edfi.".$this->tableName." on");
                         $this->db->insert('edfi.' . $this->tableName, $insertData);
 
-                        if ($this->db->insert_id())
-                            $this->result['inserted'][] = $key;
-                        else
-                            $this->result['error'][] = $key;
+                        $error = $this->db->error();
+
+                        if (!$error['message'])
+                            $this->result['inserted'][] = ['line'=>$key];
+
+                        else {
+                            $this->result['error'][] = ['line' => $key, 'reason' => $error['code'].' - '.$error['message']];
+                        }
+
 
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
@@ -66,14 +71,18 @@ class Easol_CSVProcessor extends CI_Model {
 
                         $this->db->where($where);
                         $this->db->update('edfi.' . $this->tableName, $insertData);
-                        if ($this->db->affected_rows() > 0)
-                            $this->result['updated'][] = $key;
-                        else
-                            $this->result['error'][] = $key;
+
+                        $error = $this->db->error();
+
+                        if (!$error['message'])
+                            $this->result['updated'][] = ['line' => $key];
+                        else {
+                            $this->result['error'][] = ['line' => $key, 'reason' => $error['code'] . ' - ' . $error['message']];
+                        }
 
                     }else{
                         //Data was a duplicate and Update was not allowed to be done
-                        $this->result['skipped'][] = $key;
+                        $this->result['skipped'][] = ['line' => $key, 'reason'=>'Duplicated Record'];
                     }
 
 
@@ -116,9 +125,9 @@ class Easol_CSVProcessor extends CI_Model {
                         //If primary column is 1 value, then we just use 1 line, otherwise we need to loop through each.
                         if (is_array(($this->primaryColumn))) {
                             $where = array();
-                            foreach ($this->primaryColumn as $key) {
+                            foreach ($this->primaryColumn as $k) {
 
-                                $where[$key] = $data[$key];
+                                $where[$k] = $data[$k];
                             }
                         } else {
                             $where = array($this->primaryColumn => $data[$this->primaryColumn]);
@@ -126,10 +135,13 @@ class Easol_CSVProcessor extends CI_Model {
                         $this->db->where($where);
                         $this->db->delete('edfi.' . $this->tableName);
 
-                        if ($this->db->affected_rows() > 0 )
-                            $this->result['deleted'][] = $key;
-                        else
-                            $this->result['error'][] = $key;
+                        $error = $this->db->error();
+
+                        if (!$error['message'])
+                            $this->result['deleted'][] = ['line'=>$key];
+                        else {
+                            $this->result['error'][] = ['line' => $key, 'reason' => $error['code'] . ' - ' . $error['message']];
+                        }
 
                     } else {
                         $this->csvHeader = $row;

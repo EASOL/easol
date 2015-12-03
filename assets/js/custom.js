@@ -139,6 +139,7 @@ $(function() {
     		// Animation complete.
     		});
     	}
+    	$.fixSidebarLayout();
     });
 
     if ($('.sublive').length) {
@@ -180,7 +181,6 @@ $(function() {
 	});
 	$('[data-toggle="tooltip"]').tooltip();
 
-
 });
 
 
@@ -201,10 +201,7 @@ function onSignIn(googleUser) {
 	var name = profile.getName();
 
 
-	var localbe = 'http://localhost/easol/';
-	var devbe = 'http://easol-dev.azurewebsites.net/';
-	var staging = 'http://easol-stage.azurewebsites.net/';
-	var livebe = '';
+	
 	var gloginPosturl = location.href;
 
 	var xhr = new XMLHttpRequest();

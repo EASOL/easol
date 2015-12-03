@@ -102,6 +102,19 @@ class Content extends Easol_Controller {
                         unset($response->aggregations->$filtername);
                 }
             }
+            // Trim the description to 465 chars.
+              if(isset($response->results)) {
+
+                $this->load->helper('shrinktheweb');
+
+                foreach ($response->results as $obj)
+                {
+                    $obj->thumbnail = getThumbnailHTML($obj->resource_locators[0]->url);
+
+                    if(strlen($obj->description) > 465)
+                        $obj->description = mb_strimwidth($obj->description, 0, 465, "...");
+                }
+            }
             
             // build the pagination links.
             $this->load->library('pagination');
@@ -142,6 +155,8 @@ class Content extends Easol_Controller {
                                     'Types'     => array('resource_types' => 'name'),
                                
                             );
+
+
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
