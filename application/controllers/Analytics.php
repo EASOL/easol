@@ -65,7 +65,10 @@ class Analytics extends Easol_Controller {
             {
                 $data['results'][$v->id] = $v;
 
-                list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+                if(strpos($v->ClassPeriodName, " - ")!== false)
+                    list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
+                else 
+                    $pCode = $v->ClassPeriodName; 
                 $data['results'][$v->id]->Period = $pCode;
 
                 $data['results'][$v->id]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
@@ -202,7 +205,11 @@ class Analytics extends Easol_Controller {
         $this->db->where('SEC.id',$section);
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
-        list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        
+        if(strpos($data['section']->ClassPeriodName, " - ")!== false)
+            list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        else 
+            $pCode = $data['section']->ClassPeriodName; 
         $data['section']->Period = $pCode;
 
         // get the section datetime intervals
@@ -317,7 +324,11 @@ class Analytics extends Easol_Controller {
         $this->db->where('SEC.id',$section);
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;      
-        list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        if(strpos($data['section']->ClassPeriodName, " - ")!== false)
+            list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
+        else 
+            $pCode = $data['section']->ClassPeriodName;
+
         $data['section']->Period = $pCode;  
 
         // get the section datetime intervals
