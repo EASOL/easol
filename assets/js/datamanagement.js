@@ -6,12 +6,51 @@ var  ajxTabDisplayHidden = true;
 
 var currentTable = null;
 var dm_currentPage = 1;
-var dm_PageSize = 50;
+var dm_PageSize = 100;
 
 var upload_result_table;
 
 $(function() {
 
+    /* 
+    * begin dynamic object filtering 
+    * http://www.lessanvaezi.com/filter-select-list-options 
+    */
+    jQuery.fn.filterByText = function(textbox, selectSingleMatch) {
+      return this.each(function() {
+        var select = this;
+        var options = [];
+        $(select).find('option').each(function() {
+          options.push({value: $(this).val(), text: $(this).text()});
+        });
+        $(select).data('options', options);
+        $(textbox).bind('change keyup', function() {
+          var options = $(select).empty().scrollTop(0).data('options');
+          var search = $.trim($(this).val());
+          var regex = new RegExp(search,'gi');
+
+          $.each(options, function(i) {
+            var option = options[i];
+            if(option.text.match(regex) !== null) {
+              $(select).append(
+                 $('<option>').text(option.text).val(option.value)
+              );
+            }
+          });
+          if (selectSingleMatch === true && 
+              $(select).children().length === 1) {
+            $(select).children().get(0).selected = true;
+          }
+        });
+      });
+    };
+
+    $('#dm_select_obj').filterByText($('#dm_search_obj'), false);
+    $('#dm_select_association').filterByText($('#dm_search_association'), false);
+    $('#dm_select_type').filterByText($('#dm_search_type'), false);
+    $('#dm_select_descriptor').filterByText($('#dm_search_descriptor'), false);
+
+    /* end dynamic object filtering */
 
     $( ".dm_tables .panel-footer a" ).click(function(event) {
 
@@ -37,7 +76,12 @@ $(function() {
                     alert(msg['status']['msg']);
                 }
                 else if(msg['status']['type']=='success'){
-                    var htmlData= '<select class="form-control" size="10">';
+                    var htmlData= '<form class="form-inline undo-overrides default-form-inline">\
+                                   <div class="form-group">\
+                                   <input id="dm_search_'+reqType+'" class="form-control input-sm" placeholder="Filter.."/>\
+                                   </div>\
+                                   </form>\
+                                   <select class="form-control dm_select" size="10" id="dm_select_'+reqType+'">';
                     $.each(  msg['objects'], function( key, obj ) {
                         htmlData+='<option value="'+obj.TableName+'">'+obj.TableName+'</option>';
 
@@ -46,8 +90,7 @@ $(function() {
                     $('#dm_'+reqType+' .panel-body').html(htmlData);
                     $('#dm_'+reqType+' .panel-footer').html("Showing All");
                     $('#loading-img').hide();
-
-
+                    $('#dm_select_'+reqType).filterByText($('#dm_search_'+reqType), false);
                 }
                 else {
                     alert('Data Transport Error');

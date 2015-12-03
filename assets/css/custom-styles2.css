@@ -521,8 +521,15 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   clear: both;
 }
 
+.content-thumbnail {
+  /* set the dimensions manually so the page holds form in the case of missing thumbnails */
+  width:  130px;
+  height: 120px;
+  padding-top: 40px;
+}
+
 .content-desc {
-  width: 90%;
+  width: 70%;
 }
 
 .content-title {
@@ -536,14 +543,15 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
   font-weight: normal;
   font-size: 0.9em;
   display: inline-block;
-  position: absolute;
-  right: 110px;
+  position: relative;
+  /*right: 110px;*/
   text-align: center;
   border-radius: 25px;
   background: #51AE65;
-  padding: 0px;
-  width: 190px;
-  height: 20px;
+  padding: 0px 10px;
+ /* width: 190px;*/
+/*  height: 20px;*/
+  float:right;
 }
 
 .content-publisher a {

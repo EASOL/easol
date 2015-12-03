@@ -99,7 +99,10 @@
                   <div class="left content-results">
                     <?php foreach ($results as $idx => $obj): ?>
                       <div class="clear">
-                        <div class="left content-desc" style="padding-bottom: 40px">
+                        <div class="left content-thumbnail">
+                          <?php echo $obj->thumbnail; ?>
+                        </div>
+                        <div class="left content-desc" style="margin-left: 10px; padding-bottom: 40px">
                           <div class="content-title-publisher">
                             <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
                             <div class="content-publisher"><?php if (isset($obj->identities)) { ?><a href="<?php echo $filter_base_url . '&publisher=' . urlencode($obj->identities[0]->name);?>"><?php echo $obj->identities[0]->name; ?></a><?php } ?></div>
@@ -124,7 +127,9 @@
                         </div>
                       </div>
                     <?php endforeach; ?>
+                    <div class="clear">
                     <?php echo $this->pagination->create_links(); ?>
+                    </div>
                   </div>
                 <?php endif; ?>
             </div>

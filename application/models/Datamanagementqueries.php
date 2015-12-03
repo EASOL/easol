@@ -1,6 +1,6 @@
 <?php
 
-class DataManagementQueries extends CI_Model {
+class Datamanagementqueries extends CI_Model {
 
     public static $dbObj=null;
 

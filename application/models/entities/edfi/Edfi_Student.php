@@ -133,11 +133,26 @@ where StudentElectronicMail.StudentUSI = ?",
             ]);
     }
 
-    public function getSections(){
+    public function getSections()
+    {
         return $this->db->query("select StudentSectionAssociation.ClassPeriodName, StudentSectionAssociation.ClassroomIdentificationCode,
 StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, [Section].id, TermType.Description, TermType.CodeValue,
-StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname
+StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname,
+        sum(case when Grade.NumericGradeEarned >= 90 THEN 1 ELSE 0 END) as Numeric_A, 
+        sum(case when Grade.NumericGradeEarned >= 80 AND Grade.NumericGradeEarned < 90 THEN 1 ELSE 0 END) as Numeric_B,
+        sum(case when Grade.NumericGradeEarned >= 70 AND Grade.NumericGradeEarned < 80 THEN 1 ELSE 0 END) as Numeric_C,
+        sum(case when Grade.NumericGradeEarned >= 60 AND Grade.NumericGradeEarned < 70 THEN 1 ELSE 0 END) as Numeric_D,
+        sum(case when Grade.NumericGradeEarned < 60 THEN 1 ELSE 0 END) as Numeric_F,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'A' THEN 1 ELSE 0 END) as Letter_A,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'B' THEN 1 ELSE 0 END) as Letter_B,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'C' THEN 1 ELSE 0 END) as Letter_C,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'D' THEN 1 ELSE 0 END) as Letter_D,
+        sum(case when LEFT(Grade.LetterGradeEarned, 1) = 'F' THEN 1 ELSE 0 END) as Letter_F
 from edfi.StudentSectionAssociation
+
+inner join edfi.Grade ON StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName
+inner join edfi.GradingPeriod ON GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId
+
 inner join edfi.[Section] on
      StudentSectionAssociation.SchoolId = [Section].SchoolId and
      StudentSectionAssociation.SchoolYear = [Section].SchoolYear and
@@ -156,7 +171,11 @@ left join edfi.StaffSectionAssociation on
      StaffSectionAssociation.ClassPeriodName = [Section].ClassPeriodName
 left join edfi.Staff ON
      Staff.StaffUSI = StaffSectionAssociation.StaffUSI
-where StudentUSI = ?",
+where Grade.StudentUSI = ?
+group by StudentSectionAssociation.ClassPeriodName, StudentSectionAssociation.ClassroomIdentificationCode,
+StudentSectionAssociation.LocalCourseCode, [Section].UniqueSectionCode, [Section].id, TermType.Description, TermType.CodeValue,
+StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname,Grade.NumericGradeEarned,Grade.LetterGradeEarned
+",
             [
                 $this->StudentUSI
             ]);
@@ -253,6 +272,7 @@ INNER JOIN edfi.StudentAssessmentScoreResult ON edfi.StudentAssessmentScoreResul
 AND edfi.StudentAssessmentScoreResult.AssessmentTitle = edfi.StudentAssessment.AssessmentTitle
 AND edfi.StudentAssessmentScoreResult.AdministrationDate = edfi.StudentAssessment.AdministrationDate
 AND edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId = edfi.StudentAssessment.AssessedGradeLevelDescriptorId
+AND edfi.StudentAssessmentScoreResult.Version = edfi.StudentAssessment.Version
 INNER JOIN edfi.AcademicSubjectDescriptor
 ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessment.AcademicSubjectDescriptorId
 INNER JOIN edfi.AcademicSubjectType

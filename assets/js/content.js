@@ -6,13 +6,15 @@ $(function () {
         };
 
        var filterList = new List(id, options);
-       filterList.sort('filter-count', { order: "desc" });        
+       filterList.sort('filter-count', { order: "desc" });
     }
 
     function ready() {
-        ['publishers-list', 'standards-list'].forEach(function (filterName){
-            createFilters(filterName);
-        })
+        if ($('#publishers-list, #standards-list').length) {
+            ['publishers-list', 'standards-list'].forEach(function (filterName){
+                createFilters(filterName);
+            })
+        }
     }
 
     $(document).ready(ready);

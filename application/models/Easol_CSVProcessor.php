@@ -18,9 +18,9 @@ class Easol_CSVProcessor extends CI_Model {
     public function __construct($csvFile="",$tableName=""){
         $this->csvFile = $csvFile;
         $this->tableName = $tableName;
-        $this->load->model('DataManagementQueries');
+        $this->load->model('Datamanagementqueries');
 
-        $this->primaryColumn =  DataManagementQueries::getPrimaryKey($tableName);
+        $this->primaryColumn =  Datamanagementqueries::getPrimaryKey($tableName);
 
 
     }

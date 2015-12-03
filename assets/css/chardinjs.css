@@ -32,6 +32,7 @@
     padding-top: 10px; }
 
 .chardinjs-tooltip {
+  font-size: 12px;
   position: absolute;
   -webkit-transition: opacity 0.1s ease-out;
   -moz-transition: opacity 0.1s ease-out;
