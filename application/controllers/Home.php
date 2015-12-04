@@ -19,10 +19,6 @@ class Home extends Easol_Controller {
 
         if ($this->session->userdata('logged_in') == true){
 
-            /* Tarlles: 
-            This was causing a simple access to the home page to record a log. The log should happen ONLY when the user successfully logs in (i.e., inside the _password_login and _id_token_login functions, as you already did. Note that if we just change the URL by hand to "http://easol-dev/", we would get into this part of the script and so a log record would be created) */
-            // $this->writeLog();
-
             return redirect('/dashboard');
         }
 

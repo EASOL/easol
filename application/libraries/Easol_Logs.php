@@ -8,7 +8,7 @@ Class Easol_Logs {
 		$data['StaffUSI'] = Easol_Authentication::userdata('StaffUSI');
 		$data['Controller'] = $ci->router->fetch_class();
 		$data['Method'] = $ci->router->fetch_method();
-		$data['IpAddress'] = $ci->input->ip_address();
+		$data['IpAddress'] = $_SERVER['REMOTE_ADDR'];//$ci->input->ip_address();
                 $data['Data'] = json_encode($data['Data']);
 		$ci->db->insert('EASOL.Logs', $data);
 	}
