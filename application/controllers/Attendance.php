@@ -48,7 +48,41 @@ class Attendance extends Easol_Controller {
             unset($data['results'][$k]);
         }
 
-        $sql                    = "SELECT CodeValue FROM edfi.GradeLevelType";
+        $sql                    = "SELECT * FROM edfi.GradeLevelType where GradeLevelTypeId in (
+            (SELECT distinct GradeLevelType.GradeLevelTypeId
+                FROM edfi.StudentSchoolAttendanceEvent
+                INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSchoolAttendanceEvent.AttendanceEventCategoryDescriptorId
+                INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+                INNER JOIN edfi.Student ON Student.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI
+                INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI AND StudentSchoolAssociation.SchoolId = StudentSchoolAttendanceEvent.SchoolId AND
+                StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
+                INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
+                INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
+                WHERE (AttendanceEventCategoryType.CodeValue = 'Excused Absence') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')." and GradeLevelType.GradeLevelTypeId between -1 and 12 
+                GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId)
+UNION
+(SELECT distinct GradeLevelType.GradeLevelTypeId
+    FROM edfi.StudentSchoolAttendanceEvent
+    INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSchoolAttendanceEvent.AttendanceEventCategoryDescriptorId
+    INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+    INNER JOIN edfi.Student ON Student.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI
+    INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI AND StudentSchoolAssociation.SchoolId = StudentSchoolAttendanceEvent.SchoolId AND
+    StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
+    INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
+    INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
+    WHERE (AttendanceEventCategoryType.CodeValue='Unexcused Absence') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')." and GradeLevelType.GradeLevelTypeId between -1 and 12
+    GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId)
+UNION
+(SELECT distinct GradeLevelType.GradeLevelTypeId
+    FROM edfi.StudentSchoolAttendanceEvent
+    INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSchoolAttendanceEvent.AttendanceEventCategoryDescriptorId
+    INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+    INNER JOIN edfi.Student ON Student.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI
+    INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI AND StudentSchoolAssociation.SchoolId = StudentSchoolAttendanceEvent.SchoolId AND
+    StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
+    INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
+    INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
+    WHERE (AttendanceEventCategoryType.CodeValue = 'In Attendance') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Authentication::userdata('SchoolId')." and GradeLevelType.GradeLevelTypeId between -1 and 12 ))";
         $data['gradelevels']     = $this->db->query($sql)->result();
 
         $data['years']          = range($data['currentYear'], date('Y'));        
