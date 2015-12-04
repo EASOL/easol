@@ -55,7 +55,12 @@ class Assessments extends Easol_Controller {
 			$filter['subject'][$row->Subject] = $row->Subject;
 		}
 
-		$query = $this->db->query("SELECT * FROM edfi.GradeLevelType ORDER BY GradeLevelTypeId ASC");
+		$query = $this->db->query("SELECT * FROM edfi.GradeLevelType where GradeLevelTypeId in ( SELECT distinct GradeLevelType.GradeLevelTypeId FROM edfi.StudentAssessmentScoreResult
+			JOIN edfi.GradeLevelDescriptor ON edfi.GradeLevelDescriptor.GradeLevelDescriptorId = edfi.StudentAssessmentScoreResult
+			.AssessedGradeLevelDescriptorId
+			JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
+			.GradeLevelTypeId
+			WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ORDER BY GradeLevelTypeId ASC");
 		foreach ($query->result() as $row) {
 			$filter['grade'][$row->CodeValue] = $row->CodeValue;
 		}
