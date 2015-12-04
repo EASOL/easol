@@ -14,7 +14,7 @@ class Reports_test extends TestCase
 	{
 		$output = $this->request('GET', 'reports/index');
 		$this->assertContains('<h1 class="page-header">Flex Reports</h1>', $output);
-		$this->assertContains('State ELA Assessments per Year', $output);
+		$this->assertContains('State ELA Assessments per Yearing', $output);
 
 	}
 

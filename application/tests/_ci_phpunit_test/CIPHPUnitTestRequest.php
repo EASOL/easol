@@ -23,31 +23,21 @@ class CIPHPUnitTestRequest
 	protected $router;
 
 	/**
-	 * @var callable callable post controller constructor
+	 * @var callable[] callable called post controller constructor
 	 */
-	protected $callable;
+	protected $callables = [];
 	
 	/**
-	 * @var callable callable pre controller constructor
+	 * @var callable callable called pre controller constructor
 	 */
 	protected $callablePreConstructor;
 
 	protected $enableHooks = false;
-	protected $CI;
 	
 	/**
 	 * @var CI_Hooks
 	 */
 	protected $hooks;
-
-	/**
-	 * @var bool whether throwing PHPUnit_Framework_Exception or not
-	 * 
-	 * If true, throws PHPUnit_Framework_Exception when show_404() and show_error() are called. This behavior is compatible to v0.3.0 and before.
-	 * 
-	 * @deprecated
-	 */
-	protected $bc_mode_throw_PHPUnit_Framework_Exception = false;
 
 	public function __construct(PHPUnit_Framework_TestCase $testCase)
 	{
@@ -68,13 +58,24 @@ class CIPHPUnitTestRequest
 	}
 
 	/**
-	 * Set callable
+	 * Set (and Reset) callable
 	 * 
 	 * @param callable $callable function to run after controller instantiation
 	 */
 	public function setCallable(callable $callable)
 	{
-		$this->callable = $callable;
+		$this->callables = [];
+		$this->callables[] = $callable;
+	}
+
+	/**
+	 * Add callable
+	 * 
+	 * @param callable $callable function to run after controller instantiation
+	 */
+	public function addCallable(callable $callable)
+	{
+		$this->callables[] = $callable;
 	}
 
 	/**
@@ -106,10 +107,6 @@ class CIPHPUnitTestRequest
 	 */
 	public function request($http_method, $argv, $params = [])
 	{
-		// We need this because if 404 route, no controller is created.
-		// But we need $this->CI->output->_status
-		$this->CI =& get_instance();
-
 		if (is_string($argv))
 		{
 			$argv = ltrim($argv, '/');
@@ -144,7 +141,8 @@ class CIPHPUnitTestRequest
 			{
 				set_status_header($e->getCode());
 			}
-			$this->CI->output->_status['redirect'] = $e->getMessage();
+			$CI =& get_instance();
+			$CI->output->_status['redirect'] = $e->getMessage();
 		}
 		// show_404()
 		catch (CIPHPUnitTestShow404Exception $e)
@@ -163,14 +161,6 @@ class CIPHPUnitTestRequest
 	protected function processError(Exception $e)
 	{
 		set_status_header($e->getCode());
-
-		// @deprecated
-		if ($this->bc_mode_throw_PHPUnit_Framework_Exception)
-		{
-			throw new PHPUnit_Framework_Exception(
-				$e->getMessage(), $e->getCode()
-			);
-		}
 	}
 
 	/**
@@ -209,6 +199,14 @@ class CIPHPUnitTestRequest
 		// 404 checking
 		if (! class_exists($class) || ! method_exists($class, $method))
 		{
+			// If 404, CodeIgniter instance is not created yet. So create it here
+			// Because we need CI->output->_status to store info
+			$CI =& get_instance();
+			if ($CI instanceof CIPHPUnitTestNullCodeIgniter)
+			{
+				new CI_Controller();
+			}
+
 			show_404($class.'::'.$method . '() is not found');
 		}
 
@@ -292,18 +290,20 @@ class CIPHPUnitTestRequest
 
 		// Create controller
 		$controller = new $class;
-		$this->CI =& get_instance();
+		$CI =& get_instance();
 
 		// Set CodeIgniter instance to TestCase
-		$this->testCase->setCI($this->CI);
+		$this->testCase->setCI($CI);
 
 		// Set default response code 200
 		set_status_header(200);
 		// Run callable
-		if (is_callable($this->callable))
+		if ($this->callables !== [])
 		{
-			$callable = $this->callable;
-			$callable($this->CI);
+			foreach ($this->callables as $callable)
+			{
+				$callable($CI);
+			}
 		}
 
 		$this->callHook('post_controller_constructor');
@@ -314,7 +314,7 @@ class CIPHPUnitTestRequest
 
 		if ($output == '')
 		{
-			$output = $this->CI->output->get_output();
+			$output = $CI->output->get_output();
 		}
 
 		$this->callHook('post_controller');
@@ -330,11 +330,12 @@ class CIPHPUnitTestRequest
 	 */
 	public function getStatus()
 	{
-		if (! isset($this->CI->output->_status))
+		$CI =& get_instance();
+		if (! isset($CI->output->_status))
 		{
 			throw new LogicException('Status code is not set. You must call $this->request() first');
 		}
 
-		return $this->CI->output->_status;
+		return $CI->output->_status;
 	}
 }
