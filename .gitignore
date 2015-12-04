@@ -5,4 +5,5 @@ application/config/database.php
 /stw_thumbs
 /docs
 
-
+logs
+/application/tests/build/coverage

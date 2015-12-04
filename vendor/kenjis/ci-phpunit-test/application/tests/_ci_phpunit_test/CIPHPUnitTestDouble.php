@@ -37,12 +37,13 @@ class CIPHPUnitTestDouble
 	{
 		$methods = array_keys($params);
 
-		$mock = $this->testCase->getMockBuilder($classname)->setMethods($methods)
-			->getMock();
+		$mock = $this->testCase->getMockBuilder($classname)
+			->setMethods($methods)->getMock();
 
 		foreach ($params as $method => $return)
 		{
-			$mock->method($method)->willReturn($return);
+			$mock->expects($this->testCase->any())->method($method)
+				->willReturn($return);
 		}
 
 		return $mock;
@@ -80,7 +81,7 @@ class CIPHPUnitTestDouble
 				break;
 			case 5:
 				$invocation->$with(
-					$params[0], $params[1], $params[2], $params[3], $params[4], $params[5]
+					$params[0], $params[1], $params[2], $params[3], $params[4]
 				);
 				break;
 			default:

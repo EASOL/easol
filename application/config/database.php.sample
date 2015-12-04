@@ -84,3 +84,26 @@ $db['default'] = array(
     'save_queries' => TRUE
 );
 $db['default']['port'] = 1433;
+
+$db['testing'] = array(
+    'dsn'   => '',
+    'hostname' => 'tcp:HOSTNAME,1433',
+    'username' => 'USERNAME',
+    'password' => 'PASSWORD',
+    'database' => 'DATABASE',
+    'dbdriver' => 'sqlsrv',
+    'dbprefix' => '',
+    'pconnect' => TRUE,
+    'db_debug' => TRUE,
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
+$db['testing']['port'] = 1433;
