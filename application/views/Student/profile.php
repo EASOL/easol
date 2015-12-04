@@ -26,7 +26,7 @@ if (empty($student)) {
             </tr>
             <tr>
                 <th><?= $student->labels()['BirthDate'] ?></th>
-                <td><?= $student->BirthDate  ?></td>
+                <td><?= easol_date($student->BirthDate)  ?></td>
             </tr>
             <tr>
                 <th>Ethnicity</th>

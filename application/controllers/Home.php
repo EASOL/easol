@@ -28,8 +28,7 @@ class Home extends Easol_Controller {
         	}
 
 		    if( isset($_POST['login']) && $data=$this->input->post('login')) {
-				$this->_password_login($data);
-				return;
+				return $this->_password_login($data);
 		    }
 		}
 
@@ -42,6 +41,12 @@ class Home extends Easol_Controller {
 
 	private function _idtoken_login ()
 	{
+
+		if (system_google_auth_enabled() != 'yes') {
+			$this->session->set_flashdata('error', 'Google Sign In is disabled.');
+			return;
+		}
+
 		$this->load->model('Usermanagement_M');
 		$user = $this->Usermanagement_M->getEasolUsers($_REQUEST['uemail'], "SEM.ElectronicMailAddress");
 
@@ -125,7 +130,7 @@ class Home extends Easol_Controller {
 			    }
 
 			    $this->session->set_userdata($data);
-			    redirect('/student');
+			    redirect('/');
 			}
 	     }
 

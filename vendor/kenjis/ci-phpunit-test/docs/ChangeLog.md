@@ -1,5 +1,38 @@
 # Change Log for CI PHPUnit Test
 
+## v0.8.2 (2015/10/09)
+
+### Fixed
+
+* Fix bug that monkey patching changes original source code in some cases of heredoc/nowdoc strings.
+
+### Others
+
+* Compatible with CodeIgniter 3.0.2
+* Compatible with PHP 7.0.0-RC4
+* Update nikic/PHP-Parser to v1.4.1
+
+## v0.8.1 (2015/10/01)
+
+### Fixed
+
+* Fix bug that `$route['404_override']` controller/method is called in Bootstrap. See [#63](https://github.com/kenjis/ci-phpunit-test/pull/63).
+
+## v0.8.0 (2015/09/28)
+
+### Changed
+
+* Better support for SQLite in-memory database. Now `reset_instance()` does not close SQLite in-memory database connection.
+
+### Fixed
+
+* Fix bug that `$this->getDouble()` can't create mocks which have methods named method.
+* Fix bug that monkey patching which returns `null` does not work.
+
+### Removed
+
+* Property `$bc_mode_throw_PHPUnit_Framework_Exception` in `CIPHPUnitTestRequest` class (deprecated since v0.4.0). See [How to Write Tests](https://github.com/kenjis/ci-phpunit-test/blob/v0.4.0/docs/HowToWriteTests.md#show_error-and-show_404).
+
 ## v0.7.0 (2015/09/09)
 
 ### Upgrade Note

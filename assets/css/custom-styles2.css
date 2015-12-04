@@ -66,6 +66,14 @@ Alternating field grey: #f9f9f9
 /*----------------------------------------------
    DASHBOARD STYLES
 ------------------------------------------------*/
+@media (min-width: 992px) {
+  .equal, .equal > div[class*='col-'] {
+    display: -webkit-flex;
+    display: flex;
+    flex: 1 1 auto;
+  }
+}
+
 .page-header {
     padding-bottom: 9px;
     margin: 10px 0 20px;
@@ -117,11 +125,17 @@ Alternating field grey: #f9f9f9
 }
 
 
-.panel-heading:not(.default) {
-    padding: 15px 0px 20px 0px;
+.panel-heading {
     border-bottom: 0px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+}
+
+.panel-heading:not(.default) {
+  padding: 15px 0px 20px 0px;
+  border-bottom: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .jumbotron, .well {
@@ -1048,9 +1062,9 @@ tr:nth-child(even) {
   padding: 0 0 5px 0;
 }
 
-/* 
-* Since the previous devs decided to customize a general use class of table-bordered and then bury the 
-* heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a 
+/*
+* Since the previous devs decided to customize a general use class of table-bordered and then bury the
+* heirarchical html in the widget system, I am overriding the bold text via a more specific declaration with a
 * custom classname here.
 */
 #contacts .student-contacts td {

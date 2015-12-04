@@ -18,7 +18,7 @@ if (empty($assessments)) {
             <?php foreach($assessments as $assessment){ ?>
                 <tr>
                     <td><?= $assessment->AssessmentTitle ?></td>
-                    <td><?= $assessment->AdministrationDate ?></td>
+                    <td><?= easol_date($assessment->AdministrationDate) ?></td>
                     <td><?= $assessment->Result ?></td>
                     <td><?= $assessment->GradeLevel ?></td>
                     <td><?= $assessment->AcademicSubject ?></td>
