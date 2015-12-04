@@ -104,19 +104,21 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                                   'default'   => $this->input->get('filter[Cohort]'),
 
                               ],
-                          'Result'    =>
+                        
+                        'Result'    =>
                             [
                                 'range'     =>
                                     [
                                         'type'  =>  'set',
-                                        'set'   =>  [10,25,50,100,200,500]
+                                        'set'   =>  [25,50,100]
                                     ],
-                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 3 : $this->input->get('filter[Result]'),
-                                'label'     =>  'Results',
+                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 0 : $this->input->get('filter[Result]'),
+                                'label'     =>  'Records Per Page',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
                                 'fieldType' => 'pageSize'
                             ],
+  
                         'Sort'    =>
                             [
                                 'label'     =>  'Sort Column',
@@ -232,9 +234,9 @@ inner join edfi.GradeLevelType on
                                 'range'     =>
                                     [
                                         'type'  =>  'set',
-                                        'set'   =>  [10,25,50,100,200,500]
+                                        'set'   =>  [25,50,100]
                                     ],
-                                'default'   =>   (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
+                                'default'   =>   (!$this->input->get('filter[Result]')) ? 0 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
