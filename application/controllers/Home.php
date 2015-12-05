@@ -134,9 +134,9 @@ class Home extends Easol_Controller {
 			}
 	     }
 
+         $this->writeLog();
 	     $this->render("login",['message' => 'Invalid email/password']);
 	}
-
     /**
      * logout page
      */
