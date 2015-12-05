@@ -38,8 +38,12 @@ class Home extends Easol_Controller {
 			$this->render("login");
 		}
 	}
+        
+    private function writeLog() {
+        $this->easol_logs->Log(['Description' => 'Login']);
+    }
 
-	private function _idtoken_login ()
+    private function _idtoken_login ()
 	{
 
 		if (system_google_auth_enabled() != 'yes') {
@@ -83,6 +87,9 @@ class Home extends Easol_Controller {
 				    }
 
 		    		$this->session->set_userdata($data);
+                                
+                                $this->writeLog();
+                                
 		    		echo "gloginValid";
 		 		} else {
 		 		$this->session->set_flashdata('error', 'Error Logging in - Easol authentication failed - Please contact Support.');
@@ -130,11 +137,14 @@ class Home extends Easol_Controller {
 			    }
 
 			    $this->session->set_userdata($data);
+                            
+                            $this->writeLog();
+                            
 			    redirect('/');
 			}
 	     }
 
-         $this->writeLog();
+	     $this->writeLog();
 	     $this->render("login",['message' => 'Invalid email/password']);
 	}
     /**
