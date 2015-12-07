@@ -1,6 +1,12 @@
-/* This file provides a default database setup for CI purposes */
 
 <?php
+/*
+| -------------------------------------------------------------------
+| DATABASE SETTINGS FOR CONTINUOUS INTEGRATION ENVIRONMENT
+| -------------------------------------------------------------------
+| This file provides default database settings for CI purposes
+*/
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $active_group = 'mssql';
