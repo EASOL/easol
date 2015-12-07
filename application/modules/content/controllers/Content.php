@@ -128,6 +128,7 @@ class Content extends Easol_Controller {
 
                     if(strlen($obj->description) > 465)
                         $obj->description = mb_strimwidth($obj->description, 0, 465, "...");
+                    $obj->description = strip_tags($obj->description);
                 }
             }
 
