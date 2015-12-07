@@ -70,11 +70,13 @@ class Reports extends Easol_Controller {
 
                         $this->load->model('entities/easol/Easol_ReportAccess');
 
-                        foreach($this->input->post('access[access]') as $access){
-                            $displayAccess = new Easol_ReportAccess();
-                            $displayAccess->ReportId = $model->ReportId;
-                            $displayAccess->RoleTypeId = $access;
-                            $displayAccess->save();
+                        if (is_array($this->input->post('access[access]'))) {
+                            foreach ($this->input->post('access[access]') as $access) {
+                                $displayAccess             = new Easol_ReportAccess();
+                                $displayAccess->ReportId   = $model->ReportId;
+                                $displayAccess->RoleTypeId = $access;
+                                $displayAccess->save();
+                            }
                         }
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
@@ -139,13 +141,15 @@ class Reports extends Easol_Controller {
                         $aRoles[] = $role->RoleTypeId;
                     }
 
-                    foreach($this->input->post('access[access]') as $access){
-                        if(in_array($access,$aRoles))
-                            continue;
-                        $displayAccess = new Easol_ReportAccess();
-                        $displayAccess->ReportId = $model->ReportId;
-                        $displayAccess->RoleTypeId = $access;
-                        $displayAccess->save();
+                    if (is_array($this->input->post('access[access]'))) {
+                        foreach ($this->input->post('access[access]') as $access) {
+                            if (in_array($access, $aRoles))
+                                continue;
+                            $displayAccess             = new Easol_ReportAccess();
+                            $displayAccess->ReportId   = $model->ReportId;
+                            $displayAccess->RoleTypeId = $access;
+                            $displayAccess->save();
+                        }
                     }
 
 
