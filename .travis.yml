@@ -28,7 +28,7 @@ before_script:
 # omitting "script:" will default to phpunit
 script:
   - docker-compose build
-  - docker-composer up -d
+  - docker-compose up -d
   - docker ps -a
   - docker-compose run php sh -c "cd /usr/share/nginx/html && vendor/bin/phpunit -c application/tests/phpunit.xml"
 
