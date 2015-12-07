@@ -20,6 +20,7 @@ services:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
+  - mv application/config/database.ci.php application/config/database.php
   - git clone https://github.com/EASOL/easol-docker.git
   - cd easol-docker
   # Use the current build as the target site
