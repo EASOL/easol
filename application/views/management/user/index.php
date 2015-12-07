@@ -68,6 +68,9 @@
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			<div style="padding-top: 0.25em;" class="pull-right form-group">                   
+                <div id="csv-button"></div>
+            </div>
 		</div>
 	</div>
 </div>

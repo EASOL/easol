@@ -1,6 +1,7 @@
 $(function () {
 	var AssessmentsTable = $('#assessments-table').DataTable({
-		dom: 'Vrtip'
+		dom: 'Vrtip',
+                iDisplayLength: 25
 	});
 
 	$("[name='filter[Year]']").on('change', function() {
@@ -19,7 +20,7 @@ $(function () {
 		AssessmentsTable.page.len($(this).val()).draw();
 	});
 
-	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-primary').removeClass('datatable-get-csv');
+	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 
 	var StudentsTable = $('#students-table').DataTable({
 		dom: 'lVrftip'
