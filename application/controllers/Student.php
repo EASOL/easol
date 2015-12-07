@@ -68,7 +68,17 @@ WHERE
                             ],
                         'GradeLevel' =>
                             [
-                                'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType"),
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType where GradeLevelTypeId in (SELECT distinct GradeLevelType.GradeLevelTypeId from edfi.StudentSchoolAssociation
+INNER JOIN edfi.Student ON
+     StudentSchoolAssociation.StudentUSI = Student.StudentUSI
+INNER JOIN edfi.GradeLevelDescriptor ON
+     StudentSchoolAssociation.EntryGradeLevelDescriptorId = GradeLevelDescriptor.GradeLevelDescriptorId
+INNER JOIN edfi.GradeLevelType ON
+     GradeLevelDescriptor.GradeLevelTypeId = GradeLevelType.GradeLevelTypeId
+LEFT JOIN edfi.StudentCohortAssociation ON
+      StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
+ WHERE StudentSchoolAssociation.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' and GradeLevelType.GradeLevelTypeId between -1 and 12 )
+                                          "),
                                 'searchColumn'    =>  'GradeLevelTypeId',
                                 'textColumn'=>  'Description',
                                 'indexColumn'=>  'Description',
