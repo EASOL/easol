@@ -31,7 +31,7 @@ script:
   - docker-compose build
   - docker-compose up -d
   - docker ps -a
-  - docker-compose run php sh -c "cd /usr/share/nginx/html && vendor/bin/phpunit -c application/tests/phpunit.xml"
+  - docker-compose run php sh -c "cd /usr/share/nginx/html/application/tests && php phpunit.phar"
 
 after_script:
   - docker-compose stop
