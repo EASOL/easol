@@ -17,15 +17,15 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Report Name</th>
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><th>Display Type</th> <?php } ?>
-                            <th>Category</th>
+                            <th>{{ Report Name | lowercase}}</th>
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><th>{{Display Type}}</th> <?php } ?>
+                            <th>{{Category}}</th>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
-                                <th>School</th>
-                                <th>Access</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>{{School}}</th>
+                                <th>{{Access}}</th>
+                                <th>{{Edit}}</th>
+                                <th>{{Delete}}</th>
 
                             <?php } ?>
 

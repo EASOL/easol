@@ -187,7 +187,7 @@ class MX_Loader extends CI_Loader
 	/** Load an array of libraries **/
 	public function libraries($libraries)
 	{
-		foreach ($libraries as $library => $alias) 
+		foreach ($libraries as $library => $alias)
 		{
 			(is_int($library)) ? $this->library($alias) : $this->library($library, NULL, $alias);
 		}
@@ -235,7 +235,7 @@ class MX_Loader extends CI_Loader
 	/** Load an array of models **/
 	public function models($models)
 	{
-		foreach ($models as $model => $alias) 
+		foreach ($models as $model => $alias)
 		{
 			(is_int($model)) ? $this->model($alias) : $this->model($model, $alias);
 		}
@@ -350,11 +350,11 @@ class MX_Loader extends CI_Loader
 
 		if ((bool) @ini_get('short_open_tag') === FALSE && CI::$APP->config->item('rewrite_short_tags') == TRUE)
 		{
-			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
+			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', CI::$APP->easol_language->translate(file_get_contents($_ci_path)))));
 		}
 		else
 		{
-			include($_ci_path);
+			echo eval(file_get_contents($_ci_path));
 		}
 
 		log_message('debug', 'File loaded: '.$_ci_path);
@@ -427,7 +427,7 @@ class MX_Loader extends CI_Loader
 				}
 			}
 		}
-		
+
 		// Autoload drivers
 		if (isset($autoload['drivers']))
 		{

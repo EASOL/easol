@@ -85,7 +85,7 @@ class Reports extends Easol_Controller {
                             'Description'=>'Flex Report (create)',
                             'Data'=>["ModelId"=>$model->ReportId]
                         ]);
-                        
+
 
                         return redirect(site_url("reports/index"));
 
@@ -107,6 +107,7 @@ class Reports extends Easol_Controller {
      * @throws Exception
      */
     public function edit($id=null){
+
         if($id==null)
             throw new \Exception("Invalid report Id");
 
@@ -153,7 +154,7 @@ class Reports extends Easol_Controller {
                     }
 
 
-                    $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
+                    $this->session->set_flashdata('message', lang('Report Updated Successfully').': '. $model->ReportName);
                     $this->session->set_flashdata('type', 'success');
 
                     unset($arrOldValue['ReportId'], $arrOldValue['CreatedBy'], $arrOldValue['CreatedOn'], $arrOldValue['UpdatedBy'], $arrOldValue['UpdatedOn'], $arrOldValue['SchoolId']);
