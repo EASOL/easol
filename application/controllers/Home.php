@@ -39,8 +39,12 @@ class Home extends Easol_Controller {
 		}
 	}
         
-    private function writeLog() {
-        $this->easol_logs->Log(['Description' => 'Login']);
+    private function writeLog($method) {
+        if($method)
+            $this->easol_logs->Log(['Description' => 'Login']);
+        else 
+            $this->easol_logs->Log(['Description' => 'Logout']);
+        
     }
 
     private function _idtoken_login ()
@@ -88,7 +92,7 @@ class Home extends Easol_Controller {
 
 		    		$this->session->set_userdata($data);
                                 
-                                $this->writeLog();
+                                $this->writeLog(TRUE);
                                 
 		    		echo "gloginValid";
 		 		} else {
@@ -138,19 +142,20 @@ class Home extends Easol_Controller {
 
 			    $this->session->set_userdata($data);
                             
-                            $this->writeLog();
+                            $this->writeLog(TRUE);
                             
 			    redirect('/');
 			}
 	     }
 
-	     $this->writeLog();
+	     $this->writeLog(TRUE);
 	     $this->render("login",['message' => 'Invalid email/password']);
 	}
     /**
      * logout page
      */
     public function logout(){
+        $this->writeLog(FALSE);
         $this->session->sess_destroy();
         $this->load->helper('cookie');
         delete_cookie("G_AUTHUSER_H");
