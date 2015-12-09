@@ -28,8 +28,7 @@ class Home extends Easol_Controller {
         	}
 
 		    if( isset($_POST['login']) && $data=$this->input->post('login')) {
-				$this->_password_login($data);
-				return;
+				return $this->_password_login($data);
 		    }
 		}
 
@@ -39,9 +38,23 @@ class Home extends Easol_Controller {
 			$this->render("login");
 		}
 	}
+        
+    private function writeLog($method) {
+        if($method)
+            $this->easol_logs->Log(['Description' => 'Login']);
+        else 
+            $this->easol_logs->Log(['Description' => 'Logout']);
+        
+    }
 
-	private function _idtoken_login ()
+    private function _idtoken_login ()
 	{
+
+		if (system_google_auth_enabled() != 'yes') {
+			$this->session->set_flashdata('error', 'Google Sign In is disabled.');
+			return;
+		}
+
 		$this->load->model('Usermanagement_M');
 		$user = $this->Usermanagement_M->getEasolUsers($_REQUEST['uemail'], "SEM.ElectronicMailAddress");
 
@@ -78,6 +91,9 @@ class Home extends Easol_Controller {
 				    }
 
 		    		$this->session->set_userdata($data);
+                                
+                                $this->writeLog(TRUE);
+                                
 		    		echo "gloginValid";
 		 		} else {
 		 		$this->session->set_flashdata('error', 'Error Logging in - Easol authentication failed - Please contact Support.');
@@ -125,17 +141,21 @@ class Home extends Easol_Controller {
 			    }
 
 			    $this->session->set_userdata($data);
-			    redirect('/student');
+                            
+                            $this->writeLog(TRUE);
+                            
+			    redirect('/');
 			}
 	     }
 
+	     $this->writeLog(TRUE);
 	     $this->render("login",['message' => 'Invalid email/password']);
 	}
-
     /**
      * logout page
      */
     public function logout(){
+        $this->writeLog(FALSE);
         $this->session->sess_destroy();
         $this->load->helper('cookie');
         delete_cookie("G_AUTHUSER_H");

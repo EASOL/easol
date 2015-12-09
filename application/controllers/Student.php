@@ -68,7 +68,17 @@ WHERE
                             ],
                         'GradeLevel' =>
                             [
-                                'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType"),
+                                'query'     =>  $this->db->query("SELECT * FROM edfi.GradeLevelType where GradeLevelTypeId in (SELECT distinct GradeLevelType.GradeLevelTypeId from edfi.StudentSchoolAssociation
+INNER JOIN edfi.Student ON
+     StudentSchoolAssociation.StudentUSI = Student.StudentUSI
+INNER JOIN edfi.GradeLevelDescriptor ON
+     StudentSchoolAssociation.EntryGradeLevelDescriptorId = GradeLevelDescriptor.GradeLevelDescriptorId
+INNER JOIN edfi.GradeLevelType ON
+     GradeLevelDescriptor.GradeLevelTypeId = GradeLevelType.GradeLevelTypeId
+LEFT JOIN edfi.StudentCohortAssociation ON
+      StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
+ WHERE StudentSchoolAssociation.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' and GradeLevelType.GradeLevelTypeId between -1 and 12 )
+                                          "),
                                 'searchColumn'    =>  'GradeLevelTypeId',
                                 'textColumn'=>  'Description',
                                 'indexColumn'=>  'Description',
@@ -94,19 +104,21 @@ WHERE
                                   'default'   => $this->input->get('filter[Cohort]'),
 
                               ],
-                          'Result'    =>
+                        
+                        'Result'    =>
                             [
                                 'range'     =>
                                     [
                                         'type'  =>  'set',
-                                        'set'   =>  [10,25,50,100,200,500]
+                                        'set'   =>  [25,50,100]
                                     ],
-                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 3 : $this->input->get('filter[Result]'),
-                                'label'     =>  'Results',
+                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 0 : $this->input->get('filter[Result]'),
+                                'label'     =>  'Records Per Page',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,
                                 'fieldType' => 'pageSize'
                             ],
+  
                         'Sort'    =>
                             [
                                 'label'     =>  'Sort Column',
@@ -222,9 +234,9 @@ inner join edfi.GradeLevelType on
                                 'range'     =>
                                     [
                                         'type'  =>  'set',
-                                        'set'   =>  [10,25,50,100,200,500]
+                                        'set'   =>  [25,50,100]
                                     ],
-                                'default'   =>   (!$this->input->get('filter[Result]')) ? 3 : $this->input->get('filter[Result]'),
+                                'default'   =>   (!$this->input->get('filter[Result]')) ? 0 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
                                 'bindDatabase'  => false,

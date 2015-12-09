@@ -15,8 +15,8 @@
                 </tr>
             </thead>
             <tbody>
-            	<?php foreach ($schools as $key => $school) : ?>
-            		<tr>
+                <?php foreach ($schools as $key => $school) : ?>
+                    <tr>
                         <td><?php echo $school->SchoolId ?></td>
                         <td><?php echo $school->NameOfInstitution ?></td>
                         <td><?php echo $school->WebSite ?></td>
@@ -24,8 +24,11 @@
                             <a href="<?= site_url("/schoolmanagement/details/$school->SchoolId") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         </td>                                    
                     </tr>
-            	<?php endforeach; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
+        <div style="padding-top: 0.25em;" class="pull-right form-group">                   
+            <div id="csv-button"></div>
+        </div>
     </div>
 </div>

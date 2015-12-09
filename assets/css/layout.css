@@ -96,6 +96,7 @@ body, #wrapper {
 }
 #page-wrapper #page-inner > div.row:first-child .page-header {
   margin-top: -43px;
+  float: left;
 }
 #page-wrapper #page-inner .choose-school {
   margin-top: -43px;
@@ -216,13 +217,13 @@ ul.nav.nav-second-level.collapse.in {
       margin: 0 0 0 90px;
       padding: 1px 30px;
   }
-  
+
   .navbar-side {
       z-index: 1;
       width: 90px;
       text-align: center;
   }
-  
+
     .navbar {
       border-radius: 0px;
     }*/

@@ -15,6 +15,10 @@ h2 {
 h4 {
   padding-top: 10px;
 }
+.section-title {
+  padding: 5px;
+  line-height: 34px;
+}
 
 p {
   font-size: 16px;
