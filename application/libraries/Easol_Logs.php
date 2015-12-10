@@ -20,6 +20,6 @@ Class Easol_Logs {
                     $data['IpAddress']=$remote_addr;
                 } 
                 $data['Data'] = json_encode($data['Data']);
-		$ci->db->insert('EASOL.Logs', $data);
+	//	$ci->db->insert('EASOL.Logs', $data);
 	}
 }
