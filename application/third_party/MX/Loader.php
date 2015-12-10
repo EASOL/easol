@@ -348,14 +348,18 @@ class MX_Loader extends CI_Loader
 
 		ob_start();
 
-		if ((bool) @ini_get('short_open_tag') === FALSE && CI::$APP->config->item('rewrite_short_tags') == TRUE)
+
+		/*if ((bool) @ini_get('short_open_tag') === FALSE && CI::$APP->config->item('rewrite_short_tags') == TRUE)
 		{
 			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', CI::$APP->easol_language->translate(file_get_contents($_ci_path)))));
 		}
 		else
 		{
-			echo eval(file_get_contents($_ci_path));
+			include($_ci_path);
 		}
+*/
+		// TODO: the code above was supposed to replace short php open tags with full tags if the env can't handle short open tags AND the config says it should be replaced. We need to either just define that we won't be using short tags OR find a workaround to make the eval function to parse short open tags correctly. We can't just include the the $ci_path file cause we need to translate it first.
+		echo eval('?>' . preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', CI::$APP->easol_language->translate(file_get_contents($_ci_path)))));
 
 		log_message('debug', 'File loaded: '.$_ci_path);
 
