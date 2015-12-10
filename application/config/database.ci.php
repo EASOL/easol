@@ -1,4 +1,3 @@
-
 <?php
 /*
 | -------------------------------------------------------------------
@@ -9,26 +8,30 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$active_group = 'mssql';
+$active_group = 'testing';
 $query_builder = TRUE;
 
-/* Connect MSSQL Server*/
-$db['mssql']['dsn'] = '';
-$db['mssql']['hostname'] = $_ENV['CI_DATABASE_HOSTNAME'];
-$db['mssql']['username'] = $_ENV['CI_DATABASE_USERNAME'];
-$db['mssql']['password'] = $_ENV['CI_DATABASE_PASSWORD'];
-$db['mssql']['database'] = $_ENV['CI_DATABASE_NAME'];
-$db['mssql']['dbdriver'] = 'odbc';
-$db['mssql']['dbprefix'] = '';
-$db['mssql']['pconnect'] = FALSE;
-$db['mssql']['db_debug'] = TRUE;
-$db['mssql']['cache_on'] = FALSE;
-$db['mssql']['cachedir'] = '';
-$db['mssql']['char_set'] = 'utf8';
-$db['mssql']['dbcollat'] = 'utf8_general_ci';
-$db['mssql']['swap_pre'] = '';
-$db['mssql']['autoinit'] = TRUE;
-$db['mssql']['stricton'] = FALSE;
-$db['mssql']['port'] = 1433;
+$db['testing'] = array(
+    'dsn'   => '',
+    'hostname' => $_ENV['CI_DATABASE_HOSTNAME'],
+    'username' => $_ENV['CI_DATABASE_USERNAME'],
+    'password' => $_ENV['CI_DATABASE_PASSWORD'],
+    'database' => $_ENV['CI_DATABASE_NAME'],
+    'dbdriver' => 'sqlsrv',
+    'dbprefix' => '',
+    'pconnect' => TRUE,
+    'db_debug' => TRUE,
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
+$db['testing']['port'] = 1433;
 
 ?>
