@@ -99,4 +99,55 @@ WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Authentication:
 
         ]);
     }
+    
+    /**
+     * index action
+     */
+    public function csv($id=1){
+        
+        $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
+INNER JOIN edfi.Cohort ON
+     Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
+WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication::userdata('SchoolId')."'
+                  ";
+
+
+        $this->render("csv", [
+            'query' => $query,
+            'colOrderBy' => ['Cohort.CohortDescription'],
+            'colGroupBy' => ['StudentCohortAssociation.CohortIdentifier','Cohort.CohortDescription'],
+            'filter' => [
+                'dataBind' => true,
+                'bindIndex' => [],
+                'queryWhere' => false,
+                'fields' =>
+                    [
+
+
+
+                        'Result'    =>
+                            [
+                                'range'     =>
+                                    [
+                                        'type'  =>  'set',
+                                        'set'   =>  [25,50,100]
+                                    ],
+                                'default'   =>  (!$this->input->get('filter[Result]')) ? 0 : $this->input->get('filter[Result]'),
+                                'label'     =>  'Results',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => false,
+                                'fieldType' => 'pageSize'
+                            ],
+
+                    ]
+
+            ],
+            'pagination' =>
+                [
+                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
+                    'currentPage' => $id,
+                    'url' => 'cohorts/index/@pageNo'
+                ]
+        ]);
+	}
 }
