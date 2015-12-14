@@ -20,24 +20,27 @@
 <br>
 <div class="row">
     <div class="col-md-12">
-        <?php Easol_Widget::show("DataTableWidget",
-            [
-                'query' => $query,
-                'pagination' => $pagination,
-                'colOrderBy'    =>  $colOrderBy,
-                'columns'   =>
-                    [
+        <div class="datatablegrid">
+            <table id="student-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Student Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($student_listing as $row) : ?>
+                    <tr>
+                        <td>
+                            <a href="<?php echo site_url('student/profile/' . $row->StudentUSI) ?>"><?php echo $row->FirstName . ' ' . $row->LastSurname; ?></a>
+                        </td>
 
-                        ['name' => 'FirstName', 'title' => 'Student Name',
-                            'value' => function($model){return $model->FirstName.' '.$model->LastSurname;},
-                            'type' => 'url',
-                            'url' => function($model){return site_url('student/profile/'.$model->StudentUSI); }
-                        ],
-
-                    ],
-                'downloadCSV' => true
-            ]
-
-        ) ?>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <div class="pull-right form-group" style="padding-top: 0.25em;">
+                <div id="csv-button"></div>
+            </div>
+        </div>
     </div>
 </div>
