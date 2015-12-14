@@ -6,7 +6,7 @@
 
 		<div class="form-group">
 			<label for="timezone">Select your language:</label>
-			<?php echo form_dropdown('language', $this->easol_language->options(), null, "class='form-control'"); ?>
+			<?php echo form_dropdown('language', $this->easol_language->options(), $language, "class='form-control'"); ?>
 		</div>
 
 		<input type="submit" class="btn btn-default" value="Save">
