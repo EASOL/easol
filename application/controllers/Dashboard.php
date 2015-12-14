@@ -25,4 +25,16 @@ class Dashboard extends Easol_Controller {
 
         $this->render("index",['dashboardConf' =>$dashboardConf,'tablePageNo' => $pageNo]);
 	}
+        
+    public function csv($pageNo=1)
+	{
+        $this->load->model('entities/easol/Easol_DashboardConfiguration');
+
+        $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Authentication::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Authentication::userdata('SchoolId')]);
+        if($dashboardConf!=null){
+            $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
+        }
+
+        $this->render("csv",['dashboardConf' =>$dashboardConf,'tablePageNo' => $pageNo]);
+	}
 }
