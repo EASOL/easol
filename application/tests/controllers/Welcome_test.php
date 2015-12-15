@@ -10,6 +10,10 @@
 
 class Welcome_test extends TestCase
 {
+	/**
+	 * @group Welcome
+	 * Welcome the index page
+	 */
 	public function test_index()
 	{
 		$output = $this->request('GET', ['Welcome', 'index']);
