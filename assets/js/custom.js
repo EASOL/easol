@@ -3,15 +3,24 @@ $(function() {
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
 		$('#manageusers').DataTable({
-        dom: 'Vlfrtip'
+                    //dom: 'Vlfrtip',
+                    dom: '<"top"li>frt<"bottom"p>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
   		  });
 	}
 
 	if ($('table#manageschools').length) {
 		$('#manageschools').DataTable({
-        dom: 'Vlfrtip'
-    });
+                    dom: '<"top"li>frt<"bottom"p>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+                });
 	}
+        
+        $(".datatable-get-csv").detach().appendTo('#csv-button');
+        $('.datatable-get-csv').addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
+
 
 	if ($('table#manageschooldetails').length) {
 		$('#manageschooldetails').DataTable();
@@ -25,8 +34,19 @@ $(function() {
 		$("#filter-form-result").val($( "#filter-result" ).val());
 		$( "#dataGridFormFilter").submit();
 	});
+/*
+	$( "#filter-form-result" ).change(function() {
+		$( "#filter-form-result").val($( "#filter-form-result, #filter-result" ).val());
+		$( "#dataGridFormFilter").submit();
+	});
 
-
+	$( "#filter-result" ).change(function() {
+                $( "#filter-form-result").val($( "#filter-result" ).val());
+		$( "#filter-result").val($( "#filter-form-result" ).val());
+		$( "#dataGridFormFilter").submit();
+	});
+*/        
+        
 	$("[data-toggle='modal']").on('click', function(e) {
 		e.preventDefault();
 		var $that = $(this);

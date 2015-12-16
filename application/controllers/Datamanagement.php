@@ -158,6 +158,7 @@ class Datamanagement extends Easol_Controller {
                         $this->load->model('Datamanagementqueries');
                         $this->load->model('Easol_CSVProcessor');
                         $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
+                        $this->importedFileName = $_FILES['csvFile']['name'];
                         //print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
                         switch($_POST['data_action']){
                             case 'insert' :
@@ -201,9 +202,10 @@ class Datamanagement extends Easol_Controller {
                             $msg['status']['result'] = $csvProcessor->result;
                             foreach ($csvProcessor->result as $type=>$result) {
                                 if (!empty($result)) {
-                                    if ($type == 'error')
+                                    if ($type == 'error'){
                                         $msg['status']['msg'] .= "<p>" . sizeof($result) . " records produced errors and could not be processed.</p>";
-                                    else
+                                        $this->failCount++;
+                                    } else
                                         $msg['status']['msg'] .= "<p>".sizeof($result)." records $type</p>";
 
                                 }
@@ -225,13 +227,14 @@ class Datamanagement extends Easol_Controller {
                 $msg['status']['msg'] = 'File Upload Error!';
             }
         }
+        $this->writeLog($csvProcessor);
         echo json_encode($msg);
     }
 
     public function checkFile($file, $tableName) {
 
         $this->load->model('Datamanagementqueries');
-
+        $this->objectDescription = $tableName;
         $content = array_map('str_getcsv', file($file));
         $columns = Datamanagementqueries::getTableDetails($tableName);
 
@@ -244,4 +247,13 @@ class Datamanagement extends Easol_Controller {
 
         return true;
     }
+
+    private function writeLog ($csvProcessor){
+        $this->easol_logs->Log( [
+            'Description'=>'Data Management (Data Upload)',
+            'Data'=>["Object"=>$this->objectDescription, "ImportedFileName"=>$this->importedFileName, "Result"=>$csvProcessor->result, "RowsDetails"=>'["Inserted":"'.count($csvProcessor->result['inserted']).'", "Updated":"'.count($csvProcessor->result['updated']).'", "Deleted":"'.count($csvProcessor->result['deleted']).'", "Failed":"'.(count($csvProcessor->result['error'])+count($csvProcessor->result['skipped'])).'"]']
+        ]);
+
+    }
+
 }

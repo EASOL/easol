@@ -135,7 +135,12 @@ class Easol_CSVProcessor extends CI_Model {
                         $this->db->where($where);
                         $this->db->delete('edfi.' . $this->tableName);
 
-                        $error = $this->db->error();
+                        if ($this->db->affected_rows() > 0 ) {
+                            $this->result['deleted'][] = $key;
+                        } else {
+                            $this->result['error'][] = $key;
+                            $error = $this->db->error();
+                        }
 
                         if (!$error['message'])
                             $this->result['deleted'][] = ['line'=>$key];
@@ -237,6 +242,7 @@ class Easol_CSVProcessor extends CI_Model {
         return $result;
 
     }
+
     /**
      * @param $data
      * @return boolean
@@ -248,4 +254,5 @@ class Easol_CSVProcessor extends CI_Model {
         if ($num > 0) return true;
         return false;
     }
+
 }

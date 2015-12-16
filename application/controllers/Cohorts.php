@@ -20,51 +20,17 @@ class Cohorts extends Easol_Controller {
      * index action
      */
     public function index($id=1){
-        
+
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
      Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
 WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication::userdata('SchoolId')."'
-                  ";
+    GROUP BY StudentCohortAssociation.CohortIdentifier,Cohort.CohortDescription";
 
+        $query = $this->db->query($query);
+        $data['cohort_listing'] = $query->result();
 
-        $this->render("index", [
-            'query' => $query,
-            'colOrderBy' => ['Cohort.CohortDescription'],
-            'colGroupBy' => ['StudentCohortAssociation.CohortIdentifier','Cohort.CohortDescription'],
-            'filter' => [
-                'dataBind' => true,
-                'bindIndex' => [],
-                'queryWhere' => false,
-                'fields' =>
-                    [
-
-
-
-                        'Result'    =>
-                            [
-                                'range'     =>
-                                    [
-                                        'type'  =>  'set',
-                                        'set'   =>  [10,25,50,100,200,500]
-                                    ],
-                                'default'   =>  (!$this->input->get('filter[Result]')) ? 2 : $this->input->get('filter[Result]'),
-                                'label'     =>  'Results',
-                                'type'      =>  'dropdown',
-                                'bindDatabase'  => false,
-                                'fieldType' => 'pageSize'
-                            ],
-
-                    ]
-
-            ],
-            'pagination' =>
-                [
-                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
-                    'currentPage' => $id,
-                    'url' => 'cohorts/index/@pageNo'
-                ]
-        ]);
+        $this->render("index", $data);
 	}
 
     /**
@@ -83,20 +49,63 @@ INNER JOIN edfi.Student ON Student.StudentUSI = StudentCohortAssociation.Student
 WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Authentication::userdata('SchoolId')." and StudentCohortAssociation.CohortIdentifier = '".$cohort->CohortIdentifier."'
 
  ";
+        $query = $this->db->query($query);
 
-        //die($query);
+        $data['cohort'] = $cohort;
+        $data['student_listing'] = $query->result();
 
-        return $this->render("students",['cohort'=>$cohort,
+        return $this->render("students", $data);
+
+    }
+    
+    /**
+     * index action
+     */
+    public function csv($id=1){
+        
+        $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
+INNER JOIN edfi.Cohort ON
+     Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
+WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication::userdata('SchoolId')."'
+                  ";
+
+
+        $this->render("csv", [
             'query' => $query,
-            'colOrderBy' => ['Student.FirstName','Student.LastSurname'],
+            'colOrderBy' => ['Cohort.CohortDescription'],
+            'colGroupBy' => ['StudentCohortAssociation.CohortIdentifier','Cohort.CohortDescription'],
+            'filter' => [
+                'dataBind' => true,
+                'bindIndex' => [],
+                'queryWhere' => false,
+                'fields' =>
+                    [
+
+
+
+                        'Result'    =>
+                            [
+                                'range'     =>
+                                    [
+                                        'type'  =>  'set',
+                                        'set'   =>  [25,50,100]
+                                    ],
+                                'default'   =>  (!$this->input->get('filter[Result]')) ? 0 : $this->input->get('filter[Result]'),
+                                'label'     =>  'Results',
+                                'type'      =>  'dropdown',
+                                'bindDatabase'  => false,
+                                'fieldType' => 'pageSize'
+                            ],
+
+                    ]
+
+            ],
             'pagination' =>
                 [
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
                     'currentPage' => $id,
-                    'url' => 'cohorts/students/'.$cohort->CohortIdentifier.'/@pageNo'
+                    'url' => 'cohorts/index/@pageNo'
                 ]
-
-
         ]);
-    }
+	}
 }
