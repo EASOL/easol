@@ -23,6 +23,7 @@ before_script:
   - mv application/config/database.ci.php application/config/database.php
   - git clone https://github.com/EASOL/easol-docker.git
   - cd easol-docker
+  - echo -e "CI_DATABASE_HOSTNAME\nCI_DATABASE_USERNAME\nCI_DATABASE_PASSWORD\nCI_DATABASE_NAME" >> env.local
   # Use the current build as the target site
   - sed -i -e "s|./easol-app:/usr/share/nginx/html|$TRAVIS_BUILD_DIR:/usr/share/nginx/html|" "docker-compose.yml"
 
