@@ -149,11 +149,6 @@
                             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                                <li <?= ($this->router->class=="admin") ? 'class="active-menu"' : '' ?>>
-                                    <a href="<?= site_url("/admin") ?>">Administration</a>
-                                </li>
-                            <?php } ?>
                             <?php if($this->session->userdata('logged_in')== true)
                             { ?>
                                 <li>

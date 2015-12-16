@@ -1,6 +1,7 @@
 $(function () {
 	var AnalyticsTable = $('table#manageanalytics').DataTable({
-        dom: 'Vrtip'
+        dom: 'Vrtip',
+        iDisplayLength: 25
     });
 
 	$("[name='term']").on('change', function() {
@@ -19,7 +20,11 @@ $(function () {
 		AnalyticsTable.column(5).search($(this).val(), true, false).draw();
 	});
 
-	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-primary').removeClass('datatable-get-csv');
+	$("[name='filter[PageLength]']").on('change', function() {
+		AnalyticsTable.page.len($(this).val()).draw();
+	});
+
+	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 
 	/* Apply the default filters as set by the server */
 	$('#dataGridFormFilter select').trigger('change');

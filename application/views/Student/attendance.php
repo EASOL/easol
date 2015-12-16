@@ -19,18 +19,18 @@ if (empty($attendances)) {
             <?php  foreach($attendances as $attendance){ ?>
                 <tr>
                     <td><?php
-                   
+
                     if(strpos($attendance->ClassPeriodName, " - ")!== false)
                      list($pCode,$pName) = explode(' - ', $attendance->ClassPeriodName);
-                    else 
+                    else
                      $pCode = $attendance->ClassPeriodName;
-                    echo $pCode; 
+                    echo $pCode;
                      ?></td>
                     <td><?= $attendance->LocalCourseCode ?></td>
                     <td><?= anchor('sections/details/'.$attendance->id, $attendance->UniqueSectionCode, 'target="_blank"'); ?></td>
-                    <td><?= ($attendance->CodeValue=='In Attendance') ? $attendance->Days : "" ?></td>
-                    <td><?= ($attendance->CodeValue=='Tardy') ? $attendance->Days : "" ?></td>
-                    <td><?= ($attendance->CodeValue=='Excused Absence' || $attendance->CodeValue=='Unexcused Absence') ? $attendance->Days : "" ?></td>
+                    <td><?= $attendance->Present ?></td>
+                    <td><?= $attendance->Tardy ?></td>
+                    <td><?= $attendance->Absence ?></td>
                 </tr>
             <?php }  ?>
             </tbody>
