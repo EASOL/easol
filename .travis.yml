@@ -38,6 +38,7 @@ before_script:
 
 # omitting "script:" will default to phpunit
 script:
+  - docker-compose -v
   - docker-compose build
   - docker-compose up -d
   - docker ps -a
