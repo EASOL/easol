@@ -22,14 +22,19 @@ class Analytics extends Easol_Controller {
     public function index() {
 
         $data = array();
-        $filters = $this->input->get();
+        $filters = $this->input->get();        
 
-        $data['limit'] = $limit = 10;
+        if (!$filters['PageLength']) $filters['PageLength'] = 25;
+        if (!$filters['page']) $filters['page'] = 1;
+
+        $data['limit'] = $limit = $filters['PageLength'];
         $data['offset'] = $offset = ($filters['page']) ? ($filters['page'] - 1) * $limit : 0;
 
+        $data['filters'] = $filters;
         $data['page'] = $filters['page'];
         unset($filters['page']);
-        $data['filters'] = $filters;
+        unset($filters['PageLength']);
+        
 
         $filter_map = ['term'=>'TermType.CodeValue', 'year'=>'Section.SchoolYear', 'educator'=>'Staff.StaffUSI', 'course'=>'Grade.LocalCourseCode'];
 

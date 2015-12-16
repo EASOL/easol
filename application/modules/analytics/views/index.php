@@ -49,20 +49,20 @@
                               </div>
                          <?php } ?>
 
-                         <!--<div class="form-group">
-                        <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
-                        <label for="filter-PageLength">Records Per Page</label>
-                    </div>-->
+                         <div class="form-group">
+                             <?php echo form_dropdown('PageLength', ['25' => '25', '50' => '50', '100' => '100'], $filters['PageLength'], "class='form-control'"); ?>
+                             <label for="filter-PageLength">Records Per Page</label>
+                         </div>
 
                          <div class="form-group">
-                              <button type="submit" class="btn btn-default">Filter</button>
+                              <button type="button" class="btn btn-default" id="filter-submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                          </div>
 
                     </form>
 
 
                     <div class="datatablegrid">
-                         <table id="manageanalytics" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                         <table id="manageanalytics" class="table table-striped table-bordered" cellspacing="0" width="100%" data-page-length="<?php echo $filters['PageLength'] ?>">
                               <thead>
                               <tr>
                                    <th>Term</th>
@@ -113,7 +113,7 @@
                                              <?php for ($i = 1; $i <= ceil($total_filtered/$limit); $i++): ?>
                                                   <li class="paginate_button <?php if ($page == $i) echo "active" ?>" aria-controls="manageanalytics" tabindex="0"><a href="<?php echo site_url('/analytics').$query_string."&page=$i" ?>"><?php echo $i; ?></a></li>
                                              <?php endfor; ?>
-                                             <li class="paginate_button next <?php if (!($i > 1 && $page + 1 >= $i)) echo $next = "disabled" ?>" aria-controls="manageanalytics" tabindex="0" id="manageanalytics_next">
+                                             <li class="paginate_button next <?php if (!($i > 1 && $page + 1 < $i)) echo $next = "disabled" ?>" aria-controls="manageanalytics" tabindex="0" id="manageanalytics_next">
                                                   <a href="<?php if (!$next) { echo site_url('/analytics') . $query_string . "&page=" . ($page + 1); } ?>">Next</a>
 
                                              </li>
