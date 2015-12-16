@@ -22,15 +22,23 @@ class Analytics extends Easol_Controller {
     public function index() {
 
         $data = array();
-        $data['filters']                = $_GET;
+        $filters = $this->input->get();
+
+        $data['limit'] = $limit = 10;
+        $data['offset'] = $offset = ($filters['page']) ? ($filters['page'] - 1) * $limit : 0;
+
+        $data['page'] = $filters['page'];
+        unset($filters['page']);
+        $data['filters'] = $filters;
+
+        $filter_map = ['term'=>'TermType.CodeValue', 'year'=>'Section.SchoolYear', 'educator'=>'Staff.StaffUSI', 'course'=>'Grade.LocalCourseCode'];
 
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
-        $data['currentYear_default']    = (isset($data['filters']['year']) and !empty($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
         $data['currentTerm']            = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
-        $data['currentTerm_default']    = (isset($data['filters']['term']) and !empty($data['filters']['term'])) ? $data['filters']['term'] : Easol_SchoolConfiguration::setDefault('Term', $data['currentTerm']);
+
         $data['userCanFilter']          = Easol_SchoolConfiguration::canFilterByEducator();
 
-        // define required filters
+             // define required filters
         $where = array(
                         'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
         );
@@ -43,7 +51,7 @@ class Analytics extends Easol_Controller {
         // If it's educator who is logged in, we force change Where param
         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
 
-        $this->db->select("Section.CreateDate, Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Section.SchoolYear, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Section.SchoolYear, Grade.ClassPeriodName, Staff.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade');
         $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner');
         $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner');
@@ -53,10 +61,41 @@ class Analytics extends Easol_Controller {
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
-        $this->db->order_by('Section.CreateDate DESC, Grade.LocalCourseCode');
-        $this->db->limit('20');
+        $this->db->order_by('Grade.LocalCourseCode');
 
-        $data['results']    = $this->db->distinct()->where($where)->get()->result();
+        $this->db->where($where);
+
+        $data['total'] = count($this->db->distinct()->get()->result());
+
+        $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Section.SchoolYear, Grade.ClassPeriodName, Staff.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
+        $this->db->from('edfi.Grade');
+        $this->db->join('edfi.School', 'School.SchoolId = Grade.SchoolId', 'inner');
+        $this->db->join('edfi.GradingPeriod', 'GradingPeriod.EducationOrganizationId = Grade.SchoolId AND GradingPeriod.BeginDate = Grade.BeginDate AND GradingPeriod.GradingPeriodDescriptorId = Grade.GradingPeriodDescriptorId', 'inner');
+        $this->db->join('edfi.StudentSectionAssociation', 'StudentSectionAssociation.StudentUSI = Grade.StudentUSI AND StudentSectionAssociation.SchoolId = Grade.SchoolId AND StudentSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.SchoolYear = Grade.SchoolYear AND StudentSectionAssociation.TermTypeId = Grade.TermTypeId AND StudentSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StudentSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
+        $this->db->join('edfi.Section', 'Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode', 'inner');
+        $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
+        $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
+        $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
+        $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
+        $this->db->order_by('Grade.LocalCourseCode');
+
+        $this->db->where($where);
+
+        foreach ($filters as $filter=>$value) {
+            if (!$value) continue;
+            if (isset($filter_map[$filter])) $filter = $filter_map[$filter];
+            $this->db->where($filter, $value);
+        }
+
+        $this->db->limit($limit, $offset);
+
+        $data['results']    = $this->db->distinct()->get()->result();
+
+        $total_query   = current(explode("OFFSET", $this->db->last_query()));
+        $total_query   = $this->db->query($total_query);
+        $data['total_filtered'] = count($total_query->result());
+
+        $data['query_string'] = ($filters) ? "?&" . http_build_query($filters) : "?&";
 
         //exit(print_r($this->db->last_query(), true));
         $meeting_times = array();
