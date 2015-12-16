@@ -9,27 +9,40 @@ class User_test extends TestCase
       */
 	public function test_index()
 	{
-		$output = $this->request('GET', 'management/user/index');
+            $output = $this->request('GET', 'management/user/index');
 
-          $crawler = new Crawler($output);
-          $title = $crawler->filter('h1.page-header')->eq(0)->text();
+            $crawler = new Crawler($output);
+            $title = $crawler->filter('h1.page-header')->eq(0)->text();
 
-          $this->assertContains("User Management", $title);
+            $this->assertContains("User Management", $title);
 
-           $this->assertContains('<button class="btn btn-primary pull-right pre-data-table">Add User</button>', $output);
-           $this->assertContains('CSV', $output);
+            $addUser = $crawler->filter('button.btn.btn-primary.pull-right.pre-data-table')->eq(0)->text();
+            $this->assertContains("Add User", $addUser);
 
-           $this->assertContains('StaffUSI', $output);
-           $this->assertContains('Full Name', $output);
-           $this->assertContains('Role', $output);
-           $this->assertContains('Authorization Type', $output);
-           $this->assertContains('School', $output);
-           $this->assertContains('Actions', $output);
-           $this->assertContains('<div class="col-md-8 col-sm-8 txt-annotation">
-               This computer system is the property of the the Center of Education Innovation. It is for authorized
-               use only.
-               Unauthorized or improper use of this system may result in civil charges and/or criminal penalties.
-           </div>', $output);
+            $staffUsi = $crawler->filter('th:contains("StaffUSI")')->eq(0)->text();
+            $this->assertContains("StaffUSI", $staffUsi);
+
+            $fullName = $crawler->filter('th:contains("Full Name")')->eq(0)->text();
+            $this->assertContains("Full Name", $fullName);
+            
+            $role = $crawler->filter('th:contains("Role")')->eq(0)->text();
+            $this->assertContains("Role", $role);
+            
+            $authorization = $crawler->filter('th:contains("Authorization Type")')->eq(0)->text();
+            $this->assertContains("Authorization Type", $authorization);
+            
+            $school = $crawler->filter('th:contains("School")')->eq(0)->text();
+            $this->assertContains("School", $school);
+            
+            $actions = $crawler->filter('th:contains("Actions")')->eq(0)->text();
+            $this->assertContains("Actions", $actions);
+            
+            $annotation = $crawler->filter('div.txt-annotation')->eq(0)->text();
+            $this->assertContains("
+                    This computer system is the property of the the Center of Education Innovation. It is for authorized
+                    use only.
+                    Unauthorized or improper use of this system may result in civil charges and/or criminal penalties.
+                ", $annotation);
 	}
 
      /**
@@ -50,8 +63,9 @@ class User_test extends TestCase
 
           $nameField = $crawler->filter('label[for="staffusi"]')->eq(0)->text();
           $this->assertContains("StaffUSI Full Name", $nameField);
-
-          $this->assertContains('<label for="role">Role</label>', $output);
+          
+          $roleField = $crawler->filter('label[for="role"]')->eq(0)->text();
+          $this->assertContains("Role", $roleField);
 
      }
 
