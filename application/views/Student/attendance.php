@@ -28,9 +28,9 @@ if (empty($attendances)) {
                      ?></td>
                     <td><?= $attendance->LocalCourseCode ?></td>
                     <td><?= anchor('sections/details/'.$attendance->id, $attendance->UniqueSectionCode, 'target="_blank"'); ?></td>
-                    <td><?= ($attendance->CodeValue=='In Attendance') ? $attendance->Days : "" ?></td>
-                    <td><?= ($attendance->CodeValue=='Tardy') ? $attendance->Days : "" ?></td>
-                    <td><?= ($attendance->CodeValue=='Absence') ? $attendance->Days : "" ?></td>
+                    <td><?= $attendance->Present ?></td>
+                    <td><?= $attendance->Tardy ?></td>
+                    <td><?= $attendance->Absence ?></td>
                 </tr>
             <?php }  ?>
             </tbody>

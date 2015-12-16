@@ -203,7 +203,7 @@ ORDER BY Grade.BeginDate DESC",
      * @return mixed
      */
     public function getAttendance(){
-        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Days, 'Absence' as CodeValue
+        $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Days, 'Absence' as EventType
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -220,8 +220,8 @@ GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.U
 
 UNION
 
-SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Tardy,
-'Tardy' as CodeValue
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Days,
+'Tardy' as EventType
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -238,7 +238,7 @@ GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.U
 
 UNION
 
-SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Present, 'In Attendance' as CodeValue
+SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Days, 'Present' as EventType
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
     [Section].ClassPeriodName = StudentSectionAttendanceEvent.ClassPeriodName AND
@@ -256,12 +256,18 @@ GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.U
         $termId = Easol_SchoolConfiguration::getValue('CURRENT_TERMID');
         $schoolYear = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         if($termId && $schoolYear) {
-            $query = str_replace(['[StudentUSI]', '[TermTypeId]', '[SchoolYear]'], [$this->StudentUSI, $termId, $schoolYear], $query);
+             $query = str_replace(['[StudentUSI]', '[TermTypeId]', '[SchoolYear]'], [$this->StudentUSI, $termId, $schoolYear], $query);
+             $result = [];
+             foreach ($this->db->query($query, [$this->StudentUSI])->result() as $row) {
+                  if (!isset($result["$row->ClassPeriodName.$row->LocalCourseCode.$row->UniqueSectionCode"]))
+                       $result["$row->ClassPeriodName.$row->LocalCourseCode.$row->UniqueSectionCode"] = $row;
+                  $type = $row->EventType;
+                  $result["$row->ClassPeriodName.$row->LocalCourseCode.$row->UniqueSectionCode"]->$type = $row->Days;
 
-            return $this->db->query($query,
-                [
-                    $this->StudentUSI
-                ])->result();
+             }
+
+             //  print_r($result);
+            return $result;
         }
 
         return [];
