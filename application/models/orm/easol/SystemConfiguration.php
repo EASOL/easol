@@ -14,7 +14,7 @@ class SystemConfiguration extends ORM {
 
 		self::$fields = [
 			'SystemConfigurationId' => ORM::field('int[10]'),
-			'Key' => ORM::field('char[255]'),
+			'`Key`' => ORM::field('char[255]'),
 			'Value' => ORM::field('char[255]'),
 			'CreatedBy' => ORM::field('int[10]'),
 			'CreatedOn' => ORM::field('datetime'),
