@@ -115,9 +115,9 @@ class Assessments extends Easol_Controller {
 		$query = "SELECT
                	edfi.Student.StudentUSI, edfi.Student.FirstName, edfi.Student.MiddleName, edfi.Student.LastSurname,
                	edfi.StudentAssessmentScoreResult.Result
-			FROM edfi.StudentAssessmentScoreResult
-			JOIN edfi.Student ON edfi.Student.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
-			WHERE
+			 FROM edfi.StudentAssessmentScoreResult
+			 JOIN edfi.Student ON edfi.Student.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
+		 	 WHERE
 				edfi.StudentAssessmentScoreResult.AssessmentTitle = '$AssessmentTitle' AND
 				edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId = '$AcademicSubjectDescriptorId' AND
 				edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId = '$AssessedGradeLevelDescriptorId' AND
