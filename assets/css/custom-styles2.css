@@ -46,6 +46,9 @@ Alternating field grey: #f9f9f9
 /* background-color: #FAFAFA; */
   border-radius: 0;
 }
+.margin-bottom {
+  margin-bottom: 15px;
+}
 .loading {
   width: 100%;
   height: 100%;
@@ -479,6 +482,10 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 }
 
+table.dataTable thead th {
+  background-image: none !important;
+}
+
 
 /* alternative styles added by Anwar */
 button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}
@@ -822,7 +829,7 @@ tbody {
 .table-bordered th {
     font-weight: 300;
     font-size: 14px;
-    color: #adb3ba;
+    color: #000000;
 }
 
 .table-bordered td {

@@ -22,7 +22,7 @@ class Reports extends Easol_Controller {
      */
     public function index()
 	{
-	
+
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();
@@ -62,7 +62,7 @@ class Reports extends Easol_Controller {
         $this->load->model('entities/easol/Easol_Report');
 
         $model= new Easol_Report();
-       //die(print_r($this->input->post('access[access]')));
+        //die(print_r($this->input->post('access[access]')));
         if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
 
                 if ($this->form_validation->run() != FALSE) {
@@ -70,14 +70,22 @@ class Reports extends Easol_Controller {
 
                         $this->load->model('entities/easol/Easol_ReportAccess');
 
-                        foreach($this->input->post('access[access]') as $access){
-                           $displayAccess = new Easol_ReportAccess();
-                            $displayAccess->ReportId = $model->ReportId;
-                            $displayAccess->RoleTypeId = $access;
-                            $displayAccess->save();
+                        if (is_array($this->input->post('access[access]'))) {
+                            foreach ($this->input->post('access[access]') as $access) {
+                                $displayAccess             = new Easol_ReportAccess();
+                                $displayAccess->ReportId   = $model->ReportId;
+                                $displayAccess->RoleTypeId = $access;
+                                $displayAccess->save();
+                            }
                         }
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
+
+                        $this->easol_logs->Log( [
+                            'Description'=>'Flex Report (create)',
+                            'Data'=>["ModelId"=>$model->ReportId]
+                        ]);
+                        
 
                         return redirect(site_url("reports/index"));
 
@@ -107,22 +115,23 @@ class Reports extends Easol_Controller {
         $model= new Easol_Report();
         $model= $model->hydrate($model->findOne($id));
 
-       // die(print_r($model));
+        // die(print_r($model));
         //die(print_r($this->input->post('access[access]')));
         if($this->input->post('report') && $model->populateForm($this->input->post('report'))) {
 
             if ($this->form_validation->run() != FALSE) {
+                $arrOldValue = $this->stdToArray($model->findOne($id));
                 if($model->save()){
 
                     $this->load->model('entities/easol/Easol_ReportAccess');
-    /*
+/*
                     foreach($this->input->post('access[access]') as $access){
                         $displayAccess = new Easol_ReportAccess();
                         $displayAccess->ReportId = $model->ReportId;
                         $displayAccess->RoleTypeId = $access;
                         $displayAccess->save();
                     }
-    */
+*/
 
                     $aRoles=[];
                     foreach($model->getAccessTypes() as $role){
@@ -132,18 +141,26 @@ class Reports extends Easol_Controller {
                         $aRoles[] = $role->RoleTypeId;
                     }
 
-                    foreach($this->input->post('access[access]') as $access){
-                        if(in_array($access,$aRoles))
-                            continue;
-                        $displayAccess = new Easol_ReportAccess();
-                        $displayAccess->ReportId = $model->ReportId;
-                        $displayAccess->RoleTypeId = $access;
-                        $displayAccess->save();
+                    if (is_array($this->input->post('access[access]'))) {
+                        foreach ($this->input->post('access[access]') as $access) {
+                            if (in_array($access, $aRoles))
+                                continue;
+                            $displayAccess             = new Easol_ReportAccess();
+                            $displayAccess->ReportId   = $model->ReportId;
+                            $displayAccess->RoleTypeId = $access;
+                            $displayAccess->save();
+                        }
                     }
 
 
                     $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
                     $this->session->set_flashdata('type', 'success');
+
+                    unset($arrOldValue['ReportId'], $arrOldValue['CreatedBy'], $arrOldValue['CreatedOn'], $arrOldValue['UpdatedBy'], $arrOldValue['UpdatedOn'], $arrOldValue['SchoolId']);
+                    $this->easol_logs->Log( [
+                        'Description'=>'Flex Report (Update)',
+                        'Data'=>["ModelId"=>$model->ReportId, 'OldValue'=>json_encode($this->stdToArray($arrOldValue)),'NewValue'=>json_encode($this->input->post('report'))]
+                    ]);
 
                     return  redirect(site_url("reports/edit/".$model->ReportId));
 
@@ -156,6 +173,15 @@ class Reports extends Easol_Controller {
         //$report->save();
         $this->render("edit",['model' => $model]);
 
+    }
+
+    public function stdToArray($obj) {
+        $reaged = (array) $obj;
+        foreach ($reaged as $key => &$field) {
+            if (is_object($field))
+                $field = stdToArray($field);
+        }
+        return $reaged;
     }
 
     public function view($id=null, $pageNo=1){
@@ -191,7 +217,7 @@ class Reports extends Easol_Controller {
 
     public function preview() {
         $post = $this->input->post();
-       
+
         if ($this->form_validation->run() == FALSE) {
             $response = array('status'=>'error', 'message'=>validation_errors());
             exit(json_encode($response));
@@ -237,6 +263,11 @@ class Reports extends Easol_Controller {
 
         $this->session->set_flashdata('message', 'Report Successfully deleted');
         $this->session->set_flashdata('type', 'success');
+
+        $this->easol_logs->Log( [
+            'Description'=>'Flex Report (delete)',
+            'Data'=>["ModelId"=>$id]
+        ]);
 
         return  redirect(site_url("reports"));
 
