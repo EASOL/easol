@@ -60,7 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('session', 'form_validation');
+$autoload['libraries'] = array('database','session', 'form_validation', 'gas', 'easol_module');
 
 
 /*
@@ -137,5 +137,5 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array('');
+$autoload['model'] = array('Easol_Widget','Easol_Authentication','Easol_AuthorizationRoles','Easol_Flag','Easol_Helper','entities/edfi/Edfi_School','entities/easol/Easol_SchoolConfiguration');
 

@@ -12,18 +12,18 @@ $active_group = 'testing';
 $query_builder = TRUE;
 
 $db['testing'] = array(
-    'dsn'   => '',
+    'dsn'   => $_ENV['CI_DATABASE_DSN'],
     'hostname' => $_ENV['CI_DATABASE_HOSTNAME'],
     'username' => $_ENV['CI_DATABASE_USERNAME'],
     'password' => $_ENV['CI_DATABASE_PASSWORD'],
     'database' => $_ENV['CI_DATABASE_NAME'],
-    'dbdriver' => 'odbc',
+    'dbdriver' => 'pdo',
     'dbprefix' => '',
     'pconnect' => TRUE,
     'db_debug' => TRUE,
     'cache_on' => FALSE,
     'cachedir' => '',
-    'char_set' => 'utf8',
+    'char_set' => '',
     'dbcollat' => 'utf8_general_ci',
     'swap_pre' => '',
     'encrypt' => FALSE,
@@ -32,6 +32,6 @@ $db['testing'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
-$db['testing']['port'] = 1433;
+$db['testing']['port'] = '';
 
 ?>
