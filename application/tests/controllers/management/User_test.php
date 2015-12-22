@@ -78,39 +78,49 @@ class User_test extends TestCase
 
            $post = [
                 'user'=>[
-                     'StaffUSI'=>'207219',
+                     'StaffUSI'=>'207285',
                      'RoleId'=>'1',
                      'Password'=>'123456'
                 ]
            ];
 
            $this->request('POST', 'management/user/save', $post);
-           $this->assertRedirect('management/user', 302);
-
+           $this->assertRedirect('management/user/', 302);
 	}
-
-     public function test_edit()
+        
+     /**
+      * @group user
+      * @group user-crud
+      * Tests the actual edit process
+      */
+     public function test_edit_post()
 	{
-		$output = $this->request('GET', 'management/user/save/207285');
-
-		$this->assertContains('<h1 class="page-header">User Management</h1>', $output);
-                $this->assertContains('<label for="school">Filter by School</label>', $output);
-                $this->assertContains('<label for="staffusi">
-														StaffUSI Full Name
-						</label>', $output);
-                $this->assertContains('<label for="staffEmail">StaffUSI Email</label>', $output);
-                $this->assertContains('<label for="role">Role</label>', $output);
-                $this->assertContains('<label for="Password">
-														Password </label>', $output);
-                $this->assertContains('<div class="col-md-8 col-sm-8 txt-annotation">
-                    This computer system is the property of the the Center of Education Innovation. It is for authorized
-                    use only.
-                    Unauthorized or improper use of this system may result in civil charges and/or criminal penalties.
-                </div>', $output);
-
-                $this->assertContains('Grand Bend ISD', $output);
-                $this->assertContains('David Wilson 207285', $output);
-                $this->assertContains('tarlles10@gmail.com', $output);
-                $this->assertContains('System Administrator', $output);
+            $output = $this->request('GET', 'management/user/save/207285');
+            $crawler = new Crawler($output);
+            
+            $id = $crawler->filter("input[name*='user[StaffUSI]']")->attr('value');
+            $this->assertContains('207285', $id);
+            
+            $post = [
+                'user'=>[
+                     'StaffUSI'=>$id,
+                     'RoleId'=>'2',
+                     'Password'=>'123456'
+                ]
+            ];
+            
+            $this->request('POST', 'management/user/save', $post);
+            $this->assertRedirect('management/user/', 302);
+	}
+        
+     /**
+      * @group user
+      * @group user-crud
+      * Tests the actual delete process
+      */
+     public function test_delete_post()
+	{
+            $this->request('GET', 'management/user/delete/207285');
+            $this->assertRedirect('management/user/', 302);
 	}
 }
