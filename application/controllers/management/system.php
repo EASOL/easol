@@ -24,8 +24,11 @@ class System extends Easol_Controller {
 			$$key = Model\Easol\SystemConfiguration::limit(1)->find_by_key($key, false);
 		}
 
-
+		
 		if ($post = $this->input->post()) {
+			
+			$post = $this->TrimArray($post);
+			
 
 			foreach ($configurations as $key) {
 				if (!isset($post[$key])) continue;
@@ -36,8 +39,9 @@ class System extends Easol_Controller {
 					$new = true;
 				}
 				else $rec = $$key;
+				
 
-				$rec->Value = json_encode($post[$key]);
+				$rec->Value = json_encode($post[$key]);				
 				$rec->Key = $key;
 				if (!$new) {
 					$rec->UpdatedBy = Easol_Authentication::userdata('StaffUSI');
@@ -54,8 +58,9 @@ class System extends Easol_Controller {
 			$this->session->set_flashdata('message', 'System Configuration Updated Successfully');
 			$this->session->set_flashdata('type', 'success');
 
-			return redirect('management/system');
+		//	return redirect('management/system');
 		}
+
 
 		foreach ($configurations as $key) {
 			if (!$$key) continue;
@@ -64,6 +69,19 @@ class System extends Easol_Controller {
 
 		$this->render('index', $data);
 
+	}
+	private function TrimArray($arr){
+
+    if (!is_array($arr)){ return $arr; }
+    while (list($key, $value) = each($arr)){
+        if (is_array($value)){
+            $arr[$key] = $this->TrimArray($value);
+        }
+        else {
+            $arr[$key] = trim($value);
+        }
+    }
+    return $arr;
 	}
 
 }
