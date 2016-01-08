@@ -4,7 +4,7 @@ if (empty($assessments)) {
     $this->load->view('no_results_found');
 } else { ?>
     <div class="col-md-12">
-        <table class="table table-striped table-bordered">
+        <table id="student-assessment-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Title</th>

@@ -1,5 +1,34 @@
 $(function() {
 
+        if ($('table#student-section-table').length) {
+		$('#student-section-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+        if ($('table#student-attendance-table').length) {
+		$('#student-attendance-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+        if ($('table#student-assessment-table').length) {
+		$('#student-assessment-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+        if ($('table#student-cohort-table').length) {
+		$('#student-cohort-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
 		$('#manageusers').DataTable({
