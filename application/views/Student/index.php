@@ -34,8 +34,8 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="filter-PageLength">Records Per Page:</label>
                         <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
-                        <label for="filter-PageLength">Records Per Page</label>
                     </div>
                 </form>
 
