@@ -18,7 +18,6 @@ class Easol_Controller extends CI_Controller {
 		$this->initiateRequiredClass();
 		parent::__construct();
 
-		set_timezone();
 		$this->processAccessRules();
 	}
 
