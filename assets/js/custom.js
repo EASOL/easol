@@ -28,6 +28,11 @@ $(function() {
                     lengthMenu: [[25, 50, 100], [25, 50, 100]]
   		  });
 	}
+        if ($('table#filter-table').length) {
+		$('#filter-table').DataTable({
+                    dom: '<"top">rt<"bottom">V<"clear">'
+  		  });
+	}
 
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {

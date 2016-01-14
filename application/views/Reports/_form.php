@@ -47,6 +47,41 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="CommandText" class="col-md-4 control-label"><?= $model->labels()['LabelFilters'] ?></label>
+                <div class="col-md-12">
+                    <?php
+                    
+                        $filters = $model->getFilters()->result();
+                        if (empty($filters)) {
+                            $this->load->view('no_results_found');
+                        } else { ?>
+                        
+                            <table id="filter-table" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Display Name</th>
+                                        <th>Field Name</th>
+                                        <th>Type</th>
+                                        <th>Values</th>
+                                        <th>Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($filters as $filter){ ?>
+                                    <tr>
+                                        <td><?= $filter->DisplayName ?></td>
+                                        <td><?= $filter->FieldName ?></td>
+                                        <td><?= $filter->FilterType ?></td>
+                                        <td><?= $filter->FilterOptions ?></td>
+                                        <td><?= $filter->DefaultValue ?></td>
+                                    </tr>
+                                <?php  } ?>
+                                </tbody>
+                            </table>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="LabelX" class="col-md-4 control-label"><?= $model->labels()['LabelX'] ?></label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" id="LabelX" name="report[LabelX]" value="<?= $model->LabelX ?>" >
