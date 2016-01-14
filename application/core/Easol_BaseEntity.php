@@ -259,6 +259,8 @@ abstract class Easol_BaseEntity extends CI_Model{
                 return true;
 
             }
+            echo $this->db->last_query();
+            exit();
         }
 
         return false;

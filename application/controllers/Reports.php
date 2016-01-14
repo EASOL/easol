@@ -78,6 +78,23 @@ class Reports extends Easol_Controller {
                                 $displayAccess->save();
                             }
                         }
+
+                        $this->load->model('entities/easol/Easol_ReportFilter');
+                        $this->Easol_ReportFilter->delete($model->ReportId);
+
+                        if (is_array($this->input->post('filter'))) {
+                            foreach ($this->input->post('filter') as $filter) {
+                                $ReportFilter             = new Easol_ReportFilter();
+                                $ReportFilter->ReportId   = $model->ReportId;
+                                $ReportFilter->DisplayName = $filter['DisplayName'];
+                                $ReportFilter->FieldName = $filter['FieldName'];
+                                $ReportFilter->FilterType = $filter['FilterType'];
+                                $ReportFilter->FilterOptions = $filter['FilterOptions'];
+                                $ReportFilter->DefaultValue = $filter['DefaultValue'];
+                                $ReportFilter->save();
+                            }
+                        }
+
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
 
@@ -149,6 +166,22 @@ class Reports extends Easol_Controller {
                             $displayAccess->ReportId   = $model->ReportId;
                             $displayAccess->RoleTypeId = $access;
                             $displayAccess->save();
+                        }
+                    }
+
+                    $this->load->model('entities/easol/Easol_ReportFilter');
+                    $this->Easol_ReportFilter->delete($model->ReportId);
+
+                    if (is_array($this->input->post('filter'))) {
+                        foreach ($this->input->post('filter') as $filter) {
+                            $ReportFilter             = new Easol_ReportFilter();
+                            $ReportFilter->ReportId   = $model->ReportId;
+                            $ReportFilter->DisplayName = $filter['DisplayName'];
+                            $ReportFilter->FieldName = $filter['FieldName'];
+                            $ReportFilter->FilterType = $filter['FilterType'];
+                            $ReportFilter->FilterOptions = $filter['FilterOptions'];
+                            $ReportFilter->DefaultValue = $filter['DefaultValue'];
+                            $ReportFilter->save();
                         }
                     }
 

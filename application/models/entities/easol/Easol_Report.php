@@ -37,7 +37,6 @@ class Easol_Report extends Easol_BaseEntity {
             "ReportName"  =>  "Report Name",
             "ReportCategoryId"  =>  "Report Category",
             "CommandText"  =>  "Command Text",
-            "LabelFilters"  =>  "Filters",
             "LabelX"  =>  "X Axis Label",
             "LabelY"  =>  "Y Axis Label",
             "ReportDisplayId"  =>  "Display Type",
@@ -108,9 +107,9 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function getFilters(){
-        return $this->db->query("SELECT ReportFilterId ,ReportId ,RoleTypeId ,DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
+        return $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
                                 FROM EASOL.ReportFilter WHERE ReportId=?
-                                ORDER BY DisplayName ASC", 
+                                ORDER BY ReportFilterId ASC", 
                                 [
                                     $this->ReportId
                                 ]);
