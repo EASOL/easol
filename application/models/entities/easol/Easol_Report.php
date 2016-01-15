@@ -108,7 +108,7 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function getFilters(){
-        return $this->db->query("SELECT ReportFilterId ,ReportId ,RoleTypeId ,DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
+        return $this->db->query("SELECT ReportFilterId ,ReportId ,DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
                                 FROM EASOL.ReportFilter WHERE ReportId=?
                                 ORDER BY DisplayName ASC", 
                                 [

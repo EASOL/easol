@@ -21,6 +21,7 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
         <?php Easol_Widget::show("DataTableWidget",
             [
                 'query' => clean_subquery($model->CommandText),
+                'filter' => $model->getFilters()->result(),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,

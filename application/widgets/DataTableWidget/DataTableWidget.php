@@ -136,6 +136,22 @@ class DataTableWidget extends Easol_BaseWidget {
 
             }
         }
+        elseif($this->filter!=null && is_object($this->filter[0])){
+            //Regis see if my logic make sense
+            /*
+            foreach($this->filter as $key => $value){
+                
+                $value->DisplayName;
+                $value->FieldName;
+                $value->FilterType;
+                $value->FilterOptions;
+                $value->DefaultValue;
+                
+            }
+            var_dump($this->filter);
+            */
+                
+        } 
 
         if($this->colGroupBy!=null && is_array($this->colGroupBy)){
             $this->query.=' GROUP BY '.implode(",",$this->colGroupBy);
