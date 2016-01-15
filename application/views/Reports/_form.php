@@ -8,19 +8,19 @@
 <?php } ?>
 
 <div class="row">
-    <div class="col-md-12 col-sm-12">
+    <div class="col-md-8 col-sm-12">
         <form action="" method="post" class="form-horizontal" id="report-form">
 
 
             <div class="form-group">
-                <label for="ReportName" class="col-md-2 control-label"><?= $model->labels()['ReportName'] ?></label>
-                <div class="col-md-10">
+                <label for="ReportName" class="col-md-4 control-label"><?= $model->labels()['ReportName'] ?></label>
+                <div class="col-md-8">
                     <input type="text" class="form-control" id="ReportName" name="report[ReportName]" value="<?= $model->ReportName ?>" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="ReportCategoryId" class="col-md-2 control-label"><?= $model->labels()['ReportCategoryId'] ?></label>
+                <label for="ReportCategoryId" class="col-md-4 control-label"><?= $model->labels()['ReportCategoryId'] ?></label>
                 <div class="col-md-4">
                     <select class="form-control" id="ReportCategoryId" name="report[ReportCategoryId]">
                         <?php
@@ -42,83 +42,60 @@
 
             <div class="form-group">
                 <label for="CommandText" class="col-md-4 control-label"><?= $model->labels()['CommandText'] ?></label>
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <textarea class="form-control" id="CommandText" name="report[CommandText]" rows="14" required><?= $model->CommandText ?></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label for="CommandText" class="col-md-4 control-label">Filters</label>
+                <label for="CommandText" class="col-md-4 control-label"><?= $model->labels()['LabelFilters'] ?></label>
                 <div class="col-md-12">
+                    <?php
+                    
+                        $filters = $model->getFilters()->result();
+                        if (empty($filters)) {
+                            $this->load->view('no_results_found');
+                        } else { ?>
                         
-                    <table id="filter-table" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Display Name</th>
-                                <th>Field Name</th>
-                                <th>Type</th>
-                                <th>Values</th>
-                                <th>Default</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php if (!empty($filters = $model->getFilters()->result())): ?>
-                            <?php foreach($filters as $filter){ ?>
-                                <tr>
-                                    <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DisplayName]' value="<?php echo $filter->DisplayName ?>" class='form-control'></td>
-                                    <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][FieldName]' value="<?php echo $filter->FieldName ?>" class='form-control'></td>
-                                    <td>
-                                        <?php echo form_dropdown("filter[{$filter->ReportFilterId}][FilterType]", report_types(), $filter->FilterType, "class='form-control'"); ?>                                        
-                                    </td>
-                                    <td><textarea class='form-control' name='filter[<?php echo $filter->ReportFilterId ?>][FilterOptions]' style='height: 34px'><?php echo $filter->FilterOptions ?></textarea></td>
-                                    <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DefaultValue]' value="<?php echo $filter->DefaultValue ?>" class='form-control'></td>
-                                    <td>
-                                        <a href="#" class='js-delete-row'><span class="fa fa-trash-o"></span></a>
-                                    </td>
-                                </tr>
-                            <?php  } ?>
-                        <?php endif; ?>
-                        </tbody>
-                    </table>
-
-                    <div class='col-md-12'>
-                        <a href="#" class='js-add-filter'>Add New Filter</a>
-                    </div>
-
-
-
-                    <table class='html-template' id='add-filter-template'>
-                        <tr>
-                            <td><input type='text' name='filter[{{id}}][DisplayName]' class='form-control' disabled></td>
-                            <td><input type='text' name='filter[{{id}}][FieldName]' class='form-control' disabled></td>
-                            <td>
-                                <?php echo form_dropdown("filter[{{id}}][FilterType]", report_types(), '', "class='form-control' disabled"); ?>                                        
-                            </td>
-                            <td><textarea class='form-control' name='filter[{{id}}][FilterOptions]' style='height: 34px' disabled></textarea></td>
-                            <td><input type='text' name='filter[{{id}}][DefaultValue]' class='form-control' disabled></td>
-                            <td>
-                                <a href="#" class='js-delete-row'><span class="fa fa-trash-o"></span></a>
-                            </td>
-                        </tr>
-                    </table>
-                   
+                            <table id="filter-table" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Display Name</th>
+                                        <th>Field Name</th>
+                                        <th>Type</th>
+                                        <th>Values</th>
+                                        <th>Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($filters as $filter){ ?>
+                                    <tr>
+                                        <td><?= $filter->DisplayName ?></td>
+                                        <td><?= $filter->FieldName ?></td>
+                                        <td><?= $filter->FilterType ?></td>
+                                        <td><?= $filter->FilterOptions ?></td>
+                                        <td><?= $filter->DefaultValue ?></td>
+                                    </tr>
+                                <?php  } ?>
+                                </tbody>
+                            </table>
+                    <?php } ?>
                 </div>
             </div>
             <div class="form-group">
-                <label for="LabelX" class="col-md-2 control-label"><?= $model->labels()['LabelX'] ?></label>
+                <label for="LabelX" class="col-md-4 control-label"><?= $model->labels()['LabelX'] ?></label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" id="LabelX" name="report[LabelX]" value="<?= $model->LabelX ?>" >
                 </div>
             </div>
             <div class="form-group">
-                <label for="LabelY" class="col-md-2 control-label"><?= $model->labels()['LabelY'] ?></label>
+                <label for="LabelY" class="col-md-4 control-label"><?= $model->labels()['LabelY'] ?></label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" id="LabelY" name="report[LabelY]" value="<?= $model->LabelY ?>" >
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="ReportDisplayId" class="col-md-2 control-label"><?= $model->labels()['ReportDisplayId'] ?></label>
+                <label for="ReportDisplayId" class="col-md-4 control-label"><?= $model->labels()['ReportDisplayId'] ?></label>
                 <div class="col-md-8">
                     <select class="form-control" id="ReportDisplayId" name="report[ReportDisplayId]">
                         <?php
@@ -136,7 +113,7 @@
             </div>
 
             <div class="form-group">
-                <label for="access" class="col-md-2 control-label">Access</label>
+                <label for="access" class="col-md-4 control-label">Access</label>
                 <div class="col-md-8">
                     <select multiple class="form-control" id="access" name="access[access][]" >
                         <?php
@@ -167,7 +144,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="col-md-12 text-right">
                     <button type="submit" class="btn btn-primary"><?= ($model->isNewRecord) ? "Save" : "Update" ?></button>
                     <button type="button" class="btn btn-default" data-href="<?php echo site_url('reports/preview/') ?>" data-toggle="modal" data-post-data="#report-form" data-target="#preview-report">Preview</button>
                 </div>
