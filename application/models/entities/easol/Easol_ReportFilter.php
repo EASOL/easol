@@ -26,7 +26,7 @@ class Easol_ReportFilter extends Easol_BaseEntity {
             "FieldName"  =>  "Field Name",
             "FilterType"  =>  "Filter Type",
             "FilterOptions"  =>  "Filter Options",
-            "DefaultValue"  =>  "Default Value"
+            "DefaultValue"  =>  "Default Value" 
             
         ];
     }
