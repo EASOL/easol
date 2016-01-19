@@ -104,6 +104,7 @@ foreach($model->getReportData() as $data){
         <?php Easol_Widget::show("DataTableWidget",
             [
                 'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->CommandText)),
+                'filter' => $model->getFilters()->result(),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,

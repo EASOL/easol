@@ -1,8 +1,7 @@
-
 <div class="panel panel-default">
     <div class="panel-body">
         <?php if($filter!=null) { ?>
-            <?php  Easol_Widget::show("DataFilterWidget", $filter) ?>
+            <?php  Easol_Widget::show("DataFilterWidget", ['filter'=>$filter]) ?>
         <?php }    ?>
         <div class="clearfix"></div>
 

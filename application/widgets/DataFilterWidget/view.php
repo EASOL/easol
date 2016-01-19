@@ -1,6 +1,3 @@
-<?php
-
-?>
 <form action="" method="get" class="form-inline" name="dataGridFormFilter" id="dataGridFormFilter">
     <?php /* die(print_r($fields)); */ foreach($fields as $key => $field){ ?>
         <?php if( array_key_exists('access',$field) && !Easol_AuthorizationRoles::hasAccess($field['access'])) continue; ?>
@@ -89,6 +86,20 @@
         <?php }} ?>
 
     <?php } ?>
+    <?php foreach ($filter as $key=>$row): ?>           
+        <?php if ($row->FilterType == 'Free Text'): ?>
+            <div class="form-group">
+                <label for="filter-<?= $key ?>"><?= $row->DisplayName ?></label>
+                <input type='text' name='filter[<?php echo $row->FieldName ?>][<?php echo $key ?>]' class='form-control' value="<?php (isset($_GET["filter"]["$row->FieldName"]["$key"])) ? $_GET["filter"]["$row->FieldName"]["$key"] : $row->DefaultValue ?>">
+            </div>
+        <?php elseif ($row->FilterType == 'Static List' || $row->FilterType == 'Dynamic List'): ?>
+            <div class='form-group'>
+                <label for="filter-<?= $key ?>"><?= $row->DisplayName ?></label>
+                
+                <?php echo form_dropdown("filter[{$row->FieldName}][{$key}]", report_filter_options($row->FilterOptions), (isset($_GET["filter"]["$row->FieldName"]["$key"])) ? $_GET["filter"]["$row->FieldName"]["$key"] : $row->DefaultValue, "class='form-control'"); ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Filter</button>
     </div>
