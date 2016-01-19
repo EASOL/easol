@@ -21,12 +21,11 @@ class Easol_ReportFilter extends Easol_BaseEntity {
         return [
             "ReportFilterId"    =>  "Report Filter Id",
             "ReportId"    =>  "Report Id",
-            "RoleTypeId"  =>  "Role Type Id",
             "DisplayName"  =>  "Display Name",
             "FieldName"  =>  "Field Name",
             "FilterType"  =>  "Filter Type",
             "FilterOptions"  =>  "Filter Options",
-            "DefaultValue"  =>  "Default Value" 
+            "DefaultValue"  =>  "Default Value"
             
         ];
     }
@@ -38,5 +37,10 @@ class Easol_ReportFilter extends Easol_BaseEntity {
     public function getPrimaryKey()
     {
         return 'ReportFilterId';
+    }
+
+    public function delete($ReportId=null) {
+        if ($ReportId) $this->db->where('ReportId', $ReportId);
+        $this->db->delete($this->getTableName());
     }
 }
