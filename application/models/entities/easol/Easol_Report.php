@@ -140,11 +140,64 @@ class Easol_Report extends Easol_BaseEntity {
 
     public function getReportData(){
 
-        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
-            return $this->findAllBySql($this->CommandText);
-        if($this->ReportDisplayId==3)
-            return $this->findOneBySql($this->CommandText);
+        $query = $this->getReportQuery();
 
+        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
+            return $this->findAllBySql($query);
+        if($this->ReportDisplayId==3)
+            return $this->findOneBySql($query);
+
+    }
+
+    public function getReportQuery() {
+        
+        $query = $this->CommandText;
+        $filters = $this->getFilters();
+      
+        foreach ($this->input->get('filter') as $field=>$filter) {
+            if (is_array($filter)) {
+                foreach ($filter as $value) {
+                    if ($value) $filterAddition[] = $field . "=" . $this->db->escape($value) . " ";
+                }
+            }
+        }
+        if (!empty($filters)) {
+
+            foreach($filters as $key => $filter){ 
+                if ($filter->FilterType == "System Variable" && $filter->DefaultValue) {
+                    $filterAddition[] = $filter->FieldName . "=" . $this->db->escape(system_variable($filter->DefaultValue)) . " ";
+                }
+            }
+        } 
+        
+        //This routine below gonna split all query in variables $field, $from, $where, $orderBy || $groupBy
+        $fields = str_replace('select', '', strtolower($query));
+        $fields = explode("from", strtolower($fields));
+        $from = explode("from", strtolower(str_replace($fields[0], '', $fields[1])));
+        $fields = $fields[0];
+        $from = multiexplode(array("inner join","left join","right join"), strtolower($from[0]));
+        $where = explode("where", end($from));
+        $where = end($where);
+        $from[count($from)-1] = multiexplode(array("where","order by","group by"), strtolower($from[count($from)-1]));
+        $from[count($from)-1] = $from[count($from)-1][0];
+        $orderBy = explode("order by", strtolower($where));
+        if (sizeof($orderBy) == 2) {
+            $where = $orderBy[0]; 
+            $orderBy = end($orderBy);
+        } else unset($orderBy);
+        $groupBy = explode("group by", strtolower($where));
+        if (sizeof($groupBy) == 2) {
+            $where = $groupBy[0]; 
+            $groupBy = end($groupBy);
+        } else unset($groupBy);
+        $where .= ' AND '. implode(' AND ', $filterAddition);
+         
+        $query = "SELECT $fields FROM ".implode(' INNER JOIN ', $from);
+        if ($where)  $query .= "WHERE $where";
+        if ($groupBy) $query .= "GROUP BY $groupBy";
+        if ($orderBy) $query .= "ORDER BY $orderBy";
+
+        return $query;
     }
 
     public function getViewName(){
