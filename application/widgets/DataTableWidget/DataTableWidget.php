@@ -146,15 +146,64 @@ class DataTableWidget extends Easol_BaseWidget {
             }
         }
         elseif($this->filter!=null){
-
+            
             foreach($this->filter as $key => $filter){ 
                 if ($filter->FilterType == "System Variable" && $filter->DefaultValue) {
                     $queryAddition[] = $filter->FieldName . "=" . $this->db->escape(system_variable($filter->DefaultValue)) . " ";
                 }
-            }  
+            }
         } 
         
         if (count($queryAddition) > 0) {
+            
+            //Regis this routine already added the parameters and split the query in variables.
+            //This routine below gonna split all query in variables $field, $from, $where, $orderBy || $groupBy
+            function multiexplode ($delimiters,$string) {
+                $ready = str_replace($delimiters, $delimiters[0], $string);
+                $launch = explode($delimiters[0], $ready);
+                return  $launch;
+            }
+            $fields = str_replace('select', '', strtolower($this->query));
+            $fields = explode("from", strtolower($fields));
+            $from = explode("from", strtolower(str_replace($fields[0], '', $fields[1])));
+            $fields = $fields[0];
+            $from = multiexplode(array("inner join","left join","right join"), strtolower($from[0]));
+            $where = explode("where", end($from));
+            $where = end($where);
+            $from[count($from)-1] = multiexplode(array("where","order by","group by"), strtolower($from[count($from)-1]));
+            $from[count($from)-1] = $from[count($from)-1][0];
+            $orderBy = explode("order by", strtolower($where));
+            if (sizeof($orderBy) == 2) {
+                $where = $orderBy[0]; 
+                $orderBy = end($orderBy);
+            } else unset($orderBy);
+            $groupBy = explode("group by", strtolower($where));
+            if (sizeof($groupBy) == 2) {
+                $where = $groupBy[0]; 
+                $groupBy = end($groupBy);
+            } else unset($groupBy);
+            $where .= ' AND '. implode(' AND ', $queryAddition);
+            
+            /*
+            //Here you should see the complete query done , it gonna assign the variable $this->query below 
+            print_r('SELECT');
+            print_r($fields);
+            print_r('FROM');
+            print_r(implode(' INNER JOIN ', $from));
+            if ($where) {
+                print_r('WHERE ');
+                print_r($where);
+            }
+            if ($groupBy) {
+                print_r('GROUP BY ');
+                print_r($groupBy);
+            }
+            if ($orderBy) {
+                print_r('ORDER BY');
+                print_r($orderBy);
+            }
+            */
+            
             $this->query = "SELECT * FROM (" . $this->query . ") as a WHERE " . implode(' AND ', $queryAddition);
         }
 
