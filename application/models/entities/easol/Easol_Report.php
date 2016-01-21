@@ -153,14 +153,18 @@ class Easol_Report extends Easol_BaseEntity {
         
         $query = $this->CommandText;
         $filters = $this->getFilters();
+
+        $filterAddition = [];
       
-        foreach ($this->input->get('filter') as $field=>$filter) {
-            if (is_array($filter)) {
-                foreach ($filter as $value) {
-                    if ($value) $filterAddition[] = $field . "=" . $this->db->escape($value) . " ";
+        if (!empty($this->input->get('filter'))) {
+            foreach ($this->input->get('filter') as $field=>$filter) {
+                if (is_array($filter)) {
+                    foreach ($filter as $value) {
+                        if ($value) $filterAddition[] = $field . "=" . $this->db->escape($value) . " ";
+                    }
                 }
             }
-        }
+        }        
         if (!empty($filters)) {
 
             foreach($filters as $key => $filter){ 
@@ -190,7 +194,8 @@ class Easol_Report extends Easol_BaseEntity {
             $where = $groupBy[0]; 
             $groupBy = end($groupBy);
         } else unset($groupBy);
-        $where .= ' AND '. implode(' AND ', $filterAddition);
+        
+        if (!empty($filterAddition)) $where .= ' AND '. implode(' AND ', $filterAddition);
          
         $query = "SELECT $fields FROM ".implode(' INNER JOIN ', $from);
         if ($where)  $query .= "WHERE $where";

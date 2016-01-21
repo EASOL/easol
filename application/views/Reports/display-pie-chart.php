@@ -83,7 +83,7 @@ foreach($model->getReportData() as $key => $value){
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
-                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->CommandText)),
+                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->getReportQuery())),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
