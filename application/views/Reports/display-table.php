@@ -4,7 +4,7 @@
 //find columns
 
 $_colums=[];
-foreach($this->db->query($model->getReportQuery())->row() as $key => $value){
+foreach($this->db->query($model->CommandText)->row() as $key => $value){
     $_columns[] = $key;
 }
 
@@ -20,8 +20,8 @@ foreach($this->db->query($model->getReportQuery())->row() as $key => $value){
     <div class="col-md-12 col-sm-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
-                'query' => clean_subquery($model->getQuery()),
-                'filter' => $model->getFilters()->result(),
+                'query' => clean_subquery($model->getReportQuery()),
+                'filter' => $model->getFilters(),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,

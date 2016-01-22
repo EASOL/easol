@@ -25,7 +25,3 @@ function report_filter_options($list) {
 
 	return $options;
 }
-
-function report_query($report_id) {
-	
-}

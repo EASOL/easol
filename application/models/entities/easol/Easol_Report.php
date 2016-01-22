@@ -107,12 +107,13 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function getFilters(){
-        return $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
+        $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
                                 FROM EASOL.ReportFilter WHERE ReportId=?
                                 ORDER BY ReportFilterId ASC", 
                                 [
                                     $this->ReportId
                                 ]);
+        return $query->result();
 
     }
     
@@ -149,59 +150,70 @@ class Easol_Report extends Easol_BaseEntity {
 
     }
 
-    public function getReportQuery() {
+    public function getReportQuery($args=[]) {
         
         $query = $this->CommandText;
         $filters = $this->getFilters();
+        $get = $this->input->get('filter');
 
-        $filterAddition = [];
-      
-        if (!empty($this->input->get('filter'))) {
-            foreach ($this->input->get('filter') as $field=>$filter) {
-                if (is_array($filter)) {
-                    foreach ($filter as $value) {
-                        if ($value) $filterAddition[] = $field . "=" . $this->db->escape($value) . " ";
-                    }
-                }
-            }
-        }        
+        $this->load->library('Easol_SQLParser');
+        $parser = New Easol_SQLParser();
+        $query = $parser->Parse($query);
+
         if (!empty($filters)) {
 
-            foreach($filters as $key => $filter){ 
-                if ($filter->FilterType == "System Variable" && $filter->DefaultValue) {
-                    $filterAddition[] = $filter->FieldName . "=" . $this->db->escape(system_variable($filter->DefaultValue)) . " ";
-                }
-            }
-        } 
-        
-        //This routine below gonna split all query in variables $field, $from, $where, $orderBy || $groupBy
-        $fields = str_replace('select', '', strtolower($query));
-        $fields = explode("from", strtolower($fields));
-        $from = explode("from", strtolower(str_replace($fields[0], '', $fields[1])));
-        $fields = $fields[0];
-        $from = multiexplode(array("inner join","left join","right join"), strtolower($from[0]));
-        $where = explode("where", end($from));
-        $where = end($where);
-        $from[count($from)-1] = multiexplode(array("where","order by","group by"), strtolower($from[count($from)-1]));
-        $from[count($from)-1] = $from[count($from)-1][0];
-        $orderBy = explode("order by", strtolower($where));
-        if (sizeof($orderBy) == 2) {
-            $where = $orderBy[0]; 
-            $orderBy = end($orderBy);
-        } else unset($orderBy);
-        $groupBy = explode("group by", strtolower($where));
-        if (sizeof($groupBy) == 2) {
-            $where = $groupBy[0]; 
-            $groupBy = end($groupBy);
-        } else unset($groupBy);
-        
-        if (!empty($filterAddition)) $where .= ' AND '. implode(' AND ', $filterAddition);
-         
-        $query = "SELECT $fields FROM ".implode(' INNER JOIN ', $from);
-        if ($where)  $query .= "WHERE $where";
-        if ($groupBy) $query .= "GROUP BY $groupBy";
-        if ($orderBy) $query .= "ORDER BY $orderBy";
+            
 
+            if (!isset($query['WHERE'])) $query['WHERE'] = [];
+
+            foreach($filters as $key => $filter){ 
+                
+                if (isset($get[$filter->FieldName]) or $filter->DefaultValue) {
+
+                    if (!empty($query['WHERE'])) {
+                        $query['WHERE'][] = [
+                            'expr_type' => 'operator',
+                            'base_expr' => 'AND',
+                            'sub_tree' => ''
+                        ];
+                    }
+
+                    $value = (isset($get[$filter->FieldName])) ? $get[$filter->FieldName] : $filter->DefaultValue;
+                    if ($filter->FilterType == "System Variable") $value = $filter->DefaultValue;
+                    $query['WHERE'][] = [
+                        'expr_type' => 'colref',
+                        'base_expr' => "$filter->FieldName",
+                        'no_quotes' => "$filter->FieldName",
+                    ];
+
+                    $operator = "=";
+                    if ($filter->FilterType == 'Free Text') {
+                        $operator = 'LIKE';
+                        $value = "%{$value}%";
+                    }
+
+                    $query['WHERE'][] = [
+                        'expr_type' => 'operator',
+                        'base_expr' => $operator,
+                        'sub_tree' => ''
+                    ];
+
+                    $query['WHERE'][] = [
+                        'expr_type' => 'const',
+                        'base_expr' => "'{$value}'",
+                        'sub_tree' => ''
+                    ];
+                }
+             
+            }
+        }
+
+        foreach ($args as $field=>$value) {
+            if ($value === false) unset($query[$field]);
+        }
+
+        $query = $parser->Create($query);
+       
         return $query;
     }
 

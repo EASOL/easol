@@ -99,20 +99,20 @@ foreach($model->getReportData() as $data){
     </div>
 </div>
 
-<?php if(isset($pageNo)){ ?>
+<?php if(isset($pageNo) && isset($_columns)) { ?>
 <div class="row">
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
                 'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->getReportQuery())),
-                'filter' => $model->getFilters()->result(),
+                'filter' => $model->getFilters(),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
                     'currentPage' => $pageNo,
                     'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
                 ],
-                'colOrderBy'    =>  [$_columns[0]],
+                'colOrderBy'    =>  ["{$_columns[0]}"],
                 'columns'   => $_columns,
                 'downloadCSV' => true
             ]

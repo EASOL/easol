@@ -62,7 +62,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if (!empty($filters = $model->getFilters()->result())): ?>
+                        <?php if (!empty($filters = $model->getFilters())): ?>
                             <?php foreach($filters as $filter){ ?>
                                 <tr>
                                     <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DisplayName]' value="<?php echo $filter->DisplayName ?>" class='form-control'></td>

@@ -70,7 +70,6 @@
                                 <tr>                    
                                     <?php
                                     foreach($columns as $column){
-                                        $column = strtolower($column);
                                         $colType='text';
                                         if(is_array($column)){
                                             $colName = $column['name'];

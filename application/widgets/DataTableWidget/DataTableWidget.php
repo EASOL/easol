@@ -78,9 +78,8 @@ class DataTableWidget extends Easol_BaseWidget {
         //$queryBuilder
 
         $queryAddition = [];
-        $filterAddition = [];
-
-        $this->query = strtolower($this->query);
+       
+        
 
         if($this->filter!=null && isset($this->filter['dataBind']) && $this->filter['dataBind']==true ){
             $_valI=0;
@@ -165,7 +164,6 @@ class DataTableWidget extends Easol_BaseWidget {
 
             $this->pagination['totalElements']  =   $totalCount->tot;
         }
-
 
         if(count($filterOrderBy)>0){
             $this->query .= ' ORDER BY '.implode(" , ",$filterOrderBy).' ';
