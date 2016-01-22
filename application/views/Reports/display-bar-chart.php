@@ -1,3 +1,12 @@
+<?php
+//find columns
+
+$_colums=[];
+foreach($this->db->query($model->CommandText)->row() as $key => $value){
+    $_columns[] = $key;
+}
+
+?>
 <?php /* @var $model Easol_Report */ ?>
 
 <?php
@@ -5,14 +14,11 @@ $jsonData=[];
 $_i=0;
 $axisX="";
 $axisY="";
-$_colums=[];
+
 foreach($model->getReportData() as $data){
     $_j=0;
     foreach($data as $key => $property){
-        if($_i==0){
-
-            $_columns[] = $key;
-        }
+        
         if($_j==0){
             if($_i==0)
                 $axisX = $key;
@@ -99,7 +105,8 @@ foreach($model->getReportData() as $data){
     </div>
 </div>
 
-<?php if(isset($pageNo) && isset($_columns)) { ?>
+
+<?php if(isset($pageNo)) { ?>
 <div class="row">
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTableWidget",
