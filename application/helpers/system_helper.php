@@ -23,5 +23,9 @@ function system_variable($variable) {
 		'$CURRENT_YEAR' => date('Y'),
 	];
 
-	return $variables[$variable];
+	$value = $variables[$variable];
+
+	if (!$value) $value = $variable;
+
+	return $value;
 }

@@ -86,17 +86,18 @@
         <?php }} ?>
 
     <?php } ?>
-    <?php foreach ($filter as $key=>$row): ?>           
+    <?php foreach ($filter as $key=>$row): ?>  
+        <?php $fieldName = str_replace(".", "-", $row->FieldName); ?>
         <?php if ($row->FilterType == 'Free Text'): ?>
             <div class="form-group">
                 <label for="filter-<?= $key ?>"><?= $row->DisplayName ?></label>
-                <input type='text' name='filter[<?php echo $row->FieldName ?>]' class='form-control' value="<?php (isset($_GET["filter"]["$row->FieldName"])) ? $_GET["filter"]["$row->FieldName"] : $row->DefaultValue ?>">
+                <input type='text' name='filter[<?php echo $fieldName ?>]' class='form-control' value="<?php echo (isset($_GET["filter"][$fieldName])) ? $_GET["filter"][$fieldName] : $row->DefaultValue ?>">
             </div>
         <?php elseif ($row->FilterType == 'Static List' || $row->FilterType == 'Dynamic List'): ?>
             <div class='form-group'>
                 <label for="filter-<?= $key ?>"><?= $row->DisplayName ?></label>
                 
-                <?php echo form_dropdown("filter[{$row->FieldName}]", report_filter_options($row->FilterOptions), (isset($_GET["filter"]["$row->FieldName"])) ? $_GET["filter"]["$row->FieldName"] : $row->DefaultValue, "class='form-control'"); ?>
+                <?php echo form_dropdown("filter[{$row->FieldName}]", report_filter_options($row->FilterOptions), (isset($_GET["filter"][$fieldName])) ? $_GET["filter"]["$fieldName"] : $row->DefaultValue, "class='form-control'"); ?>
             </div>
         <?php endif; ?>
     <?php endforeach; ?>
