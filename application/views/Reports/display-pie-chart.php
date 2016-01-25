@@ -27,6 +27,7 @@ foreach($model->getReportData() as $key => $value){
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
+            <div class="panel-body" id="filter-destination"></div>
             <div class="panel-body">
                 <style>
 
@@ -90,6 +91,7 @@ foreach($model->getReportData() as $key => $value){
                     'currentPage' => $pageNo,
                     'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
                 ],
+                'filter' => $model->getFilters(),
                 'colOrderBy'    =>  [$_columns[0]],
                 'columns'   => $_columns,
                 'downloadCSV' => true
