@@ -1,4 +1,5 @@
 $(function() {
+        jQuery("#dataGridFormFilter").detach().appendTo('#filter-destination');
 	$('.js-add-filter').on('click', function(e){
 		e.preventDefault();		
 		var $template = $('#add-filter-template tr').clone();

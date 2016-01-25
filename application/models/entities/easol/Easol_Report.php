@@ -167,8 +167,7 @@ class Easol_Report extends Easol_BaseEntity {
             foreach($filters as $key => $filter){ 
 
                 if (isset($get[$filter->FieldName]) or $filter->DefaultValue) {
-
-                     $value = (isset($get[$filter->FieldName])) ? $get[$filter->FieldName] : $filter->DefaultValue;
+                     $value = (isset($get[$filter->FieldName])) ? $get[$filter->FieldName] : system_variable($filter->DefaultValue);
                     if (!$value) continue;
 
                     if (!empty($query['WHERE'])) {
@@ -180,7 +179,7 @@ class Easol_Report extends Easol_BaseEntity {
                     }
 
 
-                    if ($filter->FilterType == "System Variable") $value = $filter->DefaultValue;
+                    if ($filter->FilterType == "System Variable") $value = system_variable($filter->DefaultValue);
                     $query['WHERE'][] = [
                         'expr_type' => 'colref',
                         'base_expr' => "$filter->FieldName",
@@ -213,8 +212,7 @@ class Easol_Report extends Easol_BaseEntity {
             if ($value === false) unset($query[$field]);
         }
 
-        $query = $parser->Create($query);
-       
+        $query = str_replace('Version()','Version', $parser->Create($query));
         return $query;
     }
 

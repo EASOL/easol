@@ -49,6 +49,7 @@ foreach($model->getReportData() as $data){
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
+            <div class="panel-body" id="filter-destination"></div>
             <div class="panel-body">
                 <style>
 
