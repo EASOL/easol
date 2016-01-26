@@ -25,8 +25,6 @@ class Oauth2 extends CI_Controller
         // $db = new League\OAuth2\Server\Storage\PDO\Db('mysql://root:123456@localhost/oauth');
         $db = new League\OAuth2\Server\Storage\PDO\Db('dblib:host=easol,1433;dbname=easol_dev',"easol_dev@ngbivv3p2g","8#rrErBJia26cb@easol");
 
-        exit(var_dump($db));
-
         // Create the auth server, the three parameters passed are references
         //  to the storage models
         $this->authserver = new League\OAuth2\Server\Authorization(
