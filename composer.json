@@ -4,7 +4,9 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=5.2.4",
-		"symfony/finder": "^2.7"
+		"symfony/finder": "^2.7",
+                "league/oauth2-server": "2.*",
+		"zetacomponents/database": "1.4.6"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",
@@ -12,6 +14,8 @@
 		"kenjis/ci-phpunit-test": "0.8.2",
 		"symfony/dom-crawler": "2.6.*",
 		"symfony/finder": "^2.7",
-		"symfony/css-selector": "^2.7"
+		"symfony/css-selector": "^2.7",
+                "league/oauth2-server": "2.*",
+		"zetacomponents/database": "1.4.6"
 	}
 }
