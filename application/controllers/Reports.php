@@ -94,7 +94,21 @@ class Reports extends Easol_Controller {
                                 $ReportFilter->save();
                             }
                         }
+                        
+                        $this->load->model('entities/easol/Easol_ReportLink');
+                        $this->Easol_ReportLink->delete($model->ReportId);
 
+                        if (is_array($this->input->post('link'))) {
+                            foreach ($this->input->post('link') as $link) {
+                                $ReportLink             = new Easol_ReportLink();
+                                $ReportLink->ReportId   = $model->ReportId;
+                                $ReportLink->URL = $link['URL'];
+                                $ReportLink->ColumnNo = $link['ColumnNo'];
+                                $ReportLink->ValueColumnNo = $link['ValueColumnNo'];
+                                $ReportLink->save();
+                            }
+                        }
+                        
                         $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
                         $this->session->set_flashdata('type', 'success');
 
@@ -185,7 +199,20 @@ class Reports extends Easol_Controller {
                         }
                     }
 
+                    $this->load->model('entities/easol/Easol_ReportLink');
+                    $this->Easol_ReportLink->delete($model->ReportId);
 
+                    if (is_array($this->input->post('link'))) {
+                        foreach ($this->input->post('link') as $link) {
+                            $ReportLink             = new Easol_ReportLink();
+                            $ReportLink->ReportId   = $model->ReportId;
+                            $ReportLink->URL = $link['URL'];
+                            $ReportLink->ColumnNo = $link['ColumnNo'];
+                            $ReportLink->ValueColumnNo = $link['ValueColumnNo'];
+                            $ReportLink->save();
+                        }
+                    }
+                    
                     $this->session->set_flashdata('message', 'Report Updated Successfully : '. $model->ReportName);
                     $this->session->set_flashdata('type', 'success');
 

@@ -3,7 +3,9 @@
 function report_types() {
 	return ['Free Text'=>'Free Text', 'Static List'=>'Static List', 'Dynamic List'=>'Dynamic List', 'System Variable'=>'System Variable'];
 }
-
+function report_valueColumn() {
+	return ['Column 3'=>'Column 3', '/student/profile/$variable'=>'/student/profile/$variable', 'Column 1'=>'Column 1'];
+}
 function report_filter_options($list) {
 
 	$ci = &get_instance();

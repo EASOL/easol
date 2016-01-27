@@ -104,6 +104,60 @@
                    
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label for="CommandText" class="col-md-4 control-label">Links</label>
+                <div class="col-md-12">
+                        
+                    <table id="link-table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Column No</th>
+                                <th>Value Column No</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php if (!empty($links = $model->getLinks())): ?>
+                            <?php foreach($links as $link){ ?>
+                                <tr>
+                                    <td><input type='text' name='link[<?php echo $link->ReportLinkId ?>][URL]' value="<?php echo $link->URL ?>" class='form-control'></td>
+                                    <td><input type='text' name='link[<?php echo $link->ReportLinkId ?>][ColumnNo]' value="<?php echo $link->ColumnNo ?>" class='form-control'></td>
+                                    <td>
+                                        <?php echo form_dropdown("link[{$link->ReportLinkId}][ValueColumnNo]", report_valueColumn(), $link->ValueColumnNo, "class='form-control'"); ?>                                        
+                                    </td>
+                                    <td>
+                                        <a href="#" class='js-delete-link-row'><span class="fa fa-trash-o"></span></a>
+                                    </td>
+                                </tr>
+                            <?php  } ?>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                    <div class='col-md-12'>
+                        <a href="#" class='js-add-link'>Add New Link</a>
+                    </div>
+
+
+
+                    <table class='html-template' id='add-link-template'>
+                        <tr>
+                            <td><input type='text' name='link[{{id}}][URL]' class='form-control' disabled></td>
+                            <td><input type='text' name='link[{{id}}][ColumnNo]' class='form-control' disabled></td>
+                            <td>
+                                <?php echo form_dropdown("link[{{id}}][ValueColumnNo]", report_valueColumn(), '', "class='form-control' disabled"); ?>                                        
+                            </td>
+                            <td>
+                                <a href="#" class='js-delete-link-row'><span class="fa fa-trash-o"></span></a>
+                            </td>
+                        </tr>
+                    </table>
+                   
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="LabelX" class="col-md-2 control-label"><?= $model->labels()['LabelX'] ?></label>
                 <div class="col-md-8">
