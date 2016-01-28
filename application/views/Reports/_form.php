@@ -114,7 +114,6 @@
                             <tr>
                                 <th>URL</th>
                                 <th>Column No</th>
-                                <th>Value Column No</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -124,9 +123,9 @@
                                 <tr>
                                     <td><input type='text' name='link[<?php echo $link->ReportLinkId ?>][URL]' value="<?php echo $link->URL ?>" class='form-control'></td>
                                     <td><input type='text' name='link[<?php echo $link->ReportLinkId ?>][ColumnNo]' value="<?php echo $link->ColumnNo ?>" class='form-control'></td>
-                                    <td>
-                                        <?php echo form_dropdown("link[{$link->ReportLinkId}][ValueColumnNo]", report_valueColumn(), $link->ValueColumnNo, "class='form-control'"); ?>                                        
-                                    </td>
+                                    <!--<td>
+                                        <?php //echo form_dropdown("link[{$link->ReportLinkId}][ValueColumnNo]", report_valueColumn(), $link->ValueColumnNo, "class='form-control'"); ?>                                        
+                                    </td>-->
                                     <td>
                                         <a href="#" class='js-delete-link-row'><span class="fa fa-trash-o"></span></a>
                                     </td>
@@ -146,9 +145,9 @@
                         <tr>
                             <td><input type='text' name='link[{{id}}][URL]' class='form-control' disabled></td>
                             <td><input type='text' name='link[{{id}}][ColumnNo]' class='form-control' disabled></td>
-                            <td>
-                                <?php echo form_dropdown("link[{{id}}][ValueColumnNo]", report_valueColumn(), '', "class='form-control' disabled"); ?>                                        
-                            </td>
+                            <!--<td>
+                                <?php //echo form_dropdown("link[{{id}}][ValueColumnNo]", report_valueColumn(), '', "class='form-control' disabled"); ?>                                        
+                            </td>-->
                             <td>
                                 <a href="#" class='js-delete-link-row'><span class="fa fa-trash-o"></span></a>
                             </td>

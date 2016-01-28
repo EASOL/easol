@@ -104,7 +104,6 @@ class Reports extends Easol_Controller {
                                 $ReportLink->ReportId   = $model->ReportId;
                                 $ReportLink->URL = $link['URL'];
                                 $ReportLink->ColumnNo = $link['ColumnNo'];
-                                $ReportLink->ValueColumnNo = $link['ValueColumnNo'];
                                 $ReportLink->save();
                             }
                         }
@@ -208,7 +207,6 @@ class Reports extends Easol_Controller {
                             $ReportLink->ReportId   = $model->ReportId;
                             $ReportLink->URL = $link['URL'];
                             $ReportLink->ColumnNo = $link['ColumnNo'];
-                            $ReportLink->ValueColumnNo = $link['ValueColumnNo'];
                             $ReportLink->save();
                         }
                     }

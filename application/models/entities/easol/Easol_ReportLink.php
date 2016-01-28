@@ -22,8 +22,7 @@ class Easol_ReportLink extends Easol_BaseEntity {
             "ReportLinkId"    =>  "Report Link Id",
             "ReportId"    =>  "Report Id",
             "URL"  =>  "URL",
-            "ColumnNo"  =>  "Column No",
-            "ValueColumnNo"  =>  "Value Column No"
+            "ColumnNo"  =>  "Column No"
             
         ];
     }
