@@ -2,6 +2,7 @@
 
 <?php
 /* */
+$filter = $model->getFilters();
 $jsonData=[];
 $_i=0;
 $axisX="";
@@ -27,7 +28,11 @@ foreach($model->getReportData() as $key => $value){
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
-            <div class="panel-body" id="filter-destination"></div>
+            <?php if($filter!= null) { ?>
+                <div class="panel-body" id="filter-destination">
+                    <?php  Easol_Widget::show("DataFilterWidget", ['filter'=>$filter, 'report'=>$model]) ?>
+                </div>
+            <?php }    ?>
             <div class="panel-body">
                 <style>
 

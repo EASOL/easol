@@ -5,6 +5,8 @@ class DataFilterWidget extends Easol_BaseWidget {
 
     public $fields=[];
     public $dataTable=null;
+    public $filter=[];
+    public $report=null;
 
 
 
@@ -16,6 +18,6 @@ class DataFilterWidget extends Easol_BaseWidget {
         if($this->dataTable != null){
 
         }
-        $this->render("view",['fields' => $this->fields,'dataTable' => $this->dataTable]);
+        $this->render("view",['fields' => $this->fields,'dataTable' => $this->dataTable, 'filter'=>$this->filter, 'report'=>$this->report]);
     }
 }

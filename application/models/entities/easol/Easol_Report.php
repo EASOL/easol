@@ -179,8 +179,8 @@ class Easol_Report extends Easol_BaseEntity {
 
                 $fieldName = str_replace(".", "-", $filter->FieldName);
 
-                if (isset($get[$fieldName]) or $filter->DefaultValue) {
-                     $value = (isset($get[$fieldName])) ? $get[$fieldName] : system_variable($filter->DefaultValue);
+                if (isset($get[$this->ReportId][$fieldName]) or $filter->DefaultValue) {
+                    $value = (isset($get[$this->ReportId][$fieldName])) ? $get[$this->ReportId][$fieldName] : system_variable($filter->DefaultValue);
 
                     if (!$value) continue;
 

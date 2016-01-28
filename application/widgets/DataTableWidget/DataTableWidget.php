@@ -13,6 +13,8 @@ class DataTableWidget extends Easol_BaseWidget {
 
     public $pagination=null;
 
+    public $report=null;
+
     /*
      *  ['column'    =>  'name',
      *  'type'      =>  'text',
@@ -65,6 +67,7 @@ class DataTableWidget extends Easol_BaseWidget {
             'columns'   =>  $this->columns,
             'pagination'    =>  $this->pagination,
             'filter'    =>  $this->filter,
+            'report'    => $this->report,
             'links'     => $this->links,
             'downloadCSV' => $this->downloadCSV
 

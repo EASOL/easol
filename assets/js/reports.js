@@ -1,10 +1,6 @@
 $(function() {
     
-    if ($('#filter-destination').length > 0) {
-    	$("#dataGridFormFilter").detach().appendTo('#filter-destination');
-    }
-	
-	$('.js-add-filter').on('click', function(e){
+    $('.js-add-filter').on('click', function(e){
 		e.preventDefault();		
 		var $template = $('#add-filter-template tr').clone();
 		var $table = $("#filter-table").data('dataTable');

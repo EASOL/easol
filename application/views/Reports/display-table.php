@@ -23,6 +23,7 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
                 'query' => clean_subquery($model->getReportQuery()),
                 'filter' => $model->getFilters(),
                 'links' => $model->getLinks(),
+                'report' => $model,
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
