@@ -237,19 +237,31 @@
     </div>
 
     <div role="tabpanel" class="tab-pane" id="report-import-export">
-        <iframe name="report-iframe"></iframe>
-        <?php if ($model->ReportId): ?>
+        <iframe name="report-iframe" style='display: none'></iframe>
         <div class='row'>
-            <div class='col-xs-12'>
-                <a class="btn btn-primary" target="report-iframe" href="<?php echo site_url('reports/export/'.$model->ReportId) ?>">Export Report "<?php echo $model->ReportName ?>" to file </a>
+            <div class='col-md-5'>
+                <form method="post" action="<?php echo site_url('reports/import') ?>" enctype="multipart/form-data">
+                    <?php if ($model->ReportId): ?>
+                        <input type='hidden' name='ReportId' value='<?php echo $model->ReportId ?>' >
+                    <?php endif; ?>
+                    <div class="row">
+                        <div class='col-xs-12'><h4>Import Report from File</h4></div>
+                        <div class='col-xs-12'>
+                            <input type="file" name="import">
+                            <button class='btn btn-primary' type='submit' style='margin-top: 5px'>Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <?php endif; ?>
+            
+            <?php if ($model->ReportId): ?>
+                <div class='col-md-5'>
+                    <h4>Export Report "<?php echo $model->ReportName ?>" to file </h4>                  
+                    <a class="btn btn-primary" target="report-iframe" href="<?php echo site_url('reports/export/'.$model->ReportId) ?>">Submit</a>
+                </div>
+            <?php endif; ?>
 
-        <div class="row">
-            <div class='col-xs-12'><h4>Import Report from File</h4></div>
-            <div class='col-xs-12'><input type="file" name="import"></div>
-        </div>
+        </div>        
     </div>
 
 </div>

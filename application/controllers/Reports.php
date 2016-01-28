@@ -338,7 +338,8 @@ class Reports extends Easol_Controller {
         $this->db->join('EASOL.ReportCategory', 'ReportCategory.ReportCategoryId = Report.ReportCategoryId', 'left');
         $query = $this->db->get('EASOL.Report');
 
-        $report = $query->row_array();
+        $report = [];
+        $report['Report'] = $query->row_array();
 
         $related = ['ReportFilter', 'ReportLink'];
         foreach ($related as $table) {
@@ -350,14 +351,153 @@ class Reports extends Easol_Controller {
             }
         }
 
-        $filename = slug($report['ReportName']);
+        $filename = slug($report['Report']['ReportName']);
 
         header('Content-disposition: attachment; filename='.$filename.'.json');
         header('Content-type: application/json');
         echo json_encode($report);
-       
+         
+    }
 
-        
+    public function import() {
+
+        $error = false;
+        if (!$file = $_FILES['import']) {
+            $this->session->set_flashdata('message', 'Please Select a File.');
+            $this->session->set_flashdata('type', 'error');
+
+            $error = true;
+        }
+        else {
+            $input = file_get_contents($file['tmp_name']);
+            $input = json_decode($input, true);
+            if (json_last_error()) {
+                $this->session->set_flashdata('message', 'Please Select a Valid Flex Report Export File.');
+                $this->session->set_flashdata('type', 'error');
+
+                $error = true;
+            }
+        }
+
+        if (!$error) {
+             $this->load->model('entities/easol/Easol_Report');
+            if ($ReportId = $this->input->post('ReportId')) {
+                
+                $model= new Easol_Report();
+                $model= $model->hydrate($model->findOne($ReportId));
+            }
+            else {             
+
+                $model= new Easol_Report();
+            }
+
+            $report = $input['Report'];
+            if (!$report) {
+                $this->session->set_flashdata('message', 'The export file has invalid report data.');
+                $this->session->set_flashdata('type', 'error');
+
+                $error = true;
+            }
+            else {                   
+
+                $report['ReportCategoryId'] = $this->_import_category($report);
+                 unset($report['ReportId'], $report['CreatedBy'], $report['CreatedOn'], $report['UpdatedBy'], $report['UpdatedOn'], $report['ReportCategoryName']);
+
+                 if ($ReportId) $report['ReportId'] = $ReportId;
+
+                $model->populateForm($report);
+                if ($model->save()) {
+                    
+                    if (!empty($input['ReportFilter'])) {
+                        $this->load->model('entities/easol/Easol_ReportFilter');
+                        $this->Easol_ReportFilter->delete($model->ReportId);
+                        foreach ($input['ReportFilter'] as $filter) {
+                            $ReportFilter             = new Easol_ReportFilter();
+                            $ReportFilter->ReportId   = $model->ReportId;
+                            $ReportFilter->DisplayName = $filter['DisplayName'];
+                            $ReportFilter->FieldName = $filter['FieldName'];
+                            $ReportFilter->FilterType = $filter['FilterType'];
+                            $ReportFilter->FilterOptions = $filter['FilterOptions'];
+                            $ReportFilter->DefaultValue = $filter['DefaultValue'];
+                            $ReportFilter->save();
+                        }
+                    }
+
+                    if (!empty($input['ReportLink'])) {
+                    
+                        $this->load->model('entities/easol/Easol_ReportLink');
+                        $this->Easol_ReportLink->delete($model->ReportId);
+                        
+                        foreach ($input['ReportLink'] as $link) {
+                            $ReportLink             = new Easol_ReportLink();
+                            $ReportLink->ReportId   = $model->ReportId;
+                            $ReportLink->URL = $link['URL'];
+                            $ReportLink->ColumnNo = $link['ColumnNo'];
+                            $ReportLink->save();
+                        }
+                    }
+                    
+                    if (!$ReportId) {
+                        $this->session->set_flashdata('message', 'New Report Imported : '. $model->ReportName);
+                        $this->session->set_flashdata('type', 'success');
+
+                        $this->easol_logs->Log( [
+                            'Description'=>'Flex Report (import)',
+                            'Data'=>["ModelId"=>$model->ReportId]
+                        ]);
+
+                        
+                    }
+                    else {
+                        $this->session->set_flashdata('message', 'Report Updated From Export File : '. $model->ReportName);
+                        $this->session->set_flashdata('type', 'success');
+
+                        $this->easol_logs->Log( [
+                            'Description'=>'Flex Report (update - import)',
+                            'Data'=>["ModelId"=>$model->ReportId]
+                        ]);
+
+                        
+                    }
+                    
+                    return redirect("reports/edit/".$model->ReportId);
+                   
+
+                }
+                else {
+                    $this->session->set_flashdata('message', 'The export file has invalid report data.');
+                    $this->session->set_flashdata('type', 'error');
+
+                    $error = true;
+                }
+            }
+        }
+
+        if ($error) {
+            if ($ReportId = $this->input->post('ReportId')) redirect(site_url("reports/edit/".$ReportId));
+            else redirect("reports/create");
+        }                   
+
+    }
+
+    public function _import_category($report) {
+        $this->db->where('ReportCategoryName', $report['ReportCategoryName']);
+        $query = $this->db->get('EASOL.ReportCategory');
+
+        $category = $query->row();
+
+        if (empty($category)) {
+            $this->load->model('entities/easol/Easol_ReportCategory');
+
+            $model = new Easol_ReportCategory();
+            $model->populateForm(['ReportCategoryName'=>$report['ReportCategoryName']]);
+            if ($model->save()) {
+                return $model->ReportCategoryId;
+            }
+            else return null;
+        }
+
+        return $category->ReportCategoryId;
     }
 
     public function createCategory(){
