@@ -21,8 +21,6 @@
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <form action="" method="post" class="form-horizontal" id="report-form">
-
-
                     <div class="form-group">
                         <label for="ReportName" class="col-md-2 control-label"><?= $model->labels()['ReportName'] ?></label>
                         <div class="col-md-10">
@@ -117,7 +115,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="CommandText" class="col-md-4 control-label">Links</label>
+                        <label for="Links" class="col-md-4 control-label">Links</label>
                         <div class="col-md-12">
                                 
                             <table id="link-table" class="table table-striped table-bordered">
@@ -125,7 +123,6 @@
                                     <tr>
                                         <th>URL</th>
                                         <th>Column No</th>
-                                        <th>Value Column No</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
@@ -135,9 +132,7 @@
                                         <tr>
                                             <td><input type='text' name='link[<?php echo $link->ReportLinkId ?>][URL]' value="<?php echo $link->URL ?>" class='form-control'></td>
                                             <td><input type='text' name='link[<?php echo $link->ReportLinkId ?>][ColumnNo]' value="<?php echo $link->ColumnNo ?>" class='form-control'></td>
-                                            <td>
-                                                <?php echo form_dropdown("link[{$link->ReportLinkId}][ValueColumnNo]", report_valueColumn(), $link->ValueColumnNo, "class='form-control'"); ?>                                        
-                                            </td>
+                                            
                                             <td>
                                                 <a href="#" class='js-delete-link-row'><span class="fa fa-trash-o"></span></a>
                                             </td>
@@ -157,9 +152,7 @@
                                 <tr>
                                     <td><input type='text' name='link[{{id}}][URL]' class='form-control' disabled></td>
                                     <td><input type='text' name='link[{{id}}][ColumnNo]' class='form-control' disabled></td>
-                                    <td>
-                                        <?php echo form_dropdown("link[{{id}}][ValueColumnNo]", report_valueColumn(), '', "class='form-control' disabled"); ?>                                        
-                                    </td>
+                                    
                                     <td>
                                         <a href="#" class='js-delete-link-row'><span class="fa fa-trash-o"></span></a>
                                     </td>

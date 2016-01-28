@@ -118,7 +118,7 @@ class Easol_Report extends Easol_BaseEntity {
     }
     
     public function getLinks(){
-        $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo ,ValueColumnNo  
+        $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo
                                 FROM EASOL.ReportLink WHERE ReportId=?
                                 ORDER BY ReportLinkId ASC", 
                                 [

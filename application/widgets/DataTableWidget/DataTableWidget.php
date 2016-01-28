@@ -26,6 +26,7 @@ class DataTableWidget extends Easol_BaseWidget {
     ];
 
     public $filter=null;
+    public $links=[];
 
     public $downloadCSV = false;
 
@@ -64,6 +65,7 @@ class DataTableWidget extends Easol_BaseWidget {
             'columns'   =>  $this->columns,
             'pagination'    =>  $this->pagination,
             'filter'    =>  $this->filter,
+            'links'     => $this->links,
             'downloadCSV' => $this->downloadCSV
 
         ]);

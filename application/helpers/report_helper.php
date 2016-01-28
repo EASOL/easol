@@ -3,9 +3,7 @@
 function report_types() {
 	return ['Free Text'=>'Free Text', 'Static List'=>'Static List', 'Dynamic List'=>'Dynamic List', 'System Variable'=>'System Variable'];
 }
-function report_valueColumn() {
-	return ['Column 3'=>'Column 3', '/student/profile/$variable'=>'/student/profile/$variable', 'Column 1'=>'Column 1'];
-}
+
 function report_filter_options($list) {
 
 	$ci = &get_instance();
@@ -26,4 +24,27 @@ function report_filter_options($list) {
 	}
 
 	return $options;
+}
+
+function report_column_link($column_no, $record, $links) {
+	if (empty($links)) return "";
+
+	$link = null;
+	foreach ($links as $rec) {
+		if ($column_no == $rec->ColumnNo) {
+			$link = $rec;
+			break;
+		}
+	}
+
+	if ($link) {
+		$link = $link->URL;
+		foreach ($record as $column=>$value) {
+			$link = str_replace("$".$column, $value, $link);
+		}
+
+		return $link;
+	}
+
+	return "";
 }
