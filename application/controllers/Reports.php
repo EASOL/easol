@@ -334,6 +334,34 @@ class Reports extends Easol_Controller {
 
     }
 
+    public function export($id) {
+
+        $this->db->where('ReportId', $id);
+        $this->db->join('EASOL.ReportCategory', 'ReportCategory.ReportCategoryId = Report.ReportCategoryId', 'left');
+        $query = $this->db->get('EASOL.Report');
+
+        $report = $query->row_array();
+
+        $related = ['ReportFilter', 'ReportLink'];
+        foreach ($related as $table) {
+            $report[$table] = [];
+            $this->db->where('ReportId', $id);
+            $query = $this->db->get("EASOL.{$table}");
+            foreach ($query->result_array() as $row) {
+                $report[$table][] = $row; 
+            }
+        }
+
+        $filename = slug($report['ReportName']);
+
+        header('Content-disposition: attachment; filename='.$filename.'.json');
+        header('Content-type: application/json');
+        echo json_encode($report);
+       
+
+        
+    }
+
     public function createCategory(){
         $this->load->model('entities/easol/Easol_ReportCategory');
 

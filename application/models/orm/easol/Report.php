@@ -22,6 +22,7 @@ class Report extends ORM {
 			'ReportCategory' => ORM::belongs_to('\\Model\\Easol\\ReportCategory'),
 			'ReportDisplay' => ORM::belongs_to('\\Model\\Easol\\ReportDisplay'),
 			'ReportAccess' => ORM::has_many('\\Model\\Easol\\ReportAccess'),
+			'ReportFilter' => ORM::has_many('\\Model\\Easol\\ReportFilter')
 		];
 
 		self::$fields = [
