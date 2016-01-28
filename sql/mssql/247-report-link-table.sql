@@ -8,8 +8,7 @@ CREATE TABLE [EASOL].[ReportLink](
 	[ReportLinkId] [int] IDENTITY(1,1) NOT NULL,
 	[ReportId] [int] NOT NULL,
 	[URL] [nvarchar](120) NULL,
-	[ColumnNo] [nvarchar](75) NULL,
-	[ValueColumnNo] [nvarchar](75) NULL
+	[ColumnNo] [nvarchar](75) NULL
 PRIMARY KEY CLUSTERED 
 (
 	[ReportLinkId] ASC
