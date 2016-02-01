@@ -74,12 +74,13 @@ foreach($model->getReportData() as $data){
                                 .x(function(d) { return d.label })
                                 .y(function(d) { return d.value })
                                 .staggerLabels(true)
+                                .valueFormat(d3.format(".0f"))
                                 .staggerLabels(historicalBarChart[0].values.length > 8)
                                 .showValues(true)
                                 .duration(250)
                             ;
                        // chart.xAxis.y
-                        chart.yAxis.tickFormat(d3.format(',.2f'));
+                        chart.yAxis.tickFormat(d3.format('.0f'));
                         chart.yAxis.axisLabel('<?= $model->LabelY ?>');
                         chart.xAxis.axisLabel('<?= $model->LabelX ?>').axisLabelDistance(-6);
                         d3.select('#chart1 svg')

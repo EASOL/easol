@@ -60,7 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('database','session', 'form_validation');
+$autoload['libraries'] = array('database','session', 'form_validation', 'gas', 'easol_module', 'easol_logs');
 
 
 /*
@@ -88,7 +88,7 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'sql');
+$autoload['helper'] = array('url', 'sql', 'datetime', 'menu', 'form', 'system');
 
 
 /*
@@ -104,7 +104,7 @@ $autoload['helper'] = array('url', 'sql');
 |
 */
 
-$autoload['config'] = array('easol');
+$autoload['config'] = array();
 
 
 /*

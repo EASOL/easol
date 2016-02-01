@@ -1,12 +1,56 @@
+/**
+ * Created by Nahid Hossain on 7/9/2015.
+ */
 
 var  ajxTabDisplayHidden = true;
 
 var currentTable = null;
 var dm_currentPage = 1;
-var dm_PageSize = 50;
+var dm_PageSize = 100;
+
+var upload_result_table;
 
 $(function() {
 
+    /* 
+    * begin dynamic object filtering 
+    * http://www.lessanvaezi.com/filter-select-list-options 
+    */
+    jQuery.fn.filterByText = function(textbox, selectSingleMatch) {
+      return this.each(function() {
+        var select = this;
+        var options = [];
+        $(select).find('option').each(function() {
+          options.push({value: $(this).val(), text: $(this).text()});
+        });
+        $(select).data('options', options);
+        $(textbox).bind('change keyup', function() {
+          var options = $(select).empty().scrollTop(0).data('options');
+          var search = $.trim($(this).val());
+          var regex = new RegExp(search,'gi');
+
+          $.each(options, function(i) {
+            var option = options[i];
+            if(option.text.match(regex) !== null) {
+              $(select).append(
+                 $('<option>').text(option.text).val(option.value)
+              );
+            }
+          });
+          if (selectSingleMatch === true && 
+              $(select).children().length === 1) {
+            $(select).children().get(0).selected = true;
+          }
+        });
+      });
+    };
+
+    $('#dm_select_obj').filterByText($('#dm_search_obj'), false);
+    $('#dm_select_association').filterByText($('#dm_search_association'), false);
+    $('#dm_select_type').filterByText($('#dm_search_type'), false);
+    $('#dm_select_descriptor').filterByText($('#dm_search_descriptor'), false);
+
+    /* end dynamic object filtering */
 
     $( ".dm_tables .panel-footer a" ).click(function(event) {
 
@@ -32,7 +76,12 @@ $(function() {
                     alert(msg['status']['msg']);
                 }
                 else if(msg['status']['type']=='success'){
-                    var htmlData= '<select class="form-control" size="10">';
+                    var htmlData= '<form class="form-inline undo-overrides default-form-inline">\
+                                   <div class="form-group">\
+                                   <input id="dm_search_'+reqType+'" class="form-control input-sm" placeholder="Filter.."/>\
+                                   </div>\
+                                   </form>\
+                                   <select class="form-control dm_select" size="10" id="dm_select_'+reqType+'">';
                     $.each(  msg['objects'], function( key, obj ) {
                         htmlData+='<option value="'+obj.TableName+'">'+obj.TableName+'</option>';
 
@@ -41,8 +90,7 @@ $(function() {
                     $('#dm_'+reqType+' .panel-body').html(htmlData);
                     $('#dm_'+reqType+' .panel-footer').html("Showing All");
                     $('#loading-img').hide();
-
-
+                    $('#dm_select_'+reqType).filterByText($('#dm_search_'+reqType), false);
                 }
                 else {
                     alert('Data Transport Error');
@@ -154,6 +202,11 @@ $(function() {
         // We actually need this to be a typical hyperlink
     });
 
+    $(document).on('click', '.response-message .close', function(e) {
+        e.preventDefault();
+        $(this).closest('.response-message').stop().fadeOut();
+    })
+
     $('#dm_data_tabs a[href="#table_browse"]').click(function (e) {
         e.preventDefault();
 
@@ -223,7 +276,7 @@ $(function() {
                         htmlData+= '</ul>';
 
                         htmlData += '<div class="clearfix"></div><div class="pull-right">\
-                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button class="btn btn-default"><i class="fa fa-download"> </i> Download CSV</button></a>\
+                       <a href="'+Easol_SiteUrl+'datamanagement/downloadtabledata/'+currentTable+'"><button class="btn btn-default"> Download CSV <i class="fa fa-download"> </i> </button></a>\
                        </div><br><br><br>';
                     }
                     else htmlData+= 'Table contains no data';
@@ -309,12 +362,15 @@ $(function() {
         $('#table_upload .tableName').html(currentTable);
         $('#form-table-name').val(currentTable);
         $(this).tab('show');
+        $("#upload-result").stop().hide();
+        $(".summary, .details tbody", '#upload-result').html('');
 
     });
 
     $("#dm_upload_form").on('submit', function(e) {
         e.preventDefault();
 
+        var $form = $(this);
         var formData = new FormData($('#dm_upload_form')[0]);
         $.ajax({
             /*statusCode: {
@@ -332,17 +388,43 @@ $(function() {
             cache: false,
             type: 'POST',
             beforeSend: function(  ) {
-                $('#loading-img').show();
+                if (upload_result_table) upload_result_table.destroy();
+                $("#upload-result .summary").html('');
+                $("#upload-result .details tbody").empty();
+                loading($form);
             }
         })
-            .success(function(data  ) {
-                $('#msgBox').html(($.parseJSON(data))['status']['msg']);
-                $('#loading-img').hide();
-            })
-            .fail(function( data ) {
-                $('#msgBox').html(data.responseText);
-                $('#loading-img').hide();
-            });
+        .success(function(data  ) {
+             var response = $.parseJSON(data);
+             var $response_message = $form.find('.response-message');
+             $response_message.removeClass('panel-success panel-danger');
+             if (response.status.type == 'failed') $response_message.addClass('panel-danger');
+             else $response_message.addClass('panel-success');
+
+             $response_message.stop().fadeIn().find('.panel-body .summary').html(response.status.msg);
+             var details_table = $response_message.find('#upload-result-table');
+
+             for (var i in response.status.result) {
+                for (var j in response.status.result[i]) {
+                    var result = response.status.result[i][j];
+                    var reason = '';
+                    if (result.reason != undefined) reason = result.reason;
+                    details_table.find('tbody').append('<tr><td>' + result.line + '</td><td>' + i + '</td><td>' + reason + '</td></tr>');
+                }
+
+             }
+             upload_result_table = details_table.DataTable();
+        })
+        .fail(function( data ) {
+             var $response_message = $form.find('.response-message');
+             $response_message.removeClass('panel-success panel-danger');
+             $response_message.addClass('panel-danger');
+
+             $response_message.stop().fadeIn().find('.panel-body .summary').html(data.responseText);
+        })
+        .complete(function() {
+            unloading($form);
+         });
 
     });
 

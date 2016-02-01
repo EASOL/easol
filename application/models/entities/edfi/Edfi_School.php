@@ -25,13 +25,13 @@ class Edfi_School extends Easol_baseentity {
 
     public function getAllSchools(){
          return $this->db->query("SELECT EducationOrganization.EducationOrganizationId,
-                  EducationOrganization.NameOfInstitution, EducationOrganizationAddress.City
+                  EducationOrganization.NameOfInstitution/*, EducationOrganizationAddress.City*/
                   FROM edfi.EducationOrganization
                   INNER JOIN edfi.School
                   ON edfi.School.SchoolId = edfi.EducationOrganization.EducationOrganizationId
-                  INNER JOIN edfi.EducationOrganizationAddress
-                  ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId
-                  WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2
+               /*   INNER JOIN edfi.EducationOrganizationAddress
+                  ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId*/
+                  WHERE OperationalStatusTypeId = 1 /*and AddressTypeId = 2*/
                   ")->result();
     }
 

@@ -39,15 +39,15 @@ class Edfi_Staff extends Easol_baseentity {
 
     public function getAssociatedSchool(){
        return $this->findOneBySql("SELECT EducationOrganization.EducationOrganizationId,
-EducationOrganization.NameOfInstitution, EducationOrganizationAddress.City
+EducationOrganization.NameOfInstitution/*, EducationOrganizationAddress.City*/
 FROM edfi.EducationOrganization
 INNER JOIN edfi.School
 ON edfi.School.SchoolId = edfi.EducationOrganization.EducationOrganizationId
-INNER JOIN edfi.EducationOrganizationAddress
-ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId
+/*INNER JOIN edfi.EducationOrganizationAddress
+ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId*/
 INNER JOIN edfi.StaffSchoolAssociation
 ON School.SchoolId=StaffSchoolAssociation.SchoolId
-WHERE OperationalStatusTypeId = 1 and AddressTypeId = 2 AND StaffSchoolAssociation.StaffUSI=?",[$this->StaffUSI]);
+WHERE OperationalStatusTypeId = 1 /*and AddressTypeId = 2*/ AND StaffSchoolAssociation.StaffUSI=?",[$this->StaffUSI]);
 
     }
 

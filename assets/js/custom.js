@@ -1,23 +1,81 @@
 $(function() {
 
+        if ($('table#student-section-table').length) {
+		$('#student-section-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+        if ($('table#student-attendance-table').length) {
+		$('#student-attendance-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+        if ($('table#student-assessment-table').length) {
+		$('#student-assessment-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+        if ($('table#student-cohort-table').length) {
+		$('#student-cohort-table').DataTable({
+                    dom: '<"top">rt<"bottom"pli>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
+	}
+
+	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
-		$('#manageusers').DataTable();
+		$('#manageusers').DataTable({
+                    //dom: 'Vlfrtip',
+                    dom: '<"top"li>frt<"bottom"p>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+  		  });
 	}
 
 	if ($('table#manageschools').length) {
-		$('#manageschools').DataTable();
+		$('#manageschools').DataTable({
+                    dom: '<"top"li>frt<"bottom"p>V<"clear">',
+                    iDisplayLength: 25,
+                    lengthMenu: [[25, 50, 100], [25, 50, 100]]
+                });
 	}
+        
+        $(".datatable-get-csv").detach().appendTo('#csv-button');
+        $('.datatable-get-csv').addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
+
 
 	if ($('table#manageschooldetails').length) {
 		$('#manageschooldetails').DataTable();
+	}
+
+	if ($('table#analyzestudents').length) {
+		$('#analyzestudents').DataTable();
 	}
 
 	$( "#filter-result" ).change(function() {
 		$("#filter-form-result").val($( "#filter-result" ).val());
 		$( "#dataGridFormFilter").submit();
 	});
+/*
+	$( "#filter-form-result" ).change(function() {
+		$( "#filter-form-result").val($( "#filter-form-result, #filter-result" ).val());
+		$( "#dataGridFormFilter").submit();
+	});
 
-
+	$( "#filter-result" ).change(function() {
+                $( "#filter-form-result").val($( "#filter-result" ).val());
+		$( "#filter-result").val($( "#filter-form-result" ).val());
+		$( "#dataGridFormFilter").submit();
+	});
+*/        
+        
 	$("[data-toggle='modal']").on('click', function(e) {
 		e.preventDefault();
 		var $that = $(this);
@@ -98,19 +156,24 @@ $(function() {
 		});
 	}
 
-	$("#main-menu #management").click(function(event) {
-		event.preventDefault();
-		var submenu = $('ul', $(this).parent());
-		if (submenu.length && submenu.is(':visible')) {
-			submenu.slideUp( "slow", function() {
-				// Animation complete.
-			});
-		} else {
-			submenu.slideDown( "slow", function() {
-				// Animation complete.
-			});
-		}
-	});
+    $("#main-menu #management, #main-menu #learning-lab").click(function(event) {
+    	event.preventDefault();
+    	var submenu = $('ul', $(this).parent());
+    	if (submenu.length && submenu.is(':visible')) {
+    		submenu.slideUp( "slow", function() {
+    		// Animation complete.
+    		});
+    	} else {
+    		submenu.slideDown( "slow", function() {
+    		// Animation complete.
+    		});
+    	}
+    	$.fixSidebarLayout();
+    });
+
+    if ($('.sublive').length) {
+        $('.sublive').parent().show();
+    }
 
 	$( "#schoolFilter" ).change(function() {
 		var schoolId = $(this).val();
@@ -165,12 +228,9 @@ function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	var uemail = profile.getEmail();
 	var name = profile.getName();
-	
 
-	var localbe = 'http://localhost/easol/';
-	var devbe = 'http://easol-dev.azurewebsites.net/';
-	var staging = 'http://easol-stage.azurewebsites.net/';
-	var livebe = '';
+
+	
 	var gloginPosturl = location.href;
 
 	var xhr = new XMLHttpRequest();
@@ -204,6 +264,19 @@ function signOut() { console.log('Attempting Google Logout');
 		console.log('User signed out.');
 	});
 	console.log('End Google Logout');
+}
+
+function loading($node) {
+
+	var $box = $node.closest('.loading-box');
+	if ($box.length == 0) $box = $node.css('position', 'relative');
+	if ($box.find('.loading-img').length == 0) $box.append('<div class="loading-img"></div>');
+
+	$box.find('.loading-img').fadeIn();
+}
+function unloading($node) {
+	var $box = $node.closest('.loading-box');
+	$box.find('.loading-img').fadeOut();
 }
 
 
