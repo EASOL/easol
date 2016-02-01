@@ -28,6 +28,17 @@ $(function() {
                     lengthMenu: [[25, 50, 100], [25, 50, 100]]
   		  });
 	}
+    
+    if ($('table#filter-table').length) {
+		$('#filter-table').data('dataTable', $('#filter-table').DataTable({
+            dom: '<"top">rt<"bottom">V<"clear">'
+  		}));
+	}
+        if ($('table#link-table').length) {
+		$('#link-table').data('dataTable', $('#link-table').DataTable({
+            dom: '<"top">rt<"bottom">V<"clear">'
+  		}));
+	}
 
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
@@ -59,10 +70,15 @@ $(function() {
 		$('#analyzestudents').DataTable();
 	}
 
-	$( "#filter-result" ).change(function() {
+        $( "#filter-result" ).change(function() {
 		$("#filter-form-result").val($( "#filter-result" ).val());
 		$( "#dataGridFormFilter").submit();
 	});
+
+	$( "#link-result" ).change(function() {
+		$("#link-form-result").val($( "#link-result" ).val());
+		$( "#dataGridFormLink").submit();
+	});        
 /*
 	$( "#filter-form-result" ).change(function() {
 		$( "#filter-form-result").val($( "#filter-form-result, #filter-result" ).val());

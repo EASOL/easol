@@ -643,9 +643,14 @@ form#dataGridFormFilter {
     background: transparent;
 }
 
+label:not(.control-label) {
+  margin-right: 11px;
+}
 label {
-    font-weight: 300;
-    margin-right: 11px;
+  font-weight: 300;
+}
+table tr td .form-control {
+  width: 100% !important;
 }
 
 .btn-primary {
@@ -824,7 +829,6 @@ tbody {
 
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th{
 	    border: 0 !important;
-            text-align: right;
 }
 
 .table-bordered th {

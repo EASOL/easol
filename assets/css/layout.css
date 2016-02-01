@@ -295,3 +295,7 @@ ul.nav.nav-second-level.collapse.in {
 .chardinjs-show-element {
   z-index: 0;
 }
+
+.html-template {
+  display: none;
+}

@@ -106,6 +106,28 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->displayType;
     }
 
+    public function getFilters(){
+        $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
+                                FROM EASOL.ReportFilter WHERE ReportId=?
+                                ORDER BY ReportFilterId ASC", 
+                                [
+                                    $this->ReportId
+                                ]);
+        return $query->result();
+
+    }
+    
+    public function getLinks(){
+        $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo
+                                FROM EASOL.ReportLink WHERE ReportId=?
+                                ORDER BY ReportLinkId ASC", 
+                                [
+                                    $this->ReportId
+                                ]);
+        return $query->result();
+
+    }
+    
     /**
      * @return null|object
      */
@@ -130,11 +152,84 @@ class Easol_Report extends Easol_BaseEntity {
 
     public function getReportData(){
 
-        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
-            return $this->findAllBySql($this->CommandText);
-        if($this->ReportDisplayId==3)
-            return $this->findOneBySql($this->CommandText);
+        $query = $this->getReportQuery();
 
+        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
+            return $this->findAllBySql($query);
+        if($this->ReportDisplayId==3)
+            return $this->findOneBySql($query);
+
+    }
+
+    public function getReportQuery($args=[]) {
+        
+        $query = $this->CommandText;
+        $filters = $this->getFilters();
+        $get = $this->input->get('filter');
+
+        $this->load->library('Easol_SQLParser');
+        $parser = New Easol_SQLParser();
+        $query = $parser->Parse($query);
+
+        if (!empty($filters)) {
+
+            if (!isset($query['WHERE'])) $query['WHERE'] = [];
+
+            foreach($filters as $key => $filter){ 
+
+                $fieldName = str_replace(".", "-", $filter->FieldName);
+
+                if (isset($get[$this->ReportId][$fieldName]) or $filter->DefaultValue) {
+                    $value = (isset($get[$this->ReportId][$fieldName])) ? $get[$this->ReportId][$fieldName] : system_variable($filter->DefaultValue);
+
+                    if (!$value) continue;
+
+                    if (!empty($query['WHERE'])) {
+                        $query['WHERE'][] = [
+                            'expr_type' => 'operator',
+                            'base_expr' => 'AND',
+                            'sub_tree' => ''
+                        ];
+                    }
+
+
+                    if ($filter->FilterType == "System Variable") $value = system_variable($filter->DefaultValue);
+                    $query['WHERE'][] = [
+                        'expr_type' => 'colref',
+                        'base_expr' => "$filter->FieldName",
+                        'no_quotes' => "$filter->FieldName",
+                    ];
+
+                    $operator = "=";
+                    if ($filter->FilterType == 'Free Text') {
+                        $operator = 'LIKE';
+                        $value = "%{$value}%";
+                    }
+
+                    $query['WHERE'][] = [
+                        'expr_type' => 'operator',
+                        'base_expr' => $operator,
+                        'sub_tree' => ''
+                    ];
+
+                    $query['WHERE'][] = [
+                        'expr_type' => 'const',
+                        'base_expr' => "'{$value}'",
+                        'sub_tree' => ''
+                    ];
+                }
+             
+            }
+        }
+
+        foreach ($args as $field=>$value) {
+            if ($value === false) unset($query[$field]);
+        }
+
+        if (empty($query['WHERE'])) unset($query['WHERE']);
+
+        $query = str_replace('Version()','Version', $parser->Create($query));
+        return $query;
     }
 
     public function getViewName(){

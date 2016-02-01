@@ -2,6 +2,7 @@
 
 <?php
 /* */
+$filter = $model->getFilters();
 $jsonData=[];
 $_i=0;
 $axisX="";
@@ -27,6 +28,11 @@ foreach($model->getReportData() as $key => $value){
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
+            <?php if($filter!= null) { ?>
+                <div class="panel-body" id="filter-destination">
+                    <?php  Easol_Widget::show("DataFilterWidget", ['filter'=>$filter, 'report'=>$model]) ?>
+                </div>
+            <?php }    ?>
             <div class="panel-body">
                 <style>
 
@@ -83,13 +89,14 @@ foreach($model->getReportData() as $key => $value){
     <div class="col-md-12">
         <?php Easol_Widget::show("DataTableWidget",
             [
-                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->CommandText)),
+                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->getReportQuery())),
                 'pagination' => [
 
                     'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
                     'currentPage' => $pageNo,
                     'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
                 ],
+                'filter' => $model->getFilters(),
                 'colOrderBy'    =>  [$_columns[0]],
                 'columns'   => $_columns,
                 'downloadCSV' => true
