@@ -20,6 +20,7 @@ class Analytics extends Easol_Controller {
 
 
     public function index() {
+        $this->output->enable_profiler(TRUE);
 
         $data = array();
         $filters = $this->input->get();        
