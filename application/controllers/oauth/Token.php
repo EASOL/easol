@@ -35,8 +35,8 @@ class Token extends CI_Controller
 
 	function index ()
 	{
-		$email 		= 'edgar.f91@gmail.com';//$this->input->post('email');
-		$password 	= '123456';//$this->input->post('password');
+		$email 		= $this->input->post('email');
+		$password 	= $this->input->post('password');
 
 		// client collects login credentials and posts them here along with the client details.
 
