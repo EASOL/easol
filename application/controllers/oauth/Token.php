@@ -41,7 +41,7 @@ class Token extends CI_Controller
 		// client collects login credentials and posts them here along with the client details.
 
 		if (!empty($email) and !empty($password)) {
-
+			echo $email."|".$password."|";
 			// Verify the user's username and password
 	        if($this->_login(array('email' => $email, 'password' => $password))) {
 				// Handle a request for an OAuth2.0 Access Token and send the response to the client
@@ -63,6 +63,7 @@ class Token extends CI_Controller
     {
         $this->load->model('Usermanagement_M');
         $user = $this->Usermanagement_M->getEasolUsers($data['email'], "SEM.ElectronicMailAddress");
+        var_dump($user);
         if(is_array($user) and !empty($user)) {
             $this->load->model('entities/easol/Easol_StaffAuthentication');
             $authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $user[0]->StaffUSI]);
