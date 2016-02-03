@@ -236,8 +236,8 @@ class AuthorizeController implements AuthorizeControllerInterface
             // restrict scope by client specific scope if applicable,
             // otherwise verify the scope exists
             $clientScope = $this->clientStorage->getClientScope($client_id);
-            if ((empty($clientScope) && !$this->scopeUtil->scopeExists($requestedScope))
-                || (!empty($clientScope) && !$this->scopeUtil->checkScope($requestedScope, $clientScope))) {
+            if ((is_null($clientScope) && !$this->scopeUtil->scopeExists($requestedScope))
+                || ($clientScope && !$this->scopeUtil->checkScope($requestedScope, $clientScope))) {
                 $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_scope', 'An unsupported scope was requested', null);
 
                 return false;
@@ -333,7 +333,7 @@ class AuthorizeController implements AuthorizeControllerInterface
             return false; // if either one is missing, assume INVALID
         }
 
-        $registered_uris = explode(' ', $registeredUriString);
+        $registered_uris = preg_split('/\s+/', $registeredUriString);
         foreach ($registered_uris as $registered_uri) {
             if ($this->config['require_exact_redirect_uri']) {
                 // the input uri is validated against the registered uri using exact match
@@ -341,14 +341,9 @@ class AuthorizeController implements AuthorizeControllerInterface
                     return true;
                 }
             } else {
-                $registered_uri_length = strlen($registered_uri);
-                if ($registered_uri_length === 0) {
-                    return false;
-                }
-
                 // the input uri is validated against the registered uri using case-insensitive match of the initial string
                 // i.e. additional query parameters may be applied
-                if (strcasecmp(substr($inputUri, 0, $registered_uri_length), $registered_uri) === 0) {
+                if (strcasecmp(substr($inputUri, 0, strlen($registered_uri)), $registered_uri) === 0) {
                     return true;
                 }
             }

@@ -162,7 +162,7 @@ class Redis implements AuthorizationCodeInterface,
             return false;
         }
 
-        return empty($client['client_secret']);
+        return empty($result['client_secret']);
     }
 
     /* ClientInterface */

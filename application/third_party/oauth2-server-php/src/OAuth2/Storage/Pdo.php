@@ -307,13 +307,7 @@ class Pdo implements
     // plaintext passwords are bad!  Override this for your application
     protected function checkPassword($user, $password)
     {
-        return $user['password'] == $this->hashPassword($password);
-    }
-
-    // use a secure hashing algorithm when storing passwords. Override this for your application
-    protected function hashPassword($password)
-    {
-        return sha1($password);
+        return $user['password'] == sha1($password);
     }
 
     public function getUser($username)
@@ -334,7 +328,7 @@ class Pdo implements
     public function setUser($username, $password, $firstName = null, $lastName = null)
     {
         // do not store in plaintext
-        $password = $this->hashPassword($password);
+        $password = sha1($password);
 
         // if it exists, update it.
         if ($this->getUser($username)) {
@@ -469,7 +463,7 @@ class Pdo implements
         $sql = "
         CREATE TABLE {$this->config['client_table']} (
           client_id             VARCHAR(80)   NOT NULL,
-          client_secret         VARCHAR(80),
+          client_secret         VARCHAR(80)   NOT NULL,
           redirect_uri          VARCHAR(2000),
           grant_types           VARCHAR(80),
           scope                 VARCHAR(4000),
@@ -531,7 +525,7 @@ class Pdo implements
         CREATE TABLE {$this->config['jti_table']} (
           issuer              VARCHAR(80)   NOT NULL,
           subject             VARCHAR(80),
-          audience            VARCHAR(80),
+          audiance            VARCHAR(80),
           expires             TIMESTAMP     NOT NULL,
           jti                 VARCHAR(2000) NOT NULL
         );
