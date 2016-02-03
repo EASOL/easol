@@ -50,7 +50,7 @@ class Token extends CI_Controller
 	    }
 
 		exit(json_encode(array( 'error' 				=> 'login invalid',
-								'error_description'		=> 'The email and/or password is invalid.|'.$email."|".$password."|";
+								'error_description'		=> 'The email and/or password is invalid.|'.$email."|".$password."|"
 						))
 		);
 
