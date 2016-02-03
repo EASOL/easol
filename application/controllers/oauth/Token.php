@@ -73,4 +73,14 @@ class Token extends CI_Controller
          return false;
     }
 
+    function verify ()
+    {
+    	// Handle a request to a resource and authenticate the access token
+		if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+    		return $this->server->getResponse()->send();
+		}
+
+		echo json_encode(array('success' => true, 'message' => 'verified'));
+    }
+
 }
