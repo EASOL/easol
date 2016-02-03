@@ -49,10 +49,10 @@ class Token extends CI_Controller
 	        }
 	    }
 
-		exit(json_encode(array( 'error' 				=> 'login invalid',
-								'error_description'		=> 'The email and/or password is invalid.'
+	 /*exit(json_encode(array( 'error' 				=> 'login invalid',
+							'error_description'		=> 'The email and/or password is invalid.'
 						))
-		);
+		);*/
 
 		// verification: if the client wants to verify that the code is not an arbitrary code as a forgery then they can simply
 		// test the code for verification at the resource server Resource.php
