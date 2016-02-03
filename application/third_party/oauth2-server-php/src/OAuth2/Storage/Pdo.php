@@ -141,10 +141,12 @@ class Pdo implements
         return $token;
     }
 
-    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = null)
+    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = '')
     {
         // convert expires to datestring
         $expires = date('Y-m-d H:i:s', $expires);
+
+        $scope = "";
 
         // if it exists, update it.
         if ($this->getAccessToken($access_token)) {
