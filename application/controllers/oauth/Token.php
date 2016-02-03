@@ -41,7 +41,7 @@ class Token extends CI_Controller
 		// client collects login credentials and posts them here along with the client details.
 
 		if (!empty($email) and !empty($password)) {
-			
+
 			// Verify the user's username and password
 	        if($this->_login(array('email' => $email, 'password' => $password))) {
 				// Handle a request for an OAuth2.0 Access Token and send the response to the client
@@ -50,7 +50,7 @@ class Token extends CI_Controller
 	    }
 
 		exit(json_encode(array( 'error' 				=> 'login invalid',
-								'error_description'		=> 'The email or password were not valid.'
+								'error_description'		=> 'The email and/or password is invalid.'
 						))
 		);
 
