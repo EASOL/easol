@@ -1,5 +1,7 @@
 <?php
 
+header('Access-Control-Allow-Origin: *'); // Allow cross domain and file:// request sources.
+
 class Token extends CI_Controller 
 {
 
