@@ -1,5 +1,14 @@
 <?php
 
+// * might need to be set to the source domain since http auth is being used.
+header('Access-Control-Allow-Origin: *'); // Allow cross domain and file:// request sources. 
+header("Access-Control-Allow-Credentials: true"); // Allow cookies, authentication, ssl.
+
+// Handling the Preflight
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') { 
+    exit;
+}
+
 class Token extends CI_Controller 
 {
 
