@@ -630,13 +630,34 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
     padding: 0px;
 }
 
-form#dataGridFormFilter {
-    padding: 20px 30px 0px 30px;
-    background: #44a657;
-    border-radius: 10px 10px 0px 0px;
-    color: white;
-    font-size: 17px;
+form#dataGridFormFilter, .filter-form {
+  padding: 20px 30px 0px 30px;
+  background: #44a657;
+  border-radius: 0px 0px 0px 0px;
+  color: white;
+  font-size: 17px;
 	margin: 0px;
+}
+.filter-form .dataTables_filter, .filter-form .dataTables_length {
+  float: none;
+  text-align: right;
+  margin-left: 30px;
+  color: #fff;
+  font-weight: normal;
+}
+.filter-form .dataTables_filter {
+  text-align: left;
+  position: relative;
+  height: 30px;
+}
+
+.filter-form .dataTables_filter input {
+  width: 100% !important;
+  color: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 0 !important;
 }
 
 .panel-default {
