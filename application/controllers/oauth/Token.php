@@ -23,8 +23,10 @@ class Token extends CI_Controller
             'public_key_table'  	=> 'EASOL.oauth_public_keys',
         );
 
+        list($junk,$hostname) = explode(':', $this->db->hostname);
+
 		// $dsn is the Data Source Name for your database, for exmaple "mysql:dbname=my_oauth2_db;host=localhost"
-		$storage = new OAuth2\Storage\Pdo(array('dsn' => 'sqlsrv:Server='.EASOL_DB_SERVER.',1433;Database='.EASOL_DB_NAME, 'username' => EASOL_DB_USER, 'password' => EASOL_DB_PASS), $config);
+		$storage = new OAuth2\Storage\Pdo(array('dsn' => 'sqlsrv:Server='.$hostname.';Database='.$this->db->database, 'username' => $this->db->username, 'password' => $this->db->password), $config);
 
 		// Pass a storage object or array of storage objects to the OAuth2 server class
 		$this->server = new OAuth2\Server($storage);
