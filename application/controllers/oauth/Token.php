@@ -1,14 +1,5 @@
 <?php
 
-// * might need to be set to the source domain since http auth is being used.
-/*header('Access-Control-Allow-Origin: *'); // Allow cross domain and file:// request sources. 
-header("Access-Control-Allow-Credentials: true"); // Allow cookies, authentication, ssl.
-*/
-// Handling the Preflight
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') { 
-    exit;
-}
-
 class Token extends CI_Controller 
 {
 
@@ -32,8 +23,10 @@ class Token extends CI_Controller
             'public_key_table'  	=> 'EASOL.oauth_public_keys',
         );
 
+        list($junk,$hostname) = explode(':', $this->db->hostname);
+
 		// $dsn is the Data Source Name for your database, for exmaple "mysql:dbname=my_oauth2_db;host=localhost"
-		$storage = new OAuth2\Storage\Pdo(array('dsn' => 'sqlsrv:Server=oqc2uoyejf.database.windows.net,1433;Database=easol_dev', 'username' => 'easol_dev_dba@oqc2uoyejf', 'password' => '%Z!A8iVnH6e$OKMk'), $config);
+		$storage = new OAuth2\Storage\Pdo(array('dsn' => 'sqlsrv:Server='.$hostname.';Database='.$this->db->database, 'username' => $this->db->username, 'password' => $this->db->password), $config);
 
 		// Pass a storage object or array of storage objects to the OAuth2 server class
 		$this->server = new OAuth2\Server($storage);
