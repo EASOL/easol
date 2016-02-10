@@ -663,20 +663,6 @@ PRIMARY KEY CLUSTERED
 
 
 
-
-CREATE TABLE [EASOL].[Logs](
-	[LogId] [int] IDENTITY(1,1) NOT NULL,
-	[StaffUSI] [int] NOT NULL,
-	[DateTime] [datetime] NOT NULL,
-	[IpAddress] [nvarchar](16) NOT NULL,
-	[Description] [nvarchar](255) NOT NULL,
-	[Controller] [nvarchar](75) NOT NULL,
-	[Method] [nvarchar](75) NOT NULL,
-	[Object] [nvarchar](75) NULL,
-	[Data] [text] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
-
 /* oAuth2 Implementation */
 CREATE TABLE EASOL.oauth_clients (client_id VARCHAR(80) NOT NULL, client_secret VARCHAR(80), redirect_uri VARCHAR(2000) NOT NULL, grant_types VARCHAR(80), scope VARCHAR(100), user_id VARCHAR(80), CONSTRAINT clients_client_id_pk PRIMARY KEY (client_id));
 CREATE TABLE EASOL.oauth_access_tokens (access_token VARCHAR(40) NOT NULL, client_id VARCHAR(80) NOT NULL, user_id VARCHAR(255), expires DATETIME NOT NULL, scope VARCHAR(2000), CONSTRAINT access_token_pk PRIMARY KEY (access_token));
