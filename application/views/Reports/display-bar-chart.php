@@ -1,10 +1,14 @@
 <?php
 //find columns
 $filter = $model->getFilters();
-$_colums=[];
-foreach($this->db->query($model->getReportQuery())->row() as $key => $value){
-    $_columns[] = $key;
+$_columns=[];
+$ReportData = $this->db->query($model->getReportQuery());
+if (!empty($ReportData)) {
+    foreach($ReportData->list_fields() as $key){
+        $_columns[] = $key;
+    }
 }
+
 
 ?>
 <?php /* @var $model Easol_Report */ ?>
@@ -115,10 +119,7 @@ foreach($model->getReportData() as $data){
 
 
 <?php if(isset($pageNo)) { ?>
-<?php 
-    $ReportData = $this->db->query($model->getReportQuery())->result(); 
-    $filter_option = 'no'; 
-?>
+<?php $filter_option = 'no'; ?>
 <div class="row">
     <div class="col-md-12">
         <?php include('display-table-view.php'); ?>

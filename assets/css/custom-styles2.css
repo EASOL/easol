@@ -638,10 +638,12 @@ form#dataGridFormFilter, .filter-form {
   font-size: 17px;
 	margin: 0px;
 }
+.filter-form {
+  padding: 10px 10px 5px 10px;
+}
 .filter-form .dataTables_filter, .filter-form .dataTables_length {
   float: none;
   text-align: right;
-  margin-left: 30px;
   color: #fff;
   font-weight: normal;
 }

@@ -11,7 +11,7 @@ $(function() {
 		$table.row.add($template).draw();
 	});
 
-        $(document).on('click', '.js-delete-row', function(e) {
+    $(document).on('click', '.js-delete-row', function(e) {
 		e.preventDefault();
 		$("#filter-table").data('dataTable').row($(this).closest('tr')).remove().draw();
 	})
@@ -32,10 +32,8 @@ $(function() {
 		$("#link-table").data('dataTable').row($(this).closest('tr')).remove().draw();
 	});
 
-
-
 	$('.flex-report-table').each(function() {
-		var filter_option = "<'panel-body filter-form'<'row'<'col-sm-9'f><'col-sm-3'l>>>";
+		var filter_option = "<'filter-form'<'row'<'col-sm-9'f><'col-sm-3'l>>>";
 		if ($(this).attr('data-filter-option') == 'no') filter_option = "";
 		
 		$('.flex-report-table').DataTable({

@@ -1,6 +1,13 @@
 <?php 
     $filter = $model->getFilters();
-    $ReportData = $this->db->query($model->getReportQuery())->result(); 
+    $ReportData = $this->db->query($model->getReportQuery()); 
+    $_columns=[];
+
+    if (!empty($ReportData)) {
+        foreach($ReportData->list_fields() as $key){
+            $_columns[] = $key;
+        }
+    }
 ?>
 
 <?php if($displayTitle==true){ ?>

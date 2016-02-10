@@ -20,7 +20,7 @@ class Easol_Form_validation extends CI_Form_validation {
 	
 	public function is_safe_query($sql) {
 
-		if (preg_match_all("/(INSERT |UPDATE |DELETE|DROP |SET |REPLACE |UNION |information_schema)/i", $sql, $matches)) {
+		if (preg_match_all("/(INSERT |UPDATE |DELETE|DROP |SET |REPLACE |UNION |INTO |information_schema)/i", $sql, $matches)) {
 			return false;
 		}
 
