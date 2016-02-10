@@ -671,3 +671,62 @@ CREATE TABLE EASOL.oauth_refresh_tokens (refresh_token VARCHAR(40) NOT NULL, cli
 CREATE TABLE EASOL.oauth_users (username VARCHAR(255) NOT NULL, password VARCHAR(2000), first_name VARCHAR(255), last_name VARCHAR(255), CONSTRAINT username_pk PRIMARY KEY (username));
 CREATE TABLE EASOL.oauth_scopes (scope TEXT, is_default BIT);
 CREATE TABLE EASOL.oauth_jwt (client_id VARCHAR(80) NOT NULL, subject VARCHAR(80), public_key VARCHAR(2000), CONSTRAINT jwt_client_id_pk PRIMARY KEY (client_id));
+
+/* Creating Admin User */
+
+INSERT INTO [edfi].[Staff]
+           (
+           [FirstName],           
+           [LastSurname],
+           [SexTypeId],
+           [BirthDate],   
+		   [HispanicLatinoEthnicity],      
+           [LoginId],
+           [StaffUniqueId],
+           [Id],
+           [LastModifiedDate],
+           [CreateDate])
+     VALUES
+           (
+           'Admin',          
+           'User',
+            1,
+           '2000-01-01',
+		    0,          
+            1,
+			1,
+           NEWID(),
+           GETDATE(),
+           GETDATE())
+
+
+INSERT INTO [edfi].[StaffElectronicMail]
+           ([StaffUSI]
+           ,[ElectronicMailTypeId]
+           ,[ElectronicMailAddress]
+           ,[PrimaryEmailAddressIndicator]
+           ,[CreateDate])
+     VALUES
+           ((SELECT [StaffUSI] FROM [edfi].[Staff] WHERE [StaffUniqueId] = '1'),
+           4,
+           'admin@easol.org',
+           1,
+           GETDATE())
+
+INSERT INTO [EASOL].[StaffAuthentication]
+           ([StaffUSI],
+           [Password],
+           [LastModifiedDate],
+           [CreateDate],
+           [RoleId],
+           [Locked],
+           [GoogleAuth])
+     VALUES
+           ((SELECT [StaffUSI] FROM [edfi].[Staff] WHERE [StaffUniqueId] = '1'),
+           '7c4a8d09ca3762af61e59520943dc26494f8941b',
+           GETDATE(),
+           GETDATE(),
+           1,
+           0,
+           0)
+
