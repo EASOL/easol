@@ -5,27 +5,38 @@ $jsonData=[];
 $_i=0;
 $axisX="";
 $axisY="";
-$_colums=[];
-foreach($model->getReportData() as $data){
-    $_j=0;
-    $_k=0;
-    foreach($data as $key => $property){
-        if($_i==0){
+$_columns=[];
 
-            $_columns[] = $key;
-        }
-        if($_j==0){
-            $jsonData[$_i]["key"] = $property;
-        }
-        else {
-            $jsonData[$_i]["values"][$_k]['label'] = $key;
-            $jsonData[$_i]["values"][$_k]['value'] = $property;
-            $_k++;
-        }
-        $_j++;
+$ReportData = $model->getReportData();
+if (!empty($ReportData)) {
+    foreach($model->getReportData() as $data){
+        $_j=0;
+        $_k=0;
+        foreach($data as $key => $property){
+            if($_i==0){
 
+                $_columns[] = $key;
+            }
+            if($_j==0){
+                $jsonData[$_i]["key"] = $property;
+            }
+            else {
+                $jsonData[$_i]["values"][$_k]['label'] = $key;
+                $jsonData[$_i]["values"][$_k]['value'] = $property;
+                $_k++;
+            }
+            $_j++;
+
+        }
+        $_i++;
     }
-    $_i++;
+}
+
+$ReportData = $this->db->query($model->getReportQuery());
+if (!empty($ReportData)) {
+    foreach($ReportData->list_fields() as $key){
+        $_columns[] = $key;
+    }
 }
 
 ?>
@@ -96,25 +107,12 @@ foreach($model->getReportData() as $data){
          </div>
      </div>
 </div>
-<?php if(isset($pageNo)){ ?>
+
+<?php if(isset($pageNo) && !empty($_columns)) { ?>
+<?php $filter_option = 'no'; ?>
 <div class="row">
-
     <div class="col-md-12">
-        <?php Easol_Widget::show("DataTableWidget",
-            [
-                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->getReportQuery())),
-                'pagination' => [
-
-                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
-                    'currentPage' => $pageNo,
-                    'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
-                ],
-                'colOrderBy'    =>  [$_columns[0]],
-                'columns'   => $_columns,
-                'downloadCSV' => true
-            ]
-
-        ) ?>
+        <?php include('display-table-view.php'); ?>
     </div>
 </div>
 <?php } ?>

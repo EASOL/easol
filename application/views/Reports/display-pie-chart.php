@@ -7,13 +7,20 @@ $jsonData=[];
 $_i=0;
 $axisX="";
 $axisY="";
-$_colums=[];
+$_columns=[];
+$ReportData = $this->db->query($model->getReportQuery());
+if (!empty($ReportData)) {
+    foreach($ReportData->list_fields()as $key) {
+        $_columns[] = $key;
+    }
+}
+
 foreach($model->getReportData() as $key => $value){
-    $_columns[] = $key;
     $jsonData[$_i]['key'] = $key;
     $jsonData[$_i]['y'] = $value;
     $_i++;
 }
+
 
 //die(print_r($_columns));
 ?>
@@ -83,26 +90,12 @@ foreach($model->getReportData() as $key => $value){
         </div>
     </div>
 </div>
-<?php if(isset($pageNo)){ ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <?php Easol_Widget::show("DataTableWidget",
-            [
-                'query' => preg_replace("/ORDER BY.*?(?=\\)|$)/mi"," ", clean_subquery($model->getReportQuery())),
-                'pagination' => [
-
-                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
-                    'currentPage' => $pageNo,
-                    'url'   =>  'reports/view/'.$model->ReportId.'/@pageNo'
-                ],
-                'filter' => $model->getFilters(),
-                'colOrderBy'    =>  [$_columns[0]],
-                'columns'   => $_columns,
-                'downloadCSV' => true
-            ]
-
-        ) ?>
+<?php if(isset($pageNo) && !empty($_columns)): ?>
+    <?php $filter_option = 'no'; ?>
+    <div class="row">
+        <div class="col-md-12">
+            <?php include('display-table-view.php'); ?>
+        </div>
     </div>
-</div>
-<?php } ?>
+<?php endif;  ?>

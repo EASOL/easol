@@ -34,4 +34,6 @@
 
     $(document).ready(ready);
 
+    $.getScript( Easol_SiteUrl + "assets/js/reports.js" );
+
 })

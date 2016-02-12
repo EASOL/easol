@@ -161,19 +161,16 @@ class Easol_Report extends Easol_BaseEntity {
 
     }
 
-    public function getReportQuery($args=[]) {
+    public function getReportQuery($query=null, $filters=null) {
         
-        $query = $this->CommandText;
-        $filters = $this->getFilters();
+        if (!$query) $query = $this->CommandText;
+        if ($filters === null) $filters = $this->getFilters();
+        if (is_array($filters)) $filters = json_decode(json_encode($filters), FALSE);
         $get = $this->input->get('filter');
 
-        $this->load->library('Easol_SQLParser');
-        $parser = New Easol_SQLParser();
-        $query = $parser->Parse($query);
+        $where[] = "1=1";
 
         if (!empty($filters)) {
-
-            if (!isset($query['WHERE'])) $query['WHERE'] = [];
 
             foreach($filters as $key => $filter){ 
 
@@ -184,51 +181,26 @@ class Easol_Report extends Easol_BaseEntity {
 
                     if (!$value) continue;
 
-                    if (!empty($query['WHERE'])) {
-                        $query['WHERE'][] = [
-                            'expr_type' => 'operator',
-                            'base_expr' => 'AND',
-                            'sub_tree' => ''
-                        ];
-                    }
-
-
                     if ($filter->FilterType == "System Variable") $value = system_variable($filter->DefaultValue);
-                    $query['WHERE'][] = [
-                        'expr_type' => 'colref',
-                        'base_expr' => "$filter->FieldName",
-                        'no_quotes' => "$filter->FieldName",
-                    ];
-
+                    
                     $operator = "=";
                     if ($filter->FilterType == 'Free Text') {
                         $operator = 'LIKE';
                         $value = "%{$value}%";
                     }
 
-                    $query['WHERE'][] = [
-                        'expr_type' => 'operator',
-                        'base_expr' => $operator,
-                        'sub_tree' => ''
-                    ];
-
-                    $query['WHERE'][] = [
-                        'expr_type' => 'const',
-                        'base_expr' => "'{$value}'",
-                        'sub_tree' => ''
-                    ];
+                    $where[] ="$filter->FieldName $operator '$value'";
                 }
              
             }
+
+            
         }
 
-        foreach ($args as $field=>$value) {
-            if ($value === false) unset($query[$field]);
-        }
+        $where = implode(" AND ", $where);
+       
+        $query = str_ireplace(['$filters', '$filter'], $where, $query);
 
-        if (empty($query['WHERE'])) unset($query['WHERE']);
-
-        $query = str_replace('Version()','Version', $parser->Create($query));
         return $query;
     }
 
