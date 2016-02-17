@@ -148,8 +148,9 @@ abstract class Easol_BaseEntity extends CI_Model{
                 $ret = new static;
                 $ret->isNewRecord = false;
                 foreach ($ret->labels() as $key => $value) {
-                    if (isset($o->$key))
+                    if (isset($o->$key)) {                    
                         $ret->{$key} = $o->$key;
+                    }                        
                     else
                         $ret->{$key} = null;
                 }

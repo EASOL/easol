@@ -20,6 +20,14 @@ Alternating field grey: #f9f9f9
     COMMON  STYLES
 ------------------------------------------------*/
 
+.subtitle {
+  margin-bottom: 10px;
+  margin-top: 30px;
+  background: #44A657;
+  padding: 5px;
+  color: #fff;
+}
+
 .no-boder {
   border: 1px solid #f3f3f3;
 }

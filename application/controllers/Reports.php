@@ -144,10 +144,15 @@ class Reports extends Easol_Controller {
 
         $model= new Easol_Report();
         $model= $model->hydrate($model->findOne($id));
+        if (is_json($model->Settings)) $model->Settings = json_decode($model->Settings);
 
         // die(print_r($model));
         //die(print_r($this->input->post('access[access]')));
-        if($this->input->post('report') && $model->populateForm($this->input->post('report'))) {
+        $post = $this->input->post('report');
+        if (!empty($post['Settings'])) {
+            $post['Settings'] = json_encode($post['Settings']);
+        } 
+        if($this->input->post('report') && $model->populateForm($post)) {
 
             if ($this->form_validation->run() != FALSE) {
                 $arrOldValue = $this->stdToArray($model->findOne($id));
@@ -252,18 +257,16 @@ class Reports extends Easol_Controller {
 
         switch($model->ReportDisplayId){
 
-            case 1:
+            case 'table':
                 return $this->render("display-table",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
                 break;
-            case 2:
+            case 'bar-chart':
                 return $this->render("display-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
                 break;
-            case 3:
+            case 'pie-chart':
                 return $this->render("display-pie-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
                 break;
-            case 4:
-                return $this->render("display-stacked-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
-                break;
+            
             default:
                 throw new \Exception("Invalid Report Display type..");
 

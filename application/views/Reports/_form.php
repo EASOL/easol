@@ -18,9 +18,11 @@
             <div class="alert alert-danger"> <?php echo validation_errors(); ?> </div>
         <?php } ?>
 
+
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <form action="" method="post" class="form-horizontal" id="report-form">
+
                     <div class="form-group">
                         <label for="ReportName" class="col-md-2 control-label"><?= $model->labels()['ReportName'] ?></label>
                         <div class="col-md-10">
@@ -55,8 +57,9 @@
                             <textarea class="form-control" id="CommandText" name="report[CommandText]" rows="14" required><?= $model->CommandText ?></textarea>
                         </div>
                     </div>
+
+                    <h3 class='subtitle'>Filters</h3>
                     <div class="form-group">
-                        <label for="CommandText" class="col-md-4 control-label">Filters</label>
                         <div class="col-md-12">
                                 
                             <table id="filter-table" class="table table-striped table-bordered">
@@ -77,7 +80,7 @@
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DisplayName]' value="<?php echo $filter->DisplayName ?>" class='form-control'></td>
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][FieldName]' value="<?php echo $filter->FieldName ?>" class='form-control'></td>
                                             <td>
-                                                <?php echo form_dropdown("filter[{$filter->ReportFilterId}][FilterType]", report_types(), $filter->FilterType, "class='form-control'"); ?>                                        
+                                                <?php echo form_dropdown("filter[{$filter->ReportFilterId}][FilterType]", report_filter_types(), $filter->FilterType, "class='form-control'"); ?>                                        
                                             </td>
                                             <td><textarea class='form-control' name='filter[<?php echo $filter->ReportFilterId ?>][FilterOptions]' style='height: 34px'><?php echo $filter->FilterOptions ?></textarea></td>
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DefaultValue]' value="<?php echo $filter->DefaultValue ?>" class='form-control'></td>
@@ -101,7 +104,7 @@
                                     <td><input type='text' name='filter[{{id}}][DisplayName]' class='form-control' disabled></td>
                                     <td><input type='text' name='filter[{{id}}][FieldName]' class='form-control' disabled></td>
                                     <td>
-                                        <?php echo form_dropdown("filter[{{id}}][FilterType]", report_types(), '', "class='form-control' disabled"); ?>                                        
+                                        <?php echo form_dropdown("filter[{{id}}][FilterType]", report_filter_types(), '', "class='form-control' disabled"); ?>                                        
                                     </td>
                                     <td><textarea class='form-control' name='filter[{{id}}][FilterOptions]' style='height: 34px' disabled></textarea></td>
                                     <td><input type='text' name='filter[{{id}}][DefaultValue]' class='form-control' disabled></td>
@@ -114,8 +117,10 @@
                         </div>
                     </div>
                     
+
+                    <h3 class='subtitle'>Links</h3>
                     <div class="form-group">
-                        <label for="Links" class="col-md-4 control-label">Links</label>
+                        
                         <div class="col-md-12">
                                 
                             <table id="link-table" class="table table-striped table-bordered">
@@ -162,37 +167,143 @@
                         </div>
                     </div>
 
+                    
+                    <h3 class='subtitle'>Display Definitions</h3>
                     <div class="form-group">
-                        <label for="LabelX" class="col-md-2 control-label"><?= $model->labels()['LabelX'] ?></label>
+                        <label for="ReportDisplayId" class="col-md-2 control-label"><?= $model->labels()['DisplayType'] ?></label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="LabelX" name="report[LabelX]" value="<?= $model->LabelX ?>" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="LabelY" class="col-md-2 control-label"><?= $model->labels()['LabelY'] ?></label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" id="LabelY" name="report[LabelY]" value="<?= $model->LabelY ?>" >
+                            <?php echo form_dropdown('report[DisplayType]', report_display_types(), $model->DisplayType, "id='DisplayType' class='form-control'"); ?>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="ReportDisplayId" class="col-md-2 control-label"><?= $model->labels()['ReportDisplayId'] ?></label>
-                        <div class="col-md-8">
-                            <select class="form-control" id="ReportDisplayId" name="report[ReportDisplayId]">
-                                <?php
-                                $this->load->model("entities/easol/Easol_ReportDisplay",'Easol_ReportDisplay');
-                                $reportDisplayType= new Easol_ReportDisplay();
-                                foreach($reportDisplayType->findAll()->result() as $reportDisplay){
-                                    ?>
-                                    <option value="<?= $reportDisplay->ReportDisplayId ?>" <?= ($model->ReportDisplayId==$reportDisplay->ReportDisplayId) ? "selected" : "" ?> ><?= $reportDisplay->DisplayName ?></option>
-                                <?php
-                                }
+                    <div class='chart-settings' style="display: none">
 
-                                ?>
-                            </select>
+                            <div class="form-group">
+                            <label class="col-md-2 control-label">Chart Definitions</label>
+                            <div class="col-md-8">
+                                <label class="radio-inline">
+                                    <?php echo form_radio("report[Settings][Type]", 'defined', $model->Settings->Type == 'defined', 'class="settings-type"') ?> Defined bars/slices 
+                                </label>
+                                <label class="radio-inline">
+                                    <?php echo form_radio("report[Settings][Type]", 'dynamic', $model->Settings->Type == 'dynamic', 'class="settings-type"') ?>Dynamic bars/slices
+                                </label>
+                            </div>
+
+                            
                         </div>
+
+
+                        <div class='bar-chart-settings' style='display: none'>
+
+                            <div class="form-group">
+                                <label for="LabelX" class="col-md-2 control-label">X Axis Label</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="LabelX" name="report[Settings][LabelX]" value="<?= $model->Settings->LabelX ?>" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="LabelY" class="col-md-2 control-label">Y Axis Label</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="LabelY" name="report[Settings][LabelY]" value="<?= $model->Settings->LabelY ?>" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Variable</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="report[Settings][Variable]" value="<?= $model->Settings->Variable ?>" >
+                                </div>
+                                <label class='col-md-1 control-label'>Data Type</label>
+                                <div class="col-md-2">
+                                    <?php echo form_dropdown("report[Settings][DataType]", report_data_types(), $model->Settings->DataType, 'class="form-control"'); ?>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class='settings-type defined-settings' style='display: none'>
+
+                             <div class="form-group">
+                                <label class="col-md-4 control-label">Bars/Slices</label>
+                                <div class="col-md-12">
+                                        
+                                    <table id="column-table" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Label</th>
+                                                <th>Operator</th>
+                                                <th>Value</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if (!empty($columns = $model->Settings->Columns)): ?>
+
+
+                                            <?php $i = 0; ?>
+                                            <?php foreach($columns as $k=>$column){ ?>
+                                                <tr>
+                                                    <td>
+                                                        <input type='text' name='report[Settings][Columns][<?php echo $i ?>][Label]' value="<?php echo $model->Settings->Columns[$k]->Label ?>" class='form-control'>
+                                                    </td>
+
+                                                    <td>
+                                                        <?php echo form_dropdown("report[Settings][Columns][$i][Operator]", report_operators(), $model->Settings->Columns[$k]->Operator, "class='form-control'"); ?>
+                                                    </td>
+                                                    
+                                                   
+                                                    <td> 
+                                                        <input type='text' name='report[Settings][Columns][<?php echo $i ?>][Value]' value="<?php echo $model->Settings->Columns[$k]->Value ?>" class='form-control'>                                                       
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="#" class='js-delete-column-row'><span class="fa fa-trash-o"></span></a>
+                                                    </td>
+                                                </tr>
+                                                <?php $i++; ?>
+                                            <?php  } ?>
+                                        <?php endif; ?>
+                                        </tbody>
+                                    </table>
+
+                                    <div class='col-md-12'>
+                                        <a href="#" class='js-add-column'>Add New Bar/Slice</a>
+                                    </div>
+
+
+
+                                    <table class='html-template' id='add-column-template'>
+                                        <tr>
+                                            <td><input type='text' name='report[Settings][Columns][{{id}}][Label]' class='form-control input-template' disabled='disabled'></td>
+                                            <td>
+                                                <?php echo form_dropdown("report[Settings][Columns][{{id}}][Operator]", report_operators(), null, "class='form-control input-template' disabled"); ?>
+                                            </td>
+                                            <td>
+                                                <input type='text' name='report[Settings][Columns][{{id}}][Value]' class='form-control input-template' disabled>
+                                            </td>
+                                                                                       
+                                            <td>
+                                                <a href="#" class='js-delete-column-row'><span class="fa fa-trash-o"></span></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
                     </div>
 
+                    
+
+                    
+                    <h3 class='subtitle'>Access</h3>
                     <div class="form-group">
                         <label for="access" class="col-md-2 control-label">Access</label>
                         <div class="col-md-8">

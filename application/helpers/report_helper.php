@@ -1,7 +1,18 @@
 <?php
 
-function report_types() {
+function report_filter_types() {
 	return ['Free Text'=>'Free Text', 'Static List'=>'Static List', 'Dynamic List'=>'Dynamic List', 'System Variable'=>'System Variable'];
+}
+
+function report_display_types() {
+	return ['table'=>'Table', 'bar-chart'=>'Bar Chart', 'pie-chart'=>'Pie Chart'];
+}
+
+function report_data_types() {
+	return ['char'=>'Character', 'string'=>'String', 'int'=>'Integer', 'decimal'=>'Decimal', 'percentage'=>'Percentage'];
+}
+function report_operators() {
+	return ['=' => '=', 'IN'=>'IN', 'LIKE'=>'LIKE', '>', '<', '> AND <'=>'> AND <'];
 }
 
 function report_filter_options($list) {

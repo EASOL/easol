@@ -16,7 +16,7 @@ $(function() {
 		$("#filter-table").data('dataTable').row($(this).closest('tr')).remove().draw();
 	})
         
-        $('.js-add-link').on('click', function(e){
+    $('.js-add-link').on('click', function(e){
 		e.preventDefault();		
 		var $templateLink = $('#add-link-template tr').clone();
 		var $tableLink = $("#link-table").data('dataTable');
@@ -44,6 +44,40 @@ $(function() {
 	    });
 		var $context = $(this).closest('.flex-report-table-wrapper');
 		$('.datatable-get-csv', $context).appendTo("#csv-button", $context).addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
+	});
+
+	$("select#DisplayType").on('change', function() {
+		if ($(this).val().match(/chart/g)) {
+			$('.chart-settings').stop().slideDown().find('input,select,textarea').not('.input-template').removeAttr('disabled').prop('disabled', false);
+		}
+		else {
+			$('.chart-settings').stop().slideUp().find('input,select,textarea').attr('disabled', 'disabled').prop('disabled', true);
+		}
+	});
+	$("select#DisplayType").trigger('change');
+
+	$('input.settings-type').on('change', function() {
+		var selected = $('input.settings-type:checked').val();
+		$('div.settings-type:not(.'+selected+'-settings)').stop().slideUp();
+		$('div.settings-type.'+selected+'-settings').stop().slideDown();
+	});
+	$('input.settings-type').trigger('change');
+
+
+	$('.js-add-column').on('click', function(e){
+		e.preventDefault();		
+		var $template = $('#add-column-template tr').clone();
+		var $table = $("#column-table").data('dataTable');
+		
+		$template.html($template.html().replace(/\{\{id\}\}/g,  $table.data().length));
+		$template.find('input,select,textarea').removeAttr('disabled').prop('disabled', false);
+		
+		$table.row.add($template).draw();
+	});
+
+	$(document).on('click', '.js-delete-column-row', function(e) {
+		e.preventDefault();
+		$("#column-table").data('dataTable').row($(this).closest('tr')).remove().draw();
 	})
     
 })

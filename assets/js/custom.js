@@ -34,8 +34,15 @@ $(function() {
             dom: '<"top">rt<"bottom">V<"clear">'
   		}));
 	}
-        if ($('table#link-table').length) {
+    
+    if ($('table#link-table').length) {
 		$('#link-table').data('dataTable', $('#link-table').DataTable({
+            dom: '<"top">rt<"bottom">V<"clear">'
+  		}));
+	}
+
+	if ($('table#column-table').length) {
+		$('#column-table').data('dataTable', $('#column-table').DataTable({
             dom: '<"top">rt<"bottom">V<"clear">'
   		}));
 	}

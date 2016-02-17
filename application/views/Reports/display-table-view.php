@@ -10,8 +10,8 @@
 			
 			<?php foreach ($ReportData->result() as $row): ?>
 				<tr>
-					<?php foreach ($row as $field=>$value): ?>
-						<td><?php echo ($value) ? $value : "&nbsp" ; ?></td>
+					<?php foreach ($_columns as $column): ?>
+						<td><?php echo ($row->$column) ? $row->$column : "&nbsp" ; ?></td>
 					<?php endforeach; ?>
 				</tr>
 			<?php endforeach; ?>
