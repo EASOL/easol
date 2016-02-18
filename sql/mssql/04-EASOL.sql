@@ -43,18 +43,17 @@ CREATE TABLE [EASOL].[EmailLookup](
 
 DROP TABLE IF EXISTS [EASOL].[Logs];
 
-
 CREATE TABLE [EASOL].[Logs](
-	[StaffUSI] [int] NULL,
+	[LogId] [int] IDENTITY(1,1) NOT NULL,
+	[StaffUSI] [int] NOT NULL,
 	[DateTime] [datetime] NOT NULL,
-	[IpAddress] [nvarchar](50) NOT NULL,
+	[IpAddress] [nvarchar](16) NOT NULL,
 	[Description] [nvarchar](255) NOT NULL,
 	[Controller] [nvarchar](75) NOT NULL,
 	[Method] [nvarchar](75) NOT NULL,
 	[Object] [nvarchar](75) NULL,
 	[Data] [text] NULL
-)
-
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 	DROP TABLE IF EXISTS [EASOL].[Report];
 
