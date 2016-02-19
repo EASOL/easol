@@ -1,44 +1,22 @@
 <?php
-//find columns
-$filter = $model->getFilters();
-$_columns=[];
-$ReportData = $this->db->query($model->getReportQuery());
-if (!empty($ReportData)) {
-    foreach($ReportData->list_fields() as $key){
-        $_columns[] = $key;
+
+
+$ReportData = [];
+$Settings = json_decode($model->Settings);
+
+if ($Settings->Type == 'dynamic') {
+    foreach ($model->getReportData() as $data) {
+        $ReportData[$data->{$Settings->Variable}]++;
     }
 }
+ksort($ReportData);
 
-
-?>
-<?php /* @var $model Easol_Report */ ?>
-
-<?php
-$jsonData=[];
-$_i=0;
-$axisX="";
-$axisY="";
-
-foreach($model->getReportData() as $data){
-    $_j=0;
-    foreach($data as $key => $property){
-        
-        if($_j==0){
-            if($_i==0)
-                $axisX = $key;
-            $jsonData[$_i]['label'] = $property;
-
-        }
-        else{
-            if($_i==0)
-                $axisY = $key;
-
-            $jsonData[$_i]['value'] = $property;
-        }
-        $_j++;
-    }
-    $_i++;
+$ChartData = [];
+foreach($ReportData as $key=>$value){ 
+   $ChartData[] = ['label'=>$key, 'value'=>$value];
 }
+ksort($ChartData);
+
 
 //die(print_r($_columns))
 ?>
@@ -67,7 +45,7 @@ foreach($model->getReportData() as $data){
                     svg {
                         display: block;
                     }
-                     #chart1, svg {
+                     .bar-chart, svg {
                         margin: 0px;
                         padding: 0px;
                         height: 100%;
@@ -76,7 +54,7 @@ foreach($model->getReportData() as $data){
 
                 </style>
 
-                <div id="chart1">
+                <div id="chart-<?php echo $model->ReportId ?>" data-report-id="<?php echo $model->ReportId ?>" data-variable="<?php echo $Settings->Variable ?>" class='bar-chart chart'>
                     <svg></svg>
                 </div>
 
@@ -84,29 +62,37 @@ foreach($model->getReportData() as $data){
                     historicalBarChart = [
                         {
                             key: "Cumulative Return",
-                            values: <?= json_encode($jsonData) ?>
+                            values: <?= json_encode($ChartData) ?>
                         }
                     ];
-                    nv.addGraph(function() {
-                        var chart = nv.models.discreteBarChart()
-                                .x(function(d) { return d.label })
-                                .y(function(d) { return d.value })
-                                .staggerLabels(true)
-                                .valueFormat(d3.format(".0f"))
-                                .staggerLabels(historicalBarChart[0].values.length > 8)
-                                .showValues(true)
-                                .duration(250)
-                            ;
-                       // chart.xAxis.y
-                        chart.yAxis.tickFormat(d3.format('.0f'));
-                        chart.yAxis.axisLabel('<?= $model->LabelY ?>');
-                        chart.xAxis.axisLabel('<?= $model->LabelX ?>').axisLabelDistance(-6);
-                        d3.select('#chart1 svg')
-                            .datum(historicalBarChart)
-                            .call(chart);
-                        nv.utils.windowResize(chart.update);
-                        return chart;
-                    });
+                    nv.addGraph(
+                        function() {
+                            var chart = nv.models.discreteBarChart()
+                                    .x(function(d) { return d.label })
+                                    .y(function(d) { return d.value })
+                                    .staggerLabels(true)
+                                    .valueFormat(d3.format(".0f"))
+                                    .staggerLabels(historicalBarChart[0].values.length > 8)
+                                    .showValues(true)
+                                    .duration(250)
+                                ;
+                           // chart.xAxis.y
+                            chart.yAxis.tickFormat(d3.format('.0f'));
+                            chart.yAxis.axisLabel('<?= $Settings->LabelY ?>');
+                            chart.xAxis.axisLabel('<?= $Settings->LabelX ?>').axisLabelDistance(-6);
+                            d3.select('#chart-<?php echo $model->ReportId ?> svg')
+                                .datum(historicalBarChart)
+                                .call(chart);
+                            nv.utils.windowResize(chart.update);
+                            return chart;
+                        }, 
+                        function() {
+                            d3.selectAll(".nv-bar").on('click', function(e){
+                                var $chart = 
+                                chart_filter("<?php echo $model->ReportId ?>", e.label, '<?php echo $Settings->Variable ?>', $(this));
+                            });
+                        }
+                    );
                 </script>
                 <!-- <div>
                     <h3><span class="fa fa-arrow-right"></span> < $model->LabelX ></h3>
@@ -118,11 +104,12 @@ foreach($model->getReportData() as $data){
 </div>
 
 
-<?php if(isset($pageNo)) { ?>
-<?php $filter_option = 'no'; ?>
-<div class="row">
-    <div class="col-md-12">
-        <?php include('display-table-view.php'); ?>
+
+<?php if($displayTable): ?>
+    <?php $filter_option = 'no'; ?>
+    <div class="row">
+        <div class="col-md-12">
+            <?php include('display-table-view.php'); ?>
+        </div>
     </div>
-</div>
-<?php } ?>
+<?php endif; ?>

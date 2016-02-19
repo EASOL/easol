@@ -1,9 +1,20 @@
+<?php
+$_columns=[];
+$ReportData = $this->db->query($model->getReportQuery());
+
+if (!empty($ReportData)) {
+    foreach($ReportData->list_fields() as $key){
+        $_columns[] = $key;
+    }
+}
+?>
+
 <div class='flex-report-table-wrapper'>
 
-	<table class="flex-report-table table table-striped table-bordered" cellspacing="0" width="100%" data-filter-option='<?php echo $filter_option ?>' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>">
+	<table class="flex-report-table table table-striped table-bordered" cellspacing="0" width="100%" data-filter-option='<?php echo $filter_option ?>' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>" data-report-id="<?php echo $model->ReportId ?>">
 		<thead>
 			<?php foreach ($_columns as $key): ?>
-				<th><?php echo $key ?></th>
+				<th data-variable="<?php echo $key ?>"><?php echo $key ?></th>
 			<?php endforeach; ?>
 		</thead>
 		<tbody>

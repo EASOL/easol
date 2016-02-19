@@ -8,6 +8,13 @@ function report_display_types() {
 	return ['table'=>'Table', 'bar-chart'=>'Bar Chart', 'pie-chart'=>'Pie Chart'];
 }
 
+function report_display_type($type) {
+	$types = report_display_types();
+
+	return $types[$type];
+}
+
+
 function report_data_types() {
 	return ['char'=>'Character', 'string'=>'String', 'int'=>'Integer', 'decimal'=>'Decimal', 'percentage'=>'Percentage'];
 }

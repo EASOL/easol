@@ -1,4 +1,21 @@
 $(function() {
+
+	$('.flex-report-table').each(function() {
+		var filter_option = "<'filter-form'<'row'<'col-sm-9'f><'col-sm-3'l>>>";
+		if ($(this).attr('data-filter-option') == 'no') filter_option = "";
+		
+		var table = $(this).DataTable({
+			dom: filter_option + "Vrtip",
+			language: {
+		        searchPlaceholder: "Search..."
+		    }
+	    });
+	    $(this).data('dataTable', table);
+
+		var $context = $(this).closest('.flex-report-table-wrapper');
+		$('.datatable-get-csv', $context).appendTo("#csv-button", $context).addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
+	});
+	
     
     $('.js-add-filter').on('click', function(e){
 		e.preventDefault();		
@@ -32,20 +49,6 @@ $(function() {
 		$("#link-table").data('dataTable').row($(this).closest('tr')).remove().draw();
 	});
 
-	$('.flex-report-table').each(function() {
-		var filter_option = "<'filter-form'<'row'<'col-sm-9'f><'col-sm-3'l>>>";
-		if ($(this).attr('data-filter-option') == 'no') filter_option = "";
-		
-		$('.flex-report-table').DataTable({
-			dom: filter_option + "Vrtip",
-			language: {
-		        searchPlaceholder: "Search..."
-		    }
-	    });
-		var $context = $(this).closest('.flex-report-table-wrapper');
-		$('.datatable-get-csv', $context).appendTo("#csv-button", $context).addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
-	});
-
 	$("select#DisplayType").on('change', function() {
 		if ($(this).val().match(/chart/g)) {
 			$('.chart-settings').stop().slideDown().find('input,select,textarea').not('.input-template').removeAttr('disabled').prop('disabled', false);
@@ -53,6 +56,10 @@ $(function() {
 		else {
 			$('.chart-settings').stop().slideUp().find('input,select,textarea').attr('disabled', 'disabled').prop('disabled', true);
 		}
+
+		var selected = $(this).val();
+		$('div.specific-settings:not(.'+selected+'-settings)').stop().slideUp();
+		$('div.specific-settings.'+selected+'-settings').stop().slideDown();
 	});
 	$("select#DisplayType").trigger('change');
 

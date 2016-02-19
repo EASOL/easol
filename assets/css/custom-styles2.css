@@ -477,8 +477,8 @@ i.fa:hover { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filt
 .active-menu i.fa  { -webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); -ms-filter: grayscale(0%); -o-filter: grayscale(0%); filter: grayscale(0%); }
 
 
-div#chart1 {
-    height: 300px;
+div.bar-chart {
+    max-height: 300px;
 }
 
 

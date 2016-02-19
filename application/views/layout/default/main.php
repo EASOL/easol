@@ -19,6 +19,7 @@
 
     <!-- Custom Styles-->
     <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
+    <link href="<?= site_url('assets/widgets/charts/chart.css') ?>" rel="stylesheet"/>
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
     </script>
@@ -211,6 +212,8 @@
 <script src="<?= site_url('assets/js/js.cookie-2.0.4.min.js') ?>"></script>
 <script src="<?= site_url('assets/js/custom.js') ?>"></script>
 <script src="<?= site_url('assets/js/layout.js') ?>"></script>
+
+<script src="<?= site_url('assets/widgets/charts/charts.js') ?>"></script>
 
 <?php if ($this->router->class=='content') { ?>
     <script src="<?= site_url('assets/lib/list.min.js') ?>"></script>

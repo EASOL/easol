@@ -247,7 +247,7 @@ class Reports extends Easol_Controller {
         return $reaged;
     }
 
-    public function view($id=null, $pageNo=1){
+    public function view($id=null){
         if($id==null)
             throw new \Exception("Invalid report Id");
         $this->load->model('entities/easol/Easol_Report');
@@ -255,16 +255,16 @@ class Reports extends Easol_Controller {
         $model= new Easol_Report();
         $model= $model->hydrate($model->findOne($id));
 
-        switch($model->ReportDisplayId){
+        switch($model->DisplayType){
 
             case 'table':
-                return $this->render("display-table",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
+                return $this->render("display-table",['model' => $model, 'displayTitle'=>true]);
                 break;
             case 'bar-chart':
-                return $this->render("display-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
+                return $this->render("display-bar-chart",['model' => $model, 'displayTable' => true,'displayTitle'=>true]);
                 break;
             case 'pie-chart':
-                return $this->render("display-pie-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true]);
+                return $this->render("display-pie-chart",['model' => $model, 'displayTable' => true,'displayTitle'=>true]);
                 break;
             
             default:
