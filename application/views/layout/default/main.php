@@ -3,32 +3,39 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><?= $title ?></title>
-    <!-- Bootstrap Styles-->
-    <link href="<?= site_url('assets/css/bootstrap.css') ?>" rel="stylesheet"/>
-    <!-- FontAwesome Styles-->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-    <link href="<?= site_url('assets/lib/datatables/css/jquery.dataTables.css') ?>" rel="stylesheet"/>
-    <link href="<?= site_url('assets/css/dataTables.CSV.css') ?>" rel="stylesheet"/>
-    <link href="<?= site_url('assets/css/chardinjs.css') ?>" rel="stylesheet"/>
+    <?php assets_lib('chardinjs'); ?>
+    <?php assets_lib('datatables'); ?>    
+    <?php assets_lib('nvd3'); ?>
+    <?php assets_widget('charts'); ?>
 
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <?php $this->carabiner->css('lib/bootstrap-3.3.6/dist/css/bootstrap.css'); ?>    
+    <?php $this->carabiner->css('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css'); ?>
+    
+   
+    <?php foreach ($GLOBALS['css'] as $file): ?>
+        <?php $this->carabiner->css("$file"); ?>
+    <?php endforeach; ?>
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
+    <?php $this->carabiner->css('css/custom-styles2.css?v=2'); ?>
 
-    <!-- Custom Styles-->
-    <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
-    <link href="<?= site_url('assets/widgets/charts/chart.css') ?>" rel="stylesheet"/>
+
+    <?php foreach ($GLOBALS['widget'] as $widget): ?>
+        <?php if (!file_exists(FCPATH."/assets/widgets/$widget/{$widget}.css")) continue; ?>
+        <?php $this->carabiner->css("widgets/$widget/{$widget}.css"); ?>
+    <?php endforeach; ?>
+
+    <?php if (file_exists(FCPATH."/assets/css/views/{$this->router->fetch_class()}.css")): ?>
+        <?php $this->carabiner->css('css/views/'.$this->router->fetch_class().'.css'); ?>
+    <?php endif; ?>
+
+    <?php $this->carabiner->css('css/custom-styles2.css?v=2'); ?> 
+    <?php $this->carabiner->display('css'); ?>  
+    
     <script type="text/javascript">
         var Easol_SiteUrl = "<?= site_url('/') ?>"
     </script>
 
-    <?php if(($this->router->class=='reports') || ($this->router->class=='dashboard' && $this->router->method =='index') ) { ?>
-        <link href="<?= site_url('assets/lib/nvd3/nv.d3.min.css') ?>" rel="stylesheet"/>
-        <script src="<?= site_url('assets/lib/nvd3/d3.min.js') ?>"></script>
-        <script src="<?= site_url('assets/lib/nvd3/nv.d3.min.js') ?>"></script>
-    <?php } ?>
 
     <?php if (system_google_auth_enabled()): ?>
         <meta name="google-signin-scope" content="profile email">
@@ -36,14 +43,7 @@
         <script src="https://apis.google.com/js/platform.js" async defer></script>
     <?php endif; ?>
 
-    <!--
-    In an attempt to provide some order to the css , I am compartmentalizing my css into
-    files named after the controller for which they are used and then dynamically loading those
-    controller specific css files. -- S.Madison
-    -->
-    <?php if(file_exists(APPPATH.'../assets/css/'.$this->router->class.'.css')) : ?>
-        <link href="<?= site_url('assets/css/'.$this->router->class.'.css') ?>" rel="stylesheet"/>
-    <?php endif; ?>
+   
 </head>
 <body>
 <div id="wrapper">
@@ -195,38 +195,35 @@
 <?php if (system_google_auth_enabled()): ?>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div>
 <?php endif; ?>
-<!-- JS Scripts-->
-<!-- jQuery Js -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<!-- Bootstrap Js -->
-<script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
-<!-- Metis Menu Js -->
 
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 
-<script src="<?= site_url('assets/lib/datatables/js/jquery.dataTables.min.js') ?>"></script>
-<script src="<?= site_url('assets/js/dataTables/dataTables.CSV.js') ?>"></script>
-<script src="<?= site_url('assets/js/dataTables/dataTables.bootstrapPagination.js') ?>"></script>
-<script src="<?= site_url('assets/js/dataTables/dataTables.bootstrap.js') ?>"></script>
-<script src="<?= site_url('assets/js/chardinjs.min.js') ?>"></script>
-<script src="<?= site_url('assets/js/js.cookie-2.0.4.min.js') ?>"></script>
-<script src="<?= site_url('assets/js/custom.js') ?>"></script>
-<script src="<?= site_url('assets/js/layout.js') ?>"></script>
+<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'); ?>
+<?php $this->carabiner->js('lib/bootstrap-3.3.6/dist/js/bootstrap.js'); ?>
+<?php $this->carabiner->js('lib/js.cookie-2.0.4.js'); ?>
+<?php $this->carabiner->js('lib/jquery.metisMenu.js'); ?>
 
-<script src="<?= site_url('assets/widgets/charts/charts.js') ?>"></script>
+<?php $this->carabiner->js('js/custom.js') ?>
+<?php $this->carabiner->js('/js/layout.js') ?>
 
-<?php if ($this->router->class=='content') { ?>
-    <script src="<?= site_url('assets/lib/list.min.js') ?>"></script>
-<?php } ?>
-<!--
-In an attempt to provide some order to the js functions, I am compartmentalizing my js into
-files named after the controller for which they are used and then dynamically loading those
-controller specific js files. -- S.Madison
--->
-<?php if(file_exists(APPPATH.'../assets/js/'.$this->router->class.'.js')) : ?>
-    <script src="<?= site_url('assets/js/'.$this->router->class.'.js') ?>"></script>
+<?php foreach ($GLOBALS['js'] as $file): ?>
+    <?php if (!file_exists(FCPATH."/assets/$file")) continue; ?>
+    <?php $this->carabiner->js("$file"); ?>
+<?php endforeach; ?>
+
+<?php foreach ($GLOBALS['widget'] as $widget): ?>
+    <?php if (!file_exists(FCPATH."/assets/widgets/$widget/{$widget}.js")) continue; ?>
+    <?php $this->carabiner->js("widgets/$widget/{$widget}.js"); ?>
+<?php endforeach; ?>
+
+<?php if (file_exists(FCPATH."/assets/js/views/{$this->router->fetch_class()}.js")): ?>
+    <?php $this->carabiner->js("js/views/{$this->router->fetch_class()}.js"); ?>
 <?php endif; ?>
 
+<?php if (file_exists(FCPATH."/assets/js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js")): ?>
+    <?php $this->carabiner->js("js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js"); ?>
+<?php endif; ?>
+
+<?php $this->carabiner->display('js'); ?>
 
 
 </body>

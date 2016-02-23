@@ -19,8 +19,42 @@ function report_data_types() {
 	return ['char'=>'Character', 'string'=>'String', 'int'=>'Integer', 'decimal'=>'Decimal', 'percentage'=>'Percentage'];
 }
 function report_operators() {
-	return ['=' => '=', 'IN'=>'IN', 'LIKE'=>'LIKE', '>', '<', '> AND <'=>'> AND <'];
+	return ['equal' => '=', 'in'=>'IN', 'like'=>'LIKE', 'greater'=>">", 'lesser'=>'<', 'between'=>'> AND <'];
 }
+function report_value_fits($value, $variable, $operator) {
+	$function = "report_value_$operator";
+	return $function($value, $variable);
+}
+function report_value_equal($value, $variable) {
+	return $value == $variable;
+}
+function report_value_in($value, $variable) {
+	$variables = explode(",", $variable);
+	foreach ($variables as $k=>$v ){
+		$variables[$k] = trim($v);
+	}
+
+	return in_array($value, $variables);
+}
+function report_value_like($value, $variable) {
+	return preg_match("/$value/i", $variable);
+}
+function report_value_greater($value, $variable) {
+	return $value > $variable; 
+}
+function report_value_lesser($value, $variable) {
+	return $value < $variable;	
+}
+function report_value_between($value, $variable) {
+
+	$variable = explode("-", $variable);
+	foreach ($variable as $k=>$v ){
+		$variable[$k] = trim($v);
+	}
+	if (!isset($variable[1])) return report_value_greater($value, $variable[0]);
+	return ($value > $variable[0] and $value < $variable[1]);
+}
+
 
 function report_filter_options($list) {
 
