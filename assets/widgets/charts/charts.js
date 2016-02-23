@@ -74,7 +74,7 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 		    		}
 		    	}
 		    	if (filter['Operator'] == 'like') {
-		    		if (filter['Value'].match(value)) return true;
+		    		if (value.match(filter['Value'])) return true;
 		    	}
 		    	if (filter['Operator'] == 'greater') {
 		    		if (value > filter['Value']) return true;	

@@ -37,7 +37,7 @@ function report_value_in($value, $variable) {
 	return in_array($value, $variables);
 }
 function report_value_like($value, $variable) {
-	return preg_match("/$value/i", $variable);
+	return preg_match("/$variable/i", $value);
 }
 function report_value_greater($value, $variable) {
 	return $value > $variable; 
