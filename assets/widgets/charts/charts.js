@@ -38,6 +38,40 @@ $('.bar-chart.chart').each(function() {
     );
 });
 
+$('.pie-chart.chart').each(function() {
+
+	var $chart = $(this);
+
+	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
+	var chartData = $.parseJSON($chart.attr('data-chart-data'));
+
+    var height = 250;
+    var width = 550;
+  	nv.addGraph(
+  		function() {
+	        var chart = nv.models.pieChart()
+	            .x(function(d) { return d.label })
+	            .y(function(d) { return d.value })
+	        
+	            .valueFormat(d3.format(".0f"));
+	        d3.select('#'+$chart.attr('id')+' svg')
+	            .datum(chartData)
+	            .transition().duration(1200)
+	           
+	            .call(chart);
+	        nv.utils.windowResize(chart.update);
+
+	        return chart;
+	    },
+	    function() {
+            d3.selectAll(".nv-slice").on('click', function(e){
+            	chart_filter($chart.attr('data-report-id'), e.data.label, $chart.attr('data-variable'), $(this), $chart);
+            });
+        }
+	);
+
+});
+
 function chart_filter(ReportId, label, variable, $node, $chart) {
 	var $table = $('table[data-report-id='+ReportId+']');
 	if ($table.length == 0) return;
@@ -105,7 +139,7 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 
 	var color = $node.css('fill');
 
-	$('#chart-'+ReportId).find('.nv-bar').not($node).css({
+	$('#chart-'+ReportId).find('.nv-bar, .nv-slice').not($node).css({
 		'-webkit-filter': 'none',
 		'filter': 'none' 
 	});
@@ -114,3 +148,5 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 		'filter': 'drop-shadow( 0px 0px 5px '+color+')' 
 	});
 }
+
+ 

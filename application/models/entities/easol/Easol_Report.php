@@ -143,10 +143,12 @@ class Easol_Report extends Easol_BaseEntity {
 
         $query = $this->getReportQuery();
 
+        return $this->findAllBySql($query);
+
         if($this->DisplayType == 'bar-chart')
             return $this->findAllBySql($query);
         if($this->ReportDisplayId == 'pie-chart')
-            return $this->findOneBySql($query);
+            return $this->findAllBySql($query);
 
     }
 
