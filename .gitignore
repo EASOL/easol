@@ -7,3 +7,4 @@ application/config/database.php
 
 logs
 /application/tests/build/coverage
+/application/config/carabiner.php

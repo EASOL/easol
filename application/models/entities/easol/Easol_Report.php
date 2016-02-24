@@ -12,7 +12,6 @@ class Easol_Report extends Easol_BaseEntity {
 
     private $category = null;
     private $school = null;
-    private $displayType = null;
     private $accessTypes = null;
 
     /**
@@ -37,14 +36,13 @@ class Easol_Report extends Easol_BaseEntity {
             "ReportName"  =>  "Report Name",
             "ReportCategoryId"  =>  "Report Category",
             "CommandText"  =>  "Command Text",
-            "LabelX"  =>  "X Axis Label",
-            "LabelY"  =>  "Y Axis Label",
-            "ReportDisplayId"  =>  "Display Type",
             "CreatedBy"  =>  "Created By",
             "CreatedOn"  =>  "CreatedOn",
             "UpdatedBy"  =>  "UpdatedBy",
             "UpdatedOn"  =>  "UpdatedOn",
             "SchoolId"  =>  "SchoolId",
+            "DisplayType"  =>  "Display Type",
+            "Settings"  =>"Settings"
         ];
     }
 
@@ -61,9 +59,8 @@ class Easol_Report extends Easol_BaseEntity {
             'ReportName' => ['string','Required'],
             'ReportCategoryId' => ['int','Required'],
             'CommandText' => ['string','Required','Is Safe Query'],
-            'LabelX' => ['string','Required'],
-            'LabelY' => ['string','Required'],
-            'ReportDisplayId' => ['int','Required'],
+            'DisplayType' => ['string','Required'],
+            'Settings'  => ['string']
         ];
     }
 
@@ -96,15 +93,7 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->school;
     }
 
-    public function getDisplayType(){
-
-        if($this->displayType==null) {
-            $this->load->model('entities/easol/Easol_ReportDisplay');
-            $displayType = new Easol_ReportDisplay();
-            $this->displayType = $displayType->hydrate($displayType->findOne($this->ReportDisplayId));
-        }
-        return $this->displayType;
-    }
+    
 
     public function getFilters(){
         $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
@@ -154,9 +143,9 @@ class Easol_Report extends Easol_BaseEntity {
 
         $query = $this->getReportQuery();
 
-        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
+        if($this->DisplayType == 'bar-chart')
             return $this->findAllBySql($query);
-        if($this->ReportDisplayId==3)
+        if($this->ReportDisplayId == 'pie-chart')
             return $this->findOneBySql($query);
 
     }
@@ -205,20 +194,18 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function getViewName(){
-        switch($this->ReportDisplayId){
+        switch($this->DisplayType){
 
-            case 1:
+            case 'table':
                 return "display-table";
                 break;
-            case 2:
+            case 'bar-chart':
                 return "display-bar-chart";
                 break;
-            case 3:
+            case 'pie-chart':
                 return "display-pie-chart";
                 break;
-            case 4:
-                return "display-stacked-bar-chart";
-                break;
+            
             default:
                 throw new \Exception("Invalid Report Display type..");
 

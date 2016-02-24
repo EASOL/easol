@@ -18,9 +18,11 @@
             <div class="alert alert-danger"> <?php echo validation_errors(); ?> </div>
         <?php } ?>
 
+
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <form action="" method="post" class="form-horizontal" id="report-form">
+
                     <div class="form-group">
                         <label for="ReportName" class="col-md-2 control-label"><?= $model->labels()['ReportName'] ?></label>
                         <div class="col-md-10">
@@ -55,8 +57,9 @@
                             <textarea class="form-control" id="CommandText" name="report[CommandText]" rows="14" required><?= $model->CommandText ?></textarea>
                         </div>
                     </div>
+
+                    <h3 class='subtitle'>Filters</h3>
                     <div class="form-group">
-                        <label for="CommandText" class="col-md-4 control-label">Filters</label>
                         <div class="col-md-12">
                                 
                             <table id="filter-table" class="table table-striped table-bordered">
@@ -77,7 +80,7 @@
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DisplayName]' value="<?php echo $filter->DisplayName ?>" class='form-control'></td>
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][FieldName]' value="<?php echo $filter->FieldName ?>" class='form-control'></td>
                                             <td>
-                                                <?php echo form_dropdown("filter[{$filter->ReportFilterId}][FilterType]", report_types(), $filter->FilterType, "class='form-control'"); ?>                                        
+                                                <?php echo form_dropdown("filter[{$filter->ReportFilterId}][FilterType]", report_filter_types(), $filter->FilterType, "class='form-control'"); ?>                                        
                                             </td>
                                             <td><textarea class='form-control' name='filter[<?php echo $filter->ReportFilterId ?>][FilterOptions]' style='height: 34px'><?php echo $filter->FilterOptions ?></textarea></td>
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DefaultValue]' value="<?php echo $filter->DefaultValue ?>" class='form-control'></td>
@@ -101,7 +104,7 @@
                                     <td><input type='text' name='filter[{{id}}][DisplayName]' class='form-control' disabled></td>
                                     <td><input type='text' name='filter[{{id}}][FieldName]' class='form-control' disabled></td>
                                     <td>
-                                        <?php echo form_dropdown("filter[{{id}}][FilterType]", report_types(), '', "class='form-control' disabled"); ?>                                        
+                                        <?php echo form_dropdown("filter[{{id}}][FilterType]", report_filter_types(), '', "class='form-control' disabled"); ?>                                        
                                     </td>
                                     <td><textarea class='form-control' name='filter[{{id}}][FilterOptions]' style='height: 34px' disabled></textarea></td>
                                     <td><input type='text' name='filter[{{id}}][DefaultValue]' class='form-control' disabled></td>
@@ -114,8 +117,10 @@
                         </div>
                     </div>
                     
+
+                    <h3 class='subtitle'>Links</h3>
                     <div class="form-group">
-                        <label for="Links" class="col-md-4 control-label">Links</label>
+                        
                         <div class="col-md-12">
                                 
                             <table id="link-table" class="table table-striped table-bordered">
@@ -162,37 +167,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="LabelX" class="col-md-2 control-label"><?= $model->labels()['LabelX'] ?></label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" id="LabelX" name="report[LabelX]" value="<?= $model->LabelX ?>" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="LabelY" class="col-md-2 control-label"><?= $model->labels()['LabelY'] ?></label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" id="LabelY" name="report[LabelY]" value="<?= $model->LabelY ?>" >
-                        </div>
-                    </div>
+                    
+                    <?php include("_form_display.php"); ?>
 
-                    <div class="form-group">
-                        <label for="ReportDisplayId" class="col-md-2 control-label"><?= $model->labels()['ReportDisplayId'] ?></label>
-                        <div class="col-md-8">
-                            <select class="form-control" id="ReportDisplayId" name="report[ReportDisplayId]">
-                                <?php
-                                $this->load->model("entities/easol/Easol_ReportDisplay",'Easol_ReportDisplay');
-                                $reportDisplayType= new Easol_ReportDisplay();
-                                foreach($reportDisplayType->findAll()->result() as $reportDisplay){
-                                    ?>
-                                    <option value="<?= $reportDisplay->ReportDisplayId ?>" <?= ($model->ReportDisplayId==$reportDisplay->ReportDisplayId) ? "selected" : "" ?> ><?= $reportDisplay->DisplayName ?></option>
-                                <?php
-                                }
+                    
 
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-
+                    
+                    <h3 class='subtitle'>Access</h3>
                     <div class="form-group">
                         <label for="access" class="col-md-2 control-label">Access</label>
                         <div class="col-md-8">

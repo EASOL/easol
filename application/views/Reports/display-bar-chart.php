@@ -1,44 +1,41 @@
 <?php
-//find columns
-$filter = $model->getFilters();
-$_columns=[];
-$ReportData = $this->db->query($model->getReportQuery());
-if (!empty($ReportData)) {
-    foreach($ReportData->list_fields() as $key){
-        $_columns[] = $key;
+
+
+$ReportData = [];
+$ChartFilter = [];
+$Settings = json_decode($model->Settings);
+
+if ($Settings->Type == 'dynamic') {
+    foreach ($model->getReportData() as $data) {
+        $ReportData[$data->{$Settings->Variable}]++;
+        $ChartFilter[$data->{$Settings->Variable}] = $data->{$Settings->Variable}; 
+    }
+    ksort($ReportData);
+}
+elseif ($Settings->Type == 'defined') {
+    foreach ($Settings->Columns as $column) {
+        $ReportData[$column->Label] = 0;
+    }
+    
+    foreach ($model->getReportData() as $data) {
+        foreach ($Settings->Columns as $column) {
+            $value = $data->{$Settings->Variable};
+
+            $operator = $column->Operator;
+            if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
+
+            $ChartFilter[$column->Label] = $column;
+        }
     }
 }
 
 
-?>
-<?php /* @var $model Easol_Report */ ?>
-
-<?php
-$jsonData=[];
-$_i=0;
-$axisX="";
-$axisY="";
-
-foreach($model->getReportData() as $data){
-    $_j=0;
-    foreach($data as $key => $property){
-        
-        if($_j==0){
-            if($_i==0)
-                $axisX = $key;
-            $jsonData[$_i]['label'] = $property;
-
-        }
-        else{
-            if($_i==0)
-                $axisY = $key;
-
-            $jsonData[$_i]['value'] = $property;
-        }
-        $_j++;
-    }
-    $_i++;
+$ChartData = [];
+foreach($ReportData as $key=>$value){ 
+   $ChartData[] = ['label'=>$key, 'value'=>$value]; 
 }
+ksort($ChartData);
+
 
 //die(print_r($_columns))
 ?>
@@ -62,67 +59,25 @@ foreach($model->getReportData() as $data){
            
 
             <div class="panel-body">
-                <style>
+               
 
-                    svg {
-                        display: block;
-                    }
-                     #chart1, svg {
-                        margin: 0px;
-                        padding: 0px;
-                        height: 100%;
-                        width: 100%;
-                    }
-
-                </style>
-
-                <div id="chart1">
+                <div id="chart-<?php echo $model->ReportId ?>" data-type="<?php echo $Settings->Type ?>" data-report-id="<?php echo $model->ReportId ?>" data-variable="<?php echo $Settings->Variable ?>" class='bar-chart chart' data-chart-data='<?php echo json_encode($ChartData) ?>' data-chart-filter='<?php echo json_encode($ChartFilter) ?>' data-xaxis-label="<?php echo $Settings->LabelY ?>" data-yaxis-label="<?php echo $Settings->LabelX ?>">
                     <svg></svg>
                 </div>
 
-                <script>
-                    historicalBarChart = [
-                        {
-                            key: "Cumulative Return",
-                            values: <?= json_encode($jsonData) ?>
-                        }
-                    ];
-                    nv.addGraph(function() {
-                        var chart = nv.models.discreteBarChart()
-                                .x(function(d) { return d.label })
-                                .y(function(d) { return d.value })
-                                .staggerLabels(true)
-                                .valueFormat(d3.format(".0f"))
-                                .staggerLabels(historicalBarChart[0].values.length > 8)
-                                .showValues(true)
-                                .duration(250)
-                            ;
-                       // chart.xAxis.y
-                        chart.yAxis.tickFormat(d3.format('.0f'));
-                        chart.yAxis.axisLabel('<?= $model->LabelY ?>');
-                        chart.xAxis.axisLabel('<?= $model->LabelX ?>').axisLabelDistance(-6);
-                        d3.select('#chart1 svg')
-                            .datum(historicalBarChart)
-                            .call(chart);
-                        nv.utils.windowResize(chart.update);
-                        return chart;
-                    });
-                </script>
-                <!-- <div>
-                    <h3><span class="fa fa-arrow-right"></span> < $model->LabelX ></h3>
-                    <h3><span class="fa fa-arrow-up"></span> < $model->LabelY ></h3>
-                </div> -->
+              
             </div>
         </div>
     </div>
 </div>
 
 
-<?php if(isset($pageNo)) { ?>
-<?php $filter_option = 'no'; ?>
-<div class="row">
-    <div class="col-md-12">
-        <?php include('display-table-view.php'); ?>
+
+<?php if($displayTable): ?>
+    <?php $filter_option = 'no'; ?>
+    <div class="row">
+        <div class="col-md-12">
+            <?php include('display-table-view.php'); ?>
+        </div>
     </div>
-</div>
-<?php } ?>
+<?php endif; ?>
