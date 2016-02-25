@@ -1,29 +1,43 @@
-<?php /* @var $model Easol_Report */ ?>
-
 <?php
-/* */
-$filter = $model->getFilters();
-$jsonData=[];
-$_i=0;
-$axisX="";
-$axisY="";
-$_columns=[];
-$ReportData = $this->db->query($model->getReportQuery());
-if (!empty($ReportData)) {
-    foreach($ReportData->list_fields()as $key) {
-        $_columns[] = $key;
+
+$ReportData = [];
+$ChartFilter = [];
+$Settings = json_decode($model->Settings);
+
+if ($Settings->Type == 'dynamic') {
+    foreach ($model->getReportData() as $data) {
+        $ReportData[$data->{$Settings->Variable}]++;
+        $ChartFilter[$data->{$Settings->Variable}] = $data->{$Settings->Variable}; 
+    }
+    ksort($ReportData);
+}
+elseif ($Settings->Type == 'defined') {
+    foreach ($Settings->Columns as $column) {
+        $ReportData[$column->Label] = 0;
+    }
+    
+    foreach ($model->getReportData() as $data) {
+        foreach ($Settings->Columns as $column) {
+            $value = $data->{$Settings->Variable};
+
+            $operator = $column->Operator;
+            if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
+
+            $ChartFilter[$column->Label] = $column;
+        }
     }
 }
 
-foreach($model->getReportData() as $key => $value){
-    $jsonData[$_i]['key'] = $key;
-    $jsonData[$_i]['y'] = $value;
-    $_i++;
+
+$ChartData = [];
+foreach($ReportData as $key=>$value){ 
+   $ChartData[] = ['label'=>$key, 'value'=>$value]; 
 }
+ksort($ChartData);
 
-
-//die(print_r($_columns));
 ?>
+
+
 <?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -41,61 +55,35 @@ foreach($model->getReportData() as $key => $value){
                 </div>
             <?php }    ?>
             <div class="panel-body">
-                <style>
-
-                    svg {
-                        display: block;
-                        float: left;
-                        height: 350px !important;
-                        width: 350px !important;
-                    }
-                    #pieChart {
-                        margin: 0px;
-                        padding: 0px;
-                       /* height: 100%; */
-                        width: 100%;
-                    }
-                </style>
-
-                <div id="pieChart" class='with-3d-shadow with-transitions'>
-
-                <svg id="pieChartDisp" class="mypiechart"></svg>
-
-                <script>
-                    var chartData = <?= json_encode($jsonData) ?>;
-
-                    var height = 150;
-                    var width = 350;
-                    nv.addGraph(function() {
-                        var chart = nv.models.pieChart()
-                            .x(function(d) { return d.key })
-                            .y(function(d) { return d.y })
-                            .width(width)
-                            .height(height)
-                            .valueFormat(d3.format(".0f"));
-                        d3.select("#pieChartDisp")
-                            .datum(chartData)
-                            .transition().duration(1200)
-                            .attr('width', width)
-                            .attr('height', height)
-                            .call(chart);
-
-                        return chart;
-                    });
-
-                </script>
+               
+                <div 
+                    id="chart-<?php echo $model->ReportId ?>" 
+                    data-type="<?php echo $Settings->Type ?>" 
+                    data-report-id="<?php echo $model->ReportId ?>" 
+                    data-variable="<?php echo $Settings->Variable ?>"
+                    class='pie-chart chart with-3d-shadow with-transitions' 
+                    data-chart-data='<?php echo json_encode($ChartData) ?>' 
+                    data-chart-filter='<?php echo json_encode($ChartFilter) ?>'>
+                    <svg id="" class="mypiechart"></svg>
                 </div>
+
+               <!-- <div id="pieChart" class='with-3d-shadow with-transitions'>
+
+                <svg id="chart-<?php echo $model->ReportId ?>Disp" class="mypiechart"></svg>-->
+
+               
+               
 
             </div>
         </div>
     </div>
 </div>
 
-<?php if(isset($pageNo) && !empty($_columns)): ?>
+<?php if($displayTable): ?>
     <?php $filter_option = 'no'; ?>
     <div class="row">
         <div class="col-md-12">
             <?php include('display-table-view.php'); ?>
         </div>
     </div>
-<?php endif;  ?>
+<?php endif; ?>

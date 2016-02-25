@@ -36,7 +36,7 @@ $GLOBALS['assets_lib'] = array(
 		)
 	),
 	'list'=>array(
-		'js'=>'lib/list.js'
+		'js'=>array('lib/list.js')
 	)
 );
 
