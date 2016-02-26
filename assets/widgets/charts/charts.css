@@ -23,3 +23,17 @@
    /* height: 100%; */
     width: 100%;
 }
+
+.selected-label text {
+    font-weight: bold;
+    fill: #fff !important;
+    font-size: 18px;
+    text-shadow: 1px 1px 4px #000;
+
+}
+.selected text {
+    font-size: 32px;
+    fill: inherit !important;
+    stroke: #000 !important;
+    stroke-width: 0.5;
+}
