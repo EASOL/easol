@@ -51,11 +51,11 @@ ksort($ChartData);
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
            
-            <?php if($filter!= null) { ?>
+            <?php if($filter = $model->getFilters()): ?>
                 <div class="panel-body" id="filter-destination">
-                    <?php  Easol_Widget::show("DataFilterWidget", ['filter'=>$filter, 'report'=>$model]) ?>
+                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
                 </div>
-            <?php }    ?>
+            <?php endif;   ?>
            
 
             <div class="panel-body">
