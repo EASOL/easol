@@ -37,3 +37,19 @@
     stroke: #000 !important;
     stroke-width: 0.5;
 }
+
+.chart-color-pallette {
+    display: table;
+    width: 100%;
+    min-width: 120px;
+    height: 20px;
+    border-collapse: collapse;
+}
+.chart-color-pallette-item {
+    display: table-cell;
+    border: 1px solid #ccc;
+}
+.chart-pallette-menu {
+    max-height: 150px;
+    overflow: auto;
+}

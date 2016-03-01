@@ -14,6 +14,7 @@ $('.bar-chart.chart').each(function() {
             var chart = nv.models.discreteBarChart()
                     .x(function(d) { return d.label })
                     .y(function(d) { return d.value })
+                    .color(function(d){ return d.color })
                     .staggerLabels(true)
                     .valueFormat(d3.format(".0f"))
                     .staggerLabels(historicalBarChart[0].values.length > 8)
@@ -52,7 +53,7 @@ $('.pie-chart.chart').each(function() {
 	        var chart = nv.models.pieChart()
 	            .x(function(d) { return d.label })
 	            .y(function(d) { return d.value })
-	        
+	        	.color(function(d){ return d.color })
 	            .valueFormat(d3.format(".0f"));
 	        d3.select('#'+$chart.attr('id')+' svg')
 	            .datum(chartData)
@@ -108,7 +109,9 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 		    .filter( function ( value, index ) {
 		    	value = value[column_no];
 
-		    	if (filter['Operator'] == 'equal') return value == filter['Value'];
+		    	if (filter['Operator'] == 'equal') {
+		    		return value == filter['Value'];
+		    	}
 		    	if (filter['Operator'] == 'in') {
 		    		Values = filter['Value'].split(',');
 		    		for (var i in Values) {
