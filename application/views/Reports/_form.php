@@ -265,3 +265,5 @@
         </div>
     </div>
 </div>
+
+<?php assets_lib('colorpicker'); ?>

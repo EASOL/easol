@@ -80,11 +80,32 @@ $(function() {
 		$template.find('input,select,textarea').removeAttr('disabled').prop('disabled', false);
 		
 		$table.row.add($template).draw();
+		colorpicker();
 	});
 
 	$(document).on('click', '.js-delete-column-row', function(e) {
 		e.preventDefault();
 		$("#column-table").data('dataTable').row($(this).closest('tr')).remove().draw();
-	})
+	});
+
+	// DYNAMIC COLORS
+	$colorInput = $('#settings-color-scheme');
+	$colorTypeSelect = $('#color-type-btn');
+	var selectedColorType = $colorTypeSelect.val();
+	$('.chart-pallette-menu a').on('click', function(e) {
+		e.preventDefault();
+		$colorInput.val($(this).attr('data-index'));
+		$('#selected-color-scheme').html($(this).find('.chart-color-pallette').html());
+	});
+
+	$colorTypeSelect.on('change', function(e) {
+		$('.chart-pallette-menu li').hide()
+		$items = $('.chart-pallette-menu li[data-type='+$(this).val()+']');
+		$items.show();
+		if ($items.filter('[data-type='+selectedColorType+']').find('[data-index='+$colorInput.val()+']').length == 0) {
+			$items.first().find('a').trigger('click');
+		}
+	});
+	$colorTypeSelect.trigger('change');
     
 })

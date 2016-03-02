@@ -3,10 +3,12 @@
 
 $ReportData = [];
 $ChartFilter = [];
+$ChartColors = [];
 $Settings = json_decode($model->Settings);
 
 if ($Settings->Type == 'dynamic') {
-    foreach ($model->getReportData() as $data) {
+    $colors = report_colors($Settings->ColorType, $Settings->ColorScheme);
+    foreach ($model->getReportData() as $data) {       
         $ReportData[$data->{$Settings->Variable}]++;
         $ChartFilter[$data->{$Settings->Variable}] = $data->{$Settings->Variable}; 
     }
@@ -17,7 +19,7 @@ elseif ($Settings->Type == 'defined') {
         $ReportData[$column->Label] = 0;
     }
     
-    foreach ($model->getReportData() as $data) {
+    foreach ($model->getReportData() as $i=>$data) {
         foreach ($Settings->Columns as $column) {
             $value = $data->{$Settings->Variable};
 
@@ -25,19 +27,25 @@ elseif ($Settings->Type == 'defined') {
             if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
 
             $ChartFilter[$column->Label] = $column;
+             if (!$column->Color) $column->Color = report_colors('sequential', $i);
+            $ChartColors[$column->Label] = $column->Color;
         }
     }
 }
 
 
 $ChartData = [];
+$i = 0;
 foreach($ReportData as $key=>$value){ 
-   $ChartData[] = ['label'=>$key, 'value'=>$value]; 
+    if (!isset($ChartColors[$key])) {
+        $index = $i % 5;
+        $color = $colors[$index];
+    }
+    else $color = $ChartColors[$key];
+   $ChartData[] = ['label'=>$key, 'value'=>$value, 'color'=>$color]; 
+   $i++;
 }
-ksort($ChartData);
 
-
-//die(print_r($_columns))
 ?>
 <?php if($displayTitle==true){ ?>
 <div class="row">
@@ -51,11 +59,11 @@ ksort($ChartData);
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
            
-            <?php if($filter!= null) { ?>
+            <?php if($filter = $model->getFilters()): ?>
                 <div class="panel-body" id="filter-destination">
-                    <?php  Easol_Widget::show("DataFilterWidget", ['filter'=>$filter, 'report'=>$model]) ?>
+                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
                 </div>
-            <?php }    ?>
+            <?php endif;   ?>
            
 
             <div class="panel-body">

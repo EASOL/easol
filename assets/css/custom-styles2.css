@@ -931,31 +931,6 @@ a {
     border-radius: 4px;
 }
 
-.nv-bar:nth-of-type(3), .nv-slice:nth-of-type(3), .nv-series:nth-of-type(3) .nv-legend-symbol {
-    fill: #b0dc7a !important;
-    stroke: #b0dc7a !important;
-}
-
-.nv-bar:nth-of-type(2), .nv-slice:nth-of-type(2), .nv-series:nth-of-type(2) .nv-legend-symbol {
-    fill: #74c372 !important;
-    stroke: #74c372 !important;
-}
-
-.nv-bar:nth-of-type(1), .nv-slice:nth-of-type(1), .nv-series:nth-of-type(1) .nv-legend-symbol  {
-    fill: #26a15d !important;
-    stroke: #26a15d !important;
-}
-
-.nv-bar:nth-of-type(5), .nv-slice:nth-of-type(5), .nv-series:nth-of-type(5) .nv-legend-symbol {
-    fill: #3787bc !important;
-    stroke: #3787bc !important;
-}
-
-.nv-bar:nth-of-type(4), .nv-slice:nth-of-type(4), .nv-series:nth-of-type(4) .nv-legend-symbol  {
-    fill: #81b6d5 !important;
-    stroke: #81b6d5 !important;
-}
-
 
 .label-Default {
     background-color: #b0dc7a !important;

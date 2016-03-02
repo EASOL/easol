@@ -37,6 +37,17 @@ $GLOBALS['assets_lib'] = array(
 	),
 	'list'=>array(
 		'js'=>array('lib/list.js')
+	),
+	'colorpicker'=>array(
+		'js'=>array(
+			'lib/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
+			'lib/bootstrap-colorpicker-plus/dist/js/bootstrap-colorpicker-plus.js',
+			'widgets/colorpicker/colorpicker.js'
+		),
+		'css'=>array(
+			'lib/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
+			'lib/bootstrap-colorpicker-plus/dist/css/bootstrap-colorpicker-plus.css'
+		)
 	)
 );
 
