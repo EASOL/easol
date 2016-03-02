@@ -12,8 +12,7 @@ class Reports extends Easol_Controller {
 
     protected function accessRules(){
         return [
-           // "index"     =>  ['@'],
-           "index"     =>  ['System Administrator','Data Administrator'],
+            "index" => "@",
         ];
     }
 
@@ -295,18 +294,18 @@ class Reports extends Easol_Controller {
         $response = array();
         $response['status'] = 'success';
 
-        switch($model->ReportDisplayId){
+        switch($model->DisplayType){
 
-            case 1:
+            case 'table':
                 $response['html'] = $this->load->view("reports/display-table",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
                 break;
-            case 2:
+            case 'bar-chart':
                 $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
                 break;
-            case 3:
+            case 'pie-chart':
                 $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
                 break;
-            case 4:
+            case 'stacked-bar-chart':
                 $response['html'] = $this->load->view("reports/display-stacked-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
                 break;
             default:
