@@ -93,7 +93,7 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
         $this->load->model('entities/easol/Easol_Report');
         if($this->bottomReport==null) {
             $this->bottomReport = (new Easol_Report())->findOne(["ReportId" => $this->BottomTableReportId]);
-            $this->bottomReport = (new Easol_Report())->hydrate($this->bottomReport);
+            if ($this->bottomReport) $this->bottomReport = (new Easol_Report())->hydrate($this->bottomReport);
         }
         return $this->bottomReport;
 

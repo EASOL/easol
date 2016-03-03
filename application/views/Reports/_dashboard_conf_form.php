@@ -20,17 +20,6 @@
                         <tbody>
                         <?php
                             $roles = (new Easol_RoleType())->findAll()->result();
-                        $optionTables = "";
-                        $optionCharts = "";
-
-                        foreach($reports as $report){
-                            if($report->ReportDisplayId==1)
-                                $optionTables.='<option value="'.$report->ReportId.'">'.$report->ReportName.'</option>';
-
-                            else
-                                $optionCharts.='<option value="'.$report->ReportId.'">'.$report->ReportName.'</option>';
-                        }
-
                         ?>
 
                         <?php foreach($roles as $role){ ?>
@@ -58,7 +47,7 @@
                                         ?>
                                             <?php
                                         //check if not table
-                                            if($report->ReportDisplayId!=1){ ?>
+                                            if($report->DisplayType != 'table'){ ?>
                                                 <?php
                                                 if($flagLeftOptions==false) {
                                                     $flagLeftOptions = true;
@@ -107,10 +96,10 @@
 
 
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]"">
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]">
                                 <?= $rightOptions ?>
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]"">
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]">
                                 <?= $bottomOptions ?>
                                 </select> </td>
                         </tr>

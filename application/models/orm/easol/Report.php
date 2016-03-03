@@ -12,7 +12,6 @@ class Report extends ORM {
 	public $foreign_key = [
 		'\\model\\edfi\\school' => 'SchoolId',
 		'\\model\\easol\\reportcategory' => 'ReportCategoryId',
-		'\\model\\easol\\reportdisplay' => 'ReportDisplayId'
 	];
 
 	function _init() {
@@ -30,7 +29,6 @@ class Report extends ORM {
 			'ReportName'       => ORM::field('[255]'),
 			'ReportCategoryId' => ORM::field('int[10]'),
 			'CommandText'      => ORM::field('char[255]'),
-			'ReportDisplayId'  => ORM::field('int[10]'),
 			'CreatedBy'        => ORM::field('int[10]'),
 			'CreatedOn'        => ORM::field('datetime'),
 			'UpdatedBy'        => ORM::field('int[10]'),

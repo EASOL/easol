@@ -81,6 +81,11 @@ $('.pie-chart.chart').each(function() {
 
 function chart_filter(ReportId, label, variable, $node, $chart) {
 
+	if ($chart.attr('data-context') == 'dashboard') {
+		window.open(Easol_SiteUrl+'reports/view/'+ReportId, '_self');
+		return;
+	}
+
 	var $table = $('table[data-report-id='+ReportId+']');
 	if ($table.length == 0) return;
 

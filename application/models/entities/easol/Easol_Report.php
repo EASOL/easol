@@ -147,7 +147,7 @@ class Easol_Report extends Easol_BaseEntity {
 
         if($this->DisplayType == 'bar-chart')
             return $this->findAllBySql($query);
-        if($this->ReportDisplayId == 'pie-chart')
+        if($this->DisplayType == 'pie-chart')
             return $this->findAllBySql($query);
 
     }
@@ -196,6 +196,7 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function getViewName(){
+       
         switch($this->DisplayType){
 
             case 'table':
