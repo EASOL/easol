@@ -234,6 +234,7 @@ abstract class Easol_BaseEntity extends CI_Model{
         }
         $data = $this->entryData();
 
+
         //print_r($data);
         //insert operation
 
@@ -254,8 +255,6 @@ abstract class Easol_BaseEntity extends CI_Model{
                 return true;
 
             }
-            echo $this->db->last_query();
-            exit();
         }
 
         return false;
@@ -272,7 +271,8 @@ abstract class Easol_BaseEntity extends CI_Model{
                 if(!property_exists($this,$key) || array_key_exists($key,$this->excludedColumns())){
                     continue;
                 }
-                $ret[$key]=$this->$key;
+                if (is_object($this->$key)) $ret[$key]=json_encode($this->$key);
+                else $ret[$key]=$this->$key;
             }
         }
 

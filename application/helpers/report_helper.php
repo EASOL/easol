@@ -1,7 +1,7 @@
 <?php
 
 function report_filter_types() {
-	return ['Free Text'=>'Free Text', 'Static List'=>'Static List', 'Dynamic List'=>'Dynamic List', 'System Variable'=>'System Variable'];
+	return ['Free Text'=>'Free Text', 'Static List'=>'Static List', 'Dynamic List'=>'Dynamic List', 'System Variable'=>'System Variable', 'Parameter'=>'Parameter'];
 }
 
 function report_display_types() {

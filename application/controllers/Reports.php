@@ -151,6 +151,7 @@ class Reports extends Easol_Controller {
         if (!empty($post['Settings'])) {
             $post['Settings'] = json_encode($post['Settings']);
         } 
+        
         if($this->input->post('report') && $model->populateForm($post)) {
 
             if ($this->form_validation->run() != FALSE) {

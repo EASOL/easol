@@ -159,6 +159,12 @@ class Easol_Report extends Easol_BaseEntity {
         if (is_array($filters)) $filters = json_decode(json_encode($filters), FALSE);
         $get = $this->input->get('filter');
 
+        foreach ($filters as $key=>$filter) {
+            if ($filter->FilterType != 'Parameter') continue;
+            $query = str_ireplace('$filter.'.$filter->FieldName, $filter->DefaultValue, $query);
+            unset($filters[$key]);
+        }
+
         $where[] = "1=1";
 
         if (!empty($filters)) {
@@ -171,6 +177,8 @@ class Easol_Report extends Easol_BaseEntity {
                     $value = (isset($get[$this->ReportId][$fieldName])) ? $get[$this->ReportId][$fieldName] : system_variable($filter->DefaultValue);
 
                     if (!$value) continue;
+
+                    if ($filter->FilterType == "Parameter") continue;
 
                     if ($filter->FilterType == "System Variable") $value = system_variable($filter->DefaultValue);
                     
@@ -191,6 +199,7 @@ class Easol_Report extends Easol_BaseEntity {
         $where = implode(" AND ", $where);
        
         $query = str_ireplace(['$filters', '$filter'], $where, $query);
+
 
         return $query;
     }
