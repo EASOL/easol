@@ -3,12 +3,13 @@ $('.bar-chart.chart').each(function() {
     var $chart = $(this);
    	
    	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
-    historicalBarChart = [
+   	var historicalBarChart = [
         {
             key: "Cumulative Return",
             values: $.parseJSON($chart.attr('data-chart-data'))
         }
     ];
+    
     nv.addGraph(
         function() {
             var chart = nv.models.discreteBarChart()
