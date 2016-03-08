@@ -267,3 +267,4 @@
 </div>
 
 <?php assets_lib('colorpicker'); ?>
+<?php assets_widget('charts'); ?>
