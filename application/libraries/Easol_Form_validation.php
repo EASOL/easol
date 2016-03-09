@@ -20,7 +20,7 @@ class Easol_Form_validation extends CI_Form_validation {
 	
 	public function is_safe_query($sql) {
 
-		if (preg_match_all("/(INSERT |UPDATE |DELETE|DROP |SET |REPLACE |UNION |information_schema)/i", $sql, $matches)) {
+		if (preg_match_all("/(INSERT |UPDATE |DELETE|DROP |SET |REPLACE |INTO |information_schema)/i", $sql, $matches)) {
 			return false;
 		}
 
@@ -38,8 +38,15 @@ class Easol_Form_validation extends CI_Form_validation {
 			}
 		}
 
+		$this->CI->load->model('entities/easol/Easol_Report');
 		$this->CI->db->db_debug = false;
+
+		$filters = [];
+		if ($this->CI->input->post('filter')) $filters = $this->CI->input->post('filter'); 
+
+		$sql = $this->CI->Easol_Report->getReportQuery($sql, $filters);
 		$result = $this->CI->db->query($sql);
+
 		if (!$result) {
 			$error = $this->CI->db->error();
 			$this->set_message('is_safe_query', 'The %s field produces a SQL error. <br><small><i>'.$error['message'].'</i></small>');

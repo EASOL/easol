@@ -28,6 +28,24 @@ $(function() {
                     lengthMenu: [[25, 50, 100], [25, 50, 100]]
   		  });
 	}
+    
+    if ($('table#filter-table').length) {
+		$('#filter-table').data('dataTable', $('#filter-table').DataTable({
+            dom: '<"top">rt<"bottom">V<"clear">'
+  		}));
+	}
+    
+    if ($('table#link-table').length) {
+		$('#link-table').data('dataTable', $('#link-table').DataTable({
+            dom: '<"top">rt<"bottom">V<"clear">'
+  		}));
+	}
+
+	if ($('table#column-table').length) {
+		$('#column-table').data('dataTable', $('#column-table').DataTable({
+            dom: '<"top">rt<"bottom">V<"clear">'
+  		}));
+	}
 
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
@@ -59,10 +77,15 @@ $(function() {
 		$('#analyzestudents').DataTable();
 	}
 
-	$( "#filter-result" ).change(function() {
+        $( "#filter-result" ).change(function() {
 		$("#filter-form-result").val($( "#filter-result" ).val());
 		$( "#dataGridFormFilter").submit();
 	});
+
+	$( "#link-result" ).change(function() {
+		$("#link-form-result").val($( "#link-result" ).val());
+		$( "#dataGridFormLink").submit();
+	});        
 /*
 	$( "#filter-form-result" ).change(function() {
 		$( "#filter-form-result").val($( "#filter-form-result, #filter-result" ).val());
@@ -280,3 +303,55 @@ function unloading($node) {
 }
 
 
+
+(function($){
+    var addClass = $.fn.addClass;
+    $.fn.addClass = function(value) {
+      var orig = addClass.apply(this, arguments);
+      
+      var elem,
+        i = 0,
+        len = this.length;
+      
+      for (; i < len; i++ ) {
+        elem = this[ i ];
+        if ( elem instanceof SVGElement ) {
+          var classes = $(elem).attr('class');
+          if ( classes ) {
+              var index = classes.search(value);
+              if (index === -1) {
+                classes = classes + " " + value;
+                $(elem).attr('class', classes);
+              }
+          } else {
+            $(elem).attr('class', value);
+          }
+        }
+      }
+      return orig;
+    };
+    
+    var removeClass = $.fn.removeClass;
+    $.fn.removeClass = function(value) {
+      var orig = removeClass.apply(this, arguments);
+      
+      var elem,
+        i = 0,
+        len = this.length;
+      
+      for (; i < len; i++ ) {
+        elem = this[ i ];
+        if ( elem instanceof SVGElement ) {
+          var classes = $(elem).attr('class');
+          if ( classes ) {
+            var index = classes.search(value);
+            if (index !== -1) {
+              classes = classes.substring(0, index) + classes.substring((index + value.length), classes.length);
+              $(elem).attr('class', classes);
+            }
+          }
+        }
+      }
+      return orig;
+    };
+})(jQuery);

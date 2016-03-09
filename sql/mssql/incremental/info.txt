@@ -1,0 +1,1 @@
+All new scripts which need to be installed to EASOL, have to be in this folder

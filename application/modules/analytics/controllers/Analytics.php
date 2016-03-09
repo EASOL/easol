@@ -20,6 +20,7 @@ class Analytics extends Easol_Controller {
 
 
     public function index() {
+       
 
         $data = array();
         $filters = $this->input->get();        

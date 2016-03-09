@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	</head>
+	<body>
+		<!-- this should submit to https address when it is available -->
+		<form id="oauth">
+		  <input type="hidden" name="grant_type" value="client_credentials" />
+		  <label>email</label>
+		  <input type="email" name="email"></input>
+		  <label>password</label>
+		  <input type="password" name="password"></input>
+		  <input type="submit" value="submit" />  
+		</form>
+		
+
+		<script type="text/javascript">
+			$('#oauth').submit(function (event)
+			{
+				event.preventDefault();
+				var formData = $(this).serialize();
+				$.ajax({
+				  type: "POST",
+				  headers: { 'Authorization': 'Basic ' + btoa('testclient:testpass')},
+				  dataType: 'json',
+				  url: 'http://localhost/index.php/oauth/token',
+				  data: formData,
+				  success: function (data) { 
+				  	console.log(data);
+				  },
+				  error: function (request) { 
+				  	var result = $.parseJSON(request.responseText);
+				  	alert(result.error_description); 
+				  },
+				});
+			});
+		</script>
+	</body>
+</html>

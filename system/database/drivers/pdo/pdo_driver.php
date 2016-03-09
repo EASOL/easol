@@ -130,7 +130,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		try
 		{
-			return new PDO($this->dsn, $this->username, $this->password, $this->options);
+			return new PDO($this->dsn, $this->username, $this->password);
 		}
 		catch (PDOException $e)
 		{
@@ -160,7 +160,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		// Not all subdrivers support the getAttribute() method
 		try
 		{
-			return $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
+			//return $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
 		}
 		catch (PDOException $e)
 		{
