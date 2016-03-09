@@ -27,7 +27,7 @@ elseif ($Settings->Type == 'defined') {
             if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
 
             $ChartFilter[$column->Label] = $column;
-            if (!$column->Color) $column->Color = report_color($i);
+            if (!$column->Color) $column->Color = report_colors($i);
             $ChartColors[$column->Label] = $column->Color;
         }
     }

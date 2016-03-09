@@ -287,8 +287,10 @@ class Reports extends Easol_Controller {
         $this->load->model('entities/easol/Easol_Report');
         $model = new Easol_Report();
         foreach ($post['report'] as $field=>$value) {
-            $model->$field = $value;
+            if (is_array($value)) $model->$field = json_encode($value);
+            else $model->$field = $value;
         }
+
 
         $pageNo = 1;
 
@@ -298,16 +300,13 @@ class Reports extends Easol_Controller {
         switch($model->DisplayType){
 
             case 'table':
-                $response['html'] = $this->load->view("reports/display-table",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("reports/display-table",['model' => $model, 'displayTitle'=>true], true);
                 break;
             case 'bar-chart':
-                $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'displayTitle'=>true], true);
                 break;
             case 'pie-chart':
-                $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
-                break;
-            case 'stacked-bar-chart':
-                $response['html'] = $this->load->view("reports/display-stacked-bar-chart",['model' => $model,'pageNo' => $pageNo,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'displayTitle'=>true], true);
                 break;
             default:
                 throw new \Exception("Invalid Report Display type..");

@@ -1,82 +1,90 @@
+$( document ).ajaxComplete(create_charts);
+create_charts();
+function create_charts() {
+	$('.bar-chart.chart').each(function() {
+	    var $chart = $(this);
+	   	
+	   	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
+	   	var historicalBarChart = [
+	        {
+	            key: "Cumulative Return",
+	            values: $.parseJSON($chart.attr('data-chart-data'))
+	        }
+	    ];
+	    
+	    nv.addGraph(
+	        function() {
+	            var chart = nv.models.discreteBarChart()
+	                    .x(function(d) { return d.label })
+	                    .y(function(d) { return d.value })
+	                    .color(function(d){ return d.color })
+	                    .staggerLabels(true)
+	                    .valueFormat(d3.format(".0f"))
+	                    .staggerLabels(historicalBarChart[0].values.length > 8)
+	                    .showValues(true)
+	                    .duration(250)
+	                ;
+	           // chart.xAxis.y
+	            chart.yAxis.tickFormat(d3.format('.0f'));
+	            chart.yAxis.axisLabel($chart.attr('data-yaxis-label'));
+	            chart.xAxis.axisLabel($chart.attr('data-xaxis-label')).axisLabelDistance(-6);
+	            d3.select('#'+$chart.attr('id')+' svg')
+	                .datum(historicalBarChart)
+	                .call(chart);
+	            nv.utils.windowResize(chart.update);
+	            return chart;
+	        }, 
+	        function() {
+	        	if ($chart.attr('data-report-id')) {
+		            d3.selectAll(".nv-bar").on('click', function(e){
+		                chart_filter($chart.attr('data-report-id'), e.label, $chart.attr('data-variable'), $(this), $chart);
+		            });
+		        }
+	        }
+	    );
+	});
 
-$('.bar-chart.chart').each(function() {
-    var $chart = $(this);
-   	
-   	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
-    historicalBarChart = [
-        {
-            key: "Cumulative Return",
-            values: $.parseJSON($chart.attr('data-chart-data'))
-        }
-    ];
-    nv.addGraph(
-        function() {
-            var chart = nv.models.discreteBarChart()
-                    .x(function(d) { return d.label })
-                    .y(function(d) { return d.value })
-                    .color(function(d){ return d.color })
-                    .staggerLabels(true)
-                    .valueFormat(d3.format(".0f"))
-                    .staggerLabels(historicalBarChart[0].values.length > 8)
-                    .showValues(true)
-                    .duration(250)
-                ;
-           // chart.xAxis.y
-            chart.yAxis.tickFormat(d3.format('.0f'));
-            chart.yAxis.axisLabel($chart.attr('data-yaxis-label'));
-            chart.xAxis.axisLabel($chart.attr('data-xaxis-label')).axisLabelDistance(-6);
-            d3.select('#'+$chart.attr('id')+' svg')
-                .datum(historicalBarChart)
-                .call(chart);
-            nv.utils.windowResize(chart.update);
-            return chart;
-        }, 
-        function() {
-            d3.selectAll(".nv-bar").on('click', function(e){
-                chart_filter($chart.attr('data-report-id'), e.label, $chart.attr('data-variable'), $(this), $chart);
-            });
-        }
-    );
-});
+	$('.pie-chart.chart').each(function() {
 
-$('.pie-chart.chart').each(function() {
+		var $chart = $(this);
 
-	var $chart = $(this);
+		$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
+		var chartData = $.parseJSON($chart.attr('data-chart-data'));
 
-	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
-	var chartData = $.parseJSON($chart.attr('data-chart-data'));
+	    var height = 250;
+	    var width = 550;
+	  	nv.addGraph(
+	  		function() {
+		        var chart = nv.models.pieChart()
+		            .x(function(d) { return d.label })
+		            .y(function(d) { return d.value })
+		        	.color(function(d){ return d.color })
+		            .valueFormat(d3.format(".0f"));
+		        d3.select('#'+$chart.attr('id')+' svg')
+		            .datum(chartData)
+		            .transition().duration(1200)
+		           
+		            .call(chart);
+		        nv.utils.windowResize(chart.update);
 
-    var height = 250;
-    var width = 550;
-  	nv.addGraph(
-  		function() {
-	        var chart = nv.models.pieChart()
-	            .x(function(d) { return d.label })
-	            .y(function(d) { return d.value })
-	        	.color(function(d){ return d.color })
-	            .valueFormat(d3.format(".0f"));
-	        d3.select('#'+$chart.attr('id')+' svg')
-	            .datum(chartData)
-	            .transition().duration(1200)
-	           
-	            .call(chart);
-	        nv.utils.windowResize(chart.update);
-
-	        chart.legend.dispatch.on('stateChange.pie', function(state){
-	        	chart_nfilter($chart, d3.selectAll('.nv-legend .nv-series').data(), state);
-	        }); 
+		        chart.legend.dispatch.on('stateChange.pie', function(state){
+		        	chart_nfilter($chart, d3.selectAll('.nv-legend .nv-series').data(), state);
+		        }); 
 
 
-	        return chart;
-	    },
-	    function() {
-            d3.selectAll(".nv-slice").on('click', function(e){
-            	chart_filter($chart.attr('data-report-id'), e.data.label, $chart.attr('data-variable'), $(this), $chart);
-            });
-        }
-	);
+		        return chart;
+		    },
+		    function() {
+		    	if ($chart.attr('data-report-id')) {
+		            d3.selectAll(".nv-slice").on('click', function(e){
+		            	chart_filter($chart.attr('data-report-id'), e.data.label, $chart.attr('data-variable'), $(this), $chart);
+		            });
+		        }
+	        }
+		);
 
-});
+	});
+};
 
 
 function chart_filter(ReportId, label, variable, $node, $chart) {
