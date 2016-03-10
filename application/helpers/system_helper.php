@@ -16,3 +16,21 @@ function system_google_auth_app_id() {
 
 	return $google_auth->app_id;
 }
+
+function system_variable($variable) {
+	$variables = [
+		'$CURRENT_EDORG' => Easol_Authentication::userdata("SchoolId"),
+		'$CURRENT_YEAR' => date('Y'),
+	];
+
+	$value = $variables[$variable];
+
+	if (!$value) $value = $variable;
+
+	return $value;
+}
+
+function is_json($string) {
+	json_decode($string);
+	return (json_last_error() == JSON_ERROR_NONE);
+}

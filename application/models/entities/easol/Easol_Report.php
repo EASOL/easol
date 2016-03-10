@@ -12,7 +12,6 @@ class Easol_Report extends Easol_BaseEntity {
 
     private $category = null;
     private $school = null;
-    private $displayType = null;
     private $accessTypes = null;
 
     /**
@@ -37,14 +36,13 @@ class Easol_Report extends Easol_BaseEntity {
             "ReportName"  =>  "Report Name",
             "ReportCategoryId"  =>  "Report Category",
             "CommandText"  =>  "Command Text",
-            "LabelX"  =>  "X Axis Label",
-            "LabelY"  =>  "Y Axis Label",
-            "ReportDisplayId"  =>  "Display Type",
             "CreatedBy"  =>  "Created By",
             "CreatedOn"  =>  "CreatedOn",
             "UpdatedBy"  =>  "UpdatedBy",
             "UpdatedOn"  =>  "UpdatedOn",
             "SchoolId"  =>  "SchoolId",
+            "DisplayType"  =>  "Display Type",
+            "Settings"  =>"Settings"
         ];
     }
 
@@ -61,9 +59,8 @@ class Easol_Report extends Easol_BaseEntity {
             'ReportName' => ['string','Required'],
             'ReportCategoryId' => ['int','Required'],
             'CommandText' => ['string','Required','Is Safe Query'],
-            'LabelX' => ['string','Required'],
-            'LabelY' => ['string','Required'],
-            'ReportDisplayId' => ['int','Required'],
+            'DisplayType' => ['string','Required'],
+            'Settings'  => ['string']
         ];
     }
 
@@ -96,16 +93,30 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->school;
     }
 
-    public function getDisplayType(){
+    
 
-        if($this->displayType==null) {
-            $this->load->model('entities/easol/Easol_ReportDisplay');
-            $displayType = new Easol_ReportDisplay();
-            $this->displayType = $displayType->hydrate($displayType->findOne($this->ReportDisplayId));
-        }
-        return $this->displayType;
+    public function getFilters(){
+        $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
+                                FROM EASOL.ReportFilter WHERE ReportId=?
+                                ORDER BY ReportFilterId ASC", 
+                                [
+                                    $this->ReportId
+                                ]);
+        return $query->result();
+
     }
+    
+    public function getLinks(){
+        $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo
+                                FROM EASOL.ReportLink WHERE ReportId=?
+                                ORDER BY ReportLinkId ASC", 
+                                [
+                                    $this->ReportId
+                                ]);
+        return $query->result();
 
+    }
+    
     /**
      * @return null|object
      */
@@ -130,28 +141,95 @@ class Easol_Report extends Easol_BaseEntity {
 
     public function getReportData(){
 
-        if($this->ReportDisplayId==2 || $this->ReportDisplayId==4)
-            return $this->findAllBySql($this->CommandText);
-        if($this->ReportDisplayId==3)
-            return $this->findOneBySql($this->CommandText);
+        $query = $this->getReportQuery();
+
+        return $this->findAllBySql($query);
+
+        if($this->DisplayType == 'bar-chart')
+            return $this->findAllBySql($query);
+        if($this->DisplayType == 'pie-chart')
+            return $this->findAllBySql($query);
 
     }
 
-    public function getViewName(){
-        switch($this->ReportDisplayId){
+    public function getReportQuery($query=null, $filters=null) {
+        
+        if (!$query) $query = $this->CommandText;
+        if ($filters === null) $filters = $this->getFilters();
+        $get = $this->input->get('filter');
 
-            case 1:
+        if (!empty($filters)) {
+            foreach ($filters as $key=>$filter) {
+
+                if (is_array($filter)) $filter = json_decode(json_encode($filter), false);
+
+                if (stripos($query, '$filter.'.$filter->FieldName) !== false) {
+
+                    $fieldName = str_replace(".", "-", $filter->FieldName);
+
+                    $value = (isset($get[$this->ReportId][$fieldName])) ? $get[$this->ReportId][$fieldName] : system_variable($filter->DefaultValue);
+
+                    $query = str_ireplace('$filter.'.$filter->FieldName, $value, $query);
+                    unset($filters[$key]);
+                }
+
+                
+            }
+        }
+
+        $where[] = "1=1";
+      
+        if (!empty($filters)) {
+
+            foreach($filters as $key => $filter){ 
+
+                if (is_array($filter)) $filter = json_decode(json_encode($filter), false);
+
+                $fieldName = str_replace(".", "-", $filter->FieldName);
+
+                if (isset($get[$this->ReportId][$fieldName]) or $filter->DefaultValue) {
+                    $value = (isset($get[$this->ReportId][$fieldName])) ? $get[$this->ReportId][$fieldName] : system_variable($filter->DefaultValue);
+
+                    if (!$value) continue;
+
+                    if ($filter->FilterType == "System Variable") $value = system_variable($filter->DefaultValue);
+                    
+                    $operator = "=";
+                    if ($filter->FilterType == 'Free Text') {
+                        $operator = 'LIKE';
+                        $value = "%{$value}%";
+                    }
+
+                    $where[] ="$filter->FieldName $operator '$value'";
+                }
+             
+            }
+
+            
+        }
+
+        $where = implode(" AND ", $where);
+       
+        $query = str_ireplace(['$filters', '$filter'], $where, $query);
+
+
+        return $query;
+    }
+
+    public function getViewName(){
+       
+        switch($this->DisplayType){
+
+            case 'table':
                 return "display-table";
                 break;
-            case 2:
+            case 'bar-chart':
                 return "display-bar-chart";
                 break;
-            case 3:
+            case 'pie-chart':
                 return "display-pie-chart";
                 break;
-            case 4:
-                return "display-stacked-bar-chart";
-                break;
+            
             default:
                 throw new \Exception("Invalid Report Display type..");
 

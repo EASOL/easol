@@ -1,14 +1,15 @@
-<?php /* @var $model Easol_Report */ ?>
+<?php 
+    $filter = $model->getFilters();
+    $ReportData = $this->db->query($model->getReportQuery()); 
+    $_columns=[];
 
-<?php
-//find columns
-
-$_colums=[];
-foreach($this->db->query($model->CommandText)->row() as $key => $value){
-    $_columns[] = $key;
-}
-
+    if (!empty($ReportData)) {
+        foreach($ReportData->list_fields() as $key){
+            $_columns[] = $key;
+        }
+    }
 ?>
+
 <?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -18,20 +19,12 @@ foreach($this->db->query($model->CommandText)->row() as $key => $value){
 <?php } ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <?php Easol_Widget::show("DataTableWidget",
-            [
-                'query' => clean_subquery($model->CommandText),
-                'pagination' => [
+        <div class="panel panel-default">
 
-                    'pageSize' => EASOL_PAGINATION_PAGE_SIZE,
-                    'currentPage' => $pageNo,
-                    'url'   =>  isset($paginationUrl) ? $paginationUrl.'/@pageNo' :'reports/view/'.$model->ReportId.'/@pageNo'
-                ],
-                'colOrderBy'    =>  [$_columns[0]],
-                'columns'   => $_columns,
-                'downloadCSV' => true
-            ]
-
-        ) ?>
+          
+            <div class="panel-body">
+                <?php include('display-table-view.php'); ?>
+            </div>
+        </div>
     </div>
 </div>

@@ -14,7 +14,7 @@ class Dashboard extends Easol_Controller {
     /**
      * index action
      */
-    public function index($pageNo=1)
+    public function index()
 	{
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
 
@@ -23,7 +23,7 @@ class Dashboard extends Easol_Controller {
             $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
         }
 
-        $this->render("index",['dashboardConf' =>$dashboardConf,'tablePageNo' => $pageNo]);
+        $this->render("index",['dashboardConf' =>$dashboardConf]);
 	}
         
     public function csv($pageNo=1)
