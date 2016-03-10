@@ -230,6 +230,13 @@ class Reports extends Easol_Controller {
 
                 }
             }
+            else {
+                $post = $this->input->post();
+                foreach ($post['report'] as $field=>$value) {
+                    if (is_array($value)) $model->$field = json_decode(json_encode($value));
+                    else $model->$field = $value;
+                }
+            }
         }
         // $report->ReportName = "Report";
         /* echo $report->ReportName."sdd";
