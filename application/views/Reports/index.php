@@ -42,7 +42,7 @@
                                 <td><?php
                                     $_actp=[];
                                 foreach($report->getAccessTypes() as $access){
-                                    $_actp[] =$access->RoleTypeName;
+                                    $_actp[$access->RoleTypeName] = $access->RoleTypeName;
                                 }
                                     echo '<span>'.implode('</span>, <span>', $_actp).'</span>';
                                 ?></td>

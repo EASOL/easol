@@ -65,62 +65,88 @@ class Reports extends Easol_Controller {
         //die(print_r($this->input->post('access[access]')));
         if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
 
-                if ($this->form_validation->run() != FALSE) {
-                    if($model->save()){
+            if ($this->form_validation->run() != FALSE) {
+                if($model->save()){
 
-                        $this->load->model('entities/easol/Easol_ReportAccess');
+                    $this->load->model('entities/easol/Easol_ReportAccess');
 
-                        if (is_array($this->input->post('access[access]'))) {
-                            foreach ($this->input->post('access[access]') as $access) {
-                                $displayAccess             = new Easol_ReportAccess();
-                                $displayAccess->ReportId   = $model->ReportId;
-                                $displayAccess->RoleTypeId = $access;
-                                $displayAccess->save();
-                            }
+                    if (is_array($this->input->post('access[access]'))) {
+                        foreach ($this->input->post('access[access]') as $access) {
+                            $displayAccess             = new Easol_ReportAccess();
+                            $displayAccess->ReportId   = $model->ReportId;
+                            $displayAccess->RoleTypeId = $access;
+                            $displayAccess->save();
                         }
-
-                        $this->load->model('entities/easol/Easol_ReportFilter');
-                        $this->Easol_ReportFilter->delete($model->ReportId);
-
-                        if (is_array($this->input->post('filter'))) {
-                            foreach ($this->input->post('filter') as $filter) {
-                                $ReportFilter             = new Easol_ReportFilter();
-                                $ReportFilter->ReportId   = $model->ReportId;
-                                $ReportFilter->DisplayName = $filter['DisplayName'];
-                                $ReportFilter->FieldName = $filter['FieldName'];
-                                $ReportFilter->FilterType = $filter['FilterType'];
-                                $ReportFilter->FilterOptions = $filter['FilterOptions'];
-                                $ReportFilter->DefaultValue = $filter['DefaultValue'];
-                                $ReportFilter->save();
-                            }
-                        }
-                        
-                        $this->load->model('entities/easol/Easol_ReportLink');
-                        $this->Easol_ReportLink->delete($model->ReportId);
-
-                        if (is_array($this->input->post('link'))) {
-                            foreach ($this->input->post('link') as $link) {
-                                $ReportLink             = new Easol_ReportLink();
-                                $ReportLink->ReportId   = $model->ReportId;
-                                $ReportLink->URL = $link['URL'];
-                                $ReportLink->ColumnNo = $link['ColumnNo'];
-                                $ReportLink->save();
-                            }
-                        }
-                        
-                        $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
-                        $this->session->set_flashdata('type', 'success');
-
-                        $this->easol_logs->Log( [
-                            'Description'=>'Flex Report (create)',
-                            'Data'=>["ModelId"=>$model->ReportId]
-                        ]);
-                        
-
-                        return redirect(site_url("reports/index"));
-
                     }
+
+                    $this->load->model('entities/easol/Easol_ReportFilter');
+                    $this->Easol_ReportFilter->delete($model->ReportId);
+
+                    if (is_array($this->input->post('filter'))) {
+                        foreach ($this->input->post('filter') as $filter) {
+                            $ReportFilter             = new Easol_ReportFilter();
+                            $ReportFilter->ReportId   = $model->ReportId;
+                            $ReportFilter->DisplayName = $filter['DisplayName'];
+                            $ReportFilter->FieldName = $filter['FieldName'];
+                            $ReportFilter->FilterType = $filter['FilterType'];
+                            $ReportFilter->FilterOptions = $filter['FilterOptions'];
+                            $ReportFilter->DefaultValue = $filter['DefaultValue'];
+                            $ReportFilter->save();
+                        }
+                    }
+                    
+                    $this->load->model('entities/easol/Easol_ReportLink');
+                    $this->Easol_ReportLink->delete($model->ReportId);
+
+                    if (is_array($this->input->post('link'))) {
+                        foreach ($this->input->post('link') as $link) {
+                            $ReportLink             = new Easol_ReportLink();
+                            $ReportLink->ReportId   = $model->ReportId;
+                            $ReportLink->URL = $link['URL'];
+                            $ReportLink->ColumnNo = $link['ColumnNo'];
+                            $ReportLink->save();
+                        }
+                    }
+                    
+                    $this->session->set_flashdata('message', 'New Report Added : '. $model->ReportName);
+                    $this->session->set_flashdata('type', 'success');
+
+                    $this->easol_logs->Log( [
+                        'Description'=>'Flex Report (create)',
+                        'Data'=>["ModelId"=>$model->ReportId]
+                    ]);
+                    
+
+                    return redirect(site_url("reports/index"));
+
                 }
+            }
+            else {
+                $post = $this->input->post();
+                foreach ($post['report'] as $field=>$value) {
+                    if (is_array($value)) $model->$field = json_decode(json_encode($value));
+                    else $model->$field = $value;
+                }
+                $model->filters = [];
+                foreach ($post['filter'] as $field=>$value) {
+                    if (is_array($value)) {
+                        $model->filters[$field] = json_decode(json_encode($value));
+                        $model->filters[$field]->ReportFilterId = $field;
+                    }
+                    else $model->filters[$field] = $value;
+
+                }
+
+                $model->links = [];
+                foreach ($post['link'] as $field=>$value) {
+                    if (is_array($value)) {
+                        $model->links[$field] = json_decode(json_encode($value));
+                        $model->links[$field]->ReportLinkId = $field;
+                    }
+                    else $model->links[$field] = $value;
+
+                }
+            }
 
         }
 
@@ -236,6 +262,28 @@ class Reports extends Easol_Controller {
                     if (is_array($value)) $model->$field = json_decode(json_encode($value));
                     else $model->$field = $value;
                 }
+                
+                if (!empty($post['filter'])) {
+                    $model->filters = [];
+                    foreach ($post['filter'] as $field=>$value) {
+                        if (is_array($value)) {
+                            $model->filters[$field] = json_decode(json_encode($value));
+                            $model->filters[$field]->ReportFilterId = $field;
+                        }
+                        else $model->filters[$field] = $value;
+                    }   
+                }
+                
+                if (!empty($post['link'])){
+                    $model->links = [];
+                    foreach ($post['link'] as $field=>$value) {
+                        if (is_array($value)) {
+                            $model->links[$field] = json_decode(json_encode($value));
+                            $model->links[$field]->ReportLinkId = $field;
+                        }
+                        else $model->links[$field] = $value;
+                    }
+                }
             }
         }
         // $report->ReportName = "Report";
@@ -288,7 +336,7 @@ class Reports extends Easol_Controller {
         $post = $this->input->post();
 
         if ($this->form_validation->run() == FALSE) {
-            $response = array('status'=>'error', 'message'=>validation_errors());
+            $response = array('status'=>'error', 'html'=>validation_errors());
             exit(json_encode($response));
         }
 
@@ -298,10 +346,27 @@ class Reports extends Easol_Controller {
             if (is_array($value)) $model->$field = json_encode($value);
             else $model->$field = $value;
         }
+        $model->filters = [];
+        foreach ($post['filter'] as $field=>$value) {
+            if (is_array($value)) {
+                $model->filters[$field] = json_decode(json_encode($value));
+                $model->filters[$field]->ReportFilterId = $field;
+            }
+            else $model->filters[$field] = $value;
 
+        }
 
-        $pageNo = 1;
+        $model->links = [];
+        foreach ($post['link'] as $field=>$value) {
+            if (is_array($value)) {
+                $model->links[$field] = json_decode(json_encode($value));
+                $model->links[$field]->ReportLinkId = $field;
+            }
+            else $model->links[$field] = $value;
 
+        }
+
+       
         $response = array();
         $response['status'] = 'success';
 
@@ -510,7 +575,7 @@ class Reports extends Easol_Controller {
         return $category->ReportCategoryId;
     }
 
-    public function createCategory(){
+    public function createCategory($ReportId=null){
         $this->load->model('entities/easol/Easol_ReportCategory');
 
         $model = new Easol_ReportCategory();
@@ -521,12 +586,13 @@ class Reports extends Easol_Controller {
                 $this->session->set_flashdata('message', 'Category : '.$model->ReportCategoryName.' Successfully added');
                 $this->session->set_flashdata('type', 'success');
 
+                if ($ReportId = $this->input->post('ReportId')) redirect("reports/edit/".$ReportId);
                 return  redirect(site_url("reports/create"));
 
             }
         }
 
 
-        return $this->render("createcategory",['model' => $model]);
+        return $this->render("createcategory",['model' => $model, 'ReportId'=>$ReportId]);
     }
 }

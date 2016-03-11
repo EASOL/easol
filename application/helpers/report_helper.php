@@ -76,8 +76,11 @@ function report_filter_options($list) {
 
 	$ci = &get_instance();
 
+	$list = system_variable_filter($list);
+
 	$options = [''=>'All'];
 	if (stripos($list, "SELECT") !== false) {
+
 		$query = $ci->db->query($list);
 		foreach ($query->result_array() as $row) {
 			$keys = array_keys($row);
