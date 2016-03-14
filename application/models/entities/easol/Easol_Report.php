@@ -13,6 +13,8 @@ class Easol_Report extends Easol_BaseEntity {
     private $category = null;
     private $school = null;
     private $accessTypes = null;
+    public $filters = null;
+    public $links = null;
 
     /**
      * return table name
@@ -96,24 +98,33 @@ class Easol_Report extends Easol_BaseEntity {
     
 
     public function getFilters(){
-        $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
-                                FROM EASOL.ReportFilter WHERE ReportId=?
-                                ORDER BY ReportFilterId ASC", 
-                                [
-                                    $this->ReportId
-                                ]);
-        return $query->result();
+
+        if (!$this->filters) {
+            $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
+                                    FROM EASOL.ReportFilter WHERE ReportId=?
+                                    ORDER BY ReportFilterId ASC", 
+                                    [
+                                        $this->ReportId
+                                    ]);
+            return $query->result();
+        }
+
+        return $this->filters;
 
     }
     
     public function getLinks(){
-        $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo
-                                FROM EASOL.ReportLink WHERE ReportId=?
-                                ORDER BY ReportLinkId ASC", 
-                                [
-                                    $this->ReportId
-                                ]);
-        return $query->result();
+        if (!$this->links) {
+            $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo
+                                    FROM EASOL.ReportLink WHERE ReportId=?
+                                    ORDER BY ReportLinkId ASC", 
+                                    [
+                                        $this->ReportId
+                                    ]);
+            return $query->result();
+        }
+
+        return $this->links;
 
     }
     

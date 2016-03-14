@@ -47,7 +47,7 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <a href="<?= site_url("reports/createcategory") ?>">Add New Category</a>
+                            <a href="<?= site_url("reports/createcategory/".$model->ReportId) ?>">Add New Category</a>
                         </div>
                     </div>
 
@@ -74,7 +74,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php if (!empty($filters = $model->getFilters())): ?>
+                                <?php if (!empty($filters = ($model->filters) ? $model->filters : $model->getFilters())): ?>
                                     <?php foreach($filters as $filter){ ?>
                                         <tr>
                                             <td><input type='text' name='filter[<?php echo $filter->ReportFilterId ?>][DisplayName]' value="<?php echo $filter->DisplayName ?>" class='form-control'></td>

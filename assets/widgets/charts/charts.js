@@ -146,6 +146,19 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 		    		else if (value > Values[0] && value < Values[1]) return true;
 		    	}
 
+
+				if (filter['Operator'] == 'greater_or_equal') {
+		    		if (value >= filter['Value']) return true;	
+		    	}
+		    	if (filter['Operator'] == 'lesser_or_equal') {
+		    		if (value <= filter['Value']) return true;
+		    	}
+		    	if (filter['Operator'] == 'between_closed') {
+		    		Values = filter['Value'].split('-');
+		    		if (Values[1] == undefined && value >= Values[0]) return true;
+		    		else if (value >= Values[0] && value <= Values[1]) return true;
+		    	}		    	
+
 		    	return false;
 		    } );
 
