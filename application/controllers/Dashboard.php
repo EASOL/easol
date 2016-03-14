@@ -1,4 +1,5 @@
 <?php
+set_time_limit(90);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends Easol_Controller {

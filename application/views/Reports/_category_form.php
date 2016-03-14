@@ -6,6 +6,8 @@
     <div class="col-md-8 col-sm-12">
         <form action="" method="post" class="form-horizontal">
 
+            <input type="hidden" name="ReportId" value="<?php echo $ReportId; ?>">
+
             <div class="form-group">
                 <label for="ReportCategoryName" class="col-md-4 col-sm-4 control-label"><?= $model->labels()['ReportCategoryName'] ?></label>
                 <div class="col-md-8 col-sm-8">
