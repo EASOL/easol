@@ -22,7 +22,7 @@ if (!empty($ReportData)) {
 			<?php foreach ($ReportData->result() as $row): ?>
 				<tr>
 					<?php foreach ($_columns as $column): ?>
-						<td><?php echo ($row->$column) ? $row->$column : "&nbsp" ; ?></td>
+						<td><?php echo ($row->$column); /* ? $row->$column : "&nbsp" ;*/ ?></td>
 					<?php endforeach; ?>
 				</tr>
 			<?php endforeach; ?>
