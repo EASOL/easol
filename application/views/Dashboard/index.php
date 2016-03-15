@@ -16,7 +16,7 @@
                     <div class="col-md-6 col-sm-12" id="left-chart">
                         <div class="thumbnail">
                             <?php
-                            $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(),['model' => $dashboardConf->getLeftChart(), 'displayTitle' => false ]);
+                            $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(),['model' => $dashboardConf->getLeftChart(), 'displayTitle' => false, 'hideFilters'=>true ]);
                             ?>
                             <div class="caption">
                                 <?= anchor('reports/view/'.$dashboardConf->getLeftChart()->ReportId, '<h3>'.$dashboardConf->getLeftChart()->ReportName.'</h3>'); ?>
@@ -25,7 +25,7 @@
                         </div></div>
                         <div class="col-md-6 col-sm-12" id="right-chart">
                             <div class="thumbnail"><?php
-                            $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false]);
+                            $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false, 'hideFilters'=>true]);
                             ?>
                             <div class="caption">
                                 <?= anchor('reports/view/'.$dashboardConf->getRightChart()->ReportId, '<h3>'.$dashboardConf->getRightChart()->ReportName.'</h3>'); ?>
@@ -35,7 +35,7 @@
                         
                         <?php if ($dashboardConf->getBottomTable()): ?>
                         <div class="col-md-12 col-sm-12" id="bottom-table"><div class="thumbnail">
-                            <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(), 'displayTitle' => true ]); ?>
+                            <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(), 'displayTitle' => true, 'hideFilters'=>true ]); ?>
 
                         </div>
                         <?php endif; ?>

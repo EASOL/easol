@@ -21,7 +21,7 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
 
-            <?php if($filter = $model->getFilters()): ?>
+            <?php if($filter = $model->getFilters() && !$hideFilters): ?>
                 <div class="panel-body" id="filter-destination">
                     <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
                 </div>
