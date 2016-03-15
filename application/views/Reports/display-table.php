@@ -21,6 +21,12 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
 
+            <?php if($filter = $model->getFilters()): ?>
+                <div class="panel-body" id="filter-destination">
+                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
+                </div>
+            <?php endif;   ?>
+
           
             <div class="panel-body">
                 <?php include('display-table-view.php'); ?>

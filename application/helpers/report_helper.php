@@ -54,7 +54,7 @@ function report_value_lesser_or_equal($value, $variable) {
 }
 function report_value_between($value, $variable) {
 
-	$variable = explode("-", $variable);
+	$variable = explode(";", $variable);
 	foreach ($variable as $k=>$v ){
 		$variable[$k] = trim($v);
 	}
@@ -63,7 +63,7 @@ function report_value_between($value, $variable) {
 }
 function report_value_between_closed($value, $variable) {
 
-	$variable = explode("-", $variable);
+	$variable = explode(";", $variable);
 	foreach ($variable as $k=>$v ){
 		$variable[$k] = trim($v);
 	}

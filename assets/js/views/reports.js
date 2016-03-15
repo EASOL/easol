@@ -8,7 +8,8 @@ $(function() {
 			dom: filter_option + "Vrtip",
 			language: {
 		        searchPlaceholder: "Search..."
-		    }
+		    },
+		    responsive: true
 	    });
 	    $(this).data('dataTable', table);
 
