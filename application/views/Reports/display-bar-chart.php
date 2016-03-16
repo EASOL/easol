@@ -1,14 +1,17 @@
 <?php
 
+$time_start = microtime(true);
 
 $ReportData = [];
 $ChartFilter = [];
 $ChartColors = [];
 $Settings = json_decode($model->Settings);
 
+$ReportQuery = $this->db->query($model->getReportQuery());
+
 if ($Settings->Type == 'dynamic') {
     $colors = report_colors($Settings->ColorType, $Settings->ColorScheme);
-    foreach ($model->getReportData() as $data) {       
+    foreach ($ReportQuery->result() as $data) {       
         $ReportData[$data->{$Settings->Variable}]++;
         $ChartFilter[$data->{$Settings->Variable}] = $data->{$Settings->Variable}; 
     }
@@ -19,7 +22,7 @@ elseif ($Settings->Type == 'defined') {
         $ReportData[$column->Label] = 0;
     }
     
-    foreach ($model->getReportData() as $i=>$data) {
+    foreach ($ReportQuery->result() as $i=>$data) {
         foreach ($Settings->Columns as $column) {
             $value = $data->{$Settings->Variable};
 
@@ -89,3 +92,15 @@ foreach($ReportData as $key=>$value){
         </div>
     </div>
 <?php endif; ?>
+
+<?php
+/*
+$time_end = microtime(true);
+
+//dividing with 60 will give the execution time in minutes other wise seconds
+$execution_time = ($time_end - $time_start)/60;
+
+//execution time of the script
+echo '<b>Total Execution Time:</b> '.$execution_time.' Mins';
+
+/**/
