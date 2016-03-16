@@ -56,8 +56,8 @@
                 </form>
  
                 <?php if (isset($results) and !empty($results)): ?>
-                  <div class="">
-                      <table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <div class="datatablegrid">
+                      <table id="managesections" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
                             <th>Term</th>

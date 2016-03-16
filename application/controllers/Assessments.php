@@ -41,8 +41,10 @@ class Assessments extends Easol_Controller {
 			.AssessedGradeLevelDescriptorId
 			JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
 			.GradeLevelTypeId
+			JOIN edfi.StudentSchoolAssociation ON edfi.StudentSchoolAssociation.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
 
 			WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
+			AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') . "'
 			GROUP BY  AssessmentTitle,Version,AdministrationDate, edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId, edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId, edfi.AcademicSubjectType.CodeValue, edfi.GradeLevelType.CodeValue";
 
 		$query = $this->db->query($query);
