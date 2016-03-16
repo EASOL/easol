@@ -17,17 +17,31 @@ function system_google_auth_app_id() {
 	return $google_auth->app_id;
 }
 
-function system_variable($variable) {
-	$variables = [
+function system_variables() {
+	return [
 		'$CURRENT_EDORG' => Easol_Authentication::userdata("SchoolId"),
-		'$CURRENT_YEAR' => date('Y'),
+		'$CURRENT_YEAR' => date('Y')
 	];
+}
+function system_variable($variable=null) {
+	$variables = system_variables();
 
 	$value = $variables[$variable];
 
 	if (!$value) $value = $variable;
 
 	return $value;
+}
+
+function system_variable_filter($string) {
+
+	$variables = system_variables();
+		
+	foreach ($variables as $variable=>$value) {
+		$string = str_replace($variable, $value, $string);
+	}
+
+	return $string;
 }
 
 function is_json($string) {

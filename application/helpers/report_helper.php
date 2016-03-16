@@ -19,7 +19,7 @@ function report_data_types() {
 	return ['char'=>'Character', 'string'=>'String', 'int'=>'Integer', 'decimal'=>'Decimal', 'percentage'=>'Percentage'];
 }
 function report_operators() {
-	return ['equal' => '=', 'in'=>'IN', 'like'=>'LIKE', 'greater'=>">", 'lesser'=>'<', 'between'=>'> AND <'];
+	return ['equal' => '=', 'in'=>'IN', 'like'=>'LIKE', 'greater'=>">", 'greater_or_equal'=>">=", 'lesser'=>'<', 'lesser_or_equal'=>'<=', 'between'=>'> AND <', 'between_closed'=>">= AND =<"];
 }
 function report_value_fits($value, $variable, $operator) {
 	$function = "report_value_$operator";
@@ -45,14 +45,30 @@ function report_value_greater($value, $variable) {
 function report_value_lesser($value, $variable) {
 	return $value < $variable;	
 }
+
+function report_value_greater_or_equal($value, $variable) {
+	return $value >= $variable; 
+}
+function report_value_lesser_or_equal($value, $variable) {
+	return $value <= $variable;	
+}
 function report_value_between($value, $variable) {
 
-	$variable = explode("-", $variable);
+	$variable = explode(";", $variable);
 	foreach ($variable as $k=>$v ){
 		$variable[$k] = trim($v);
 	}
 	if (!isset($variable[1])) return report_value_greater($value, $variable[0]);
 	return ($value > $variable[0] and $value < $variable[1]);
+}
+function report_value_between_closed($value, $variable) {
+
+	$variable = explode(";", $variable);
+	foreach ($variable as $k=>$v ){
+		$variable[$k] = trim($v);
+	}
+	if (!isset($variable[1])) return report_value_greater_or_equal($value, $variable[0]);
+	return ($value >= $variable[0] and $value <= $variable[1]);
 }
 
 
@@ -60,8 +76,11 @@ function report_filter_options($list) {
 
 	$ci = &get_instance();
 
+	$list = system_variable_filter($list);
+
 	$options = [''=>'All'];
 	if (stripos($list, "SELECT") !== false) {
+
 		$query = $ci->db->query($list);
 		foreach ($query->result_array() as $row) {
 			$keys = array_keys($row);

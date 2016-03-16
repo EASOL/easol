@@ -135,16 +135,29 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 		    		if (value.match(filter['Value'])) return true;
 		    	}
 		    	if (filter['Operator'] == 'greater') {
-		    		if (value > filter['Value']) return true;	
+		    		if (parseFloat(value) > parseFloat(filter['Value'])) return true;	
 		    	}
 		    	if (filter['Operator'] == 'lesser') {
-		    		if (value < filter['Value']) return true;
+		    		if (parseFloat(value) < parseFloat(filter['Value'])) return true;
 		    	}
 		    	if (filter['Operator'] == 'between') {
-		    		Values = filter['Value'].split('-');
-		    		if (Values[1] == undefined && value > Values[0]) return true;
-		    		else if (value > Values[0] && value < Values[1]) return true;
+		    		Values = filter['Value'].split(';');
+		    		if (Values[1] == undefined && parseFloat(value) > parseFloat(Values[0])) return true;
+		    		else if (parseFloat(value) > parseFloat(Values[0]) && parseFloat(value) < parseFloat(Values[1])) return true;
 		    	}
+
+
+				if (filter['Operator'] == 'greater_or_equal') {
+		    		if (parseFloat(value) >= parseFloat(filter['Value'])) return true;	
+		    	}
+		    	if (filter['Operator'] == 'lesser_or_equal') {
+		    		if (parseFloat(value) <= parseFloat(filter['Value'])) return true;
+		    	}
+		    	if (filter['Operator'] == 'between_closed') {
+		    		Values = filter['Value'].split(';');
+		    		if (Values[1] == undefined && parseFloat(value) >= parseFloat(Values[0])) return true;
+		    		else if (parseFloat(value) >= parseFloat(Values[0]) && parseFloat(value) <= parseFloat(Values[1])) return true;
+		    	}		    	
 
 		    	return false;
 		    } );
@@ -260,7 +273,7 @@ function chart_nfilter($chart, legends, state) {
 
 		    	if (filter['Operator'] == 'equal') return value != filter['Value'];
 		    	if (filter['Operator'] == 'in') {
-		    		Values = filter['Value'].split(',');
+		    		Values = filter['Value'].split(';');
 		    		for (var i in Values) {
 		    			if (Values[i] == value) return false;
 		    		}
@@ -269,16 +282,21 @@ function chart_nfilter($chart, legends, state) {
 		    		if (value.match(filter['Value'])) return false;
 		    	}
 		    	if (filter['Operator'] == 'greater') {
-		    		if (value > filter['Value']) return false;	
+		    		if (parseFloat(value) > parseFloat(filter['Value'])) return false;	
 		    	}
 		    	if (filter['Operator'] == 'lesser') {
-		    		if (value < filter['Value']) return false;
+		    		if (parseFloat(value) < parseFloat(filter['Value'])) return false;
 		    	}
 		    	if (filter['Operator'] == 'between') {
-		    		Values = filter['Value'].split('-');
-		    		if (Values[1] == undefined && value > Values[0]) return false;
-		    		else if (value > Values[0] && value < Values[1]) return false;
+		    		Values = filter['Value'].split(';');
+		    		if (Values[1] == undefined && parseFloat(value) > parseFloat(Values[0])) return false;
+		    		else if (parseFloat(value) > parseFloat(Values[0]) && parseFloat(value) < parseFloat(Values[1])) return false;
 		    	}
+		    	if (filter['Operator'] == 'between_closed') {
+		    		Values = filter['Value'].split(';');
+		    		if (Values[1] == undefined && parseFloat(value) >= parseFloat(Values[0])) return false;
+		    		else if (parseFloat(value) >= parseFloat(Values[0]) && parseFloat(value) <= parseFloat(Values[1])) return false;
+		    	}		
 
 		    	return true;
 		    });
