@@ -13,13 +13,19 @@
 <?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header"><?= $model->ReportName ?></h1>
+        <h1 class="page-header"><a href="<?php echo site_url('reports/view/'.$model->ReportId) ?>"><?= $model->ReportName ?></a></h1>
     </div>
 </div>
 <?php } ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
+
+            <?php if(($filter = $model->getFilters()) && !$hideFilters): ?>
+                <div class="panel-body" id="filter-destination">
+                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
+                </div>
+            <?php endif;   ?>
 
           
             <div class="panel-body">
