@@ -6,14 +6,16 @@ $ReportData = [];
 $ChartFilter = [];
 $ChartColors = [];
 $Settings = json_decode($model->Settings);
+$variable = str_replace(array("[", "]", "`"), "", $Settings->Variable);
+if (strpos($variable, ".") !== false) $variable = substr(strrchr($variable, '.'), 1);
 
 $ReportQuery = $this->db->query($model->getReportQuery());
 
 if ($Settings->Type == 'dynamic') {
     $colors = report_colors($Settings->ColorType, $Settings->ColorScheme);
     foreach ($ReportQuery->result() as $data) {
-        $ReportData[$data->{$Settings->Variable}]++;
-        $ChartFilter[$data->{$Settings->Variable}] = $data->{$Settings->Variable}; 
+        $ReportData[$data->{$variable}]++;
+        $ChartFilter[$data->{$variable}] = $data->{$variable}; 
     }
     ksort($ReportData);
 }
@@ -25,7 +27,7 @@ elseif ($Settings->Type == 'defined') {
 
     foreach ($ReportQuery->result() as $i=>$data) {
         foreach ($Settings->Columns as $column) {
-            $value = $data->{$Settings->Variable};
+            $value = $data->{$variable};
 
             $operator = $column->Operator;
             if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
@@ -75,7 +77,7 @@ foreach($ReportData as $key=>$value){
                     id="chart-<?php echo $model->ReportId ?>" 
                     data-type="<?php echo $Settings->Type ?>" 
                     data-report-id="<?php echo $model->ReportId ?>" 
-                    data-variable="<?php echo $Settings->Variable ?>"
+                    data-variable="<?php echo $variable ?>"
                     class='pie-chart chart with-3d-shadow with-transitions' 
                     data-chart-data='<?php echo json_encode($ChartData) ?>' 
                     data-chart-filter='<?php echo json_encode($ChartFilter) ?>'
