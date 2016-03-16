@@ -86,7 +86,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').'
 
         $data['years']          = range($data['currentYear'], date('Y'));
 
-        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
+        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course WHERE EducationOrganizationId = '". Easol_Authentication::userdata('SchoolId') ."' ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 
        /* $sql                    = "SELECT * FROM edfi.GradeLevelType";
@@ -99,6 +99,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').'
                                     FROM edfi.Staff
                                     LEFT JOIN edfi.StaffSchoolAssociation
                                     ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
+                                    WHERE edfi.StaffSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') ."'
                                     ORDER By FirstName, LastSurname
                                     ";
 
