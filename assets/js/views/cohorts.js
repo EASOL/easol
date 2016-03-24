@@ -1,12 +1,14 @@
 $(function () {
 	var Table = $('#cohort-table').DataTable({
 		dom: 'Vrtip',
-                iDisplayLength: 25
+		iDisplayLength: 25,
+		"scrollX": true
 	});
 
 	var StudentTable = $('#student-table').DataTable({
 		dom:            'Vrtip',
-		iDisplayLength: 25
+		iDisplayLength: 25,
+		"scrollX": true
 	});
 
 

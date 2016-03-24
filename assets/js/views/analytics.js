@@ -1,7 +1,8 @@
 $(function () {
 	var AnalyticsTable = $('table#manageanalytics').DataTable({
         dom: 'Vrt',
-        iDisplayLength: $('table#manageanalytics').attr('data-page-length')
+        iDisplayLength: $('table#manageanalytics').attr('data-page-length'),
+        "scrollX": true
     });
 
 	/*$("[name='term']").on('change', function() {

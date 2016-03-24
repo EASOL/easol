@@ -1,7 +1,8 @@
 $(function () {
 	var SectionsTable = $('table#managesections').DataTable({
         dom: 'Vrtip',
-        iDisplayLength: 25
+        iDisplayLength: 25,
+        "scrollX": true
     });
 
 	$("[name='term']").on('change', function() {
