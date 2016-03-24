@@ -1,12 +1,14 @@
 <?php
 $_columns=[];
-$ReportData = $this->db->query($model->getReportQuery());
+if (!isset($ReportQuery)) $ReportQuery = $this->db->query($model->getReportQuery());
 
-if (!empty($ReportData)) {
-    foreach($ReportData->list_fields() as $key){
+if (!empty($ReportQuery)) {
+    foreach($ReportQuery->list_fields() as $key){
         $_columns[] = $key;
     }
 }
+
+$links = $model->getLinks();
 ?>
 
 <div class='flex-report-table-wrapper'>
@@ -19,10 +21,17 @@ if (!empty($ReportData)) {
 		</thead>
 		<tbody>
 			
-			<?php foreach ($ReportData->result() as $row): ?>
+			<?php foreach ($ReportQuery->result() as $row): ?>
 				<tr>
-					<?php foreach ($_columns as $column): ?>
-						<td><?php echo ($row->$column); /* ? $row->$column : "&nbsp" ;*/ ?></td>
+					<?php foreach ($_columns as $k=>$column): ?>
+						<td>
+							<?php if ($link = report_column_link($k + 1, $row, $links)): ?>
+	                            <a href="<?php echo $link ?>"><?php echo $row->$column ?></a>
+	                        <?php else: ?>
+	                            <?php  echo ($row->$column); /* ? $row->$column : "&nbsp" ;*/ ?>
+	                        <?php endif; ?>
+							
+						</td>
 					<?php endforeach; ?>
 				</tr>
 			<?php endforeach; ?>

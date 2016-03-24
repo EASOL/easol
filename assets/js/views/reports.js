@@ -8,7 +8,8 @@ $(function() {
 			dom: filter_option + "Vrtip",
 			language: {
 		        searchPlaceholder: "Search..."
-		    }
+		    },
+		    responsive: true
 	    });
 	    $(this).data('dataTable', table);
 
@@ -102,7 +103,11 @@ $(function() {
 		$('.chart-pallette-menu li').hide()
 		$items = $('.chart-pallette-menu li[data-type='+$(this).val()+']');
 		$items.show();
-		if ($items.filter('[data-type='+selectedColorType+']').find('[data-index='+$colorInput.val()+']').length == 0) {
+
+		var value = $colorInput.val();
+		if (!value) value = '--empty--';
+		
+		if ($items.filter('[data-type='+selectedColorType+']').find('[data-index='+value+']').length == 0) {
 			$items.first().find('a').trigger('click');
 		}
 	});

@@ -9,13 +9,16 @@ $GLOBALS['assets_lib'] = array(
 		'css'=>array(
 			'lib/datatables/css/jquery.dataTables.css',
 			'//cdn.datatables.net/1.10.9/css/dataTables.bootstrap.css',
-			'lib/datatables/css/dataTables.CSV.css'
+			'lib/datatables/css/dataTables.CSV.css',
+			//'lib/datatables/extensions/responsive/responsive.bootstrap.css'
 		),
 		'js'=>array(
 			'lib/datatables/js/jquery.dataTables.js',
 			'lib/datatables/js/dataTables.bootstrap.js',
 			'lib/datatables/js/dataTables.CSV.js',
-			'lib/datatables/js/dataTables.bootstrapPagination.js'
+			'lib/datatables/js/dataTables.bootstrapPagination.js',
+			//'lib/datatables/extensions/responsive/dataTables.responsive.js',
+			//'lib/datatables/extensions/responsive/responsive.bootstrap.js'
 		)
 	),
 	'chardinjs'=>array(

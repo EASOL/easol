@@ -62,8 +62,13 @@ class Reports extends Easol_Controller {
         $this->load->model('entities/easol/Easol_Report');
 
         $model= new Easol_Report();
+
+        $post = $this->input->post('report');
+        if (!empty($post['Settings'])) {
+            $post['Settings'] = json_encode($post['Settings']);
+        } 
         //die(print_r($this->input->post('access[access]')));
-        if($this->input->post('report') && $model->populateForm($this->input->post('report'))){
+        if($this->input->post('report') && $model->populateForm($post)){
 
             if ($this->form_validation->run() != FALSE) {
                 if($model->save()){
@@ -127,27 +132,29 @@ class Reports extends Easol_Controller {
                     if (is_array($value)) $model->$field = json_decode(json_encode($value));
                     else $model->$field = $value;
                 }
-                $model->filters = [];
-                foreach ($post['filter'] as $field=>$value) {
-                    if (is_array($value)) {
-                        $model->filters[$field] = json_decode(json_encode($value));
-                        $model->filters[$field]->ReportFilterId = $field;
-                    }
-                    else $model->filters[$field] = $value;
-
+                
+                if (!empty($post['filter'])) {
+                    $model->filters = [];
+                    foreach ($post['filter'] as $field=>$value) {
+                        if (is_array($value)) {
+                            $model->filters[$field] = json_decode(json_encode($value));
+                            $model->filters[$field]->ReportFilterId = $field;
+                        }
+                        else $model->filters[$field] = $value;
+                    }   
                 }
-
-                $model->links = [];
-                foreach ($post['link'] as $field=>$value) {
-                    if (is_array($value)) {
-                        $model->links[$field] = json_decode(json_encode($value));
-                        $model->links[$field]->ReportLinkId = $field;
+                
+                if (!empty($post['link'])){
+                    $model->links = [];
+                    foreach ($post['link'] as $field=>$value) {
+                        if (is_array($value)) {
+                            $model->links[$field] = json_decode(json_encode($value));
+                            $model->links[$field]->ReportLinkId = $field;
+                        }
+                        else $model->links[$field] = $value;
                     }
-                    else $model->links[$field] = $value;
-
                 }
             }
-
         }
 
        // $report->ReportName = "Report";
@@ -347,25 +354,26 @@ class Reports extends Easol_Controller {
             else $model->$field = $value;
         }
         $model->filters = [];
-        foreach ($post['filter'] as $field=>$value) {
-            if (is_array($value)) {
-                $model->filters[$field] = json_decode(json_encode($value));
-                $model->filters[$field]->ReportFilterId = $field;
-            }
-            else $model->filters[$field] = $value;
-
+        if (!empty($post['filter'])) {
+            foreach ($post['filter'] as $field=>$value) {
+                if (is_array($value)) {
+                    $model->filters[$field] = json_decode(json_encode($value));
+                    $model->filters[$field]->ReportFilterId = $field;
+                }
+                else $model->filters[$field] = $value;
+            }    
         }
 
         $model->links = [];
-        foreach ($post['link'] as $field=>$value) {
-            if (is_array($value)) {
-                $model->links[$field] = json_decode(json_encode($value));
-                $model->links[$field]->ReportLinkId = $field;
+        if (!empty($post['link'])) {
+            foreach ($post['link'] as $field=>$value) {
+                if (is_array($value)) {
+                    $model->links[$field] = json_decode(json_encode($value));
+                    $model->links[$field]->ReportLinkId = $field;
+                }
+                else $model->links[$field] = $value;
             }
-            else $model->links[$field] = $value;
-
         }
-
        
         $response = array();
         $response['status'] = 'success';
