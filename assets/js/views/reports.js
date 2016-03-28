@@ -9,7 +9,7 @@ $(function() {
 			language: {
 		        searchPlaceholder: "Search..."
 		    },
-		    responsive: true
+		   "scrollX": true
 	    });
 	    $(this).data('dataTable', table);
 

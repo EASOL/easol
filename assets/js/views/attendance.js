@@ -1,7 +1,8 @@
 $(function () {
 	var AttendanceTable = $('table#manageattendance').DataTable({
 		dom: 'Vrtip',
-                iDisplayLength: 25
+		iDisplayLength: 25,
+		"scrollX": true
 	});
 
 	$("[name='gradelevel']").on('change', function() {
@@ -13,7 +14,7 @@ $(function () {
 	});
 
 	//$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-primary').removeClass('datatable-get-csv');
-        $('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
+	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 
 	/* Apply the default filters as set by the server */
 	$('#dataGridFormFilter select').trigger('change');
