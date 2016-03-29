@@ -11,6 +11,10 @@ $GLOBALS['assets_lib'] = array(
 			'lib/DataTables-1.10.11/media/css/dataTables.bootstrap.css',
 			//'lib/DataTables-1.10.11/extensions/Responsive/css/responsive.dataTables.css',
 			//'lib/DataTables-1.10.11/extensions/Responsive/css/responsive.bootstrap.css',
+			'lib/DataTables-1.10.11/extensions/Buttons/css/buttons.dataTables.css',	
+			'lib/DataTables-1.10.11/extensions/Buttons/css/buttons.bootstrap.css',		
+			'lib/DataTables-1.10.11/extensions/ColVis/css/dataTables.colVis.css',
+
 			'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.css',
 		),
 		'js'=>array(
@@ -18,6 +22,10 @@ $GLOBALS['assets_lib'] = array(
 			'lib/DataTables-1.10.11/media/js/dataTables.bootstrap.js',
 			//'lib/DataTables-1.10.11/extensions/Responsive/js/dataTables.responsive.js',
 			//'lib/DataTables-1.10.11/extensions/Responsive/js/responsive.bootstrap.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/dataTables.buttons.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.bootstrap.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.colVis.js',
+
 			'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.js',
 			
 		)

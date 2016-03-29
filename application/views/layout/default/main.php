@@ -197,7 +197,7 @@
 <?php endif; ?>
 
 
-<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'); ?>
+<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js'); ?>
 <?php $this->carabiner->js('lib/bootstrap-3.3.6/dist/js/bootstrap.js'); ?>
 <?php $this->carabiner->js('lib/js.cookie-2.0.4.js'); ?>
 <?php $this->carabiner->js('lib/jquery.metisMenu.js'); ?>
