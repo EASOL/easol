@@ -59,6 +59,8 @@ function create_charts() {
 		            .x(function(d) { return d.label })
 		            .y(function(d) { return d.value })
 		        	.color(function(d){ return d.color })
+		        	.showLabels(true)
+		        	.labelsOutside(true)
 		            .valueFormat(d3.format(".0f"));
 		        d3.select('#'+$chart.attr('id')+' svg')
 		            .datum(chartData)
