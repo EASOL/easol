@@ -1,7 +1,8 @@
 $(function () {
 	var Table = $('#student-table').DataTable({
 		dom: 'Vrtip',
-                iDisplayLength: 25
+		iDisplayLength: 25,
+		"scrollX": true
 	});
 
 	$("[name='filter[term]']").on('keyup', function() {

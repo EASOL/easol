@@ -1,7 +1,8 @@
 $(function () {
 	var AssessmentsTable = $('#assessments-table').DataTable({
 		dom: 'Vrtip',
-                iDisplayLength: 25
+                iDisplayLength: 25,
+                "scrollX": true
 	});
 
 	$("[name='filter[Year]']").on('change', function() {
@@ -23,6 +24,7 @@ $(function () {
 	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 
 	var StudentsTable = $('#students-table').DataTable({
-		dom: 'lVrftip'
+		dom: 'lVrftip',
+		"scrollX": true
 	});
 })

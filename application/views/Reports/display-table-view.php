@@ -13,7 +13,7 @@ $links = $model->getLinks();
 
 <div class='flex-report-table-wrapper'>
 
-	<table class="flex-report-table table table-striped table-bordered" cellspacing="0" width="100%" data-filter-option='<?php echo $filter_option ?>' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>" data-report-id="<?php echo $model->ReportId ?>">
+	<table class="flex-report-table table table-striped table-bordered" cellspacing="0" data-filter-option='<?php echo $filter_option ?>' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>" data-report-id="<?php echo $model->ReportId ?>" width="100%">
 		<thead>
 			<?php foreach ($_columns as $key): ?>
 				<th data-variable="<?php echo $key ?>"><?php echo $key ?></th>
