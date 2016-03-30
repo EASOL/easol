@@ -2,75 +2,138 @@ $(function() {
 
 	if ($('table#student-section-table').length) {
 		$('#student-section-table').DataTable({
-			dom: '<"top">rt<"bottom"pli>V<"clear">',
+			dom: '<"top">rt<"bottom"pli><"clear">',
 			iDisplayLength: 25,
 			lengthMenu: [[25, 50, 100], [25, 50, 100]],
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 	if ($('table#student-attendance-table').length) {
 		$('#student-attendance-table').DataTable({
-			dom: '<"top">rt<"bottom"pli>V<"clear">',
+			dom: '<"top">rt<"bottom"pli><"clear">',
 			iDisplayLength: 25,
 			lengthMenu: [[25, 50, 100], [25, 50, 100]],
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 	if ($('table#student-assessment-table').length) {
 		$('#student-assessment-table').DataTable({
-			dom: '<"top">rt<"bottom"pli>V<"clear">',
+			dom: '<"top">rt<"bottom"pli><"clear">',
 			iDisplayLength: 25,
 			lengthMenu: [[25, 50, 100], [25, 50, 100]],
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 	if ($('table#student-cohort-table').length) {
 		$('#student-cohort-table').DataTable({
-			dom: '<"top">rt<"bottom"pli>V<"clear">',
+			dom: '<"top">rt<"bottom"pli><"clear">',
 			iDisplayLength: 25,
 			lengthMenu: [[25, 50, 100], [25, 50, 100]],
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 	
 	if ($('table#filter-table').length) {
 		$('#filter-table').data('dataTable', $('#filter-table').DataTable({
-			dom: '<"top">rt<"bottom">V<"clear">',
-			"scrollX": true
+			dom: '<"top">rt<"bottom"><"clear">',
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		}));
 	}
 	
 	if ($('table#link-table').length) {
 		$('#link-table').data('dataTable', $('#link-table').DataTable({
-			dom: '<"top">rt<"bottom">V<"clear">',
-			"scrollX": true
+			dom: '<"top">rt<"bottom"><"clear">',
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		}));
 	}
 
 	if ($('table#column-table').length) {
 		$('#column-table').data('dataTable', $('#column-table').DataTable({
-			dom: '<"top">rt<"bottom">V<"clear">',
-			"scrollX": true
+			dom: '<"top">rt<"bottom"><"clear">',
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		}));
 	}
 
 	/* change these to use a class selector since we added more than one of them */
 	if ($('table#manageusers').length) {
 		$('#manageusers').DataTable({
-                    //dom: 'Vlfrtip',
-                    dom: '<"top"li>frt<"bottom"p>V<"clear">',
-                    iDisplayLength: 25,
-                    lengthMenu: [[25, 50, 100], [25, 50, 100]],
-                    "scrollX": true
-                });
+            //dom: 'Vlfrtip',
+            dom: '<"top"li>frt<"bottom"p><"clear">',
+            iDisplayLength: 25,
+            lengthMenu: [[25, 50, 100], [25, 50, 100]],
+            "scrollX": true,
+            buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
+        });
 	}
 
 	if ($('table#manageschools').length) {
 		$('#manageschools').DataTable({
-			dom: '<"top"li>frt<"bottom"p>V<"clear">',
+			dom: '<"top"li>frt<"bottom"p><"clear">',
 			iDisplayLength: 25,
 			lengthMenu: [[25, 50, 100], [25, 50, 100]],
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 	
@@ -80,13 +143,27 @@ $(function() {
 
 	if ($('table#manageschooldetails').length) {
 		$('#manageschooldetails').DataTable({
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 
 	if ($('table#analyzestudents').length) {
 		$('#analyzestudents').DataTable({
-			"scrollX": true
+			"scrollX": true,
+			buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
 		});
 	}
 

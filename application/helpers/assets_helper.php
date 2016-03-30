@@ -13,9 +13,9 @@ $GLOBALS['assets_lib'] = array(
 			//'lib/DataTables-1.10.11/extensions/Responsive/css/responsive.bootstrap.css',
 			'lib/DataTables-1.10.11/extensions/Buttons/css/buttons.dataTables.css',	
 			'lib/DataTables-1.10.11/extensions/Buttons/css/buttons.bootstrap.css',		
-			'lib/DataTables-1.10.11/extensions/ColVis/css/dataTables.colVis.css',
+			
 
-			'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.css',
+			//'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.css',
 		),
 		'js'=>array(
 			'lib/DataTables-1.10.11/media/js/jquery.dataTables.js',
@@ -26,7 +26,9 @@ $GLOBALS['assets_lib'] = array(
 			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.bootstrap.js',
 			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.colVis.js',
 
-			'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.html5.js',
+
+			//'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.js',
 			
 		)
 	),

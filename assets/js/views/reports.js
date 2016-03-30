@@ -5,12 +5,16 @@ $(function() {
 		if ($(this).attr('data-filter-option') == 'no') filter_option = "";
 		
 		var table = $(this).DataTable({
-			dom: filter_option + "BVrtip",
+			dom: filter_option + "Brtip",
 			language: {
 		        searchPlaceholder: "Search..."
 		    },
 		   	buttons: [
-	            'colvis'
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
 	        ],
 	        'scrollX': true
 	    });

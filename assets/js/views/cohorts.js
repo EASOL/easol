@@ -1,14 +1,28 @@
 $(function () {
 	var Table = $('#cohort-table').DataTable({
-		dom: 'Vrtip',
+		dom: 'rtip',
 		iDisplayLength: 25,
-		"scrollX": true
+		"scrollX": true,
+		buttons: [
+            'colvis',
+            {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+        ],
 	});
 
 	var StudentTable = $('#student-table').DataTable({
 		dom:            'Vrtip',
 		iDisplayLength: 25,
-		"scrollX": true
+		"scrollX": true,
+		buttons: [
+            'colvis',
+            {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+        ],
 	});
 
 

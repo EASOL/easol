@@ -1,8 +1,15 @@
 $(function () {
 	var Table = $('#student-table').DataTable({
-		dom: 'Vrtip',
+		dom: 'rtip',
 		iDisplayLength: 25,
-		"scrollX": true
+		"scrollX": true,
+		buttons: [
+            'colvis',
+            {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+        ],
 	});
 
 	$("[name='filter[term]']").on('keyup', function() {
