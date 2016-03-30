@@ -56,7 +56,7 @@ foreach($ReportData as $key=>$value){
 <?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">Flex Reports : Bar Chart : <?= $model->ReportName ?></h1>
+        <h3 class="page-header"><?= $model->ReportName ?></h3>
     </div>
 </div>
 <?php } ?>
