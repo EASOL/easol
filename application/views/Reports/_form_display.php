@@ -103,14 +103,14 @@
         <label class="col-md-4 control-label">Bars/Slices</label>
         <div class="col-md-12">
 
-            <table id="column-table" class="table table-striped table-bordered">
+            <table id="column-table" class="table table-striped table-bordered table-widget" data-table-type='minimal'>
                 <thead>
                     <tr>
                         <th>Label</th>
                         <th>Operator</th>
                         <th>Value</th>
                         <th>Color</th>
-                        <th>Delete</th>
+                        <th data-orderable='false'>Delete</th>
                     </tr>
                 </thead>
                 <tbody>

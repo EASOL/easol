@@ -1,5 +1,8 @@
 $(function () {
-	var AssessmentsTable = $('#assessments-table').DataTable({
+
+	var AssessmentsTable = $('#assessments-table').dataTable().api();
+
+	/*var AssessmentsTable = $('#assessments-table').DataTable({
 		dom: 'rtip',
         iDisplayLength: 25,
         "scrollX": true,
@@ -10,7 +13,7 @@ $(function () {
 	            text: 'Download CSV'
 	        }
 	    ],
-	});
+	});*/
 
 	$("[name='filter[Year]']").on('change', function() {
 		AssessmentsTable.column(3).search($(this).val(), true, false).draw();
@@ -30,8 +33,8 @@ $(function () {
 
 	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 
-	var StudentsTable = $('#students-table').DataTable({
+	/*var StudentsTable = $('#students-table').DataTable({
 		dom: 'lVrftip',
 		"scrollX": true
-	});
+	});*/
 })

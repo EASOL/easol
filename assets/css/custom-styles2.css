@@ -482,21 +482,6 @@ div.bar-chart {
 }
 
 
-div.dataTables_wrapper {
-  width: 100%;
-  margin: 0 auto;
-}
-table.dataTable {
-  border: none;
-}
-table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
-
-}
-
-table.dataTable thead th {
-  background-image: none !important;
-}
-
 
 /* alternative styles added by Anwar */
 button.altSIbut, div.altSIbut {border:none;background:none;padding:0px;margin-top:7px}

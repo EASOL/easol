@@ -32,7 +32,7 @@
               <?php if (isset($students) and !empty($students)): ?>
                 <h2 class="backToH2">Students</h2>
                 <div class="col-md-12 col-sm-12">
-                    <table id="managestudents" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="managestudents" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
                       <thead>
                         <tr>
                           <th>Full Name</th>
