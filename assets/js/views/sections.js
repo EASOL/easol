@@ -1,8 +1,15 @@
 $(function () {
 	var SectionsTable = $('table#managesections').DataTable({
-        dom: 'Vrtip',
+        dom: 'rtip',
         iDisplayLength: 25,
-        "scrollX": true
+        "scrollX": true,
+        buttons: [
+            'colvis',
+            {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+        ],
     });
 
 	$("[name='term']").on('change', function() {

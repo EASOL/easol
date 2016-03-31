@@ -5,17 +5,29 @@ $(function() {
 		if ($(this).attr('data-filter-option') == 'no') filter_option = "";
 		
 		var table = $(this).DataTable({
-			dom: filter_option + "Vrtip",
+			dom: filter_option + "Brtip",
 			language: {
 		        searchPlaceholder: "Search..."
 		    },
-		   "scrollX": true
+		   	buttons: [
+	            'colvis',
+	            {
+		            extend: 'csv',
+		            text: 'Download CSV'
+		        }
+	        ],
+	        'scrollX': true
 	    });
-	    $(this).data('dataTable', table);
+
+		$(this).data('dataTable', table);
+
 
 		var $context = $(this).closest('.flex-report-table-wrapper');
 		$('.datatable-get-csv', $context).appendTo("#csv-button", $context).addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 	});
+
+	$( document ).ajaxComplete(create_charts);
+	create_charts();
 	
     
     $('.js-add-filter').on('click', function(e){

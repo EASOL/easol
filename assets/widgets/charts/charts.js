@@ -1,5 +1,3 @@
-$( document ).ajaxComplete(create_charts);
-create_charts();
 function create_charts() {
 	$('.bar-chart.chart').each(function() {
 	    var $chart = $(this);
@@ -59,6 +57,8 @@ function create_charts() {
 		            .x(function(d) { return d.label })
 		            .y(function(d) { return d.value })
 		        	.color(function(d){ return d.color })
+		        	.showLabels(true)
+		        	.labelsOutside(true)
 		            .valueFormat(d3.format(".0f"));
 		        d3.select('#'+$chart.attr('id')+' svg')
 		            .datum(chartData)
@@ -102,7 +102,7 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 	$chart.data('selected', label);
 
 
-	var dataTable = $table.data('dataTable');
+	var dataTable = $table.dataTable().api();
 	var column_no = $table.find('thead th[data-variable='+variable+']').index();
 	var chartFilter = $chart.data('filter');
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());

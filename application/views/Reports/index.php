@@ -22,7 +22,6 @@
                             <th>Category</th>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
-                                <th>School</th>
                                 <th>Access</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -38,7 +37,7 @@
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?= report_display_type($report->DisplayType) ?></td><?php } ?>
                             <td><?= $report->getCategory()->ReportCategoryName ?></td>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                                <td><?= $report->getSchool()->NameOfInstitution ?></td>
+                                
                                 <td><?php
                                     $_actp=[];
                                 foreach($report->getAccessTypes() as $access){

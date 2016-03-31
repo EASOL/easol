@@ -1,8 +1,15 @@
 $(function () {
 	var AssessmentsTable = $('#assessments-table').DataTable({
-		dom: 'Vrtip',
-                iDisplayLength: 25,
-                "scrollX": true
+		dom: 'rtip',
+        iDisplayLength: 25,
+        "scrollX": true,
+        buttons: [
+	        'colvis',
+	        {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+	    ],
 	});
 
 	$("[name='filter[Year]']").on('change', function() {

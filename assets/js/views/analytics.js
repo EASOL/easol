@@ -1,8 +1,15 @@
 $(function () {
 	var AnalyticsTable = $('table#manageanalytics').DataTable({
-        dom: 'Vrt',
+        dom: 'rt',
         iDisplayLength: $('table#manageanalytics').attr('data-page-length'),
-        "scrollX": true
+        "scrollX": true,
+        buttons: [
+            'colvis',
+            {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+        ],
     });
 
 	/*$("[name='term']").on('change', function() {
