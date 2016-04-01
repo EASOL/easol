@@ -1,3 +1,17 @@
+CREATE TRIGGER DeleteReportIdTrigger
+    ON EASOL.Report
+INSTEAD OF DELETE
+  AS
+    BEGIN
+      UPDATE EASOL.DashboardConfiguration SET LeftChartReportId = NULL
+      WHERE LeftChartReportId IN (SELECT deleted.ReportId FROM deleted);
+      UPDATE EASOL.DashboardConfiguration SET RightChartReportId = NULL
+      WHERE RightChartReportId IN (SELECT deleted.ReportId FROM deleted);
+      UPDATE EASOL.DashboardConfiguration SET BottomTableReportId = NULL
+      WHERE BottomTableReportId IN (SELECT deleted.ReportId FROM deleted);
+      DELETE FROM EASOL.Report WHERE ReportId IN (SELECT deleted.ReportId FROM deleted);
+    END
+
 
 UPDATE EASOL.DashboardConfiguration SET LeftChartReportId = NULL WHERE DashboardConfigurationId IN 
   (SELECT DashboardConfigurationId FROM EASOL.DashboardConfiguration 
@@ -56,24 +70,3 @@ ALTER TABLE [EASOL].DashboardConfiguration
  ADD CONSTRAINT FK_DashboardConfiguration_BottomTableReportId
  FOREIGN KEY (BottomTableReportId)
  REFERENCES [EASOL].[Report](ReportId) ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-
-
-CREATE TRIGGER DeleteReportIdTrigger
-    ON EASOL.Report
-INSTEAD OF DELETE
-  AS
-    BEGIN
-      UPDATE EASOL.DashboardConfiguration SET LeftChartReportId = NULL
-      WHERE LeftChartReportId IN (SELECT deleted.ReportId FROM deleted);
-      UPDATE EASOL.DashboardConfiguration SET RightChartReportId = NULL
-      WHERE RightChartReportId IN (SELECT deleted.ReportId FROM deleted);
-      UPDATE EASOL.DashboardConfiguration SET BottomTableReportId = NULL
-      WHERE BottomTableReportId IN (SELECT deleted.ReportId FROM deleted);
-      DELETE FROM EASOL.Report WHERE ReportId IN (SELECT deleted.ReportId FROM deleted);
-    END
-
-
-
-
-
