@@ -5,13 +5,13 @@
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <table id="manageschools" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <table id="manageschools" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>School ID</th>
                     <th>School Name</th>
                     <th>Web Site</th>
-                    <th>Actions</th>
+                    <th data-orderable='false'>Actions</th>
                 </tr>
             </thead>
             <tbody>

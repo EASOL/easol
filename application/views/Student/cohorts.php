@@ -3,8 +3,8 @@ $cohorts = $student->getCohorts()->result();
 if (empty($cohorts)) {
     $this->load->view('no_results_found');
 } else { ?>
-    <div class="col-md-6 col-sm-8">
-        <table id="student-cohort-table" class="table table-striped table-bordered">
+    <div class="col-sm-12">
+        <table id="student-cohort-table" class="table table-striped table-bordered table-widget" data-column-visibility='no'>
             <thead>
                 <tr>
                     <th>Cohort Name</th>

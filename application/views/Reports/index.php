@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-widget" data-filter-option='no' data-csv='no' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>">
                     <thead>
                         <tr>
                             <th>Report Name</th>
@@ -23,8 +23,8 @@
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
                                 <th>Access</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th data-orderable="false">Edit</th>
+                                <th data-orderable="false">Delete</th>
 
                             <?php } ?>
 

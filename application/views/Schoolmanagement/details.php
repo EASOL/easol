@@ -10,7 +10,7 @@
         <?php echo anchor('schoolmanagement/addschooldetails/'.$school[0]->SchoolId ,'<button class="btn btn-primary pull-right">Add a Configuration value</button>'); ?>
         <div style="clear:both; margin:25px 0;">
             <form id="schoolmanagement-details-form" method="post">
-                <table id="manageschooldetails" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="manageschooldetails" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Configuration Item</th>

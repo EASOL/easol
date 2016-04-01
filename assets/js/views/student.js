@@ -1,5 +1,7 @@
 $(function () {
-	var Table = $('#student-table').DataTable({
+	var Table = $('#student-table').dataTable().api();
+
+	/*.DataTable({
 		dom: 'rtip',
 		iDisplayLength: 25,
 		"scrollX": true,
@@ -10,7 +12,7 @@ $(function () {
 	            text: 'Download CSV'
 	        }
         ],
-	});
+	});*/
 
 	$("[name='filter[term]']").on('keyup', function() {
 		Table.search($(this).val(), true, false).draw();
