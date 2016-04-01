@@ -2,7 +2,7 @@ $(function() {
 
 	$('.table-widget').each(function() {
 		var $table = $(this);
-		$table.css('width', '100%').width('100%');
+		$table.attr('width', '100%');
 		var filter_option = "<'filter-form'<'row'<'col-sm-9'f><'col-sm-3'l>>>";
 		if ($table.attr('data-filter-option') == 'no' || $table.attr('data-filter-option') == 'false') filter_option = "";
 
