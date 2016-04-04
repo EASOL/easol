@@ -62,7 +62,7 @@
 
 
                     <div class="datatablegrid">
-                         <table id="manageanalytics" class="table table-striped table-bordered" cellspacing="0" width="100%" data-page-length="<?php echo $filters['PageLength'] ?>">
+                         <table id="manageanalytics" class="table table-striped table-bordered table-widget" data-filter-option='no' cellspacing="0" width="100%" data-page-length="<?php echo $filters['PageLength'] ?>" data-paging="false" data-info="false">
                               <thead>
                               <tr>
                                    <th>Term</th>

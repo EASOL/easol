@@ -291,7 +291,14 @@ $(function() {
                         "searching": false,
                         "ordering": false,
                         "info": false,
-                        "stripeClasses": [ 'dm_odd', 'dm_even' ]
+                        "stripeClasses": [ 'dm_odd', 'dm_even' ],
+                        buttons: [
+                            'colvis',
+                            {
+                                extend: 'csv',
+                                text: 'Download CSV'
+                            }
+                        ],
                     } );
                 }
                 else {

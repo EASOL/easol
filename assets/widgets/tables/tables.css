@@ -1,0 +1,24 @@
+
+.table-widget {
+	width: 100%;
+}
+.table-widget-buttons {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	float: right;
+}
+
+div.dataTables_wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+table.dataTable {
+  border: none;
+}
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+
+}
+
+table.dataTable thead th {
+  background-image: none !important;
+}
