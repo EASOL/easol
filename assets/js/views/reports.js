@@ -55,6 +55,8 @@ $(function() {
 		var selected = $('input.settings-type:checked').val();
 		$('div.settings-type:not(.'+selected+'-settings)').stop().slideUp();
 		$('div.settings-type.'+selected+'-settings').stop().slideDown();
+
+		$(window).trigger('resize');
 	});
 	$('input.settings-type').trigger('change');
 
