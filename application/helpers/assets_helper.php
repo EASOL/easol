@@ -7,18 +7,29 @@ $GLOBALS['widget'] = array();
 $GLOBALS['assets_lib'] = array(
 	'datatables'=>array(
 		'css'=>array(
-			'lib/datatables/css/jquery.dataTables.css',
-			'//cdn.datatables.net/1.10.9/css/dataTables.bootstrap.css',
-			'lib/datatables/css/dataTables.CSV.css',
-			//'lib/datatables/extensions/responsive/responsive.bootstrap.css'
+			'lib/DataTables-1.10.11/media/css/jquery.dataTables.css',
+			'lib/DataTables-1.10.11/media/css/dataTables.bootstrap.css',
+			//'lib/DataTables-1.10.11/extensions/Responsive/css/responsive.dataTables.css',
+			//'lib/DataTables-1.10.11/extensions/Responsive/css/responsive.bootstrap.css',
+			'lib/DataTables-1.10.11/extensions/Buttons/css/buttons.dataTables.css',	
+			'lib/DataTables-1.10.11/extensions/Buttons/css/buttons.bootstrap.css',		
+			
+
+			//'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.css',
 		),
 		'js'=>array(
-			'lib/datatables/js/jquery.dataTables.js',
-			'lib/datatables/js/dataTables.bootstrap.js',
-			'lib/datatables/js/dataTables.CSV.js',
-			'lib/datatables/js/dataTables.bootstrapPagination.js',
-			//'lib/datatables/extensions/responsive/dataTables.responsive.js',
-			//'lib/datatables/extensions/responsive/responsive.bootstrap.js'
+			'lib/DataTables-1.10.11/media/js/jquery.dataTables.js',
+			'lib/DataTables-1.10.11/media/js/dataTables.bootstrap.js',
+			//'lib/DataTables-1.10.11/extensions/Responsive/js/dataTables.responsive.js',
+			//'lib/DataTables-1.10.11/extensions/Responsive/js/responsive.bootstrap.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/dataTables.buttons.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.bootstrap.js',
+			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.colVis.js',
+
+			'lib/DataTables-1.10.11/extensions/Buttons/js/buttons.html5.js',
+
+			//'lib/DataTables-1.10.11/extensions/CSV/dataTables.CSV.js',
+			
 		)
 	),
 	'chardinjs'=>array(

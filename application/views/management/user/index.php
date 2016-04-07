@@ -7,7 +7,7 @@
 	<div class="col-md-12 col-sm-12">
 		<?php echo anchor('management/user/save', '<button class="btn btn-primary pull-right pre-data-table">Add User</button>'); ?>
 		<div style="clear:both;">
-			<table id="manageusers" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<table id="manageusers" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
 				<thead>
 				<tr>
 					<th>StaffUSI</th>
@@ -15,7 +15,7 @@
 					<th>Role</th>
 					<th>Authorization Type</th>
 					<th>School</th>
-					<th>Actions</th>
+					<th data-orderable='false'>Actions</th>
 				</tr>
 				</thead>
 				<tbody>

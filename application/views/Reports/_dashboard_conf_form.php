@@ -8,7 +8,7 @@
         <form action="" method="post" class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-12 col-sm-12">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" data-csv='no' data-column-visibility='no' data-filter-option='no'>
                         <thead>
                         <tr>
                             <th>Role</th>

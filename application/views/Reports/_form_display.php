@@ -54,12 +54,12 @@
     </div>
 
     <div class='settings-type dynamic-settings' style='display: none'>
-        <div class="form-group">
+        <div class="form-group row">
             <label class="col-md-2 control-label">Color Scheme</label>
             <div class="col-md-2">
                 <?php echo form_dropdown("report[Settings][ColorType]", ['sequential'=>'Sequential', 'diverging'=>'Diverging'], $model->Settings->ColorType, 'class="form-control" id="color-type-btn"'); ?>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <div class='chart-color-pallette' id='selected-color-scheme'>
@@ -103,14 +103,14 @@
         <label class="col-md-4 control-label">Bars/Slices</label>
         <div class="col-md-12">
 
-            <table id="column-table" class="table table-striped table-bordered">
+            <table id="column-table" class="table table-striped table-bordered table-widget" data-table-type='minimal'>
                 <thead>
                     <tr>
                         <th>Label</th>
                         <th>Operator</th>
                         <th>Value</th>
                         <th>Color</th>
-                        <th>Delete</th>
+                        <th data-orderable='false'>Delete</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,9 +1,9 @@
 <?php
 $_columns=[];
-$ReportData = $this->db->query($model->getReportQuery());
+if (!isset($ReportQuery)) $ReportQuery = $this->db->query($model->getReportQuery());
 
-if (!empty($ReportData)) {
-    foreach($ReportData->list_fields() as $key){
+if (!empty($ReportQuery)) {
+    foreach($ReportQuery->list_fields() as $key){
         $_columns[] = $key;
     }
 }
@@ -13,7 +13,7 @@ $links = $model->getLinks();
 
 <div class='flex-report-table-wrapper'>
 
-	<table class="flex-report-table table table-striped table-bordered" cellspacing="0" width="100%" data-filter-option='<?php echo $filter_option ?>' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>" data-report-id="<?php echo $model->ReportId ?>">
+	<table class="flex-report-table table table-striped table-bordered table-widget" cellspacing="0" data-filter-option='<?php echo $filter_option ?>' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>" data-report-id="<?php echo $model->ReportId ?>" width="100%">
 		<thead>
 			<?php foreach ($_columns as $key): ?>
 				<th data-variable="<?php echo $key ?>"><?php echo $key ?></th>
@@ -21,7 +21,7 @@ $links = $model->getLinks();
 		</thead>
 		<tbody>
 			
-			<?php foreach ($ReportData->result() as $row): ?>
+			<?php foreach ($ReportQuery->result() as $row): ?>
 				<tr>
 					<?php foreach ($_columns as $k=>$column): ?>
 						<td>

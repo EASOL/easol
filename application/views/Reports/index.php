@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-widget" data-filter-option='no' data-csv='no' data-page-length="<?php echo EASOL_PAGINATION_PAGE_SIZE ?>">
                     <thead>
                         <tr>
                             <th>Report Name</th>
@@ -22,10 +22,9 @@
                             <th>Category</th>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
-                                <th>School</th>
                                 <th>Access</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th data-orderable="false">Edit</th>
+                                <th data-orderable="false">Delete</th>
 
                             <?php } ?>
 
@@ -38,7 +37,7 @@
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?= report_display_type($report->DisplayType) ?></td><?php } ?>
                             <td><?= $report->getCategory()->ReportCategoryName ?></td>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
-                                <td><?= $report->getSchool()->NameOfInstitution ?></td>
+                                
                                 <td><?php
                                     $_actp=[];
                                 foreach($report->getAccessTypes() as $access){

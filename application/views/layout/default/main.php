@@ -8,6 +8,7 @@
     <?php assets_lib('datatables'); ?>    
     <?php assets_lib('nvd3'); ?>
     <?php assets_widget('charts'); ?>
+    <?php assets_widget('tables'); ?>
 
     <?php $this->carabiner->css('lib/bootstrap-3.3.6/dist/css/bootstrap.css'); ?>    
     <?php $this->carabiner->css('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css'); ?>
@@ -197,7 +198,7 @@
 <?php endif; ?>
 
 
-<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'); ?>
+<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js'); ?>
 <?php $this->carabiner->js('lib/bootstrap-3.3.6/dist/js/bootstrap.js'); ?>
 <?php $this->carabiner->js('lib/js.cookie-2.0.4.js'); ?>
 <?php $this->carabiner->js('lib/jquery.metisMenu.js'); ?>
