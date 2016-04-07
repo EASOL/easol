@@ -38,7 +38,7 @@
 
                 <?php if (isset($results) and !empty($results)): ?>
                   <div class="datatablegrid">
-                      <table id="manageattendance" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                      <table id="manageattendance" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
                         <thead>
                           <tr>
                             <th>Student Name</th>

@@ -57,7 +57,7 @@
  
                 <?php if (isset($results) and !empty($results)): ?>
                   <div class="datatablegrid">
-                      <table id="managesections" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                      <table id="managesections" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no'>
                         <thead>
                           <tr>
                             <th>Term</th>

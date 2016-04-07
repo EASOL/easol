@@ -8,6 +8,7 @@
     <?php assets_lib('datatables'); ?>    
     <?php assets_lib('nvd3'); ?>
     <?php assets_widget('charts'); ?>
+    <?php assets_widget('tables'); ?>
 
     <?php $this->carabiner->css('lib/bootstrap-3.3.6/dist/css/bootstrap.css'); ?>    
     <?php $this->carabiner->css('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css'); ?>

@@ -203,7 +203,7 @@ function chart_unfilter(ReportId, label, variable, $node, $chart) {
 	var $table = $('table[data-report-id='+ReportId+']');
 	if ($table.length == 0) return;
 
-	var dataTable = $table.data('dataTable');
+	var dataTable = $table.dataTable().api();
 
 	var column_no = $table.find('thead th[data-variable='+variable+']').index();
 
@@ -243,7 +243,7 @@ function chart_nfilter($chart, legends, state) {
 	var $table = $('table[data-report-id='+ReportId+']');
 	if ($table.length == 0) return;
 
-	var dataTable = $table.data('dataTable');
+	var dataTable = $table.dataTable().api();
 	var column_no = $table.find('thead th[data-variable='+variable+']').index();
 	var chartFilter = $chart.data('filter');
 

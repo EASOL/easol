@@ -13,33 +13,39 @@
         <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="col-md-6 col-sm-12" id="left-chart">
-                        <div class="thumbnail">
-                            <?php
-                            $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(),['model' => $dashboardConf->getLeftChart(), 'displayTitle' => false, 'hideFilters'=>true ]);
-                            ?>
-                            <div class="caption">
-                                <?= anchor('reports/view/'.$dashboardConf->getLeftChart()->ReportId, '<h3>'.$dashboardConf->getLeftChart()->ReportName.'</h3>'); ?>
-                                <br>
+                    <?php if ($dashboardConf->getLeftChart()->ReportId): ?>
+                        <div class="col-md-6 col-sm-12" id="left-chart">
+                            <div class="thumbnail">                              
+                            
+                                <?php $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(),['model' => $dashboardConf->getLeftChart(), 'displayTitle' => false, 'hideFilters'=>true ]);
+                                ?>
+                                <div class="caption">
+                                    <?= anchor('reports/view/'.$dashboardConf->getLeftChart()->ReportId, '<h3>'.$dashboardConf->getLeftChart()->ReportName.'</h3>'); ?>
+                                    <br>
+                                </div>
                             </div>
-                        </div></div>
-                        <div class="col-md-6 col-sm-12" id="right-chart">
-                            <div class="thumbnail"><?php
-                            $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false, 'hideFilters'=>true]);
-                            ?>
-                            <div class="caption">
-                                <?= anchor('reports/view/'.$dashboardConf->getRightChart()->ReportId, '<h3>'.$dashboardConf->getRightChart()->ReportName.'</h3>'); ?>
-                                <br>
-                            </div>
-                        </div></div>
-                        
-                        <?php if ($dashboardConf->getBottomTable()): ?>
-                        <div class="col-md-12 col-sm-12" id="bottom-table"><div class="thumbnail">
-                            <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(), 'displayTitle' => true, 'hideFilters'=>true ]); ?>
-
                         </div>
-                        <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
+                    <?php if ($dashboardConf->getRightChart()->ReportId): ?>
+                        <div class="col-md-6 col-sm-12" id="right-chart">
+                            <div class="thumbnail">
+                                <?php $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false, 'hideFilters'=>true]); ?>
+                                <div class="caption">
+                                    <?= anchor('reports/view/'.$dashboardConf->getRightChart()->ReportId, '<h3>'.$dashboardConf->getRightChart()->ReportName.'</h3>'); ?>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                        
+                    <?php if ($dashboardConf->getBottomTable()->ReportId): ?>
+                        <div class="col-md-12 col-sm-12" id="bottom-table">
+                            <div class="thumbnail">
+                                <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(), 'displayTitle' => true, 'hideFilters'=>true ]); ?>
+
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

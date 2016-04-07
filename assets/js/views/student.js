@@ -1,9 +1,18 @@
 $(function () {
-	var Table = $('#student-table').DataTable({
-		dom: 'Vrtip',
+	var Table = $('#student-table').dataTable().api();
+
+	/*.DataTable({
+		dom: 'rtip',
 		iDisplayLength: 25,
-		"scrollX": true
-	});
+		"scrollX": true,
+		buttons: [
+            'colvis',
+            {
+	            extend: 'csv',
+	            text: 'Download CSV'
+	        }
+        ],
+	});*/
 
 	$("[name='filter[term]']").on('keyup', function() {
 		Table.search($(this).val(), true, false).draw();
