@@ -59,7 +59,12 @@ function create_charts() {
 		        	.color(function(d){ return d.color })
 		        	.showLabels(true)
 		        	.labelsOutside(true)
-		            .valueFormat(d3.format(".0f"));
+		            .valueFormat(d3.format(".0f"))
+		            .labelType(function(d){
+		            	var percent = (d.endAngle - d.startAngle) / (2 * Math.PI);
+						return d.data.label + " ("+d3.format('%')(percent)+')';
+					})
+		            //.tooltip.enabled()
 		        d3.select('#'+$chart.attr('id')+' svg')
 		            .datum(chartData)
 		            .transition().duration(1200)
