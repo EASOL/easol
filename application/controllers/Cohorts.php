@@ -12,7 +12,7 @@ class Cohorts extends Easol_Controller {
 
     protected function accessRules(){
         return [
-            "index"     =>  ['System Administrator','Data Administrator'],
+            "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
         ];
     }
 
