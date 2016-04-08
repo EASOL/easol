@@ -108,7 +108,7 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 
 
 	var dataTable = $table.dataTable().api();
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 	var chartFilter = $chart.data('filter');
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());
 
@@ -210,7 +210,7 @@ function chart_unfilter(ReportId, label, variable, $node, $chart) {
 
 	var dataTable = $table.dataTable().api();
 
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 
 	if ($chart.attr('data-type') == 'defined') {
 		dataTable.clear();
@@ -249,7 +249,7 @@ function chart_nfilter($chart, legends, state) {
 	if ($table.length == 0) return;
 
 	var dataTable = $table.dataTable().api();
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 	var chartFilter = $chart.data('filter');
 
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());
