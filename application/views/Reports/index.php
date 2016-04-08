@@ -65,6 +65,7 @@
     </div>
  </div>
 <div class="row">
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -81,4 +82,5 @@
 
         </div>
     </div>
+    <?php } ?>
 </div>
