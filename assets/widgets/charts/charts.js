@@ -59,7 +59,12 @@ function create_charts() {
 		        	.color(function(d){ return d.color })
 		        	.showLabels(true)
 		        	.labelsOutside(true)
-		            .valueFormat(d3.format(".0f"));
+		            .valueFormat(d3.format(".0f"))
+		            .labelType(function(d){
+		            	var percent = (d.endAngle - d.startAngle) / (2 * Math.PI);
+						return d.data.label + " ("+d3.format('%')(percent)+')';
+					})
+		            //.tooltip.enabled()
 		        d3.select('#'+$chart.attr('id')+' svg')
 		            .datum(chartData)
 		            .transition().duration(1200)
@@ -103,7 +108,7 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 
 
 	var dataTable = $table.dataTable().api();
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 	var chartFilter = $chart.data('filter');
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());
 
@@ -205,7 +210,7 @@ function chart_unfilter(ReportId, label, variable, $node, $chart) {
 
 	var dataTable = $table.dataTable().api();
 
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 
 	if ($chart.attr('data-type') == 'defined') {
 		dataTable.clear();
@@ -244,7 +249,7 @@ function chart_nfilter($chart, legends, state) {
 	if ($table.length == 0) return;
 
 	var dataTable = $table.dataTable().api();
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 	var chartFilter = $chart.data('filter');
 
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());

@@ -12,11 +12,10 @@ if (strpos($variable, ".") !== false) $variable = substr(strrchr($variable, '.')
 $ReportQuery = $this->db->query($model->getReportQuery());
 
 if ($Settings->Type == 'dynamic') {
-
     $colors = report_colors($Settings->ColorType, $Settings->ColorScheme);
     foreach ($ReportQuery->result() as $data) {       
-        $ReportData[$variable]++;
-        $ChartFilter[$variable] = $data->$variable;
+        $ReportData[$data->{$variable}]++;
+        $ChartFilter[$data->{$variable}] = $data->{$variable}; 
     }
     ksort($ReportData);
 }
@@ -27,13 +26,13 @@ elseif ($Settings->Type == 'defined') {
     
     foreach ($ReportQuery->result() as $i=>$data) {
         foreach ($Settings->Columns as $column) {
-            $value = $data->$variable;
+            $value = $data->{$variable};
 
             $operator = $column->Operator;
             if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
 
             $ChartFilter[$column->Label] = $column;
-             if (!$column->Color) $column->Color = report_colors('sequential', $i);
+            if (!$column->Color) $column->Color = report_colors('sequential', $i);
             $ChartColors[$column->Label] = $column->Color;
         }
     }

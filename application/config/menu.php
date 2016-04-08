@@ -11,7 +11,7 @@ $config['menu'] = [
 	'student'=>[
 		'label'=>'Students',
 		'icon'=>'graduation-cap',
-		'auth'=> ['System Administrator', 'Data Administrator'],
+		'auth'=> ['System Administrator', 'Data Administrator','School Administrator'],
 		'group'=>'student',
 	],
 	'sections' => [
@@ -22,19 +22,19 @@ $config['menu'] = [
 	'attendance' => [
 		'label' => 'Attendance',
 		'icon' => 'qrcode',
-		'auth' => ['System Administrator', 'Data Administrator'],
+		'auth' => ['System Administrator', 'Data Administrator','School Administrator'],
 		'group' => 'student',
 	],
 	'assessments' => [
 		'label' => 'Assessments',
 		'icon'  => 'table',
-		'auth'  => ['System Administrator', 'Data Administrator'],
+		'auth'  => ['System Administrator', 'Data Administrator','School Administrator'],
 		'group' => 'student',
 	],
 	'cohorts' => [
 		'label' => 'Cohorts',
 		'icon'  => 'cubes',
-		'auth'  => ['System Administrator', 'Data Administrator'],
+		'auth'  => ['System Administrator', 'Data Administrator','School Administrator'],
 		'group' => 'student',
 	],
 	'learning-lab' => [
@@ -56,7 +56,7 @@ $config['menu'] = [
 		'label' => 'Flex Reports',
 		'attr' => 'data-intro="Flex Reports:  customized and dynamic reporting based on school needs" data-position="right"',
 		'icon'  => 'bar-chart',
-		'auth'  => ['System Administrator', 'Data Administrator']
+		'auth'  => ['System Administrator', 'Data Administrator','School Administrator']
 	],
 	'management' => [
 		'label' => 'Management',

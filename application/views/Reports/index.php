@@ -58,13 +58,17 @@
                     </tbody>
                 </table>
                 <a name="dashConf"></a>
+                 <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
+
                 <a href="<?= site_url('reports/create') ?>" class="btn btn-primary">New Flex Report</a>
+                <?php } ?>
             </div>
 
         </div>
     </div>
  </div>
 <div class="row">
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -81,4 +85,5 @@
 
         </div>
     </div>
+    <?php } ?>
 </div>
