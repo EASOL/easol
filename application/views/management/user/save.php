@@ -45,7 +45,7 @@
 
 					<div class="form-group">
 						<label for="role">Role</label>
-						<?php echo form_dropdown("user[RoleId]", $role_listing, ($post['user']) ? $post['RoleId'] : "", "class='form-control'"); ?>
+						<?php echo form_dropdown("user[RoleId]", $role_listing, ($post['user']) ? $post['user']['RoleId'] : "", "class='form-control'"); ?>
 
 
 					</div>
