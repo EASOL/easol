@@ -13,7 +13,9 @@ class Reports extends Easol_Controller {
 
     protected function accessRules(){
         return [
-            "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
+            "default"   => ['System Administrator','Data Administrator'],
+            "index"     => ['System Administrator','Data Administrator','School Administrator'],
+            "view"      => ['System Administrator','Data Administrator','School Administrator', 'Educator'],
         ];
     }
 
@@ -21,7 +23,7 @@ class Reports extends Easol_Controller {
      * index action
      */
     public function index()
-	{
+    {
 
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
@@ -51,8 +53,8 @@ class Reports extends Easol_Controller {
 
         }
 
-		$this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
-	}
+        $this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
+    }
 
     /**
      * index action
