@@ -74,7 +74,7 @@ foreach($ReportData as $key=>$value){
             <div class="panel-body">
                
 
-                <div data-context="<?php echo $this->router->fetch_class() ?>" id="chart-<?php echo $model->ReportId ?>" data-type="<?php echo $Settings->Type ?>" data-report-id="<?php echo $model->ReportId ?>" data-variable="<?php echo $variable ?>" class='bar-chart chart' data-chart-data='<?php echo json_encode($ChartData) ?>' data-chart-filter='<?php echo json_encode($ChartFilter) ?>' data-xaxis-label="<?php echo $Settings->LabelY ?>" data-yaxis-label="<?php echo $Settings->LabelX ?>">
+                <div data-context="<?php echo $this->router->fetch_class() ?>" id="chart-<?php echo $model->ReportId ?>" data-type="<?php echo $Settings->Type ?>" data-report-id="<?php echo $model->ReportId ?>" data-variable="<?php echo $variable ?>" class='bar-chart chart' data-chart-data='<?php echo json_encode($ChartData) ?>' data-chart-filter='<?php echo json_encode($ChartFilter) ?>' data-xaxis-label="<?php echo $Settings->LabelX ?>" data-yaxis-label="<?php echo $Settings->LabelY ?>">
                     <svg></svg>
                 </div>
 
