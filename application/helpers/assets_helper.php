@@ -34,7 +34,7 @@ $GLOBALS['assets_lib'] = array(
 	),
 	'chardinjs'=>array(
 		'css'=>array('lib/chardinjs/chardinjs.css'),
-		'js'=>array('lib/chardinjs/chardingjs.js')
+		'js'=>array('lib/chardinjs/chardinjs.js')
 	),
 	'bootstrap-toggle'=>array(
 		'css'=>array('//gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.css'),
