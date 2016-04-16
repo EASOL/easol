@@ -29,7 +29,7 @@
                             $rightOptions='';
                             $bottomOptions='';
                             /* @var $dashConf Easol_DashboardConfiguration */
-                            $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Authentication::userdata('SchoolId')]);
+                            $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
 
                             ?>
 

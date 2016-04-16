@@ -44,11 +44,11 @@ class System extends Easol_Controller {
 				$rec->Value = json_encode($post[$key]);				
 				$rec->Key = $key;
 				if (!$new) {
-					$rec->UpdatedBy = Easol_Authentication::userdata('StaffUSI');
+					$rec->UpdatedBy = Easol_Auth::userdata('StaffUSI');
 					$rec->UpdatedOn = date('Y-m-d H:i:s');
 				}
 				else {
-					$rec->CreatedBy = Easol_Authentication::userdata('StaffUSI');
+					$rec->CreatedBy = Easol_Auth::userdata('StaffUSI');
 					$rec->CreatedOn = date('Y-m-d H:i:s');
 				}
 

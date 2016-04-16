@@ -29,11 +29,11 @@ class Reports extends Easol_Controller {
         if($this->input->post('dashboardConf')){
             //print_r($this->input->post('dashboardConf'));
             foreach($this->input->post('dashboardConf') as $roleId => $conf){
-                $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Authentication::userdata('SchoolId')]);
+                $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
                 if($dashConf==null){
                     $dashConf = new Easol_DashboardConfiguration();
                     $dashConf->RoleTypeId = $roleId;
-                    $dashConf->EducationOrganizationId = Easol_Authentication::userdata('SchoolId');
+                    $dashConf->EducationOrganizationId = Easol_Auth::userdata('SchoolId');
 
 
                 } else{

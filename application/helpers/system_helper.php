@@ -19,7 +19,7 @@ function system_google_auth_app_id() {
 
 function system_variables() {
 	return [
-		'$CURRENT_EDORG' => Easol_Authentication::userdata("SchoolId"),
+		'$CURRENT_EDORG' => Easol_Auth::userdata("SchoolId"),
 		'$CURRENT_YEAR' => date('Y')
 	];
 }
