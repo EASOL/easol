@@ -95,7 +95,7 @@
 
                                 <div <?php echo (isset($item['attr'])) ? $item['attr'] : '' ?>>
                                     <?php foreach ($item['items'] as $sub_slug=>$group_item): ?>
-								<?php $this->load->view('layout/default/_menu_item', ['item'=>$group_item, 'slug'=>$sub_slug]); ?>
+								        <?php $this->load->view('layout/default/_menu_item', ['item'=>$group_item, 'slug'=>$sub_slug]); ?>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else: ?>

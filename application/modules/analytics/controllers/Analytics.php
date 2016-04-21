@@ -216,7 +216,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
 
         $data['years']          = range($data['currentYear'], date('Y'));
 
-        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
+        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course WHERE EducationOrganizationId = '". Easol_Authentication::userdata('SchoolId') ."' ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 
         $sql                    = "SELECT
@@ -226,6 +226,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
                                     FROM edfi.Staff
                                     LEFT JOIN edfi.StaffSchoolAssociation
                                     ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
+                                    WHERE edfi.StaffSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') ."'
                                     ORDER By FirstName, LastSurname
                                     ";
 

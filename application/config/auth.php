@@ -11,6 +11,9 @@ $config['auth']['student'] = [
 		'Data Administrator' => true,
 		'School Administrator' => [
 			'condition' => ['user_has_school']
+		],
+		'Educator' => [
+			'condition' => ['user_has_school']
 		]
 	],
 	

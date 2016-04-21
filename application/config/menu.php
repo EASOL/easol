@@ -11,7 +11,7 @@ $config['menu'] = [
 	'student'=>[
 		'label'=>'Students',
 		'icon'=>'graduation-cap',
-		'auth'=> ['System Administrator', 'Data Administrator','School Administrator'],
+		'auth'=> ['System Administrator', 'Data Administrator','School Administrator','Educator'],
 		'group'=>'student',
 	],
 	'sections' => [
