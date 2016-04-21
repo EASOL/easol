@@ -49,7 +49,7 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
     public function beforeSave(){
-        $this->SchoolId = Easol_Authentication::userdata("SchoolId");
+        $this->SchoolId = Easol_Auth::userdata("SchoolId");
         parent::beforeSave();
     }
 

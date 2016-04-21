@@ -28,7 +28,7 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
      */
     public static function getValue($key,$EducationOrganizationId=''){
         if($EducationOrganizationId=='')
-            $EducationOrganizationId = Easol_Authentication::userdata('SchoolId');
+            $EducationOrganizationId = Easol_Auth::userdata('SchoolId');
 
         $data=self::$conf->findOne(['Key'=>$key,'EducationOrganizationId'=>$EducationOrganizationId]);
         if(isset($data->Value)) return $data->Value;
@@ -66,7 +66,7 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
     public static function userCanFilter() {
     	$data['allowedUser'] = '';
 	$data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
-	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator','School Administrator']) ) { $data['allowedUser'] = "AND Staff.StaffUSI=".Easol_Authentication::userdata('StaffUSI'); $data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
+	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator','School Administrator']) ) { $data['allowedUser'] = "AND Staff.StaffUSI=".Easol_Auth::userdata('StaffUSI'); $data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
 	return $data;
     }
 

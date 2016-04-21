@@ -13,7 +13,9 @@ class Reports extends Easol_Controller {
 
     protected function accessRules(){
         return [
-            "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
+            "default"   => ['System Administrator','Data Administrator'],
+            "index"     => ['System Administrator','Data Administrator','School Administrator'],
+            "view"      => ['System Administrator','Data Administrator','School Administrator', 'Educator'],
         ];
     }
 
@@ -21,7 +23,7 @@ class Reports extends Easol_Controller {
      * index action
      */
     public function index()
-	{
+    {
 
         $this->load->model('entities/easol/Easol_Report');
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
@@ -29,11 +31,11 @@ class Reports extends Easol_Controller {
         if($this->input->post('dashboardConf')){
             //print_r($this->input->post('dashboardConf'));
             foreach($this->input->post('dashboardConf') as $roleId => $conf){
-                $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Authentication::userdata('SchoolId')]);
+                $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
                 if($dashConf==null){
                     $dashConf = new Easol_DashboardConfiguration();
                     $dashConf->RoleTypeId = $roleId;
-                    $dashConf->EducationOrganizationId = Easol_Authentication::userdata('SchoolId');
+                    $dashConf->EducationOrganizationId = Easol_Auth::userdata('SchoolId');
 
 
                 } else{
@@ -51,8 +53,8 @@ class Reports extends Easol_Controller {
 
         }
 
-		$this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
-	}
+        $this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
+    }
 
     /**
      * index action

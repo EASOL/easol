@@ -1,7 +1,7 @@
 $(function() {
 
 
-	$( document ).ajaxComplete(create_charts);
+	$('body').ajaxComplete(create_charts);
 	create_charts();
 	
     

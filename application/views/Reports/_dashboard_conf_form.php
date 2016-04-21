@@ -29,7 +29,7 @@
                             $rightOptions='';
                             $bottomOptions='';
                             /* @var $dashConf Easol_DashboardConfiguration */
-                            $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Authentication::userdata('SchoolId')]);
+                            $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
 
                             ?>
 
@@ -90,16 +90,16 @@
                             <?php } ?>
 
                         <tr>
-                            <td><?= $role->RoleTypeName ?></td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][left]">
+                            <td style='width: 150px; vertical-align: middle'><?= $role->RoleTypeName ?></td>
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][left]" class='form-control'>
                                     <?= $leftOptions ?>
 
 
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]">
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]" class='form-control'>
                                 <?= $rightOptions ?>
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]">
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]" class='form-control'>
                                 <?= $bottomOptions ?>
                                 </select> </td>
                         </tr>

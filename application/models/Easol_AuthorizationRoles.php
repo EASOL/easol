@@ -57,15 +57,15 @@ class Easol_AuthorizationRoles extends CI_Model {
         if(!is_array($allowedRoles)){
             if($allowedRoles=='*' || $allowedRoles == '')
                 return true;
-            if($allowedRoles=='@' && Easol_Authentication::isLoggedIn())
+            if($allowedRoles=='@' && Easol_Auth::isLoggedIn())
                 return true;
         }
 
-        if(!Easol_Authentication::userdata('RoleId'))
+        if(!Easol_Auth::userdata('RoleId'))
             return false;
 
         foreach($allowedRoles as $role){
-            if(array_key_exists($role, self::$roles) && self::$roles[$role]==Easol_Authentication::userdata('RoleId')){
+            if(array_key_exists($role, self::$roles) && self::$roles[$role]==Easol_Auth::userdata('RoleId')){
 
                 return true;
 

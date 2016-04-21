@@ -25,7 +25,7 @@ public function index()
 
         // define required filters
         $where = array();
-        $where['edfi.Grade.SchoolId'] = Easol_Authentication::userdata('SchoolId');
+        $where['edfi.Grade.SchoolId'] = Easol_Auth::userdata('SchoolId');
 
         // define optional filters
         $lookFor = array(
@@ -33,7 +33,7 @@ public function index()
         );
         
         // If it's educator who is logged in, we force change Where param
-         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
+         if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Auth::userdata('StaffUSI');
 
         $this->db->select("Grade.LocalCourseCode, Course.CourseTitle, Section.UniqueSectionCode, Section.id, Grade.ClassPeriodName, 
         Staff.FirstName, Staff.LastSurname, TermType.CodeValue, Grade.SchoolYear, 
@@ -81,7 +81,7 @@ INNER JOIN "edfi"."StaffSectionAssociation" ON "StaffSectionAssociation"."School
 INNER JOIN "edfi"."Staff" ON "Staff"."StaffUSI" = "StaffSectionAssociation"."StaffUSI" 
 INNER JOIN "edfi"."Course" ON "edfi"."Course"."EducationOrganizationId" = "edfi"."Grade"."SchoolId" AND "edfi"."Course"."CourseCode" = "edfi"."Grade"."LocalCourseCode" 
 INNER JOIN "edfi"."TermType" ON "edfi"."TermType"."TermTypeId" = "edfi"."Grade"."TermTypeId" 
-WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
+WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
         $data['terms']          = $this->db->query($sql)->result();
 
         $data['years']          = range($data['currentYear'], date('Y'));

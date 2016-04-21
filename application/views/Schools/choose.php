@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <select name="school" class="form-control">
                             <?php  foreach($schools as $school) { ?>
-                                <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                             <?php } ?>
                         </select>
                     </div>
