@@ -23,14 +23,14 @@ class Assessments extends Easol_Controller {
 		$currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
 
 		$query = "SELECT
-               AssessmentTitle,
-               edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId,
-               edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId,
-               Version, AdministrationDate,
-               edfi.AcademicSubjectType.CodeValue +'' as Subject,
-               edfi.GradeLevelType.CodeValue +'' as Grade,
-			AVG(CAST(StudentAssessmentScoreResult.Result as FLOAT)) as AverageResult,
-			COUNT(*) as StudentCount
+				AssessmentTitle,
+				edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId,
+				edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId,
+				Version, AdministrationDate,
+				edfi.AcademicSubjectType.CodeValue +'' as Subject,
+				edfi.GradeLevelType.CodeValue +'' as Grade,
+				AVG(CAST(TRY_CONVERT(float, StudentAssessmentScoreResult.Result) as FLOAT)) as AverageResult,
+				COUNT(*) as StudentCount
 			FROM edfi.StudentAssessmentScoreResult
 			JOIN edfi.AcademicSubjectDescriptor ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessmentScoreResult
 			.AcademicSubjectDescriptorId
@@ -43,7 +43,7 @@ class Assessments extends Easol_Controller {
 			.GradeLevelTypeId
 			JOIN edfi.StudentSchoolAssociation ON edfi.StudentSchoolAssociation.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
 
-			WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1
+			WHERE  1 = 1 /* AND ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 */
 			AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') . "'
 			GROUP BY  AssessmentTitle,Version,AdministrationDate, edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId, edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId, edfi.AcademicSubjectType.CodeValue, edfi.GradeLevelType.CodeValue";
 
@@ -62,7 +62,7 @@ class Assessments extends Easol_Controller {
 			.AssessedGradeLevelDescriptorId
 			JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
 			.GradeLevelTypeId
-			WHERE  ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ORDER BY GradeLevelTypeId ASC");
+			WHERE  1=1 /*ISNUMERIC(StudentAssessmentScoreResult.Result) = 1*/ and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ORDER BY GradeLevelTypeId ASC");
 		foreach ($query->result() as $row) {
 			$filter['grade'][$row->CodeValue] = $row->CodeValue;
 		}
