@@ -20,7 +20,7 @@ class Student extends Easol_Controller {
         $currentYear = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $currentYear_default = Easol_SchoolConfiguration::setDefault('Year', $currentYear);
 
-        $query= "SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.Description as Grade, StudentCohortAssociation.CohortIdentifier,
+       echo $query= "SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.Description as Grade, StudentCohortAssociation.CohortIdentifier,
 StudentSchoolAssociation.SchoolYear
 from edfi
 .StudentSchoolAssociation

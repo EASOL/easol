@@ -46,7 +46,7 @@ Class Easol_Auth {
         if ($this->ci->easol_module->is_module($this->controller) && !$this->ci->easol_module->is_enabled($this->controller)) {
             return redirect('home/accessdenied');
         }
-           
+
         if (!$this->has_permission()) {
             return redirect('home/accessdenied');
         }
@@ -74,10 +74,12 @@ Class Easol_Auth {
             }
         }
 
+
         // at that point, auth_config is the array for current controller and method. If not found, it is the array for "*"
         if (is_array($auth_config) && $auth_config[$this->role]) {
+            echo $this->role;
             if (is_array($auth_config[$this->role]['condition'])) {
-               
+                 print_r($auth_config);
                 foreach ($auth_config[$this->role]['condition'] as $function) {
                     if (!method_exists($this, $function)) {
                         return false;
@@ -95,14 +97,20 @@ Class Easol_Auth {
         return false;
 	}
 
-    public function user_has_school() {
+    public function user_has_school($StudentUSI=null) {
 
-        $StudentUSI = $this->args[0];
+        print_r($this->args);
+
+        if (!$StudentUSI) $StudentUSI = $this->args[0];
         if (!$StudentUSI) return true;
+
+        var_dump($StudentUSI);
+        exit();
 
         $student = Model\Edfi\Student::find($StudentUSI);
 
         foreach ($student->School() as $school) {
+            echo $school->SchoolId;
             if ($school->SchoolId == self::userdata('SchoolId')) return true;
         }
 
