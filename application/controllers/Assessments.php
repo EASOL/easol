@@ -12,7 +12,7 @@ class Assessments extends Easol_Controller {
 
 	protected function accessRules(){
 		return [
-			"index"     =>  ['System Administrator','Data Administrator'],
+			"index"     =>  ['System Administrator','Data Administrator','School Administrator'],
 		];
 	}
 	/**
@@ -31,6 +31,7 @@ class Assessments extends Easol_Controller {
 				edfi.GradeLevelType.CodeValue +'' as Grade,
 				AVG(CAST(TRY_CONVERT(float, StudentAssessmentScoreResult.Result) as FLOAT)) as AverageResult,
 				COUNT(*) as StudentCount
+
 			FROM edfi.StudentAssessmentScoreResult
 			JOIN edfi.AcademicSubjectDescriptor ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessmentScoreResult
 			.AcademicSubjectDescriptorId
@@ -45,6 +46,7 @@ class Assessments extends Easol_Controller {
 
 			WHERE  1 = 1 /* AND ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 */
 			AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') . "'
+
 			GROUP BY  AssessmentTitle,Version,AdministrationDate, edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId, edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId, edfi.AcademicSubjectType.CodeValue, edfi.GradeLevelType.CodeValue";
 
 		$query = $this->db->query($query);
@@ -62,7 +64,9 @@ class Assessments extends Easol_Controller {
 			.AssessedGradeLevelDescriptorId
 			JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
 			.GradeLevelTypeId
+
 			WHERE  1=1 /*ISNUMERIC(StudentAssessmentScoreResult.Result) = 1*/ and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ORDER BY GradeLevelTypeId ASC");
+
 		foreach ($query->result() as $row) {
 			$filter['grade'][$row->CodeValue] = $row->CodeValue;
 		}
@@ -92,7 +96,7 @@ class Assessments extends Easol_Controller {
                Version, AdministrationDate,
                edfi.AcademicSubjectType.CodeValue +'' as Subject,
                edfi.GradeLevelType.CodeValue +'' as Grade,
-			AVG(CAST(StudentAssessmentScoreResult.Result as FLOAT)) as AverageResult,
+		/*	AVG(CAST(StudentAssessmentScoreResult.Result as FLOAT)) as AverageResult,*/
 			COUNT(*) as StudentCount
 			FROM edfi.StudentAssessmentScoreResult
 			JOIN edfi.AcademicSubjectDescriptor ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessmentScoreResult

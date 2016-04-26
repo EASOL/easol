@@ -12,7 +12,7 @@ class Cohorts extends Easol_Controller {
 
     protected function accessRules(){
         return [
-            "index"     =>  ['System Administrator','Data Administrator'],
+            "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
         ];
     }
 
@@ -24,7 +24,7 @@ class Cohorts extends Easol_Controller {
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
      Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
-WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication::userdata('SchoolId')."'
+WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Auth::userdata('SchoolId')."'
     GROUP BY StudentCohortAssociation.CohortIdentifier,Cohort.CohortDescription";
 
         $query = $this->db->query($query);
@@ -42,11 +42,11 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication
 
         $this->load->model("entities/edfi/Edfi_Cohort",'Edfi_Cohort');
         $cohort = $this->Edfi_Cohort->findOneBySql("select Cohort.CohortIdentifier, Cohort.CohortDescription from edfi.Cohort
-WHERE Cohort.CohortIdentifier = ? and Cohort.EducationOrganizationId = ? ",[$cohortIdentifier,Easol_Authentication::userdata('SchoolId')]);
+WHERE Cohort.CohortIdentifier = ? and Cohort.EducationOrganizationId = ? ",[$cohortIdentifier,Easol_Auth::userdata('SchoolId')]);
 
         $query="SELECT Student.FirstName, Student.LastSurname,Student.StudentUSI FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Student ON Student.StudentUSI = StudentCohortAssociation.StudentUSI
-WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Authentication::userdata('SchoolId')." and StudentCohortAssociation.CohortIdentifier = '".$cohort->CohortIdentifier."'
+WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Auth::userdata('SchoolId')." and StudentCohortAssociation.CohortIdentifier = '".$cohort->CohortIdentifier."'
 
  ";
         $query = $this->db->query($query);
@@ -66,7 +66,7 @@ WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Authentication:
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
      Cohort.CohortIdentifier = StudentCohortAssociation.CohortIdentifier AND Cohort.EducationOrganizationId = StudentCohortAssociation.EducationOrganizationId
-WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Authentication::userdata('SchoolId')."'
+WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Auth::userdata('SchoolId')."'
                   ";
 
 

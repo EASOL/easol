@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <div class="col-md-12">
                                 
-                            <table id="filter-table" class="table table-striped table-bordered">
+                            <table id="filter-table" class="table table-striped table-bordered table-widget" data-table-type='minimal'>
                                 <thead>
                                     <tr>
                                         <th>Display Name</th>
@@ -70,7 +70,7 @@
                                         <th>Type</th>
                                         <th>Values</th>
                                         <th>Default</th>
-                                        <th>Delete</th>
+                                        <th data-orderable="false">Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,12 +123,12 @@
                         
                         <div class="col-md-12">
                                 
-                            <table id="link-table" class="table table-striped table-bordered">
+                            <table id="link-table" class="table table-striped table-bordered table-widget" data-table-type='minimal'>
                                 <thead>
                                     <tr>
                                         <th>URL</th>
                                         <th>Column No</th>
-                                        <th>Delete</th>
+                                        <th data-orderable='false'>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>

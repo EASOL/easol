@@ -46,7 +46,7 @@ class Analytics extends Easol_Controller {
 
              // define required filters
         $where = array(
-                        'edfi.Grade.SchoolId'   => Easol_Authentication::userdata('SchoolId'),
+                        'edfi.Grade.SchoolId'   => Easol_Auth::userdata('SchoolId'),
         );
 
         // define optional filters
@@ -55,7 +55,7 @@ class Analytics extends Easol_Controller {
         );
 
         // If it's educator who is logged in, we force change Where param
-        if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Authentication::userdata('StaffUSI');
+        if(!$data['userCanFilter']) $where[$lookFor['educator']] = Easol_Auth::userdata('StaffUSI');
 
         $this->db->select("Grade.LocalCourseCode, Section.UniqueSectionCode, Section.id, Section.SchoolYear, Grade.ClassPeriodName, Staff.StaffUSI, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
         $this->db->from('edfi.Grade');
@@ -126,7 +126,7 @@ class Analytics extends Easol_Controller {
 
                 // get the section datetime intervals
                 $urldates = '';
-                $SchoolId           = Easol_Authentication::userdata('SchoolId');
+                $SchoolId           = Easol_Auth::userdata('SchoolId');
                 $ClassPeriodName    = $v->ClassPeriodName;
                 $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
                 $this->db->from("edfi.BellSchedule");
@@ -210,7 +210,7 @@ class Analytics extends Easol_Controller {
 INNER JOIN "edfi"."School" ON "School"."SchoolId" = "Grade"."SchoolId"
 INNER JOIN "edfi"."Course" ON "edfi"."Course"."EducationOrganizationId" = "edfi"."Grade"."SchoolId" AND "edfi"."Course"."CourseCode" = "edfi"."Grade"."LocalCourseCode"
 INNER JOIN "edfi"."TermType" ON "edfi"."TermType"."TermTypeId" = "edfi"."Grade"."TermTypeId"
-WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
+WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
 
         $data['terms']          = $this->db->query($sql)->result();
 
@@ -242,7 +242,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').'
         $section    = $this->uri->segment(3, 0);
         $data       = array();
 
-        $SchoolId           = Easol_Authentication::userdata('SchoolId');
+        $SchoolId           = Easol_Auth::userdata('SchoolId');
 
         // This Separate SQL call is to get details about the Section
         $this->db->select("Grade.LocalCourseCode, SEC.UniqueSectionCode, SEC.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");
@@ -361,7 +361,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Authentication::userdata('SchoolId').'
         $student    = base64_decode($this->uri->segment(4, 0)); // decode the email hash that was base64 encoded so it could be passed in the url.
         $data       = array();
 
-        $SchoolId           = Easol_Authentication::userdata('SchoolId');
+        $SchoolId           = Easol_Auth::userdata('SchoolId');
 
         // This SQL call is to get details about the Section
         $this->db->select("Grade.LocalCourseCode, SEC.UniqueSectionCode, SEC.id, Grade.ClassPeriodName, Staff.FirstName, Staff.LastSurname, TermType.CodeValue");

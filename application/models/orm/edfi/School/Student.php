@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Edfi\EducationOrganization;
+namespace Model\Edfi\School;
 
 use \Gas\Core;
 use \Gas\ORM;

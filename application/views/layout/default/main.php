@@ -8,6 +8,7 @@
     <?php assets_lib('datatables'); ?>    
     <?php assets_lib('nvd3'); ?>
     <?php assets_widget('charts'); ?>
+    <?php assets_widget('tables'); ?>
 
     <?php $this->carabiner->css('lib/bootstrap-3.3.6/dist/css/bootstrap.css'); ?>    
     <?php $this->carabiner->css('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css'); ?>
@@ -55,20 +56,20 @@
                 </a>
             </div>
             <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
-                <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) : ?>
+                <?php if(Easol_Auth::isLoggedIn() && Easol_Auth::userdata('SchoolId')!=false) : ?>
                     <ul class="nav" id="main-menu">
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])):  ?>
                             <li class="visible-xs-block">
                                 <form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
                                     <select name="school" class="form-control" onchange="this.form.submit()">
                                         <?php  foreach($this->Edfi_School->getAllSchools() as $school):  ?>
-                                            <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                            <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </form>
                             </li>
-                        <?php  elseif(Easol_Authentication::userdata('SchoolName')): ?>
-                            <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                        <?php  elseif(Easol_Auth::userdata('SchoolName')): ?>
+                            <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Auth::userdata('SchoolName') ?></p></li>
                         <?php endif; ?>
 
                         <?php foreach (menu_items() as $slug=>$item): ?>
@@ -106,7 +107,7 @@
                             <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
                         </li>
 
-                        <?php if(Easol_Authentication::isLoggedIn()): ?>
+                        <?php if(Easol_Auth::isLoggedIn()): ?>
                             <li class="visible-xs-block">
                                 <a href="<?= site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
                             </li>
@@ -131,18 +132,18 @@
                 </button>
             </div>
 
-            <?php if(Easol_Authentication::isLoggedIn() && Easol_Authentication::userdata('SchoolId')!=false) { ?>
+            <?php if(Easol_Auth::isLoggedIn() && Easol_Auth::userdata('SchoolId')!=false) { ?>
                 <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
                         <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
                                 <select name="school" class="form-control" onChange="this.form.submit()">
                                     <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
-                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Authentication::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
                                     <?php } ?>
                                 </select>
                             </form></li>
-                    <?php } elseif(Easol_Authentication::userdata('SchoolName')){ ?>
-                        <li><p class="navbar-text"><?= Easol_Authentication::userdata('SchoolName') ?></p></li>
+                    <?php } elseif(Easol_Auth::userdata('SchoolName')){ ?>
+                        <li><p class="navbar-text"><?= Easol_Auth::userdata('SchoolName') ?></p></li>
                     <?php } ?>
 
                     <li class="dropdown">
@@ -197,7 +198,7 @@
 <?php endif; ?>
 
 
-<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'); ?>
+<?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js'); ?>
 <?php $this->carabiner->js('lib/bootstrap-3.3.6/dist/js/bootstrap.js'); ?>
 <?php $this->carabiner->js('lib/js.cookie-2.0.4.js'); ?>
 <?php $this->carabiner->js('lib/jquery.metisMenu.js'); ?>

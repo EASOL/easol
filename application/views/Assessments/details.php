@@ -27,7 +27,7 @@
 						<td><?php echo $assessment->Grade ?></td>
 						<td><?php echo easol_date($assessment->AdministrationDate) ?></td>
 						<td><?php echo $assessment->StudentCount ?></td>
-						<td><?php echo round($assessment->AverageResult) ?></td>
+						<td><?php /* echo round($assessment->AverageResult)*/ ?></td>
 
 					</tr>
 					</tbody>
@@ -35,7 +35,7 @@
 				<?php if (isset($students) and !empty($students)): ?>
 					<h2 class="backToH2">Students</h2>
 
-					<table id="students-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<table id="students-table" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
 						<thead>
 						<tr>
 							<th>Full Name</th>

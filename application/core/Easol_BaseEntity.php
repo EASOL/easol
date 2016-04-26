@@ -200,7 +200,7 @@ abstract class Easol_BaseEntity extends CI_Model{
 
         if($this->isNewRecord){
             if(array_key_exists('CreatedBy',$this->labels())){
-                $this->CreatedBy=Easol_Authentication::userdata("StaffUSI");
+                $this->CreatedBy=Easol_Auth::userdata("StaffUSI");
 
             }
             if(array_key_exists('CreatedOn',$this->labels())){
@@ -211,7 +211,7 @@ abstract class Easol_BaseEntity extends CI_Model{
         }
 
         if(array_key_exists('UpdatedBy',$this->labels())){
-            $this->UpdatedBy=Easol_Authentication::userdata("StaffUSI");
+            $this->UpdatedBy=Easol_Auth::userdata("StaffUSI");
 
         }
         if(array_key_exists('UpdatedOn',$this->labels())){

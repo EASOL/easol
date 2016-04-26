@@ -6,7 +6,7 @@ class Student extends Easol_Controller {
 
     protected function accessRules(){
         return [
-            "index"     =>  ['System Administrator','Data Administrator'],
+            "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
         ];
     }
 
@@ -33,7 +33,7 @@ INNER JOIN edfi.GradeLevelType ON
 LEFT JOIN edfi.StudentCohortAssociation ON
       StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
 WHERE
-     StudentSchoolAssociation.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
+     StudentSchoolAssociation.SchoolId = '".Easol_Auth::userdata('SchoolId')."'
 
                   ";
 
@@ -49,7 +49,7 @@ INNER JOIN edfi.GradeLevelType ON
      GradeLevelDescriptor.GradeLevelTypeId = GradeLevelType.GradeLevelTypeId
 LEFT JOIN edfi.StudentCohortAssociation ON
       StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
- WHERE StudentSchoolAssociation.SchoolId = '" . Easol_Authentication::userdata('SchoolId') . "' and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ";
+ WHERE StudentSchoolAssociation.SchoolId = '" . Easol_Auth::userdata('SchoolId') . "' and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ";
         $query = $this->db->query($query);
         $data['grade_listing'] = [''=>'All Grades'];
         foreach ($query->result() as $row) {
@@ -305,7 +305,7 @@ INNER JOIN edfi.GradeLevelType ON
 LEFT JOIN edfi.StudentCohortAssociation ON
       StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
 WHERE
-     StudentSchoolAssociation.SchoolId = '".Easol_Authentication::userdata('SchoolId')."'
+     StudentSchoolAssociation.SchoolId = '".Easol_Auth::userdata('SchoolId')."'
 
                   ";
 
@@ -352,7 +352,7 @@ INNER JOIN edfi.GradeLevelType ON
      GradeLevelDescriptor.GradeLevelTypeId = GradeLevelType.GradeLevelTypeId
 LEFT JOIN edfi.StudentCohortAssociation ON
       StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
- WHERE StudentSchoolAssociation.SchoolId = '".Easol_Authentication::userdata('SchoolId')."' and GradeLevelType.GradeLevelTypeId between -1 and 12 )
+ WHERE StudentSchoolAssociation.SchoolId = '".Easol_Auth::userdata('SchoolId')."' and GradeLevelType.GradeLevelTypeId between -1 and 12 )
                                           "),
                                 'searchColumn'    =>  'GradeLevelTypeId',
                                 'textColumn'=>  'Description',

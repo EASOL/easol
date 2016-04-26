@@ -8,7 +8,7 @@
         <form action="" method="post" class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-12 col-sm-12">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" data-csv='no' data-column-visibility='no' data-filter-option='no'>
                         <thead>
                         <tr>
                             <th>Role</th>
@@ -29,7 +29,7 @@
                             $rightOptions='';
                             $bottomOptions='';
                             /* @var $dashConf Easol_DashboardConfiguration */
-                            $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Authentication::userdata('SchoolId')]);
+                            $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
 
                             ?>
 
@@ -90,16 +90,16 @@
                             <?php } ?>
 
                         <tr>
-                            <td><?= $role->RoleTypeName ?></td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][left]">
+                            <td style='width: 150px; vertical-align: middle'><?= $role->RoleTypeName ?></td>
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][left]" class='form-control'>
                                     <?= $leftOptions ?>
 
 
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]">
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]" class='form-control'>
                                 <?= $rightOptions ?>
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]">
+                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]" class='form-control'>
                                 <?= $bottomOptions ?>
                                 </select> </td>
                         </tr>

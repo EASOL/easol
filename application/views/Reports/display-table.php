@@ -13,7 +13,7 @@
 <?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header"><a href="<?php echo site_url('reports/view/'.$model->ReportId) ?>"><?= $model->ReportName ?></a></h1>
+        <h3 class="page-header"><a href="<?php echo site_url('reports/view/'.$model->ReportId) ?>"><?= $model->ReportName ?></a></h3>
     </div>
 </div>
 <?php } ?>

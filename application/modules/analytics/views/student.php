@@ -29,7 +29,7 @@
               </table>
                 <?php if (isset($student->records) and !empty($student->records)): ?>
                   <div class="col-md-12 col-sm-12">
-                      <table id="analyzestudents" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                      <table id="analyzestudents" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
                         <thead>
                           <tr>
                             <th>Date Time</th>

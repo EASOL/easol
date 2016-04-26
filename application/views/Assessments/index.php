@@ -35,7 +35,7 @@
 
 
 				<div class="datatablegrid">
-			    		<table id="assessments-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			    		<table id="assessments-table" class="table table-striped table-bordered table-widget" data-filter-option='no' cellspacing="0" width="100%">
 				    <thead>
 				    <tr>
 					    <th>Assessment Name</th>
@@ -56,7 +56,7 @@
 						    <td><?php echo $row->Version; ?></td>
 						    <td><?php echo easol_date($row->AdministrationDate); ?></td>
 						    <td><?php echo $row->StudentCount; ?></td>
-						    <td><?php echo round($row->AverageResult); ?></td>
+						    <td><?php /* echo round($row->AverageResult);*/ ?></td>
 					    </tr>
 				    <?php endforeach; ?>
 				    </tbody>

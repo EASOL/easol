@@ -1,17 +1,17 @@
-$( document ).ajaxComplete(create_charts);
-create_charts();
 function create_charts() {
 	$('.bar-chart.chart').each(function() {
-	    var $chart = $(this);
-	   	
-	   	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
+	    	    
+		var $chart = $(this);
+		if ($chart.data('status') == 'initialized') return;
+
+	 	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
 	   	var historicalBarChart = [
 	        {
 	            key: "Cumulative Return",
 	            values: $.parseJSON($chart.attr('data-chart-data'))
 	        }
 	    ];
-	    
+
 	    nv.addGraph(
 	        function() {
 	            var chart = nv.models.discreteBarChart()
@@ -36,17 +36,21 @@ function create_charts() {
 	        }, 
 	        function() {
 	        	if ($chart.attr('data-report-id')) {
-		            d3.selectAll(".nv-bar").on('click', function(e){
+		            d3.selectAll("#"+ $chart.attr('id') +" .nv-bar").on('click', function(e){
 		                chart_filter($chart.attr('data-report-id'), e.label, $chart.attr('data-variable'), $(this), $chart);
 		            });
 		        }
 	        }
 	    );
+
+		$chart.data('status', 'initialized');
 	});
 
 	$('.pie-chart.chart').each(function() {
 
 		var $chart = $(this);
+
+		if ($chart.data('status') == 'initialized') return;
 
 		$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
 		var chartData = $.parseJSON($chart.attr('data-chart-data'));
@@ -59,7 +63,14 @@ function create_charts() {
 		            .x(function(d) { return d.label })
 		            .y(function(d) { return d.value })
 		        	.color(function(d){ return d.color })
-		            .valueFormat(d3.format(".0f"));
+		        	.showLabels(true)
+		        	.labelsOutside(true)
+		            .valueFormat(d3.format(".0f"))
+		            .labelType(function(d){
+		            	var percent = (d.endAngle - d.startAngle) / (2 * Math.PI);
+						return d.data.label + " ("+d3.format('%')(percent)+')';
+					})
+		            //.tooltip.enabled()
 		        d3.select('#'+$chart.attr('id')+' svg')
 		            .datum(chartData)
 		            .transition().duration(1200)
@@ -76,12 +87,14 @@ function create_charts() {
 		    },
 		    function() {
 		    	if ($chart.attr('data-report-id')) {
-		            d3.selectAll(".nv-slice").on('click', function(e){
+		            d3.selectAll("#"+ $chart.attr('id') +" .nv-slice").on('click', function(e){
 		            	chart_filter($chart.attr('data-report-id'), e.data.label, $chart.attr('data-variable'), $(this), $chart);
 		            });
 		        }
 	        }
 		);
+
+		$chart.data('status', 'initialized');
 
 	});
 };
@@ -102,8 +115,8 @@ function chart_filter(ReportId, label, variable, $node, $chart) {
 	$chart.data('selected', label);
 
 
-	var dataTable = $table.data('dataTable');
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var dataTable = $table.dataTable().api();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 	var chartFilter = $chart.data('filter');
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());
 
@@ -203,9 +216,9 @@ function chart_unfilter(ReportId, label, variable, $node, $chart) {
 	var $table = $('table[data-report-id='+ReportId+']');
 	if ($table.length == 0) return;
 
-	var dataTable = $table.data('dataTable');
+	var dataTable = $table.dataTable().api();
 
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 
 	if ($chart.attr('data-type') == 'defined') {
 		dataTable.clear();
@@ -243,8 +256,8 @@ function chart_nfilter($chart, legends, state) {
 	var $table = $('table[data-report-id='+ReportId+']');
 	if ($table.length == 0) return;
 
-	var dataTable = $table.data('dataTable');
-	var column_no = $table.find('thead th[data-variable='+variable+']').index();
+	var dataTable = $table.dataTable().api();
+	var column_no = $table.find('thead th[data-variable="'+variable+'"]').index();
 	var chartFilter = $chart.data('filter');
 
 	if (!$table.data('initialData')) $table.data('initialData', dataTable.data());

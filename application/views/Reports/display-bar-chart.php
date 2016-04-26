@@ -12,11 +12,10 @@ if (strpos($variable, ".") !== false) $variable = substr(strrchr($variable, '.')
 $ReportQuery = $this->db->query($model->getReportQuery());
 
 if ($Settings->Type == 'dynamic') {
-
     $colors = report_colors($Settings->ColorType, $Settings->ColorScheme);
     foreach ($ReportQuery->result() as $data) {       
-        $ReportData[$variable]++;
-        $ChartFilter[$variable] = $data->$variable;
+        $ReportData[$data->{$variable}]++;
+        $ChartFilter[$data->{$variable}] = $data->{$variable}; 
     }
     ksort($ReportData);
 }
@@ -27,13 +26,13 @@ elseif ($Settings->Type == 'defined') {
     
     foreach ($ReportQuery->result() as $i=>$data) {
         foreach ($Settings->Columns as $column) {
-            $value = $data->$variable;
+            $value = $data->{$variable};
 
             $operator = $column->Operator;
             if (report_value_fits($value, $column->Value, $operator)) $ReportData[$column->Label]++;
 
             $ChartFilter[$column->Label] = $column;
-             if (!$column->Color) $column->Color = report_colors('sequential', $i);
+            if (!$column->Color) $column->Color = report_colors('sequential', $i);
             $ChartColors[$column->Label] = $column->Color;
         }
     }
@@ -56,7 +55,7 @@ foreach($ReportData as $key=>$value){
 <?php if($displayTitle==true){ ?>
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">Flex Reports : Bar Chart : <?= $model->ReportName ?></h1>
+        <h3 class="page-header"><?= $model->ReportName ?></h3>
     </div>
 </div>
 <?php } ?>
@@ -75,7 +74,7 @@ foreach($ReportData as $key=>$value){
             <div class="panel-body">
                
 
-                <div data-context="<?php echo $this->router->fetch_class() ?>" id="chart-<?php echo $model->ReportId ?>" data-type="<?php echo $Settings->Type ?>" data-report-id="<?php echo $model->ReportId ?>" data-variable="<?php echo $variable ?>" class='bar-chart chart' data-chart-data='<?php echo json_encode($ChartData) ?>' data-chart-filter='<?php echo json_encode($ChartFilter) ?>' data-xaxis-label="<?php echo $Settings->LabelY ?>" data-yaxis-label="<?php echo $Settings->LabelX ?>">
+                <div data-context="<?php echo $this->router->fetch_class() ?>" id="chart-<?php echo $model->ReportId ?>" data-type="<?php echo $Settings->Type ?>" data-report-id="<?php echo $model->ReportId ?>" data-variable="<?php echo $variable ?>" class='bar-chart chart' data-chart-data='<?php echo json_encode($ChartData) ?>' data-chart-filter='<?php echo json_encode($ChartFilter) ?>' data-xaxis-label="<?php echo $Settings->LabelX ?>" data-yaxis-label="<?php echo $Settings->LabelY ?>">
                     <svg></svg>
                 </div>
 
