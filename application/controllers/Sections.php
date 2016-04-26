@@ -54,12 +54,15 @@ public function index()
         $this->db->join('edfi.Section', 'Section.LocalCourseCode = StudentSectionAssociation.LocalCourseCode AND Section.SchoolYear = StudentSectionAssociation.SchoolYear AND Section.TermTypeId = StudentSectionAssociation.TermTypeId AND Section.SchoolId = StudentSectionAssociation.SchoolId AND Section.ClassPeriodName = StudentSectionAssociation.ClassPeriodName AND Section.ClassroomIdentificationCode = StudentSectionAssociation.ClassroomIdentificationCode', 'inner');
         $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
+        $this->db->join('edfi.StaffSchoolAssociation', 'StaffSchoolAssociation.StaffUSI = Staff.StaffUSI and StaffSchoolAssociation.SchoolId = '. Easol_Authentication::userdata('SchoolId') );
         $this->db->join('edfi.Course', 'edfi.Course.EducationOrganizationId = edfi.Grade.SchoolId AND edfi.Course.CourseCode = edfi.Grade.LocalCourseCode', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner'); 
         $this->db->group_by('Grade.LocalCourseCode,Course.CourseTitle, Section.UniqueSectionCode, Section.id,Grade.ClassPeriodName,TermType.CodeValue,Grade.SchoolYear,Staff.FirstName,Staff.LastSurname');
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
+
+        //echo $this->db->last_query();
         // exit(print_r($this->db->last_query(), true));
         foreach ($data['results'] as $k => $v)
         {
@@ -86,7 +89,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
 
         $data['years']          = range($data['currentYear'], date('Y'));
 
-        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course ORDER BY CourseTitle";
+        $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course WHERE EducationOrganizationId = '". Easol_Authentication::userdata('SchoolId') ."' ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 
        /* $sql                    = "SELECT * FROM edfi.GradeLevelType";
@@ -99,6 +102,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
                                     FROM edfi.Staff
                                     LEFT JOIN edfi.StaffSchoolAssociation
                                     ON edfi.StaffSchoolAssociation.StaffUSI=edfi.Staff.StaffUSI
+                                    WHERE edfi.StaffSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') ."'
                                     ORDER By FirstName, LastSurname
                                     ";
 
