@@ -54,8 +54,7 @@
                         <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
                     </div>
                 </form>
-<<<<<<< HEAD
-                
+
                 <div class="datatablegrid">
                     <table id="managesections" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no'>
                       <thead>
