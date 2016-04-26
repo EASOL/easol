@@ -45,7 +45,7 @@ class Assessments extends Easol_Controller {
 			JOIN edfi.StudentSchoolAssociation ON edfi.StudentSchoolAssociation.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
 
 			WHERE  1 = 1 /* AND ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 */
-			AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Authentication::userdata('SchoolId') . "'
+			AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Auth::userdata('SchoolId') . "'
 
 			GROUP BY  AssessmentTitle,Version,AdministrationDate, edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId, edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId, edfi.AcademicSubjectType.CodeValue, edfi.GradeLevelType.CodeValue";
 
