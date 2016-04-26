@@ -57,7 +57,7 @@
 <<<<<<< HEAD
                 
                 <div class="datatablegrid">
-                    <table id="managesections" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="managesections" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no'>
                       <thead>
                         <tr>
                           <th>Term</th>
@@ -76,29 +76,7 @@
                       </thead>
                       <tbody>
                         <?php if (isset($results) and !empty($results)): ?>
-=======
- 
-                <?php if (isset($results) and !empty($results)): ?>
-                  <div class="datatablegrid">
-                      <table id="managesections" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no'>
-                        <thead>
-                          <tr>
-                            <th>Term</th>
-                            <th>Year</th>                            
-                            <th>Course</th>
-                            <th>Section Name</th>
-                            <th>Period</th>
-                            <th>Educator</th>
-                            <th>Students</th>
-                            <th>A</th>
-                            <th>B</th>
-                            <th>C</th>
-                            <th>D</th>
-                            <th>F</th>
-                          </tr>
-                        </thead>
-                        <tbody>
->>>>>>> development
+
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
                               <td><?php echo $v->CodeValue; ?></td>
