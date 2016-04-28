@@ -19,7 +19,7 @@ class Dashboard extends Easol_Controller {
 	{
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
 
-        $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Authentication::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Authentication::userdata('SchoolId')]);
+        $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Auth::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Auth::userdata('SchoolId')]);
         if($dashboardConf!=null){
             $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
         }
@@ -31,7 +31,7 @@ class Dashboard extends Easol_Controller {
 	{
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
 
-        $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Authentication::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Authentication::userdata('SchoolId')]);
+        $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Auth::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Auth::userdata('SchoolId')]);
         if($dashboardConf!=null){
             $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
         }

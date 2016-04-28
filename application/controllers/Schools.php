@@ -62,7 +62,7 @@ class Schools extends Easol_Controller {
         if(isset($_POST['school'])){
             foreach($schools as $school){
                 if($_POST['school']== $school->EducationOrganizationId){
-                    $userdata=Easol_Authentication::userdata();
+                    $userdata=Easol_Auth::userdata();
                     $userdata['__ci_last_regenerate']=time();
                     $userdata['SchoolId'] = $_POST['school'];
                     $this->session->set_userdata($userdata);
