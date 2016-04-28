@@ -13,10 +13,9 @@ $(function() {
 
 		var dom = filter_option + "<'row'<'col-xs-12'rtip>><'table-widget-buttons row'<'col-xs-12'B>>";
 
-		if ($table.attr('data-table-type') == 'minimal') dom = 'rt'
+		if ($table.attr('data-table-type') == 'minimal') dom = 'rt';
 
-		$table.DataTable({				
-			
+		var options = {
 			dom: dom,
 			language: {
 		        searchPlaceholder: "Search..."
@@ -24,8 +23,33 @@ $(function() {
 		    pageLength: "25",
 		   	buttons: buttons,
 	        'scrollX': true
-	   
-		});
+		}
+
+		if ($table.attr('data-initial-filter')) {
+			try {
+				initial_filter = $.parseJSON($table.attr('data-initial-filter'));
+				options['searchCols'] = [];
+				$table.find('thead tr th').each(function(index) {
+					
+					if (initial_filter[index] != undefined) {
+						$filter =  $(initial_filter[index]);
+						if ($filter.length > 0) var filter = $filter.val();
+						else var filter = initial_filter[index]
+						options['searchCols'].push({'search': filter})
+					}
+					else {
+						options['searchCols'].push(null);
+					}
+					
+				});
+			}
+			catch (err) {
+				console.log(err);
+			}
+
+		}
+
+		$table.DataTable(options);
 
 		/*var $context = $(this).closest('.flex-report-table-wrapper');
 		$('.datatable-get-csv', $context).appendTo("#csv-button", $context).addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');*/

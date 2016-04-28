@@ -54,7 +54,7 @@
                         <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
                     </div>
                 </form>
-
+                
                 <div class="datatablegrid">
                     <table id="managesections" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no'>
                       <thead>
@@ -74,8 +74,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php if (isset($results) and !empty($results)): ?>
-
+                        <?php if (isset($results) and !empty($results)): ?> 
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
                               <td><?php echo $v->CodeValue; ?></td>

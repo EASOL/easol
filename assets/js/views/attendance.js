@@ -1,6 +1,6 @@
 $(function () {
 
-	var AssessmentsTable = $('table#manageattendance').dataTable().api();
+	var AttendanceTable = $('table#manageattendance').dataTable().api();
 	
 
 	$("[name='gradelevel']").on('change', function() {
