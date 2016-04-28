@@ -34,6 +34,8 @@ $(function () {
 		Table.page.len($(this).val()).draw();
 	});
 
+	//$("[name='filter[Year]']").trigger('change');
+
 	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
 
 })
