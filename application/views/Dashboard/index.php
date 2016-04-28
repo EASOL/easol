@@ -9,11 +9,11 @@
 </div>
 
 <?php if($dashboardConf): ?>
-    <div class="row">
+    <div class="row dashboard">
         <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php if ($dashboardConf->getLeftChart()->ReportId): ?>
+                    <?php if ($dashboardConf->getLeftChart()->ReportId && $this->easol_auth->report_has_access($dashboardConf->getLeftChart()->ReportId)): ?>
                         <div class="col-md-6 col-sm-12" id="left-chart">
                             <div class="thumbnail">                              
                             
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <?php if ($dashboardConf->getRightChart()->ReportId): ?>
+                    <?php if ($dashboardConf->getRightChart()->ReportId && $this->easol_auth->report_has_access($dashboardConf->getRightChart()->ReportId)): ?>
                         <div class="col-md-6 col-sm-12" id="right-chart">
                             <div class="thumbnail">
                                 <?php $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false, 'hideFilters'=>true]); ?>
@@ -38,7 +38,7 @@
                         </div>
                     <?php endif; ?>
                         
-                    <?php if ($dashboardConf->getBottomTable()->ReportId): ?>
+                    <?php if ($dashboardConf->getBottomTable()->ReportId && $this->easol_auth->report_has_access($dashboardConf->getBottomTable()->ReportId)): ?>
                         <div class="col-md-12 col-sm-12" id="bottom-table">
                             <div class="thumbnail">
                                 <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(), 'displayTitle' => true, 'hideFilters'=>true ]); ?>

@@ -45,7 +45,7 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
     }
 
     public function beforeSave(){
-        $this->EducationOrganizationId = Easol_Authentication::userdata("SchoolId");
+        $this->EducationOrganizationId = Easol_Auth::userdata("SchoolId");
         parent::beforeSave();
     }
 

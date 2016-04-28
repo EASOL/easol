@@ -1,15 +1,17 @@
 function create_charts() {
 	$('.bar-chart.chart').each(function() {
-	    var $chart = $(this);
-	   	
-	   	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
+	    	    
+		var $chart = $(this);
+		if ($chart.data('status') == 'initialized') return;
+
+	 	$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
 	   	var historicalBarChart = [
 	        {
 	            key: "Cumulative Return",
 	            values: $.parseJSON($chart.attr('data-chart-data'))
 	        }
 	    ];
-	    
+
 	    nv.addGraph(
 	        function() {
 	            var chart = nv.models.discreteBarChart()
@@ -34,17 +36,21 @@ function create_charts() {
 	        }, 
 	        function() {
 	        	if ($chart.attr('data-report-id')) {
-		            d3.selectAll(".nv-bar").on('click', function(e){
+		            d3.selectAll("#"+ $chart.attr('id') +" .nv-bar").on('click', function(e){
 		                chart_filter($chart.attr('data-report-id'), e.label, $chart.attr('data-variable'), $(this), $chart);
 		            });
 		        }
 	        }
 	    );
+
+		$chart.data('status', 'initialized');
 	});
 
 	$('.pie-chart.chart').each(function() {
 
 		var $chart = $(this);
+
+		if ($chart.data('status') == 'initialized') return;
 
 		$chart.data('filter', $.parseJSON($chart.attr('data-chart-filter')));
 		var chartData = $.parseJSON($chart.attr('data-chart-data'));
@@ -81,12 +87,14 @@ function create_charts() {
 		    },
 		    function() {
 		    	if ($chart.attr('data-report-id')) {
-		            d3.selectAll(".nv-slice").on('click', function(e){
+		            d3.selectAll("#"+ $chart.attr('id') +" .nv-slice").on('click', function(e){
 		            	chart_filter($chart.attr('data-report-id'), e.data.label, $chart.attr('data-variable'), $(this), $chart);
 		            });
 		        }
 	        }
 		);
+
+		$chart.data('status', 'initialized');
 
 	});
 };

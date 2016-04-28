@@ -56,7 +56,7 @@
 						    <td><?php echo $row->Version; ?></td>
 						    <td><?php echo easol_date($row->AdministrationDate); ?></td>
 						    <td><?php echo $row->StudentCount; ?></td>
-						    <td><?php echo round($row->AverageResult); ?></td>
+						    <td><?php /* echo round($row->AverageResult);*/ ?></td>
 					    </tr>
 				    <?php endforeach; ?>
 				    </tbody>

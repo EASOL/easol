@@ -56,7 +56,7 @@ $config['menu'] = [
 		'label' => 'Flex Reports',
 		'attr' => 'data-intro="Flex Reports:  customized and dynamic reporting based on school needs" data-position="right"',
 		'icon'  => 'bar-chart',
-		'auth'  => ['System Administrator', 'Data Administrator','School Administrator']
+		'auth'  => ['System Administrator', 'Data Administrator','School Administrator','Educator']
 	],
 	'management' => [
 		'label' => 'Management',

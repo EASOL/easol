@@ -19,7 +19,7 @@ class Easol_Controller extends CI_Controller {
 		parent::__construct();
 
 		set_timezone();
-		$this->processAccessRules();
+		//$this->processAccessRules();
 	}
 
 
@@ -98,10 +98,10 @@ class Easol_Controller extends CI_Controller {
 		}
 
 
-		if($allowedRoles=='@' && !Easol_Authentication::isLoggedIn())
+		if($allowedRoles=='@' && !Easol_Auth::isLoggedIn())
 			return redirect('home');
 		if(Easol_AuthorizationRoles::hasAccess($allowedRoles)){
-			if(!($this->router->fetch_class()=='schools' && $this->router->fetch_method() == 'choose') && Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) && Easol_Authentication::userdata('SchoolId') == false  )
+			if(!($this->router->fetch_class()=='schools' && $this->router->fetch_method() == 'choose') && Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) && Easol_Auth::userdata('SchoolId') == false  )
 			{
 				return redirect('schools/choose');
 			}

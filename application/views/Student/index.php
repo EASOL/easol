@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         <label for="filter-Year">Year</label>
-                        <?php echo form_dropdown('filter[Year]', $year_listing, '', "class='form-control'"); ?>
+                        <?php echo form_dropdown('filter[Year]', $year_listing, '', "class='form-control' id='Year'"); ?>
                     </div>
 
                     <div class="form-group">
@@ -40,7 +40,7 @@
                 </form>
 
                 <div class="datatablegrid">
-                    <table id="student-table" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no'>
+                    <table id="student-table" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option='no' data-initial-filter='{"3":"#Year"}'>
                         <thead>
                         <tr>
                             <th>Student Name</th>
