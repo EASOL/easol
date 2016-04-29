@@ -15,23 +15,23 @@ $(function () {
 	    ],
 	});*/
 
-	$("[name='filter[Year]']").on('change', function() {
+	$("[name='filter[Year]']").on('change.filter', function() {
 		AssessmentsTable.column(3).search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[Subject]']").on('change', function() {
+	$("[name='filter[Subject]']").on('change.filter', function() {
 		AssessmentsTable.column(2).search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[GradeLevel]']").on('change', function() {
+	$("[name='filter[GradeLevel]']").on('change.filter', function() {
 		AssessmentsTable.column(1).search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[PageLength]']").on('change', function() {
+	$("[name='filter[PageLength]']").on('change.filter', function() {
 		AssessmentsTable.page.len($(this).val()).draw();
 	});
 
-	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
+	$(window).trigger('hashchange.table-filter');
 
 	/*var StudentsTable = $('#students-table').DataTable({
 		dom: 'lVrftip',

@@ -21,7 +21,7 @@ $(function() {
 		        searchPlaceholder: "Search..."
 		    },
 		    pageLength: "25",
-		   	buttons: buttons,
+		   	buttons: buttons
 	      //  'scrollX': true
 		}
 
@@ -56,5 +56,32 @@ $(function() {
 		$('.datatable-get-csv', $context).appendTo("#csv-button", $context).addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');*/
 
 	});
+
+	$('select[name^="filter["').on('change', function() {
+		var name = $(this).attr('name');
+		var hash = {};
+		hash[name] = $(this).val();
+		url_hash(hash);
+	});
+
+	$('input[name^="filter["').on('keyup', function() {
+		var name = $(this).attr('name');
+		var hash = {};
+		hash[name] = $(this).val();
+		url_hash(hash);
+	});
+
+	$(window).on('hashchange.table-filter', function() {
+		var params = url_param();
+		for (var i in params) {
+			var $filter = $('select[name="'+ i +'"], input[name="'+ i +'"]').first();
+			$filter.val(params[i]);
+			if ($filter.length > 0) {
+				if ($filter.is('input')) $filter.trigger('keyup.filter');
+				if ($filter.is('select')) $filter.trigger('change.filter');
+			}
+		}
+	});
+	$(window).trigger('hashchange.table-filter');
 
 });
