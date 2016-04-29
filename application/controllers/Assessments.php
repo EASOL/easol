@@ -29,7 +29,7 @@ class Assessments extends Easol_Controller {
 				Version, AdministrationDate,
 				edfi.AcademicSubjectType.CodeValue +'' as Subject,
 				edfi.GradeLevelType.CodeValue +'' as Grade,
-				AVG(CAST(TRY_CONVERT(float, StudentAssessmentScoreResult.Result) as FLOAT)) as AverageResult,
+			/*	AVG(CAST(TRY_CONVERT(float, StudentAssessmentScoreResult.Result) as FLOAT)) as AverageResult,*/
 				COUNT(*) as StudentCount
 
 			FROM edfi.StudentAssessmentScoreResult
