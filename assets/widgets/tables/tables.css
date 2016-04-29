@@ -7,7 +7,9 @@
 	margin-bottom: 5px;
 	float: right;
 }
-
+.table-widget-wrapper {
+	overflow: auto;
+}
 div.dataTables_wrapper {
   width: 100%;
   margin: 0 auto;
@@ -21,4 +23,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
 
 table.dataTable thead th {
   background-image: none !important;
+}
+table.dataTable thead th {
+	min-width: 20px;
+	white-space: nowrap;
+}
+div.dataTables_wrapper div.dataTables_info {
+	white-space: normal;
+	text-align: left;
 }

@@ -2,7 +2,7 @@ $(function() {
 
 	$('.table-widget').each(function() {
 		var $table = $(this);
-		$table.attr('width', '100%');
+		$table.attr('min-width', '100%');
 		var filter_option = "<'filter-form'<'row'<'col-sm-9'f><'col-sm-3'l>>>";
 		if ($table.attr('data-filter-option') == 'no' || $table.attr('data-filter-option') == 'false') filter_option = "";
 
@@ -11,9 +11,9 @@ $(function() {
 		if ($table.attr('data-csv') != 'no' && $table.attr('data-csv') != 'false') buttons.push( { extend: 'csv', text: 'Download CSV'});
 
 
-		var dom = filter_option + "<'row'<'col-xs-12'rtip>><'table-widget-buttons row'<'col-xs-12'B>>";
+		var dom = filter_option + "<'row'<'col-xs-12'r<'table-widget-wrapper't>ip>><'table-widget-buttons row'<'col-xs-12'B>>";
 
-		if ($table.attr('data-table-type') == 'minimal') dom = 'rt';
+		if ($table.attr('data-table-type') == 'minimal') dom = "r<'table-widget-wrapper't>";
 
 		var options = {
 			dom: dom,
@@ -22,7 +22,7 @@ $(function() {
 		    },
 		    pageLength: "25",
 		   	buttons: buttons,
-	        'scrollX': true
+	      //  'scrollX': true
 		}
 
 		if ($table.attr('data-initial-filter')) {
@@ -48,6 +48,7 @@ $(function() {
 			}
 
 		}
+
 
 		$table.DataTable(options);
 
