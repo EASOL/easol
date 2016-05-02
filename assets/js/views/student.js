@@ -1,41 +1,26 @@
 $(function () {
 	var Table = $('#student-table').dataTable().api();
 
-	/*.DataTable({
-		dom: 'rtip',
-		iDisplayLength: 25,
-		"scrollX": true,
-		buttons: [
-            'colvis',
-            {
-	            extend: 'csv',
-	            text: 'Download CSV'
-	        }
-        ],
-	});*/
-
-	$("[name='filter[term]']").on('keyup', function() {
+	
+	$("[name='filter[term]']").on('keyup.filter', function() {
 		Table.search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[Year]']").on('change', function() {
+	$("[name='filter[Year]']").on('change.filter', function() {
 		Table.column(3).search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[Cohort]']").on('change', function() {
+	$("[name='filter[Cohort]']").on('change.filter', function() {
 		Table.column(2).search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[GradeLevel]']").on('change', function() {
+	$("[name='filter[GradeLevel]']").on('change.filter', function() {
 		Table.column(1).search($(this).val(), true, false).draw();
 	});
 
-	$("[name='filter[PageLength]']").on('change', function() {
+	$("[name='filter[PageLength]']").on('change.filter', function() {
 		Table.page.len($(this).val()).draw();
 	});
 
-	//$("[name='filter[Year]']").trigger('change');
-
-	$('.datatable-get-csv').appendTo("#csv-button").addClass('btn btn-default').append(' <i class="fa fa-download"> </i> ').removeClass('datatable-get-csv');
-
+	$(window).trigger('hashchange.table-filter');
 })

@@ -205,6 +205,7 @@
 
 <?php $this->carabiner->js('js/custom.js') ?>
 <?php $this->carabiner->js('/js/layout.js') ?>
+<?php $this->carabiner->js('js/url.js') ?>
 
 <?php foreach ($GLOBALS['js'] as $file): ?>
     <?php if (!file_exists(FCPATH."/assets/$file")) continue; ?>
