@@ -20,7 +20,10 @@ function system_google_auth_app_id() {
 function system_variables() {
 	return [
 		'$CURRENT_EDORG' => Easol_Auth::userdata("SchoolId"),
-		'$CURRENT_YEAR' => date('Y')
+		'$CURRENT_YEAR' => date('Y'),
+		'$StaffUSI' => Easol_Auth::userdata("StaffUSI"),
+		'$CURRENT_SCHOOLYEAR' => Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR'),
+		'$CURRENT_TERMID' => Easol_SchoolConfiguration::getValue('CURRENT_TERMID'),
 	];
 }
 function system_variable($variable=null) {
