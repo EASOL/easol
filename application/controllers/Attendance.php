@@ -39,12 +39,14 @@ class Attendance extends Easol_Controller {
         ORDER BY StudentUSI";
 
         $data['results'] = $this->db->query($query)->result();
-
+        $data['years'] = [];
         foreach ($data['results'] as $k => $v) {
             $data['results'][$v->StudentUSI][$v->SchoolYear]['StudentUSI'] = $v->StudentUSI;            
             $data['results'][$v->StudentUSI][$v->SchoolYear]['Name'] = $v->FirstName . ' ' . $v->LastSurname;
             $data['results'][$v->StudentUSI][$v->SchoolYear]['GradeLevel'] = $v->GradeLevel;                        
             $data['results'][$v->StudentUSI][$v->SchoolYear][$v->CodeValue] = $v->Days;
+
+            $data['years'][$v->SchoolYear] = $v->SchoolYear;
             unset($data['results'][$k]);
         }
 
@@ -84,8 +86,7 @@ UNION
     INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
     WHERE (AttendanceEventCategoryType.CodeValue = 'In Attendance') AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Auth::userdata('SchoolId')." and GradeLevelType.GradeLevelTypeId between -1 and 12 ))";
         $data['gradelevels']     = $this->db->query($sql)->result();
-
-        $data['years']          = range($data['currentYear'], date('Y'));        
+     
 
         $this->render("index", [
             'data' => $data,
