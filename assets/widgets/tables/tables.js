@@ -57,7 +57,7 @@ $(function() {
 
 	});
 
-	$('select[name^="filter["').on('change', function() {
+/*	$('select[name^="filter["').on('change', function() {
 		var name = $(this).attr('name');
 		var hash = {};
 		hash[name] = $(this).val();
@@ -81,7 +81,7 @@ $(function() {
 				if ($filter.is('select')) $filter.trigger('change.filter');
 			}
 		}
-	});
+	});*/
 	$(window).trigger('hashchange.table-filter');
 
 });
