@@ -77,9 +77,9 @@ Class Easol_Auth {
 
         // at that point, auth_config is the array for current controller and method. If not found, it is the array for "*"
         if (is_array($auth_config) && $auth_config[$this->role]) {
-            echo $this->role;
+            
             if (is_array($auth_config[$this->role]['condition'])) {
-                 print_r($auth_config);
+                
                 foreach ($auth_config[$this->role]['condition'] as $function) {
                     if (!method_exists($this, $function)) {
                         return false;
@@ -99,22 +99,34 @@ Class Easol_Auth {
 
     public function user_has_school($StudentUSI=null) {
 
-        print_r($this->args);
-
         if (!$StudentUSI) $StudentUSI = $this->args[0];
         if (!$StudentUSI) return true;
-
-        var_dump($StudentUSI);
-        exit();
 
         $student = Model\Edfi\Student::find($StudentUSI);
 
         foreach ($student->School() as $school) {
-            echo $school->SchoolId;
             if ($school->SchoolId == self::userdata('SchoolId')) return true;
         }
 
         return false;
+    }
+
+    public function user_has_section($SectionId=null) {
+        if (!$SectionId) $SectionId = $this->args[0];
+        if (!$SectionId) return true;
+
+        // TODO - CONVERT TO BETTER MODEL APPROACH, probably ORM approach
+        $this->ci->db->from('edfi.Section');
+        $this->ci->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Section.SchoolId AND StaffSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Section.TermTypeId AND StaffSectionAssociation.SchoolYear = Section.SchoolYear AND StaffSectionAssociation.TermTypeId = Section.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Section.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Section.ClassPeriodName', 'inner');
+        $this->ci->db->where('edfi.Section.Id', $SectionId);
+        $this->ci->db->where('edfi.StaffSectionAssociation.StaffUSI', $this->ci->session->userdata('StaffUSI'));
+
+        $query = $this->ci->db->get();
+
+        if ($query->num_rows()) return true;
+
+        return false;
+
     }
 
     public function report_has_access($ReportId = null) {

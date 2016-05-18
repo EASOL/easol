@@ -20,7 +20,15 @@ $config['auth']['student'] = [
 ];
 
 $config['auth']['sections'] = [
-	'*'=>'*'
+	'*'=>'*',
+	'details'=>[
+		'System Administrator' => true,
+		'Data Administrator' => true,
+		'School Administrator' => true, 
+		'Educator' => [
+			'condition' => ['user_has_section']
+		]
+	]
 ];
 
 $config['auth']['attendance'] = [

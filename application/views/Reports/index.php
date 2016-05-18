@@ -32,6 +32,7 @@
                     </thead>
                     <tbody>
                         <?php foreach($reports as &$report){ ?>
+                        <?php if (!$this->easol_auth->report_has_access($report->ReportId)) continue; ?>
                         <tr>
                             <td><a href="<?= site_url('reports/view/'.$report->ReportId) ?>"><?= $report->ReportName ?></a></td>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?= report_display_type($report->DisplayType) ?></td><?php } ?>
