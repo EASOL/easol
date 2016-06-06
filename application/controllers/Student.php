@@ -67,7 +67,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
 
          $data['year_listing'] = [];
          foreach ($data['student_listing'] as $row) {
-              $data['year_listing'][$row->SchoolYear] = $row->SchoolYear;
+              $data['year_listing'][$row->SchoolYear] = $row->SchoolYear.'-'.($row->SchoolYear + 1);
          }
 
 

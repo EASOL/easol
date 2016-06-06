@@ -46,7 +46,7 @@ class Attendance extends Easol_Controller {
             $data['results'][$v->StudentUSI][$v->SchoolYear]['GradeLevel'] = $v->GradeLevel;                        
             $data['results'][$v->StudentUSI][$v->SchoolYear][$v->CodeValue] = $v->Days;
 
-            $data['years'][$v->SchoolYear] = $v->SchoolYear;
+            $data['years'][$v->SchoolYear] = $v->SchoolYear.'-'.($v->SchoolYear + 1);
             unset($data['results'][$k]);
         }
 
