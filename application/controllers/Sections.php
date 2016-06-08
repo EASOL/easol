@@ -64,6 +64,7 @@ public function index()
 
         //echo $this->db->last_query();
         // exit(print_r($this->db->last_query(), true));
+        $data['years'] = [];
         foreach ($data['results'] as $k => $v)
         {
 
@@ -73,7 +74,8 @@ public function index()
                 $pCode = $v->ClassPeriodName; 
             $data['results'][$k]->Period = $pCode;
 
-            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;            
+            $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;
+            $data['years'][$v->SchoolYear] = $v->SchoolYear.'-'.($v->SchoolYear + 1);            
         }
 
         $sql                    = 'SELECT TermTypeId, CodeValue FROM edfi.TermType WHERE TermTypeId in (SELECT distinct TermType.TermTypeId FROM "edfi"."Grade" 
@@ -87,8 +89,7 @@ INNER JOIN "edfi"."TermType" ON "edfi"."TermType"."TermTypeId" = "edfi"."Grade".
 WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and TermTypeId between 1 and 3';
         $data['terms']          = $this->db->query($sql)->result();
 
-        $data['years']          = range($data['currentYear'], date('Y'));
-
+        
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course WHERE EducationOrganizationId = '". Easol_Auth::userdata('SchoolId') ."' ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();
 

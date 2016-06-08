@@ -66,9 +66,8 @@ LEFT JOIN edfi.StudentCohortAssociation ON
          }
 
          $data['year_listing'] = [];
-         while ($currentYear <= date('Y')) {
-              $data['year_listing'][$currentYear] = $currentYear;
-              $currentYear++;
+         foreach ($data['student_listing'] as $row) {
+              $data['year_listing'][$row->SchoolYear] = $row->SchoolYear.'-'.($row->SchoolYear + 1);
          }
 
 
