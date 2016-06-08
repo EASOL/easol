@@ -87,7 +87,7 @@ class Assessments extends Easol_Controller {
 	public function details($AssessmentTitle, $AcademicSubjectDescriptorId, $AssessedGradeLevelDescriptorId,  $Version, $AdministrationDate) {
 
 		$AdministrationDate = date('Y-m-d', $AdministrationDate);
-		$AssessmentTitle = urldecode($AssessmentTitle);
+		$AssessmentTitle = base64_decode(urldecode($AssessmentTitle));
 
 		$query = "SELECT
                AssessmentTitle,
