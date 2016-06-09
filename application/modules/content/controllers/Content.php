@@ -161,8 +161,8 @@ class Content extends Easol_Controller {
 
             $view = (!empty($view)) ? $view : 'index';
 
-            if ($view == 'extension')
-                $this->layout = null;
+            //if ($view == 'extension')
+              //  $this->layout = null;
 
             // map the footnotes tags for iteration in the view to keep the code as DRY as possible.
             $footnotes  = array(    'Subjects'  => array('subjects'       => 'name'),
