@@ -31,6 +31,9 @@ $config['auth']['assessments'] = [
 $config['auth']['cohorts'] = [
 	'*'=>['System Administrator' => true,'Data Administrator' => true,'School Administrator' => true]
 ];
+$config['auth']['cron'] = [
+	'*'=>['System Administrator' => true,'Data Administrator' => true,'School Administrator' => true]
+];
 
 $config['auth']['schools'] = [
 	'*' => [
