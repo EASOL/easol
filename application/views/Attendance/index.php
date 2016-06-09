@@ -24,7 +24,7 @@
                     <select name="year" class="form-control">
                         <option value="">All Years</option>                         
                         <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $v; ?>"<?php if($currentYear == $v) {echo "selected";} ?>>
+                            <option value="<?php echo $k; ?>"<?php if($currentYear == $k) {echo "selected";} ?>>
                               <?php echo $v; ?></option>
                         <?php endforeach; ?>                        
                     </select>   
@@ -65,7 +65,7 @@
                       <?php if (isset($results) and !empty($results)): ?>
                         <?php foreach ($results as $student => $data) : foreach ($data as $year => $v) : ?>
                           <tr>
-                            <td><?php echo anchor('student/profile/'.$v['StudentUSI'], $v['Name']); ?></td>
+                            <td><?php echo anchor('student/attendance/'.$v['StudentUSI'], $v['Name']); ?></td>
                             <td><?php echo $v['GradeLevel'] ?></td>
                             <td><?php echo (isset($v['In Attendance'])) ? $v['In Attendance'] : '-';  ?></td>
                             <td><?php echo (isset($v['Excused Absence'])) ? $v['Excused Absence'] : '-';  ?></td>

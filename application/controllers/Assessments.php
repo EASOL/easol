@@ -55,7 +55,8 @@ class Assessments extends Easol_Controller {
 
 		$filter = ['year' => [""=>"All Years"], 'subject' => [""=>"All Subjects"], 'grade'=> [""=>"All Grade Levels"]];
 		foreach ($query->result() as $row) {
-			$filter['year'][date('Y', strtotime($row->AdministrationDate))] = date('Y', strtotime($row->AdministrationDate));
+			$year = date('Y', strtotime($row->AdministrationDate));
+			$filter['year'][$year] = $year.'-'.($year + 1);
 			$filter['subject'][$row->Subject] = $row->Subject;
 		}
 
@@ -87,7 +88,7 @@ class Assessments extends Easol_Controller {
 	public function details($AssessmentTitle, $AcademicSubjectDescriptorId, $AssessedGradeLevelDescriptorId,  $Version, $AdministrationDate) {
 
 		$AdministrationDate = date('Y-m-d', $AdministrationDate);
-		$AssessmentTitle = urldecode($AssessmentTitle);
+		$AssessmentTitle = base64_decode(urldecode($AssessmentTitle));
 
 		$query = "SELECT
                AssessmentTitle,
