@@ -26,9 +26,10 @@ class Cron extends CI_Controller {
             ->where('email', $email)
             ->count_all_results();
 
-            if ($exists === 0)
+            if ($exists === 0){
                 $hash   = $this->easol_generic_l->encrypt_email($email);
                 $this->db->insert('easol.EmailLookup', array('email' => $email, 'HashedEmail' => $hash));
+            }
         }
         echo "Done";
     }        
