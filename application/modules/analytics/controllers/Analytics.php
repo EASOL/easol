@@ -217,7 +217,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
 
         $data['years']          = [];
         foreach (range($data['currentYear'], date('Y')) as $year) {
-            $data['years'][easol_year($year)] = easol_year($year);
+            $data['years'][$year] = easol_year($year);
         }
 
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course WHERE EducationOrganizationId = '". Easol_Auth::userdata('SchoolId') ."' ORDER BY CourseTitle";
