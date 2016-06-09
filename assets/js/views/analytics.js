@@ -1,7 +1,7 @@
 $(function () {
-/*	var AnalyticsTable = $('table#manageanalytics').dataTable().api();
+	var AnalyticsTable = $('table#manageanalytics').dataTable().api();
 
-	/*$("[name='term']").on('change', function() {
+	$("[name='term']").on('change', function() {
 		AnalyticsTable.column(0).search($(this).val(), true, false).draw();
 	});
 
@@ -21,7 +21,7 @@ $(function () {
 		AnalyticsTable.page.len($(this).val()).draw();
 	});
 
-	 $('#dataGridFormFilter select').trigger('change');*/
+	 $('#dataGridFormFilter select').trigger('change');
 
 	$("#filter-submit").on('click', function() {
 		$(this).closest('form').submit();

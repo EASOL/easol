@@ -78,7 +78,7 @@
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
                               <td><?php echo $v->CodeValue; ?></td>
-                              <td><?php echo $v->SchoolYear; ?></td>                              
+                              <td><?php echo easol_year($v->SchoolYear); ?></td>                              
                               <td><?php echo $v->LocalCourseCode; ?></td>
                               <td><a href="<?= site_url("/sections/details/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>

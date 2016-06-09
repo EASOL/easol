@@ -70,7 +70,7 @@
                             <td><?php echo (isset($v['In Attendance'])) ? $v['In Attendance'] : '-';  ?></td>
                             <td><?php echo (isset($v['Excused Absence'])) ? $v['Excused Absence'] : '-';  ?></td>
                             <td><?php echo (isset($v['Unexcused Absence'])) ? $v['Unexcused Absence'] : '-';  ?></td>
-                            <td><?php echo $year;  ?></td>
+                            <td><?php echo easol_year($year);  ?></td>
                             <td><?php echo implode(', ', $v['Term']); ?></td>
                           </tr>
                         <?php endforeach; endforeach; ?>

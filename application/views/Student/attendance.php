@@ -17,7 +17,7 @@ if (empty($attendances)) {
             <?php  foreach($attendances as $attendance){ ?>
                 <tr>
                     <td><?php echo easol_date($attendance->EventDate) ?></td>
-                    <td><?php echo $attendance->SchoolYear?></td>
+                    <td><?php echo easol_year($attendance->SchoolYear) ?></td>
                     <td><?php echo $attendance->Grade ?></td>
                     <td><?php echo $attendance->CodeValue ?></td>
                 </tr>
