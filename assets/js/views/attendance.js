@@ -10,6 +10,10 @@ $(function () {
 	$("[name='year']").on('change.filter', function() {
 		AttendanceTable.column(5).search($(this).val(), true, false).draw();
 	});
+
+	$("[name='term']").on('change.filter', function() {
+		AttendanceTable.column(6).search($(this).val(), true, false).draw();
+	});
 	/* Apply the default filters as set by the server */
 	$('#dataGridFormFilter select').trigger('change');
 

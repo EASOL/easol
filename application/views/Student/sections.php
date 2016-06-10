@@ -22,7 +22,7 @@ if (empty($grades)) {
                     <td><?= $grade->CourseTitle ?></td>
                     <td><?= $grade->Term ?></td>
                     <td><?= $grade->ClassPeriodName ?></td>
-                    <td><?= $grade->SchoolYear ?></td>
+                    <td><?= easol_year($grade->SchoolYear); ?></td>
                     <td>
                         <?php
                             if($grade->NumericGradeEarned!=null && $grade->LetterGradeEarned!=null)

@@ -75,7 +75,7 @@ public function index()
             $data['results'][$k]->Period = $pCode;
 
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;
-            $data['years'][$v->SchoolYear] = $v->SchoolYear.'-'.($v->SchoolYear + 1);            
+            $data['years'][easol_year($v->SchoolYear)] = easol_year($v->SchoolYear);
         }
 
         $sql                    = 'SELECT TermTypeId, CodeValue FROM edfi.TermType WHERE TermTypeId in (SELECT distinct TermType.TermTypeId FROM "edfi"."Grade" 

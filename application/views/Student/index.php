@@ -55,7 +55,7 @@
                                 <td><a href="<?php echo site_url('student/profile/'.$row->StudentUSI) ?>"><?php echo $row->FirstName . ' ' . $row->LastSurname; ?></a></td>
                                 <td><?php echo $row->Grade; ?></td>
                                 <td><?php echo $row->CohortIdentifier; ?></td>
-                                <td><?php echo $row->SchoolYear ?></td>
+                                <td><?php echo easol_year($row->SchoolYear); ?></td>
 
                             </tr>
                         <?php endforeach; ?>
