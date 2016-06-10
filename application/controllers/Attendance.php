@@ -26,7 +26,7 @@ class Attendance extends Easol_Controller {
        
         $query = "(SELECT Student.StudentUSI, Student.FirstName, Student.LastSurname, GradeLevelType.CodeValue +'' as GradeLevel,
         GradeLevelType.GradeLevelTypeId, AttendanceEventCategoryType.CodeValue, COUNT(*) as Days,
-        StudentSchoolAttendanceEvent.SchoolYear 
+        StudentSchoolAttendanceEvent.SchoolYear, StudentSchoolAttendanceEvent.TermTypeId, TermType.CodeValue as Term 
         FROM edfi.StudentSchoolAttendanceEvent 
         INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSchoolAttendanceEvent.AttendanceEventCategoryDescriptorId
         INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
@@ -34,19 +34,26 @@ class Attendance extends Easol_Controller {
         INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI AND StudentSchoolAssociation.SchoolId = StudentSchoolAttendanceEvent.SchoolId AND StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
         INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
         INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId 
+        INNER JOIN edfi.TermType ON edfi.TermType.TermTypeId = StudentSchoolAttendanceEvent.TermTypeId
         WHERE (AttendanceEventCategoryType.CodeValue IN ('In Attendance', 'Excused Absence', 'Unexcused Absence')) AND StudentSchoolAttendanceEvent.SchoolId = ".Easol_Auth::userdata('SchoolId')." 
-        GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId)
+        GROUP BY Student.StudentUSI, Student.FirstName, Student.LastSurname, AttendanceEventCategoryType.CodeValue, GradeLevelType.CodeValue, StudentSchoolAttendanceEvent.SchoolYear,GradeLevelType.GradeLevelTypeId, StudentSchoolAttendanceEvent.TermTypeId, TermType.CodeValue)
         ORDER BY StudentUSI";
 
         $data['results'] = $this->db->query($query)->result();
         $data['years'] = [];
+        $data['terms'] = [];
+
         foreach ($data['results'] as $k => $v) {
             $data['results'][$v->StudentUSI][$v->SchoolYear]['StudentUSI'] = $v->StudentUSI;            
             $data['results'][$v->StudentUSI][$v->SchoolYear]['Name'] = $v->FirstName . ' ' . $v->LastSurname;
             $data['results'][$v->StudentUSI][$v->SchoolYear]['GradeLevel'] = $v->GradeLevel;                        
             $data['results'][$v->StudentUSI][$v->SchoolYear][$v->CodeValue] = $v->Days;
 
-            $data['years'][$v->SchoolYear] = $v->SchoolYear.'-'.($v->SchoolYear + 1);
+            $data['years'][easol_year($v->SchoolYear)] = easol_year($v->SchoolYear);
+
+            if (!isset($data['results'][$v->StudentUSI][$v->SchoolYear]['Term'][$v->Term])) $data['results'][$v->StudentUSI][$v->SchoolYear]['Term'][$v->Term] = $v->Term;
+
+            $data['terms'][$v->Term] = $v->Term;
             unset($data['results'][$k]);
         }
 

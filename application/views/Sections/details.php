@@ -39,7 +39,7 @@
                       <tbody>
                         <?php foreach ($results as $k => $v) : ?>
                           <tr>
-                            <td><a href="<?= site_url("/student/profile/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
+                            <td><a href="<?= site_url("/student/sections/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
                           </tr>
                         <?php endforeach; ?>
                       </tbody>

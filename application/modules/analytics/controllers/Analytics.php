@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Analytics extends Easol_Controller {
@@ -214,7 +215,10 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
 
         $data['terms']          = $this->db->query($sql)->result();
 
-        $data['years']          = range($data['currentYear'], date('Y'));
+        $data['years']          = [];
+        foreach (range($data['currentYear'], date('Y')) as $year) {
+            $data['years'][$year] = easol_year($year);
+        }
 
         $sql                    = "SELECT CourseCode, CourseTitle FROM edfi.Course WHERE EducationOrganizationId = '". Easol_Auth::userdata('SchoolId') ."' ORDER BY CourseTitle";
         $data['courses']        = $this->db->query($sql)->result();

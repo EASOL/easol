@@ -3,10 +3,27 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Learning Lab</title>
-    <link href="<?= site_url('assets/css/bootstrap.css') ?>" rel="stylesheet"/>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href="<?= site_url('assets/css/custom-styles2.css?v=2') ?>" rel="stylesheet"/>
-    <link href="<?= site_url('assets/css/content.css') ?>" rel="stylesheet"/>
+   <?php foreach ($GLOBALS['css'] as $file): ?>
+        <?php $this->carabiner->css("$file"); ?>
+    <?php endforeach; ?>
+
+    <?php $this->carabiner->css('css/custom-styles2.css?v=2'); ?>
+
+
+    <?php foreach ($GLOBALS['widget'] as $widget): ?>
+        <?php if (!file_exists(FCPATH."/assets/widgets/$widget/{$widget}.css")) continue; ?>
+        <?php $this->carabiner->css("widgets/$widget/{$widget}.css"); ?>
+    <?php endforeach; ?>
+
+    <?php if (file_exists(FCPATH."/assets/css/views/{$this->router->fetch_class()}.css")): ?>
+        <?php $this->carabiner->css('css/views/'.$this->router->fetch_class().'.css'); ?>
+    <?php endif; ?>
+
+    <?php $this->carabiner->display('css'); ?>  
+    
+    <script type="text/javascript">
+        var Easol_SiteUrl = "<?= site_url('/') ?>"
+    </script>
 </head>
 <body>
   <div id="extension-wrapper" class="col-md-12 col-sm-12">
@@ -144,6 +161,7 @@
                      <div class="clear">
                     <?php echo $this->pagination->create_links(); ?>
                      </div>
+                     <br>
                   </div>
                 <?php endif; ?>
             </div>
@@ -152,10 +170,34 @@
 </div>
     </div>
   </div>
-  <script src="<?= site_url('assets/js/jquery-1.10.2.js') ?>"></script>
-  <script src="<?= site_url('assets/js/bootstrap.min.js') ?>"></script>
-  <script src="<?= site_url('assets/js/custom.js') ?>"></script>
-  <script src="<?= site_url('assets/lib/list.min.js') ?>"></script>
-  <script src="<?= site_url('assets/js/content.js') ?>"></script>
+ 
+
+  <?php $this->carabiner->js('//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js'); ?>
+  <?php $this->carabiner->js('lib/bootstrap-3.3.6/dist/js/bootstrap.js'); ?>
+  <?php $this->carabiner->js('lib/list.js'); ?>
+  
+  <?php $this->carabiner->js('js/custom.js') ?>
+
+  <?php foreach ($GLOBALS['js'] as $file): ?>
+    <?php if (!file_exists(FCPATH."/assets/$file")) continue; ?>
+    <?php $this->carabiner->js("$file"); ?>
+  <?php endforeach; ?>
+
+  <?php foreach ($GLOBALS['widget'] as $widget): ?>
+    <?php if (!file_exists(FCPATH."/assets/widgets/$widget/{$widget}.js")) continue; ?>
+    <?php $this->carabiner->js("widgets/$widget/{$widget}.js"); ?>
+  <?php endforeach; ?>
+
+  <?php if (file_exists(FCPATH."/assets/js/views/{$this->router->fetch_class()}.js")): ?>
+    <?php $this->carabiner->js("js/views/{$this->router->fetch_class()}.js"); ?>
+  <?php endif; ?>
+
+  <?php if (file_exists(FCPATH."/assets/js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js")): ?>
+    <?php $this->carabiner->js("js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js"); ?>
+  <?php endif; ?>
+
+  <?php $this->carabiner->display('js'); ?>
+
+
 </body>
 </html>

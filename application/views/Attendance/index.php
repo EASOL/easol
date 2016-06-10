@@ -30,6 +30,17 @@
                     </select>   
                 </div>
                 <div class="form-group">
+                    <label for="term">Term</label>
+                    <select name="term" class="form-control">
+                        <option value="">All Terms</option>                         
+                        <?php foreach($terms as $k => $v): ?>
+                            <option value="<?php echo $v; ?>">
+                              <?php echo $v; ?>
+                            </option>
+                        <?php endforeach; ?>                        
+                    </select>   
+                </div>
+                <div class="form-group">
                    <label for="filter-PageLength">Records Per Page:</label>
                    <?php echo form_dropdown('filter[PageLength]', ['25'=>'25', '50'=>'50', '100'=>'100'], '', "class='form-control'"); ?>
                 </div>
@@ -47,6 +58,7 @@
                       <th>Excused</th>
                       <th>Unexcused</th>
                       <th>Year</th>
+                      <th data-visible="false">Term</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -58,7 +70,8 @@
                             <td><?php echo (isset($v['In Attendance'])) ? $v['In Attendance'] : '-';  ?></td>
                             <td><?php echo (isset($v['Excused Absence'])) ? $v['Excused Absence'] : '-';  ?></td>
                             <td><?php echo (isset($v['Unexcused Absence'])) ? $v['Unexcused Absence'] : '-';  ?></td>
-                            <td><?php echo $year;  ?></td>
+                            <td><?php echo easol_year($year);  ?></td>
+                            <td><?php echo implode(', ', $v['Term']); ?></td>
                           </tr>
                         <?php endforeach; endforeach; ?>
                     <?php endif; ?>
