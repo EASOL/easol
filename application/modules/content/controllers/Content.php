@@ -134,7 +134,8 @@ class Content extends Easol_Controller {
 
             // build the pagination links.
             $this->load->library('pagination');
-            $config['base_url']             = (isset($base_qs))? 'content?'.$base_qs : 'content?';
+            if ($view == 'extension') $config['base_url']             = (isset($base_qs))? 'content-extension?'.$base_qs : 'content-extension?';
+            else $config['base_url']             = (isset($base_qs))? 'content?'.$base_qs : 'content?';
             $config['page_query_string']    = TRUE;
             $config['use_page_numbers']     = TRUE;
             $config['per_page']             = EASOL_PAGINATION_PAGE_SIZE;

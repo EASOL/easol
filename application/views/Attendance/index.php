@@ -24,8 +24,19 @@
                     <select name="year" class="form-control">
                         <option value="">All Years</option>                         
                         <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $v; ?>"<?php if($currentYear == $v) {echo "selected";} ?>>
+                            <option value="<?php echo $k; ?>"<?php if($currentYear == $k) {echo "selected";} ?>>
                               <?php echo $v; ?></option>
+                        <?php endforeach; ?>                        
+                    </select>   
+                </div>
+                <div class="form-group">
+                    <label for="term">Term</label>
+                    <select name="term" class="form-control">
+                        <option value="">All Terms</option>                         
+                        <?php foreach($terms as $k => $v): ?>
+                            <option value="<?php echo $v; ?>">
+                              <?php echo $v; ?>
+                            </option>
                         <?php endforeach; ?>                        
                     </select>   
                 </div>
@@ -47,18 +58,20 @@
                       <th>Excused</th>
                       <th>Unexcused</th>
                       <th>Year</th>
+                      <th data-visible="false">Term</th>
                     </tr>
                   </thead>
                   <tbody>
                       <?php if (isset($results) and !empty($results)): ?>
                         <?php foreach ($results as $student => $data) : foreach ($data as $year => $v) : ?>
                           <tr>
-                            <td><?php echo anchor('student/profile/'.$v['StudentUSI'], $v['Name']); ?></td>
+                            <td><?php echo anchor('student/attendance/'.$v['StudentUSI'], $v['Name']); ?></td>
                             <td><?php echo $v['GradeLevel'] ?></td>
                             <td><?php echo (isset($v['In Attendance'])) ? $v['In Attendance'] : '-';  ?></td>
                             <td><?php echo (isset($v['Excused Absence'])) ? $v['Excused Absence'] : '-';  ?></td>
                             <td><?php echo (isset($v['Unexcused Absence'])) ? $v['Unexcused Absence'] : '-';  ?></td>
-                            <td><?php echo $year;  ?></td>
+                            <td><?php echo easol_year($year);  ?></td>
+                            <td><?php echo implode(', ', $v['Term']); ?></td>
                           </tr>
                         <?php endforeach; endforeach; ?>
                     <?php endif; ?>

@@ -30,7 +30,6 @@
         <?php $this->carabiner->css('css/views/'.$this->router->fetch_class().'.css'); ?>
     <?php endif; ?>
 
-    <?php $this->carabiner->css('css/custom-styles2.css?v=2'); ?> 
     <?php $this->carabiner->display('css'); ?>  
     
     <script type="text/javascript">
