@@ -3,6 +3,11 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Learning Lab</title>
+
+
+    <?php $this->carabiner->css('lib/bootstrap-3.3.6/dist/css/bootstrap.css'); ?>    
+    <?php $this->carabiner->css('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css'); ?>
+    
    <?php foreach ($GLOBALS['css'] as $file): ?>
         <?php $this->carabiner->css("$file"); ?>
     <?php endforeach; ?>
