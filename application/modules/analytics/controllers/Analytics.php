@@ -129,7 +129,7 @@ class Analytics extends Easol_Controller {
                 $urldates = '';
                 $SchoolId           = Easol_Auth::userdata('SchoolId');
                 $ClassPeriodName    = $v->ClassPeriodName;
-                $this->db->select("BellSchedule.date, BellScheduleMeetingTime.starttime, BellScheduleMeetingTime.endtime");
+                $this->db->select("BellSchedule.date, convert(varchar(max),BellScheduleMeetingTime.starttime) starttime, convert(varchar(max), BellScheduleMeetingTime.endtime) endtime", false);
                 $this->db->from("edfi.BellSchedule");
                 $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date');
                 $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
