@@ -24,7 +24,7 @@
                       <select name="year" class="form-control">
                           <option value="">All Years</option>                       
                           <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $v; ?>" <?php if($currentYear_default == $v) {echo "selected";} ?> ><?php echo $v; ?></option>
+                            <option value="<?php echo $k; ?>" <?php if($currentYear_default == $k) {echo "selected";} ?> ><?php echo $v; ?></option>
                           <?php endforeach; ?>                        
                       </select>   
                   </div>
@@ -78,7 +78,7 @@
                           <?php foreach ($results as $k => $v) : ?>
                             <tr>
                               <td><?php echo $v->CodeValue; ?></td>
-                              <td><?php echo $v->SchoolYear; ?></td>                              
+                              <td><?php echo easol_year($v->SchoolYear); ?></td>                              
                               <td><?php echo $v->LocalCourseCode; ?></td>
                               <td><a href="<?= site_url("/sections/details/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>

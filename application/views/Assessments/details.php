@@ -45,7 +45,7 @@
 						<tbody>
 						<?php foreach ($students as $row) : ?>
 							<tr>
-								<td><a href="<?php echo site_url("/student/profile/$row->StudentUSI") ?>"><?php echo $row->FirstName . ' ' . $row->MiddleName . ' ' . $row->LastSurname; ?></a></td>
+								<td><a href="<?php echo site_url("/student/assessments/$row->StudentUSI") ?>"><?php echo $row->FirstName . ' ' . $row->MiddleName . ' ' . $row->LastSurname; ?></a></td>
 								<td><?php echo $row->Result ?></td>
 							</tr>
 						<?php endforeach; ?>

@@ -199,10 +199,40 @@ ORDER BY Grade.BeginDate DESC",
 
     }
 
-    /**
+     /**
      * @return mixed
      */
     public function getAttendance(){
+        $query = "SELECT edfi.StudentSchoolAttendanceEvent.*, edfi.AttendanceEventCategoryType.*, edfi.GradeLevelType.CodeValue as Grade FROM edfi.StudentSchoolAttendanceEvent 
+                INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSchoolAttendanceEvent.AttendanceEventCategoryDescriptorId
+
+                INNER JOIN edfi.AttendanceEventCategoryType ON AttendanceEventCategoryType.AttendanceEventCategoryTypeId = AttendanceEventCategoryDescriptor.AttendanceEventCategoryTypeId
+                INNER JOIN edfi.StudentSchoolAssociation ON StudentSchoolAssociation.StudentUSI = StudentSchoolAttendanceEvent.StudentUSI AND StudentSchoolAssociation.SchoolId = StudentSchoolAttendanceEvent.SchoolId AND
+                StudentSchoolAssociation.SchoolYear = StudentSchoolAttendanceEvent.SchoolYear
+                INNER JOIN edfi.GradeLevelDescriptor ON GradeLevelDescriptor.GradeLevelDescriptorId = StudentSchoolAssociation.EntryGradeLevelDescriptorId
+                INNER JOIN edfi.GradeLevelType ON GradeLevelType.GradeLevelTypeId = GradeLevelDescriptor.GradeLevelTypeId
+
+                WHERE 
+                  edfi.StudentSchoolAttendanceEvent.StudentUSI = [StudentUSI] 
+                AND
+                   StudentSchoolAttendanceEvent.SchoolId = ".Easol_Auth::userdata('SchoolId')."
+                AND GradeLevelType.GradeLevelTypeId between -1 and 12";
+               
+
+      $query = str_replace(['[StudentUSI]', '[TermTypeId]', '[SchoolYear]'], [$this->StudentUSI, $termId, $schoolYear], $query);
+      $query = $this->db->query($query);
+
+      return $query->result();
+
+
+
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getSectionAttendance(){
         $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Days, 'Absence' as EventType
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON

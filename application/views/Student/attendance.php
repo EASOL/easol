@@ -7,30 +7,19 @@ if (empty($attendances)) {
         <table id="student-attendance-table" class="table table-striped table-bordered table-widget">
             <thead>
                 <tr>
-                    <th>Period</th>
-                    <th>Course Code</th>
-                    <th>Section Code</th>
-                    <th>Present</th>
-                    <th>Tardy</th>
-                    <th>Absent</th>
+                    <th>Date</th>
+                    <th>School Year</th>
+                    <th>Grade</th>
+                    <th>Type</th>
                 </tr>
             </thead>
             <tbody>
             <?php  foreach($attendances as $attendance){ ?>
                 <tr>
-                    <td><?php
-
-                    if(strpos($attendance->ClassPeriodName, " - ")!== false)
-                     list($pCode,$pName) = explode(' - ', $attendance->ClassPeriodName);
-                    else
-                     $pCode = $attendance->ClassPeriodName;
-                    echo $pCode;
-                     ?></td>
-                    <td><?= $attendance->LocalCourseCode ?></td>
-                    <td><?= anchor('sections/details/'.$attendance->id, $attendance->UniqueSectionCode, 'target="_blank"'); ?></td>
-                    <td><?= $attendance->Present ?></td>
-                    <td><?= $attendance->Tardy ?></td>
-                    <td><?= $attendance->Absence ?></td>
+                    <td><?php echo easol_date($attendance->EventDate) ?></td>
+                    <td><?php echo easol_year($attendance->SchoolYear) ?></td>
+                    <td><?php echo $attendance->Grade ?></td>
+                    <td><?php echo $attendance->CodeValue ?></td>
                 </tr>
             <?php }  ?>
             </tbody>

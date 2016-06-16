@@ -500,8 +500,8 @@ ul.nav:nth-child(2) li p.navbar-text { margin-top:0px}
 }
 
 .content-filters {
-  width:25%;
-  padding-right: 20px;
+  width:24%;
+  padding-right: 1%;
 }
 
 .content-results {
@@ -761,11 +761,12 @@ tbody {
     background-color: #fff;
     border: 1px solid #ddd;
 }
-.pagination>li, .pagination>li {
+.pagination>li {
 
     padding: 0px!important;
     border: 0px!important;
     margin: 0px!important;
+    display: inline-block;
 
 }
 
