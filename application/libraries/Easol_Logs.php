@@ -7,7 +7,10 @@ Class Easol_Logs {
 		$ci->db->set('DateTime', 'GETDATE()', FALSE);
 
 //		$data['StaffUSI'] = Easol_Auth::userdata('StaffUSI');
-
+		if($_SESSION['StaffUSI']!= NULL)
+			$data['StaffUSI'] = $_SESSION['StaffUSI'];
+		else
+			$data['StaffUSI'] = 0;
 		$data['StaffUSI'] = $_SESSION['StaffUSI'];
 		$data['Controller'] = $ci->router->fetch_class();
 		$data['Method'] = $ci->router->fetch_method();
