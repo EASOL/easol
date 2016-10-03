@@ -15,7 +15,8 @@
                               <select name="term" class="form-control">
                                    <option value="">All Terms</option>
                                    <?php foreach($terms as $k => $v): ?>
-                                        <option value="<?php echo $v->CodeValue; ?>" <?php if ($filters['term'] == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
+                                        <option value="<?php echo $v->CodeValue; ?>" <?php if ($filters['term'] == $v->TermTypeId) {echo "selected";
+                                       } ?> ><?php echo $v->CodeValue; ?></option>
                                    <?php endforeach; ?>
                               </select>
                          </div>
@@ -24,7 +25,8 @@
                               <select name="year" class="form-control">
                                    <option value="">All Years</option>
                                    <?php foreach($years as $k => $v): ?>
-                                        <option value="<?php echo $k; ?>" <?php if($filters['year'] == $k) {echo "selected";} ?> ><?php echo $v; ?></option>
+                                        <option value="<?php echo $k; ?>" <?php if($filters['year'] == $k) {echo "selected";
+                                       } ?> ><?php echo $v; ?></option>
                                    <?php endforeach; ?>
                               </select>
                          </div>
@@ -33,7 +35,8 @@
                               <select name="course" class="form-control">
                                    <option value="">All Courses</option>
                                    <?php foreach($courses as $k => $v): ?>
-                                        <option value="<?php echo $v->CourseCode; ?>" <?php if($filters['course'] == $v->CourseCode) {echo "selected";} ?>><?php echo $v->CourseTitle; ?></option>
+                                        <option value="<?php echo $v->CourseCode; ?>" <?php if($filters['course'] == $v->CourseCode) {echo "selected";
+                                       } ?>><?php echo $v->CourseTitle; ?></option>
                                    <?php endforeach; ?>
                               </select>
                          </div>
@@ -43,7 +46,8 @@
                                    <select name="educator" class="form-control">
                                         <option value="">All Educators</option>
                                         <?php foreach($educators as $k => $v): ?>
-                                             <option value="<?php echo $v->StaffUSI; ?>" <?php if($filters['educator'] == $v->StaffUSI) {echo "selected";} ?>><?php echo $v->FullName; ?></option>
+                                             <option value="<?php echo $v->StaffUSI; ?>" <?php if($filters['educator'] == $v->StaffUSI) {echo "selected";
+                                            } ?>><?php echo $v->FullName; ?></option>
                                         <?php endforeach; ?>
                                    </select>
                               </div>
@@ -81,7 +85,7 @@
                                         <td><?php echo $v->CodeValue; ?></td>
                                         <td><?php echo easol_year($v->SchoolYear); ?></td>
                                         <td><?php echo $v->LocalCourseCode; ?></td>
-                                        <td><a href="<?= site_url("/analytics/students/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
+                                        <td><a href="<?php echo site_url("/analytics/students/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                                         <td><?php echo $v->Period; ?></td>
                                         <td><?php echo $v->Educator; ?></td>
                                         <td><?php echo $v->StudentCount; ?></td>
@@ -108,13 +112,15 @@
                                    <div class="dataTables_paginate paging_simple_numbers pull-right">
                                         <ul class="pagination">
                                              <li class="paginate_button previous <?php if ($page <= 1) echo $previous = "disabled" ?>" aria-controls="manageanalytics" tabindex="0" id="manageanalytics_previous">
-                                                  <a href="<?php if (!$previous) { echo site_url('/analytics') . $query_string . "&page=". ($page - 1); } ?>">Previous</a>
+                                                  <a href="<?php if (!$previous) { echo site_url('/analytics') . $query_string . "&page=". ($page - 1); 
+                                                 } ?>">Previous</a>
                                              </li>
                                              <?php for ($i = 1; $i <= ceil($total_filtered/$limit); $i++): ?>
                                                   <li class="paginate_button <?php if ($page == $i) echo "active" ?>" aria-controls="manageanalytics" tabindex="0"><a href="<?php echo site_url('/analytics').$query_string."&page=$i" ?>"><?php echo $i; ?></a></li>
                                              <?php endfor; ?>
                                              <li class="paginate_button next <?php if (!($i > 1 && $page + 1 < $i)) echo $next = "disabled" ?>" aria-controls="manageanalytics" tabindex="0" id="manageanalytics_next">
-                                                  <a href="<?php if (!$next) { echo site_url('/analytics') . $query_string . "&page=" . ($page + 1); } ?>">Next</a>
+                                                  <a href="<?php if (!$next) { echo site_url('/analytics') . $query_string . "&page=" . ($page + 1); 
+                                                 } ?>">Next</a>
 
                                              </li>
                                         </ul>

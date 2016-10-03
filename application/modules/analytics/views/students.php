@@ -1,7 +1,7 @@
 <?php extract($data); ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header">Analytics. Section:<?=$section->UniqueSectionCode?></h1>
+        <h1 class="page-header">Analytics. Section:<?php echo $section->UniqueSectionCode?></h1>
     </div>
 </div>
 <div class="row">
@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 </div>
-              <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

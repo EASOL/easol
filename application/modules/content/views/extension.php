@@ -10,7 +10,7 @@
     
    <?php foreach ($GLOBALS['css'] as $file): ?>
         <?php $this->carabiner->css("$file"); ?>
-    <?php endforeach; ?>
+   <?php endforeach; ?>
 
     <?php $this->carabiner->css('css/custom-styles2.css?v=2'); ?>
 
@@ -27,7 +27,7 @@
     <?php $this->carabiner->display('css'); ?>  
     
     <script type="text/javascript">
-        var Easol_SiteUrl = "<?= site_url('/') ?>"
+        var Easol_SiteUrl = "<?php echo site_url('/') ?>"
     </script>
 </head>
 <body>
@@ -49,7 +49,7 @@
                 </div>
                 <?php if (!empty($total_count)): ?>
                   <div>
-                    Showing records <?= $start_count ?> to <?= $end_count ?> of <?= $total_count ?>
+                    Showing records <?php echo $start_count ?> to <?php echo $end_count ?> of <?php echo $total_count ?>
                   </div>
                 <?php endif; ?>
                 <?php if (isset($results)): ?>
@@ -62,13 +62,16 @@
                       </div>
                     <?php endforeach; ?>
 
-                    <?php if (isset($filters->subjects)) { $filter = $filters->subjects; $filtername = 'subjects'; ?>
+                    <?php if (isset($filters->subjects)) { $filter = $filters->subjects;
+$filtername = 'subjects'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
                     <?php foreach ($filter as $key => $val) : ?>
                       <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
-                    <?php endforeach; } ?>
+                    <?php endforeach; 
+                    } ?>
 
-                    <?php if (isset($filters->publishers)) { $filter = $filters->publishers; $filtername = 'publishers'; ?>
+                    <?php if (isset($filters->publishers)) { $filter = $filters->publishers;
+$filtername = 'publishers'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
                     <div id="publishers-list" class="filter-big-lists">
                         <form class="form-inline undo-overrides default-form-inline">
@@ -82,8 +85,8 @@
                             <?php foreach ($filter as $key => $val) : ?>
                             <li>
                                 <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>">
-                                    <span class="filter-name"><?= ucwords($key) ?></span>
-                                    <span class="filter-count">(<?= $val ?>)</span>
+                                    <span class="filter-name"><?php echo ucwords($key) ?></span>
+                                    <span class="filter-count">(<?php echo $val ?>)</span>
                                 </a>
                             </li>
                             <?php endforeach; ?>
@@ -91,19 +94,24 @@
                     </div>
                     <?php } ?>
 
-                    <?php if (isset($filters->resource_types)) { $filter = $filters->resource_types; $filtername = 'resource_types'; ?>
+                    <?php if (isset($filters->resource_types)) { $filter = $filters->resource_types;
+$filtername = 'resource_types'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
                     <?php foreach ($filter as $key => $val) : ?>
                       <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
-                    <?php endforeach; } ?>
+                    <?php endforeach; 
+                    } ?>
 
-                    <?php if (isset($filters->grades)) { $filter = $filters->grades; $filtername = 'grades'; ?>
+                    <?php if (isset($filters->grades)) { $filter = $filters->grades;
+$filtername = 'grades'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
                     <?php foreach ($filter as $key => $val) : ?>
                       <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>"><?php echo ucwords($key) . ' (' . $val . ')'; ?></a>
-                    <?php endforeach; } ?>
+                    <?php endforeach; 
+                    } ?>
 
-                    <?php if (isset($filters->alignments)) { $filter = $filters->alignments; $filtername = 'standards'; ?>
+                    <?php if (isset($filters->alignments)) { $filter = $filters->alignments;
+$filtername = 'standards'; ?>
                     <p><?php echo ucwords(preg_replace('/[^\da-z]/i', ' ', rtrim($filtername, 's'))); ?></p>
                     <div id="standards-list" class="filter-big-lists">
                         <form class="form-inline undo-overrides default-form-inline">
@@ -117,8 +125,8 @@
                             <?php foreach ($filter as $key => $val) : ?>
                             <li>
                                 <a class="content-index-filterlink" href="<?php echo $filter_base_url . '&' . rtrim($filtername, 's') . '=' . urlencode($key); ?>">
-                                   <span class="filter-name"><?= ucwords($key) ?></span>
-                                   <span class="filter-count">(<?= $val ?>)</span>
+                                   <span class="filter-name"><?php echo ucwords($key) ?></span>
+                                   <span class="filter-count">(<?php echo $val ?>)</span>
                                 </a>
                             </li>
                             <?php endforeach; ?>
@@ -136,7 +144,8 @@
                         <div class="left content-desc" style="margin-left: 10px; padding-bottom: 40px">
                           <div class="content-title-publisher">
                             <h5 class="content-title"><a href="<?php echo $obj->resource_locators[0]->url; ?>" target="new"><?php echo $obj->title; ?></a></h5>
-                            <div class="content-publisher"><?php if (isset($obj->identities)) { ?><a href="<?php echo $filter_base_url . '&publisher=' . urlencode($obj->identities[0]->name);?>"><?php echo $obj->identities[0]->name; ?></a><?php } ?></div>
+                            <div class="content-publisher"><?php if (isset($obj->identities)) { ?><a href="<?php echo $filter_base_url . '&publisher=' . urlencode($obj->identities[0]->name);?>"><?php echo $obj->identities[0]->name; ?></a><?php 
+                           } ?></div>
                           </div>
                           <div class="well backtowell">
                             <?php echo $obj->description; ?>
@@ -146,10 +155,11 @@
                             <?php foreach ($footnotes as $key => $value) : $p = key($value); ?>
                                 <?php $idxLast = count($obj->$p) - 1; foreach ($obj->$p as $idxTag => $v): ?>
                                     <?php if ($idxTag == 6): ?>
-                                        <a href="#collapsetag-<?= strtolower($key)?>-<?= $idx ?>" data-toggle="collapse" area-expanded="false" class="btn btn-info tag tag-<?= strtolower($key)?> collapsed tags-toggle" role="button">...</a>
-                                        <span id="collapsetag-<?= strtolower($key)?>-<?= $idx ?>" class="collapse tags-collapsed">
+                                        <a href="#collapsetag-<?php echo strtolower($key)?>-<?php echo $idx ?>" data-toggle="collapse" area-expanded="false" class="btn btn-info tag tag-<?php echo strtolower($key)?> collapsed tags-toggle" role="button">...</a>
+                                        <span id="collapsetag-<?php echo strtolower($key)?>-<?php echo $idx ?>" class="collapse tags-collapsed">
                                     <?php endif; ?>
-                                    <a href="<?php echo $filter_base_url . '&' . rtrim(strtolower($key), 's') . '=' . urlencode($v->$value[$p]); ?>" class="btn btn-info tag tag-<?= strtolower($key)?>" role="button"><?= $v->$value[$p]; ?></a>
+                                    <a href="<?php echo $filter_base_url . '&' . rtrim(strtolower($key), 's') . '=' . urlencode($v->$value[$p]);
+?>" class="btn btn-info tag tag-<?php echo strtolower($key)?>" role="button"><?php echo $v->$value[$p]; ?></a>
                                     <?php if (($idxTag == $idxLast) && ($idxTag >= 6)) : ?>
                                         </span>
                                     <?php endif; ?>

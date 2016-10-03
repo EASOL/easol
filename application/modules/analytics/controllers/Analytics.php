@@ -5,13 +5,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Analytics extends Easol_Controller {
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  "@",
         ];
     }
 
-    public function __construct () {
+    public function __construct () 
+    {
         parent::__construct();
         $config = $this->easol_module->module_config('analytics');
         $this->api_url = $config->api_url;
@@ -20,7 +22,8 @@ class Analytics extends Easol_Controller {
     }
 
 
-    public function index() {
+    public function index() 
+    {
        
 
         $data = array();
@@ -114,7 +117,7 @@ class Analytics extends Easol_Controller {
             {
                 $data['results'][$v->id] = $v;
 
-                if(strpos($v->ClassPeriodName, " - ")!== false)
+                if(strpos($v->ClassPeriodName, " - ")!== FALSE)
                     list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
                 else
                     $pCode = $v->ClassPeriodName;
@@ -129,7 +132,7 @@ class Analytics extends Easol_Controller {
                 $urldates = '';
                 $SchoolId           = Easol_Auth::userdata('SchoolId');
                 $ClassPeriodName    = $v->ClassPeriodName;
-                $this->db->select("BellSchedule.date, convert(varchar(max),BellScheduleMeetingTime.starttime) starttime, convert(varchar(max), BellScheduleMeetingTime.endtime) endtime", false);
+                $this->db->select("BellSchedule.date, convert(varchar(max),BellScheduleMeetingTime.starttime) starttime, convert(varchar(max), BellScheduleMeetingTime.endtime) endtime", FALSE);
                 $this->db->from("edfi.BellSchedule");
                 $this->db->join('edfi.BellScheduleMeetingTime', 'BellScheduleMeetingTime.date = BellSchedule.date');
                 $this->db->where("BellSchedule.SchoolId = '$SchoolId' AND BellScheduleMeetingTime.ClassPeriodName = '$ClassPeriodName'");
@@ -154,7 +157,7 @@ class Analytics extends Easol_Controller {
                 StudentSectionAssociation.LocalCourseCode = Section.LocalCourseCode AND
                 StudentSectionAssociation.SchoolYear = Section.SchoolYear");
             $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = StudentSectionAssociation.StudentUSI");
-            $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
+            $this->db->join('easol.EmailLookup', 'EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
             $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
             $this->db->where_in("Section.id", $sections);
 
@@ -187,7 +190,7 @@ class Analytics extends Easol_Controller {
                     if (isset($meeting_times[$section]) and !empty($meeting_times[$section])) {
                         $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
                         $site       = $this->api_url.'sites?'.$query.$meeting_times[$section];
-                        $response   = json_decode(file_get_contents($site, true));
+                        $response   = json_decode(file_get_contents($site, TRUE));
 
                         $times = array();
 
@@ -236,12 +239,13 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
 
         $data['educators']      = $this->db->query($sql)->result();
 
-        $this->render("index",[
+        $this->render("index", [
             'data'  => $data,
         ]);
     }
 
-    public function students() {
+    public function students() 
+    {
 
         $section    = $this->uri->segment(3, 0);
         $data       = array();
@@ -260,11 +264,11 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
         $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
-        $this->db->where('SEC.id',$section);
+        $this->db->where('SEC.id', $section);
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;
 
-        if(strpos($data['section']->ClassPeriodName, " - ")!== false)
+        if(strpos($data['section']->ClassPeriodName, " - ")!== FALSE)
             list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
         else
             $pCode = $data['section']->ClassPeriodName;
@@ -292,7 +296,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             StudentSectionAssociation.SchoolYear = Section.SchoolYear");
         $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
         $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
-        $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
+        $this->db->join('easol.EmailLookup', 'EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
         $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
         $this->db->where("Section.id", $section);
 
@@ -314,7 +318,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             // get the page api data for each student
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $api_students));
             $site       = $this->api_url.'pages?'.$query.$urldates;
-            $response   = json_decode(file_get_contents($site, true));
+            $response   = json_decode(file_get_contents($site, TRUE));
 
             foreach ($response->results as $r) {
 
@@ -332,7 +336,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             // get the video data for each student
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'date_begin[]' => '2015-01-01', 'date_end[]' => '2015-12-31', 'usernames' => $api_students));
             $site       = $this->api_url.'video-views?'.$query.$urldates;
-            $response   = json_decode(file_get_contents($site, true));
+            $response   = json_decode(file_get_contents($site, TRUE));
 
             // Since the api returns video data in a different structure than page visits, this is where the data is restructured to match the page visits data.
             foreach ($response->results as $r)
@@ -354,12 +358,13 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             }
         }
 
-        $this->render("students",[
+        $this->render("students", [
             'data'  => $data,
         ]);
     }
 
-    public function student() {
+    public function student() 
+    {
 
         $section    = $this->uri->segment(3, 0);
         $student    = base64_decode($this->uri->segment(4, 0)); // decode the email hash that was base64 encoded so it could be passed in the url.
@@ -379,10 +384,10 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
         $this->db->join('edfi.StaffSectionAssociation', 'StaffSectionAssociation.SchoolId = Grade.SchoolId AND StaffSectionAssociation.LocalCourseCode = Grade.LocalCourseCode AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.SchoolYear = Grade.SchoolYear AND StaffSectionAssociation.TermTypeId = Grade.TermTypeId AND StaffSectionAssociation.ClassroomIdentificationCode = Grade.ClassroomIdentificationCode AND StaffSectionAssociation.ClassPeriodName = Grade.ClassPeriodName', 'inner');
         $this->db->join('edfi.Staff', 'Staff.StaffUSI = StaffSectionAssociation.StaffUSI', 'inner');
         $this->db->join('edfi.TermType', 'edfi.TermType.TermTypeId = edfi.Grade.TermTypeId', 'inner');
-        $this->db->where('SEC.id',$section);
+        $this->db->where('SEC.id', $section);
         $data['section']    = $this->db->get()->row();
         $data['section']->Educator = $data['section']->FirstName . ' ' . $data['section']->LastSurname;
-        if(strpos($data['section']->ClassPeriodName, " - ")!== false)
+        if(strpos($data['section']->ClassPeriodName, " - ")!== FALSE)
             list($pCode,$pName) = explode(' - ', $data['section']->ClassPeriodName);
         else
             $pCode = $data['section']->ClassPeriodName;
@@ -411,7 +416,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             StudentSectionAssociation.SchoolYear = Section.SchoolYear");
         $this->db->join("edfi.Student", "Student.StudentUSI = StudentSectionAssociation.StudentUSI");
         $this->db->join("edfi.StudentElectronicMail", "StudentElectronicMail.StudentUSI = Student.StudentUSI");
-        $this->db->join('easol.EmailLookup','EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
+        $this->db->join('easol.EmailLookup', 'EmailLookup.email = StudentElectronicMail.ElectronicMailAddress');
         $this->db->where("StudentElectronicMail.PrimaryEmailAddressIndicator", "1");
         $this->db->where("Section.id", $section);
         $this->db->where("EmailLookup.HashedEmail", $student);
@@ -423,7 +428,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             // get the page api data for each student
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'type' => 'detail', 'usernames' => $student));
             $site       = $this->api_url.'pages?'.$query.$urldates;
-            $response   = json_decode(file_get_contents($site, true));
+            $response   = json_decode(file_get_contents($site, TRUE));
 
             // Since the api returns different data structures for pages and videos, but they are all the same to the view, they
             // are converted to a uniform structure before going to the view.
@@ -438,7 +443,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             // get the video data for each student
             $query      = http_build_query(array('org_api_key' => $this->api_key, 'org_secret_key' => $this->api_pass, 'usernames' => $student));
             $site       = $this->api_url.'video-views?'.$query.$urldates;
-            $response   = json_decode(file_get_contents($site, true));
+            $response   = json_decode(file_get_contents($site, TRUE));
 
             // Since the api does not return the timestamp for the video records, there is a random number as a placeholder.
             // todo: replace random number with timestamp from the api when it is included in the api response data.
@@ -450,7 +455,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             }
         }
 
-        $this->render("student",[
+        $this->render("student", [
             'data'  => $data,
         ]);
     }

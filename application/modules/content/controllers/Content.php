@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Content extends Easol_Controller {
 
-     public function __construct() {
+     public function __construct() 
+     {
 
           parent::__construct();
 
@@ -14,7 +15,8 @@ class Content extends Easol_Controller {
      }
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  "@",
         ];
@@ -60,16 +62,17 @@ class Content extends Easol_Controller {
                 // form and there will be a page attribute if we are following a pagination link.
                 // If there is no page param then the api starts with the first record through the limit param.
 
-                if (isset($data['query']) && $data['query'] == "search text") { $data['query'] = ""; }
+                if (isset($data['query']) && $data['query'] == "search text") { $data['query'] = ""; 
+                }
                 
                 if(isset($data['standard'])){
                     $data['alignment'] = $data['standard'];
                     unset($data['standard']);
-                   }   
+                }   
                 $query          = http_build_query($data);
                 $site           = $this->config->item('content_api').$query;
                 $headers        = get_headers($site, 1);
-                $response       = json_decode(file_get_contents($site, true));
+                $response       = json_decode(file_get_contents($site, TRUE));
                
                 // Get the pagination record metrics for display in the view file(s).
                 $page           = ($this->input->get('page')) ? $this->input->get('page') : 1;
@@ -130,7 +133,7 @@ class Content extends Easol_Controller {
                         $obj->description = mb_strimwidth($obj->description, 0, 465, "...");
                     $obj->description = strip_tags($obj->description);
                 }
-            }
+              }
 
             // build the pagination links.
             $this->load->library('pagination');
@@ -163,7 +166,7 @@ class Content extends Easol_Controller {
             $view = (!empty($view)) ? $view : 'index';
 
             if ($view == 'extension')
-                $this->layout = null;
+                $this->layout = NULL;
 
             // map the footnotes tags for iteration in the view to keep the code as DRY as possible.
             $footnotes  = array(    'Subjects'  => array('subjects'       => 'name'),
@@ -177,8 +180,8 @@ class Content extends Easol_Controller {
             $this->render($view, [
                 'gradelevels'       => $this->config->item('gradelevels'),
                 'standards'         => $this->config->item('standards'),
-                'results'           => (isset($response->results)) ? $response->results : null,
-                'filters'           => (isset($response->aggregations)) ? $response->aggregations : null,
+                'results'           => (isset($response->results)) ? $response->results : NULL,
+                'filters'           => (isset($response->aggregations)) ? $response->aggregations : NULL,
                 'filters_active'    => $filters_active,
                 'filter_base_url'   => $filter_base_url,
                 'footnotes'         => $footnotes,
@@ -186,6 +189,6 @@ class Content extends Easol_Controller {
                 'start_count'       => isset($start_count) ? $start_count : 0,
                 'end_count'         => isset($end_count) ? $end_count : 0,
             ]);
-        }
+    }
 
 }

@@ -48,7 +48,7 @@
                         </tbody>
                     </table>
                 </div>
-              <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

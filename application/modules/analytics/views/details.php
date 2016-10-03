@@ -1,7 +1,7 @@
 <?php extract($data); ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header">Section: <?= $section_id; ?></h1>
+        <h1 class="page-header">Section: <?php echo $section_id; ?></h1>
     </div>
 </div>
 <div class="row">
@@ -41,7 +41,7 @@
                       <tbody>
                         <?php foreach ($students as $k => $v) : ?>
                           <tr>
-                            <td><a href="<?= site_url("/student/profile/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
+                            <td><a href="<?php echo site_url("/student/profile/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
                           </tr>
                         <?php endforeach; ?>
                       </tbody>
