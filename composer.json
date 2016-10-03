@@ -12,6 +12,7 @@
 		"kenjis/ci-phpunit-test": "0.8.2",
 		"symfony/dom-crawler": "2.6.*",
 		"symfony/finder": "^2.7",
-		"symfony/css-selector": "^2.7"
+		"symfony/css-selector": "^2.7",
+		"squizlabs/php_codesniffer": "*"
 	}
 }
