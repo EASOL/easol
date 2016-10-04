@@ -11,7 +11,8 @@ class LimitedEnglishProficiencyType extends ORM {
 	public $primary_key = 'LimitedEnglishProficiencyTypeId';
 
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::has_many('\\Model\\Edfi\\Student'),

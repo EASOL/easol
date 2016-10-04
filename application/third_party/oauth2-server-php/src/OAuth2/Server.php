@@ -98,7 +98,7 @@ class Server implements ResourceControllerInterface,
      *
      * @ingroup oauth2_section_7
      */
-    public function __construct($storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), TokenTypeInterface $tokenType = null, ScopeInterface $scopeUtil = null, ClientAssertionTypeInterface $clientAssertionType = null)
+    public function __construct($storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), TokenTypeInterface $tokenType = NULL, ScopeInterface $scopeUtil = NULL, ClientAssertionTypeInterface $clientAssertionType = NULL)
     {
         $storage = is_array($storage) ? $storage : array($storage);
         $this->storages = array();
@@ -108,21 +108,21 @@ class Server implements ResourceControllerInterface,
 
         // merge all config values.  These get passed to our controller objects
         $this->config = array_merge(array(
-            'use_jwt_access_tokens'        => false,
-            'store_encrypted_token_string' => true,
-            'use_openid_connect'       => false,
+            'use_jwt_access_tokens'        => FALSE,
+            'store_encrypted_token_string' => TRUE,
+            'use_openid_connect'       => FALSE,
             'id_lifetime'              => 3600,
             'access_lifetime'          => 3600,
             'www_realm'                => 'Service',
             'token_param_name'         => 'access_token',
             'token_bearer_header_name' => 'Bearer',
-            'enforce_state'            => true,
-            'require_exact_redirect_uri' => true,
-            'allow_implicit'           => false,
-            'allow_credentials_in_request_body' => true,
-            'allow_public_clients'     => true,
-            'always_issue_new_refresh_token' => false,
-            'unset_refresh_token_after_use' => true,
+            'enforce_state'            => TRUE,
+            'require_exact_redirect_uri' => TRUE,
+            'allow_implicit'           => FALSE,
+            'allow_credentials_in_request_body' => TRUE,
+            'allow_public_clients'     => TRUE,
+            'always_issue_new_refresh_token' => FALSE,
+            'unset_refresh_token_after_use' => TRUE,
         ), $config);
 
         foreach ($grantTypes as $key => $grantType) {
@@ -225,7 +225,7 @@ class Server implements ResourceControllerInterface,
      *
      * @see http://openid.net/specs/openid-connect-core-1_0.html#UserInfo
      */
-    public function handleUserInfoRequest(RequestInterface $request, ResponseInterface $response = null)
+    public function handleUserInfoRequest(RequestInterface $request, ResponseInterface $response = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $this->getUserInfoController()->handleUserInfoRequest($request, $this->response);
@@ -253,7 +253,7 @@ class Server implements ResourceControllerInterface,
      *
      * @ingroup oauth2_section_4
      */
-    public function handleTokenRequest(RequestInterface $request, ResponseInterface $response = null)
+    public function handleTokenRequest(RequestInterface $request, ResponseInterface $response = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $this->getTokenController()->handleTokenRequest($request, $this->response);
@@ -261,7 +261,7 @@ class Server implements ResourceControllerInterface,
         return $this->response;
     }
 
-    public function grantAccessToken(RequestInterface $request, ResponseInterface $response = null)
+    public function grantAccessToken(RequestInterface $request, ResponseInterface $response = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $value = $this->getTokenController()->grantAccessToken($request, $this->response);
@@ -275,11 +275,11 @@ class Server implements ResourceControllerInterface,
      *
      * @see https://tools.ietf.org/html/rfc7009#section-2
      *
-     * @param RequestInterface $request
+     * @param RequestInterface  $request
      * @param ResponseInterface $response
      * @return Response|ResponseInterface
      */
-    public function handleRevokeRequest(RequestInterface $request, ResponseInterface $response = null)
+    public function handleRevokeRequest(RequestInterface $request, ResponseInterface $response = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $this->getTokenController()->handleRevokeRequest($request, $this->response);
@@ -315,7 +315,7 @@ class Server implements ResourceControllerInterface,
      *
      * @ingroup oauth2_section_4
      */
-    public function handleAuthorizeRequest(RequestInterface $request, ResponseInterface $response, $is_authorized, $user_id = null)
+    public function handleAuthorizeRequest(RequestInterface $request, ResponseInterface $response, $is_authorized, $user_id = NULL)
     {
         $this->response = $response;
         $this->getAuthorizeController()->handleAuthorizeRequest($request, $this->response, $is_authorized, $user_id);
@@ -342,7 +342,7 @@ class Server implements ResourceControllerInterface,
      *
      * @ingroup oauth2_section_3
      */
-    public function validateAuthorizeRequest(RequestInterface $request, ResponseInterface $response = null)
+    public function validateAuthorizeRequest(RequestInterface $request, ResponseInterface $response = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $value = $this->getAuthorizeController()->validateAuthorizeRequest($request, $this->response);
@@ -350,7 +350,7 @@ class Server implements ResourceControllerInterface,
         return $value;
     }
 
-    public function verifyResourceRequest(RequestInterface $request, ResponseInterface $response = null, $scope = null)
+    public function verifyResourceRequest(RequestInterface $request, ResponseInterface $response = NULL, $scope = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $value = $this->getResourceController()->verifyResourceRequest($request, $this->response, $scope);
@@ -358,7 +358,7 @@ class Server implements ResourceControllerInterface,
         return $value;
     }
 
-    public function getAccessTokenData(RequestInterface $request, ResponseInterface $response = null)
+    public function getAccessTokenData(RequestInterface $request, ResponseInterface $response = NULL)
     {
         $this->response = is_null($response) ? new Response() : $response;
         $value = $this->getResourceController()->getAccessTokenData($request, $this->response);
@@ -366,7 +366,7 @@ class Server implements ResourceControllerInterface,
         return $value;
     }
 
-    public function addGrantType(GrantTypeInterface $grantType, $identifier = null)
+    public function addGrantType(GrantTypeInterface $grantType, $identifier = NULL)
     {
         if (!is_string($identifier)) {
             $identifier = $grantType->getQuerystringIdentifier();
@@ -390,7 +390,7 @@ class Server implements ResourceControllerInterface,
      *
      * @see storageMap
      */
-    public function addStorage($storage, $key = null)
+    public function addStorage($storage, $key = NULL)
     {
         // if explicitly set to a valid key, do not "magically" set below
         if (isset($this->storageMap[$key])) {
@@ -412,11 +412,11 @@ class Server implements ResourceControllerInterface,
         } elseif (!is_null($key) && !is_numeric($key)) {
             throw new \InvalidArgumentException(sprintf('unknown storage key "%s", must be one of [%s]', $key, implode(', ', array_keys($this->storageMap))));
         } else {
-            $set = false;
+            $set = FALSE;
             foreach ($this->storageMap as $type => $interface) {
                 if ($storage instanceof $interface) {
                     $this->storages[$type] = $storage;
-                    $set = true;
+                    $set = TRUE;
                 }
             }
 
@@ -426,7 +426,7 @@ class Server implements ResourceControllerInterface,
         }
     }
 
-    public function addResponseType(ResponseTypeInterface $responseType, $key = null)
+    public function addResponseType(ResponseTypeInterface $responseType, $key = NULL)
     {
         $key = $this->normalizeResponseType($key);
 
@@ -438,11 +438,11 @@ class Server implements ResourceControllerInterface,
         } elseif (!is_null($key) && !is_numeric($key)) {
             throw new \InvalidArgumentException(sprintf('unknown responseType key "%s", must be one of [%s]', $key, implode(', ', array_keys($this->responseTypeMap))));
         } else {
-            $set = false;
+            $set = FALSE;
             foreach ($this->responseTypeMap as $type => $interface) {
                 if ($responseType instanceof $interface) {
                     $this->responseTypes[$type] = $responseType;
-                    $set = true;
+                    $set = TRUE;
                 }
             }
 
@@ -455,7 +455,7 @@ class Server implements ResourceControllerInterface,
     public function getScopeUtil()
     {
         if (!$this->scopeUtil) {
-            $storage = isset($this->storages['scope']) ? $this->storages['scope'] : null;
+            $storage = isset($this->storages['scope']) ? $this->storages['scope'] : NULL;
             $this->scopeUtil = new Scope($storage);
         }
 
@@ -684,7 +684,7 @@ class Server implements ResourceControllerInterface,
         if (!isset($this->storages['public_key'])) {
             throw new \LogicException("You must supply a storage object implementing OAuth2\Storage\PublicKeyInterface to use crypto tokens");
         }
-        $tokenStorage = null;
+        $tokenStorage = NULL;
         if (!empty($this->config['store_encrypted_token_string']) && isset($this->storages['access_token'])) {
             $tokenStorage = $this->storages['access_token'];
         }
@@ -701,12 +701,12 @@ class Server implements ResourceControllerInterface,
             throw new \LogicException("You must supply a storage object implementing OAuth2\Storage\PublicKeyInterface to use crypto tokens");
         }
 
-        $tokenStorage = null;
+        $tokenStorage = NULL;
         if (isset($this->storages['access_token'])) {
             $tokenStorage = $this->storages['access_token'];
         }
 
-        $refreshStorage = null;
+        $refreshStorage = NULL;
         if (isset($this->storages['refresh_token'])) {
             $refreshStorage = $this->storages['refresh_token'];
         }
@@ -722,7 +722,7 @@ class Server implements ResourceControllerInterface,
             throw new \LogicException("You must supply a response type implementing OAuth2\ResponseType\AccessTokenInterface, or a storage object implementing OAuth2\Storage\AccessTokenInterface to use the token server");
         }
 
-        $refreshStorage = null;
+        $refreshStorage = NULL;
         if (isset($this->storages['refresh_token'])) {
             $refreshStorage = $this->storages['refresh_token'];
         }
@@ -763,7 +763,7 @@ class Server implements ResourceControllerInterface,
     protected function normalizeResponseType($name)
     {
         // for multiple-valued response types - make them alphabetical
-        if (!empty($name) && false !== strpos($name, ' ')) {
+        if (!empty($name) && FALSE !== strpos($name, ' ')) {
             $types = explode(' ', $name);
             sort($types);
             $name = implode(' ', $types);
@@ -784,7 +784,7 @@ class Server implements ResourceControllerInterface,
 
     public function getStorage($name)
     {
-        return isset($this->storages[$name]) ? $this->storages[$name] : null;
+        return isset($this->storages[$name]) ? $this->storages[$name] : NULL;
     }
 
     public function getGrantTypes()
@@ -794,7 +794,7 @@ class Server implements ResourceControllerInterface,
 
     public function getGrantType($name)
     {
-        return isset($this->grantTypes[$name]) ? $this->grantTypes[$name] : null;
+        return isset($this->grantTypes[$name]) ? $this->grantTypes[$name] : NULL;
     }
 
     public function getResponseTypes()
@@ -807,7 +807,7 @@ class Server implements ResourceControllerInterface,
         // for multiple-valued response types - make them alphabetical
         $name = $this->normalizeResponseType($name);
 
-        return isset($this->responseTypes[$name]) ? $this->responseTypes[$name] : null;
+        return isset($this->responseTypes[$name]) ? $this->responseTypes[$name] : NULL;
     }
 
     public function getTokenType()
@@ -825,7 +825,7 @@ class Server implements ResourceControllerInterface,
         $this->config[$name] = $value;
     }
 
-    public function getConfig($name, $default = null)
+    public function getConfig($name, $default = NULL)
     {
         return isset($this->config[$name]) ? $this->config[$name] : $default;
     }

@@ -741,4 +741,3 @@ $config['standards'] = array(
 						'CCSS.Math.Content.HSS-MD.B.6'=>'HSS-MD.B.6',
 						'CCSS.Math.Content.HSS-MD.B.7'=>'HSS-MD.B.7',
 	);
-?>

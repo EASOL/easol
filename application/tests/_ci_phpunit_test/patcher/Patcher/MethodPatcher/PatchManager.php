@@ -25,7 +25,7 @@ class PatchManager
 	 * Set a method patch
 	 * 
 	 * @param string $class
-	 * @param array $params [method_name => return_value]
+	 * @param array  $params [method_name => return_value]
 	 */
 	public static function set($class, $params)
 	{
@@ -63,7 +63,7 @@ class PatchManager
 			$log_args = function () use ($params) {
 				$output = '';
 				foreach ($params as $arg) {
-					$output .= var_export($arg, true) . ', ';
+					$output .= var_export($arg, TRUE) . ', ';
 				}
 				$output = rtrim($output, ', ');
 				return $output;
@@ -76,9 +76,9 @@ class PatchManager
 
 		self::$invocations[$class.'::'.$method][] = $params;
 
-		$patch = isset(self::$patches[$class][$method]) ? self::$patches[$class][$method] : null;
+		$patch = isset(self::$patches[$class][$method]) ? self::$patches[$class][$method] : NULL;
 
-		if ($patch === null)
+		if ($patch === NULL)
 		{
 			return __GO_TO_ORIG__;
 		}

@@ -7,7 +7,7 @@ class Schoolmanagement_L {
     $this->ci =& get_instance();
   }
 
-  public function getConfig ($all = false)
+  public function getConfig ($all = FALSE)
   {
     $config = array();
     $this->ci->load->model('SchoolManagement_M');

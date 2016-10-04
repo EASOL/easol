@@ -9,9 +9,9 @@ require_once APPPATH.'/core/Easol_BaseEntity.php';
  */
 class Easol_DashboardConfiguration extends Easol_BaseEntity {
 
-    private $leftReport = null;
-    private $rightReport = null;
-    private $bottomReport = null;
+    private $leftReport = NULL;
+    private $rightReport = NULL;
+    private $bottomReport = NULL;
 
     /**
      * return table name
@@ -44,7 +44,8 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
         ];
     }
 
-    public function beforeSave(){
+    public function beforeSave()
+    {
         $this->EducationOrganizationId = Easol_Auth::userdata("SchoolId");
         parent::beforeSave();
     }
@@ -52,7 +53,8 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
     /**
      * @return array
      */
-    public function validationRules(){
+    public function validationRules()
+    {
         return [
             'RoleTypeId' => ['int','Required'],
             'EducationOrganizationId' => ['int','Required'],
@@ -65,10 +67,11 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
     /**
      * @return Easol_Report
      */
-    public function getLeftChart(){
+    public function getLeftChart()
+    {
         $this->load->model('entities/easol/Easol_Report');
-        if($this->leftReport==null && !property_exists($this,"flagLeftChart") ) {
-            $this->flagLeftChart = true;
+        if($this->leftReport==NULL && !property_exists($this, "flagLeftChart") ) {
+            $this->flagLeftChart = TRUE;
             $this->leftReport = (new Easol_Report())->findOne(["ReportId" => $this->LeftChartReportId]);
             $this->leftReport = (new Easol_Report())->hydrate($this->leftReport);
         }
@@ -77,9 +80,10 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
     /**
      * @return Easol_Report
      */
-    public function getRightChart(){
+    public function getRightChart()
+    {
         $this->load->model('entities/easol/Easol_Report');
-        if($this->rightReport==null) {
+        if($this->rightReport==NULL) {
             $this->rightReport = (new Easol_Report())->findOne(["ReportId" => $this->RightChartReportId]);
             $this->rightReport = (new Easol_Report())->hydrate($this->rightReport);
         }
@@ -89,9 +93,10 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
     /**
      * @return Easol_Report
      */
-    public function getBottomTable(){
+    public function getBottomTable()
+    {
         $this->load->model('entities/easol/Easol_Report');
-        if($this->bottomReport==null) {
+        if($this->bottomReport==NULL) {
             $this->bottomReport = (new Easol_Report())->findOne(["ReportId" => $this->BottomTableReportId]);
             if ($this->bottomReport) $this->bottomReport = (new Easol_Report())->hydrate($this->bottomReport);
         }

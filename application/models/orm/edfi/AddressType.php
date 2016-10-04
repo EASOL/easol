@@ -11,7 +11,8 @@ class AddressType extends ORM {
 	public $primary_key = 'AddressTypeId';
 
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'StudentAddress'=> ORM::has_many('\\Model\\Edfi\\StudentAddress'),

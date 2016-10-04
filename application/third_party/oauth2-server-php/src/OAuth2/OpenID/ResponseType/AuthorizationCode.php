@@ -16,12 +16,12 @@ class AuthorizationCode extends BaseAuthorizationCode implements AuthorizationCo
         parent::__construct($storage, $config);
     }
 
-    public function getAuthorizeResponse($params, $user_id = null)
+    public function getAuthorizeResponse($params, $user_id = NULL)
     {
         // build the URL to redirect to
         $result = array('query' => array());
 
-        $params += array('scope' => null, 'state' => null, 'id_token' => null);
+        $params += array('scope' => NULL, 'state' => NULL, 'id_token' => NULL);
 
         $result['query']['code'] = $this->createAuthorizationCode($params['client_id'], $user_id, $params['redirect_uri'], $params['scope'], $params['id_token']);
 
@@ -50,7 +50,7 @@ class AuthorizationCode extends BaseAuthorizationCode implements AuthorizationCo
      * @see http://tools.ietf.org/html/rfc6749#section-4
      * @ingroup oauth2_section_4
      */
-    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = null, $id_token = null)
+    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = NULL, $id_token = NULL)
     {
         $code = $this->generateAuthorizationCode();
         $this->storage->setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, time() + $this->config['auth_code_lifetime'], $scope, $id_token);

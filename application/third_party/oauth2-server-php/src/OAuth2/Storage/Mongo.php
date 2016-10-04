@@ -57,19 +57,19 @@ class Mongo implements AuthorizationCodeInterface,
     }
 
     /* ClientCredentialsInterface */
-    public function checkClientCredentials($client_id, $client_secret = null)
+    public function checkClientCredentials($client_id, $client_secret = NULL)
     {
         if ($result = $this->collection('client_table')->findOne(array('client_id' => $client_id))) {
             return $result['client_secret'] == $client_secret;
         }
 
-        return false;
+        return FALSE;
     }
 
     public function isPublicClient($client_id)
     {
         if (!$result = $this->collection('client_table')->findOne(array('client_id' => $client_id))) {
-            return false;
+            return FALSE;
         }
 
         return empty($result['client_secret']);
@@ -80,10 +80,10 @@ class Mongo implements AuthorizationCodeInterface,
     {
         $result = $this->collection('client_table')->findOne(array('client_id' => $client_id));
 
-        return is_null($result) ? false : $result;
+        return is_null($result) ? FALSE : $result;
     }
 
-    public function setClientDetails($client_id, $client_secret = null, $redirect_uri = null, $grant_types = null, $scope = null, $user_id = null)
+    public function setClientDetails($client_id, $client_secret = NULL, $redirect_uri = NULL, $grant_types = NULL, $scope = NULL, $user_id = NULL)
     {
         if ($this->getClientDetails($client_id)) {
             $this->collection('client_table')->update(
@@ -108,7 +108,7 @@ class Mongo implements AuthorizationCodeInterface,
             $this->collection('client_table')->insert($client);
         }
 
-        return true;
+        return TRUE;
     }
 
     public function checkRestrictedGrantType($client_id, $grant_type)
@@ -121,7 +121,7 @@ class Mongo implements AuthorizationCodeInterface,
         }
 
         // if grant_types are not defined, then none are restricted
-        return true;
+        return TRUE;
     }
 
     /* AccessTokenInterface */
@@ -129,10 +129,10 @@ class Mongo implements AuthorizationCodeInterface,
     {
         $token = $this->collection('access_token_table')->findOne(array('access_token' => $access_token));
 
-        return is_null($token) ? false : $token;
+        return is_null($token) ? FALSE : $token;
     }
 
-    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = null)
+    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         // if it exists, update it.
         if ($this->getAccessToken($access_token)) {
@@ -156,7 +156,7 @@ class Mongo implements AuthorizationCodeInterface,
             $this->collection('access_token_table')->insert($token);
         }
 
-        return true;
+        return TRUE;
     }
 
     public function unsetAccessToken($access_token)
@@ -170,10 +170,10 @@ class Mongo implements AuthorizationCodeInterface,
     {
         $code = $this->collection('code_table')->findOne(array('authorization_code' => $code));
 
-        return is_null($code) ? false : $code;
+        return is_null($code) ? FALSE : $code;
     }
 
-    public function setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null)
+    public function setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL, $id_token = NULL)
     {
         // if it exists, update it.
         if ($this->getAuthorizationCode($code)) {
@@ -201,14 +201,14 @@ class Mongo implements AuthorizationCodeInterface,
             $this->collection('code_table')->insert($token);
         }
 
-        return true;
+        return TRUE;
     }
 
     public function expireAuthorizationCode($code)
     {
         $this->collection('code_table')->remove(array('authorization_code' => $code));
 
-        return true;
+        return TRUE;
     }
 
     /* UserCredentialsInterface */
@@ -218,7 +218,7 @@ class Mongo implements AuthorizationCodeInterface,
             return $this->checkPassword($user, $password);
         }
 
-        return false;
+        return FALSE;
     }
 
     public function getUserDetails($username)
@@ -235,10 +235,10 @@ class Mongo implements AuthorizationCodeInterface,
     {
         $token = $this->collection('refresh_token_table')->findOne(array('refresh_token' => $refresh_token));
 
-        return is_null($token) ? false : $token;
+        return is_null($token) ? FALSE : $token;
     }
 
-    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         $token = array(
             'refresh_token' => $refresh_token,
@@ -249,14 +249,14 @@ class Mongo implements AuthorizationCodeInterface,
         );
         $this->collection('refresh_token_table')->insert($token);
 
-        return true;
+        return TRUE;
     }
 
     public function unsetRefreshToken($refresh_token)
     {
         $this->collection('refresh_token_table')->remove(array('refresh_token' => $refresh_token));
 
-        return true;
+        return TRUE;
     }
 
     // plaintext passwords are bad!  Override this for your application
@@ -269,10 +269,10 @@ class Mongo implements AuthorizationCodeInterface,
     {
         $result = $this->collection('user_table')->findOne(array('username' => $username));
 
-        return is_null($result) ? false : $result;
+        return is_null($result) ? FALSE : $result;
     }
 
-    public function setUser($username, $password, $firstName = null, $lastName = null)
+    public function setUser($username, $password, $firstName = NULL, $lastName = NULL)
     {
         if ($this->getUser($username)) {
             $this->collection('user_table')->update(
@@ -293,7 +293,7 @@ class Mongo implements AuthorizationCodeInterface,
             $this->collection('user_table')->insert($user);
         }
 
-        return true;
+        return TRUE;
     }
 
     public function getClientKey($client_id, $subject)
@@ -303,20 +303,20 @@ class Mongo implements AuthorizationCodeInterface,
             'subject' => $subject
         ));
 
-        return is_null($result) ? false : $result['key'];
+        return is_null($result) ? FALSE : $result['key'];
     }
 
     public function getClientScope($client_id)
     {
         if (!$clientDetails = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($clientDetails['scope'])) {
             return $clientDetails['scope'];
         }
 
-        return null;
+        return NULL;
     }
 
     public function getJti($client_id, $subject, $audience, $expiration, $jti)

@@ -14,7 +14,8 @@ class ReportAccess extends ORM {
 		'\\model\\easol\\roletype' => 'RoleTypeId'
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Report' => ORM::belongs_to('\\Model\\Easol\\Report'),

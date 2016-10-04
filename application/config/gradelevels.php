@@ -17,4 +17,3 @@ $config['gradelevels'] = array( '' => 'All Grades',
 								'Grade 11'		=> 'Grade 11',
 								'Grade 12'		=> 'Grade 12',
 								);
-?>

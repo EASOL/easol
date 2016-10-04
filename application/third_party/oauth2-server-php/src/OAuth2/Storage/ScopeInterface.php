@@ -42,5 +42,5 @@ interface ScopeInterface
      * ex:
      *     null
      */
-    public function getDefaultScope($client_id = null);
+    public function getDefaultScope($client_id = NULL);
 }

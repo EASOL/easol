@@ -2,17 +2,19 @@
 
 
 class Easol_Session extends CI_Session {
-	public function __construct() {
+	public function __construct() 
+ {
 		parent::__construct();
 	}
 
-	public function userdata($key=null) {
+	public function userdata($key=NULL) 
+ {
 		if (ENVIRONMENT == 'testing') {
 			return $data = [
 				'LoginId'   => 207219,
 				'StaffUSI'  => 2072019,
 				'RoleId'    => 1,
-				'logged_in' => true,
+				'logged_in' => TRUE,
 				'SchoolId'  => 255901001
 			];
 		}

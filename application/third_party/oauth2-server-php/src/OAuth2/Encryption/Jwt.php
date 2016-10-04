@@ -25,42 +25,42 @@ class Jwt implements EncryptionInterface
         return implode('.', $segments);
     }
 
-    public function decode($jwt, $key = null, $allowedAlgorithms = true)
+    public function decode($jwt, $key = NULL, $allowedAlgorithms = TRUE)
     {
         if (!strpos($jwt, '.')) {
-            return false;
+            return FALSE;
         }
 
         $tks = explode('.', $jwt);
 
         if (count($tks) != 3) {
-            return false;
+            return FALSE;
         }
 
         list($headb64, $payloadb64, $cryptob64) = $tks;
 
-        if (null === ($header = json_decode($this->urlSafeB64Decode($headb64), true))) {
-            return false;
+        if (NULL === ($header = json_decode($this->urlSafeB64Decode($headb64), TRUE))) {
+            return FALSE;
         }
 
-        if (null === $payload = json_decode($this->urlSafeB64Decode($payloadb64), true)) {
-            return false;
+        if (NULL === $payload = json_decode($this->urlSafeB64Decode($payloadb64), TRUE)) {
+            return FALSE;
         }
 
         $sig = $this->urlSafeB64Decode($cryptob64);
 
         if ((bool) $allowedAlgorithms) {
             if (!isset($header['alg'])) {
-                return false;
+                return FALSE;
             }
 
             // check if bool arg supplied here to maintain BC
             if (is_array($allowedAlgorithms) && !in_array($header['alg'], $allowedAlgorithms)) {
-                return false;
+                return FALSE;
             }
 
             if (!$this->verifySignature($sig, "$headb64.$payloadb64", $key, $header['alg'])) {
-                return false;
+                return FALSE;
             }
         }
 
@@ -97,13 +97,13 @@ class Jwt implements EncryptionInterface
     {
         switch ($algo) {
             case 'HS256':
-                return hash_hmac('sha256', $input, $key, true);
+                return hash_hmac('sha256', $input, $key, TRUE);
 
             case 'HS384':
-                return hash_hmac('sha384', $input, $key, true);
+                return hash_hmac('sha384', $input, $key, TRUE);
 
             case 'HS512':
-                return hash_hmac('sha512', $input, $key, true);
+                return hash_hmac('sha512', $input, $key, TRUE);
 
             case 'RS256':
                 return $this->generateRSASignature($input, $key, defined('OPENSSL_ALGO_SHA256') ? OPENSSL_ALGO_SHA256 : 'sha256');

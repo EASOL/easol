@@ -76,7 +76,7 @@
  	
  	}
  	
- 	public function minify($css, $preserveComments = TRUE, $relativePath = null)
+ 	public function minify($css, $preserveComments = TRUE, $relativePath = NULL)
  	{	
  		$c = ( isset($this->preserveComments) ) ? $this->preserveComments : $preserveComments;
  		$p = ( isset($this->relativePath) ) ? $this->relativePath : $relativePath;
@@ -121,7 +121,7 @@ class Minify_CSS {
      * 
      * @param string $css
      * 
-     * @param array $options available options:
+     * @param array  $options available options: 'preserveComments': (default true) multi-line comments that begin with "/*!" will be preserved with newlines before and after to enhance readability. 'prependRelativePath': (default null) if given, this string will be prepended to all relative URIs in import/url declarations 'currentDir': (default null) if given, this is assumed to be the directory of the current CSS file. Using this, minify will rewrite all relative URIs in import/url declarations to correctly point to the desired files. For this to work, the files *must* exist and be visible by the PHP process.
      * 
      * 'preserveComments': (default true) multi-line comments that begin
      * with "/*!" will be preserved with newlines before and after to
@@ -146,11 +146,9 @@ class Minify_CSS {
         }
 
         // recursive calls don't preserve comments
-        $options['preserveComments'] = false;
+        $options['preserveComments'] = FALSE;
         return Minify_CommentPreserver::process(
-            $css
-            ,array(self::$className, 'minify')
-            ,array($options)
+            $css, array(self::$className, 'minify'), array($options)
         );
     }
 
@@ -159,7 +157,7 @@ class Minify_CSS {
      * 
      * @param string $css
      * 
-     * @param array $options To enable URL rewriting, set the value
+     * @param array  $options To enable URL rewriting, set the value for key 'prependRelativePath'.
      * for key 'prependRelativePath'.
      * 
      * @return string
@@ -178,9 +176,8 @@ class Minify_CSS {
         $css = preg_replace('@:\\s*/\\*\\s*\\*/@', ':/*keep*/', $css);
         
         // apply callback to all valid comments (and strip out surrounding ws
-        self::$_inHack = false;
-        $css = preg_replace_callback('@\\s*/\\*([\\s\\S]*?)\\*/\\s*@'
-            ,array(self::$className, '_commentCB'), $css);
+        self::$_inHack = FALSE;
+        $css = preg_replace_callback('@\\s*/\\*([\\s\\S]*?)\\*/\\s*@', array(self::$className, '_commentCB'), $css);
 
         // remove ws around { } and last semicolon in declaration block
         $css = preg_replace('/\\s*{\\s*/', '{', $css);
@@ -221,16 +218,13 @@ class Minify_CSS {
                 \\s*
                 [^~>+,\\s]+      # selector part
                 {                # open declaration block
-            /x'
-            ,array(self::$className, '_selectorsCB'), $css);
+            /x', array(self::$className, '_selectorsCB'), $css);
         
         // minimize hex colors
-        $css = preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i'
-            , '$1#$2$3$4$5', $css);
+        $css = preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i', '$1#$2$3$4$5', $css);
         
         // remove spaces between font families
-        $css = preg_replace_callback('/font-family:([^;}]+)([;}])/'
-            ,array(self::$className, '_fontFamilyCB'), $css);
+        $css = preg_replace_callback('/font-family:([^;}]+)([;}])/', array(self::$className, '_fontFamilyCB'), $css);
         
         $css = preg_replace('/@import\\s+url/', '@import url', $css);
         
@@ -244,22 +238,19 @@ class Minify_CSS {
         $css = preg_replace('/
             ((?:padding|margin|border|outline):\\d+(?:px|em)?) # 1 = prop : 1st numeric value
             \\s+
-            /x'
-            ,"$1\n", $css);
+            /x', "$1\n", $css);
         
-        $rewrite = false;
+        $rewrite = FALSE;
         if (isset($options['prependRelativePath'])) {
             self::$_tempPrepend = $options['prependRelativePath'];
-            $rewrite = true;
+            $rewrite = TRUE;
         } elseif (isset($options['currentDir'])) {
             self::$_tempCurrentDir = $options['currentDir'];
-            $rewrite = true;
+            $rewrite = TRUE;
         }
         if ($rewrite) {
-            $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-                ,array(self::$className, '_urlCB'), $css);
-            $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-                ,array(self::$className, '_urlCB'), $css);
+            $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', array(self::$className, '_urlCB'), $css);
+            $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', array(self::$className, '_urlCB'), $css);
         }
         self::$_tempPrepend = self::$_tempCurrentDir = '';
         return trim($css);
@@ -283,7 +274,7 @@ class Minify_CSS {
      * 
      * I.e. are some browsers targetted until the next comment?   
      */
-    protected static $_inHack = false;
+    protected static $_inHack = FALSE;
     
     /**
      * @var string string to be prepended to relative URIs   
@@ -328,23 +319,23 @@ class Minify_CSS {
                     /\\*             # ends like /*/ or /**/
                 @x', $m, $n)) {
                 // end hack mode after this comment, but preserve the hack and comment content
-                self::$_inHack = false;
+                self::$_inHack = FALSE;
                 return "/*/{$n[1]}/**/";
             }
         }
         if (substr($m, -1) === '\\') { // comment ends like \*/
             // begin hack mode and preserve hack
-            self::$_inHack = true;
+            self::$_inHack = TRUE;
             return '/*\\*/';
         }
         if ($m !== '' && $m[0] === '/') { // comment looks like /*/ foo */
             // begin hack mode and preserve hack
-            self::$_inHack = true;
+            self::$_inHack = TRUE;
             return '/*/*/';
         }
         if (self::$_inHack) {
             // a regular comment ends hack mode but should be preserved
-            self::$_inHack = false;
+            self::$_inHack = FALSE;
             return '/**/';
         }
         return ''; // remove all other comments
@@ -453,23 +444,23 @@ class Minify_CommentPreserver {
      * preserved comments, and the comments will be surrounded by 
      * Minify_CommentPreserver::$preprend and Minify_CommentPreserver::$append.
      * 
-     * @param string $content
+     * @param string   $content
      * @param callback $processor function
-     * @param array $args array of extra arguments to pass to the processor 
+     * @param array    $args      array of extra arguments to pass to the processor  function (default = array()) function (default = array())
      * function (default = array())
      * @return string
      */
     public static function process($content, $processor, $args = array())
     {
         $ret = '';
-        while (true) {
+        while (TRUE) {
             list($beforeComment, $comment, $afterComment) = self::_nextComment($content);
             if ('' !== $beforeComment) {
                 $callArgs = $args;
                 array_unshift($callArgs, $beforeComment);
                 $ret .= call_user_func_array($processor, $callArgs);    
             }
-            if (false === $comment) {
+            if (FALSE === $comment) {
                 break;
             }
             $ret .= $comment;
@@ -491,10 +482,10 @@ class Minify_CommentPreserver {
     private static function _nextComment($in)
     {
         if (
-            false === ($start = strpos($in, '/*!'))
-            || false === ($end = strpos($in, '*/', $start + 3))
+            FALSE === ($start = strpos($in, '/*!'))
+            || FALSE === ($end = strpos($in, '*/', $start + 3))
         ) {
-            return array($in, false, false);
+            return array($in, FALSE, FALSE);
         }
         $ret = array(
             substr($in, 0, $start)

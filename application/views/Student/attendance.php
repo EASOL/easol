@@ -25,4 +25,4 @@ if (empty($attendances)) {
             </tbody>
         </table>
     </div>
-<?php } ?>
+<?php } 

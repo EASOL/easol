@@ -9,8 +9,9 @@ class FullyQualified extends \PhpParser\Node\Name
      *
      * @return bool Whether the name is unqualified
      */
-    public function isUnqualified() {
-        return false;
+    public function isUnqualified() 
+    {
+        return FALSE;
     }
 
     /**
@@ -18,8 +19,9 @@ class FullyQualified extends \PhpParser\Node\Name
      *
      * @return bool Whether the name is qualified
      */
-    public function isQualified() {
-        return false;
+    public function isQualified() 
+    {
+        return FALSE;
     }
 
     /**
@@ -27,8 +29,9 @@ class FullyQualified extends \PhpParser\Node\Name
      *
      * @return bool Whether the name is fully qualified
      */
-    public function isFullyQualified() {
-        return true;
+    public function isFullyQualified() 
+    {
+        return TRUE;
     }
 
     /**
@@ -36,7 +39,8 @@ class FullyQualified extends \PhpParser\Node\Name
      *
      * @return bool Whether the name is relative
      */
-    public function isRelative() {
-        return false;
+    public function isRelative() 
+    {
+        return FALSE;
     }
 }

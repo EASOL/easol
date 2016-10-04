@@ -5,7 +5,7 @@ abstract class Easol_BaseEntity extends CI_Model{
 
     public $tablePrefix='';
 
-    public $isNewRecord= true;
+    public $isNewRecord= TRUE;
 
     public $errors = [];
 
@@ -22,10 +22,11 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param $value
      * @throws Exception
      */
-    public function __set($name,$value){
+    public function __set($name,$value)
+    {
 
-        if(!property_exists($this,$name)){
-            if(array_key_exists($name,$this->labels()) || substr( $name, 0, 4 ) === "flag"){
+        if(!property_exists($this, $name)){
+            if(array_key_exists($name, $this->labels()) || substr( $name, 0, 4 ) === "flag"){
                 $this->{$name} = $value;
             }
             else
@@ -41,9 +42,10 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param string $name
      * @return mixed
      */
-    public function __get($name){
-        if(!property_exists($this,$name)){
-            if(array_key_exists($name,$this->labels())){
+    public function __get($name)
+    {
+        if(!property_exists($this, $name)){
+            if(array_key_exists($name, $this->labels())){
                 $this->{$name} = "";
                 return $this->$name;
             }
@@ -68,7 +70,8 @@ abstract class Easol_BaseEntity extends CI_Model{
      * select all row
      * @return array
      */
-    public function findAll($params=[]){
+    public function findAll($params=[])
+    {
         if(count($params)>0)
             return $this->db->get_where($this->getTableName(), $params);
         return $this->db->get($this->getTableName());
@@ -80,7 +83,8 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param array $params
      * @return object
      */
-    public function findAllBySql($sql,$params=[]){
+    public function findAllBySql($sql,$params=[])
+    {
         $query = $this->db->query($sql, $params);
 
         return $query->result();
@@ -92,7 +96,8 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param array $params
      * @return object
      */
-    public function findOne($params=[]){
+    public function findOne($params=[])
+    {
         if(!is_array($params)){
             $params = [$this->getPrimaryKey()=>$params];
         }
@@ -114,7 +119,8 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param array $params
      * @return object
      */
-    public function findOneBySql($sql,$params=[]){
+    public function findOneBySql($sql,$params=[])
+    {
         $query = $this->db->query($sql, $params);
 
         return $query->row();
@@ -126,18 +132,19 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param $obj
      * @return static
      */
-    public function hydrate($obj){
-        $this->isNewRecord = false;
+    public function hydrate($obj)
+    {
+        $this->isNewRecord = FALSE;
 
         if(!is_array($obj)){
             $ret = new static;
-            $ret->isNewRecord = false;
+            $ret->isNewRecord = FALSE;
             foreach ($ret->labels() as $key => $value)
             {
                 if(isset($obj->$key))
                     $ret->{$key} = $obj->$key;
                 else
-                    $ret->{$key} = null;
+                    $ret->{$key} = NULL;
             }
 
             return $ret;
@@ -146,13 +153,13 @@ abstract class Easol_BaseEntity extends CI_Model{
             $retArr = [];
             foreach($obj as $o) {
                 $ret = new static;
-                $ret->isNewRecord = false;
+                $ret->isNewRecord = FALSE;
                 foreach ($ret->labels() as $key => $value) {
                     if (isset($o->$key)) {                    
                         $ret->{$key} = $o->$key;
                     }                        
                     else
-                        $ret->{$key} = null;
+                        $ret->{$key} = NULL;
                 }
                 $retArr[] = $ret;
             }
@@ -170,11 +177,13 @@ abstract class Easol_BaseEntity extends CI_Model{
     /**
      * @return array
      */
-    public function validationRules(){
+    public function validationRules()
+    {
         return [];
     }
 
-    public function excludedColumns(){
+    public function excludedColumns()
+    {
         return [
             'CreatedOn' => '',
             'UpdatedOn' => ''
@@ -185,36 +194,38 @@ abstract class Easol_BaseEntity extends CI_Model{
      * @param array $data
      * @return bool
      */
-    public function populateForm($data=[]){
+    public function populateForm($data=[])
+    {
         foreach($this->validationRules() as $key => $value){
-            if(array_key_exists($key,$data)){
+            if(array_key_exists($key, $data)){
                 $this->$key = $data[$key];
             }
         }
 
-        return true;
+        return TRUE;
     }
 
 
-    public function beforeSave(){
+    public function beforeSave()
+    {
 
         if($this->isNewRecord){
-            if(array_key_exists('CreatedBy',$this->labels())){
+            if(array_key_exists('CreatedBy', $this->labels())){
                 $this->CreatedBy=Easol_Auth::userdata("StaffUSI");
 
             }
-            if(array_key_exists('CreatedOn',$this->labels())){
+            if(array_key_exists('CreatedOn', $this->labels())){
                 $this->db->set('CreatedOn', 'GETDATE()', FALSE);
 
             }
 
         }
 
-        if(array_key_exists('UpdatedBy',$this->labels())){
+        if(array_key_exists('UpdatedBy', $this->labels())){
             $this->UpdatedBy=Easol_Auth::userdata("StaffUSI");
 
         }
-        if(array_key_exists('UpdatedOn',$this->labels())){
+        if(array_key_exists('UpdatedOn', $this->labels())){
             $this->db->set('UpdatedOn', 'GETDATE()', FALSE);
 
 
@@ -227,9 +238,10 @@ abstract class Easol_BaseEntity extends CI_Model{
     /**
      * Save data to database
      */
-    public function save(){
+    public function save()
+    {
         $this->beforeSave();
-        if($this->getPrimaryKey()==null){
+        if($this->getPrimaryKey()==NULL){
             throw new \Exception("Primary Key Not Set!!");
         }
         $data = $this->entryData();
@@ -239,36 +251,37 @@ abstract class Easol_BaseEntity extends CI_Model{
         //insert operation
 
         if($this->isNewRecord){
-           if($this->db->insert($this->getTableName(),$data)) {
-               $this->isNewRecord = false;
+           if($this->db->insert($this->getTableName(), $data)) {
+               $this->isNewRecord = FALSE;
                $this->{$this->getPrimaryKey()} = $this->db->insert_id();
-               return true;
+               return TRUE;
            }
         }
         //update operation
         else {
-            if($this->getPrimaryKey()==null)
+            if($this->getPrimaryKey()==NULL)
                 throw new \Exception("Primary Key not Defined!");
-            $this->db->where($this->getPrimaryKey(),$this->{$this->getPrimaryKey()});
-            if($this->db->update($this->getTableName(),$data)) {
+            $this->db->where($this->getPrimaryKey(), $this->{$this->getPrimaryKey()});
+            if($this->db->update($this->getTableName(), $data)) {
 
-                return true;
+                return TRUE;
 
             }
         }
 
-        return false;
+        return FALSE;
     }
 
 
 
-    private function entryData(){
+    private function entryData()
+    {
 
         $ret=[];
 
         foreach($this->labels() as $key => $value){
             if($key!=$this->getPrimaryKey()){
-                if(!property_exists($this,$key) || array_key_exists($key,$this->excludedColumns())){
+                if(!property_exists($this, $key) || array_key_exists($key, $this->excludedColumns())){
                     continue;
                 }
                 if (is_object($this->$key)) $ret[$key]=json_encode($this->$key);

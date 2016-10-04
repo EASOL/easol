@@ -122,7 +122,7 @@ class Gas {
 			// Set initialization flag
 			static::$init = TRUE;
 		}
-    }
+ }
 
     /**
      * Exception handler
@@ -206,7 +206,7 @@ class Gas {
 
 			        while (($each_line = fgets($handle, 4096)) !== FALSE) {
 			        	$lines[] = $each_line;
-				    }
+           }
 
 				    if ( ! feof($handle)) {
 				    	return $lines;

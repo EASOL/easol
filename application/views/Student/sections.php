@@ -18,16 +18,16 @@ if (empty($grades)) {
             <tbody>
             <?php foreach($grades as $grade){ ?>
                 <tr>
-                    <td><?= $grade->LocalCourseCode ?></td>
-                    <td><?= $grade->CourseTitle ?></td>
-                    <td><?= $grade->Term ?></td>
-                    <td><?= $grade->ClassPeriodName ?></td>
-                    <td><?= easol_year($grade->SchoolYear); ?></td>
+                    <td><?php echo $grade->LocalCourseCode ?></td>
+                    <td><?php echo $grade->CourseTitle ?></td>
+                    <td><?php echo $grade->Term ?></td>
+                    <td><?php echo $grade->ClassPeriodName ?></td>
+                    <td><?php echo easol_year($grade->SchoolYear); ?></td>
                     <td>
                         <?php
-                            if($grade->NumericGradeEarned!=null && $grade->LetterGradeEarned!=null)
+                            if($grade->NumericGradeEarned!=NULL && $grade->LetterGradeEarned!=NULL)
                                 echo $grade->LetterGradeEarned.'('.$grade->NumericGradeEarned.')';
-                            elseif($grade->LetterGradeEarned!=null)
+                            elseif($grade->LetterGradeEarned!=NULL)
                                 echo $grade->LetterGradeEarned;
                             else echo $grade->NumericGradeEarned;
                         ?>
@@ -37,4 +37,4 @@ if (empty($grades)) {
             </tbody>
         </table>
     </div>
-<?php } ?>
+<?php } 

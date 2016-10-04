@@ -18,7 +18,8 @@ class Student extends ORM {
 		'\\model\\edfi\\countrycodetypeid' => 'BirthCountryCodeTypeId',
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'LimitedEnglishProficiencyType'=> ORM::belongs_to('\\Model\\Edfi\\LimitedEnglishProficiencyType'),

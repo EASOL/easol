@@ -95,15 +95,16 @@ abstract class ParserAbstract
     /**
      * Creates a parser instance.
      *
-     * @param Lexer $lexer A lexer
+     * @param Lexer $lexer   A lexer
      * @param array $options Options array. The boolean 'throwOnError' option determines whether an exception should be
      *                       thrown on first error, or if the parser should try to continue parsing the remaining code
      *                       and build a partial AST.
      */
-    public function __construct(Lexer $lexer, array $options = array()) {
+    public function __construct(Lexer $lexer, array $options = array()) 
+    {
         $this->lexer = $lexer;
         $this->errors = array();
-        $this->throwOnError = isset($options['throwOnError']) ? $options['throwOnError'] : true;
+        $this->throwOnError = isset($options['throwOnError']) ? $options['throwOnError'] : TRUE;
     }
 
     /**
@@ -113,7 +114,8 @@ abstract class ParserAbstract
      *
      * @return Error[]
      */
-    public function getErrors() {
+    public function getErrors() 
+    {
         return $this->errors;
     }
 
@@ -125,7 +127,8 @@ abstract class ParserAbstract
      * @return Node[]|null Array of statements (or null if the 'throwOnError' option is disabled and the parser was
      *                     unable to recover from an error).
      */
-    public function parse($code) {
+    public function parse($code) 
+    {
         $this->lexer->startLexing($code);
         $this->errors = array();
 
@@ -250,7 +253,7 @@ abstract class ParserAbstract
                             throw $e;
                         } else {
                             // Currently can't recover from "special" errors
-                            return null;
+                            return NULL;
                         }
                     }
 
@@ -292,7 +295,7 @@ abstract class ParserAbstract
                             ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
                                 if ($this->stackPos <= 0) {
                                     // Could not recover from error
-                                    return null;
+                                    return NULL;
                                 }
                                 $state = $stateStack[--$this->stackPos];
                                 //$this->tracePop($state);
@@ -305,7 +308,7 @@ abstract class ParserAbstract
                         case 3:
                             if ($symbol === 0) {
                                 // Reached EOF without recovering from error
-                                return null;
+                                return NULL;
                             }
 
                             //$this->traceDiscard($symbol);
@@ -326,7 +329,8 @@ abstract class ParserAbstract
         throw new \RuntimeException('Reached end of parser loop');
     }
 
-    protected function getErrorMessage($symbol, $state) {
+    protected function getErrorMessage($symbol, $state) 
+    {
         $expectedString = '';
         if ($expected = $this->getExpectedTokens($state)) {
             $expectedString = ', expecting ' . implode(' or ', $expected);
@@ -335,7 +339,8 @@ abstract class ParserAbstract
         return 'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString;
     }
 
-    protected function getExpectedTokens($state) {
+    protected function getExpectedTokens($state) 
+    {
         $expected = array();
 
         $base = $this->actionBase[$state];
@@ -405,17 +410,18 @@ abstract class ParserAbstract
      * @param Node[] $stmts
      * @return Node[]
      */
-    protected function handleNamespaces(array $stmts) {
+    protected function handleNamespaces(array $stmts) 
+    {
         $style = $this->getNamespacingStyle($stmts);
-        if (null === $style) {
+        if (NULL === $style) {
             // not namespaced, nothing to do
             return $stmts;
         } elseif ('brace' === $style) {
             // For braced namespaces we only have to check that there are no invalid statements between the namespaces
-            $afterFirstNamespace = false;
+            $afterFirstNamespace = FALSE;
             foreach ($stmts as $stmt) {
                 if ($stmt instanceof Node\Stmt\Namespace_) {
-                    $afterFirstNamespace = true;
+                    $afterFirstNamespace = TRUE;
                 } elseif (!$stmt instanceof Node\Stmt\HaltCompiler && $afterFirstNamespace) {
                     throw new Error('No code may exist outside of namespace {}', $stmt->getLine());
                 }
@@ -441,13 +447,14 @@ abstract class ParserAbstract
         }
     }
 
-    private function getNamespacingStyle(array $stmts) {
-        $style = null;
-        $hasNotAllowedStmts = false;
+    private function getNamespacingStyle(array $stmts) 
+    {
+        $style = NULL;
+        $hasNotAllowedStmts = FALSE;
         foreach ($stmts as $stmt) {
             if ($stmt instanceof Node\Stmt\Namespace_) {
-                $currentStyle = null === $stmt->stmts ? 'semicolon' : 'brace';
-                if (null === $style) {
+                $currentStyle = NULL === $stmt->stmts ? 'semicolon' : 'brace';
+                if (NULL === $style) {
                     $style = $currentStyle;
                     if ($hasNotAllowedStmts) {
                         throw new Error('Namespace declaration statement has to be the very first statement in the script', $stmt->getLine());
@@ -456,7 +463,7 @@ abstract class ParserAbstract
                     throw new Error('Cannot mix bracketed namespace declarations with unbracketed namespace declarations', $stmt->getLine());
                 }
             } elseif (!$stmt instanceof Node\Stmt\Declare_ && !$stmt instanceof Node\Stmt\HaltCompiler) {
-                $hasNotAllowedStmts = true;
+                $hasNotAllowedStmts = TRUE;
             }
         }
         return $style;

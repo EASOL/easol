@@ -32,15 +32,15 @@ class HttpBasic implements ClientAssertionTypeInterface
     {
         $this->storage = $storage;
         $this->config = array_merge(array(
-            'allow_credentials_in_request_body' => true,
-            'allow_public_clients' => true,
+            'allow_credentials_in_request_body' => TRUE,
+            'allow_public_clients' => TRUE,
         ), $config);
     }
 
     public function validateRequest(RequestInterface $request, ResponseInterface $response)
     {
         if (!$clientData = $this->getClientCredentials($request, $response)) {
-            return false;
+            return FALSE;
         }
 
         if (!isset($clientData['client_id'])) {
@@ -51,23 +51,23 @@ class HttpBasic implements ClientAssertionTypeInterface
             if (!$this->config['allow_public_clients']) {
                 $response->setError(400, 'invalid_client', 'client credentials are required');
 
-                return false;
+                return FALSE;
             }
 
             if (!$this->storage->isPublicClient($clientData['client_id'])) {
                 $response->setError(400, 'invalid_client', 'This client is invalid or must authenticate using a client secret');
 
-                return false;
+                return FALSE;
             }
-        } elseif ($this->storage->checkClientCredentials($clientData['client_id'], $clientData['client_secret']) === false) {
+        } elseif ($this->storage->checkClientCredentials($clientData['client_id'], $clientData['client_secret']) === FALSE) {
             $response->setError(400, 'invalid_client', 'The client credentials are invalid');
 
-            return false;
+            return FALSE;
         }
 
         $this->clientData = $clientData;
 
-        return true;
+        return TRUE;
     }
 
     public function getClientId()
@@ -95,7 +95,7 @@ class HttpBasic implements ClientAssertionTypeInterface
      *
      * @ingroup oauth2_section_2
      */
-    public function getClientCredentials(RequestInterface $request, ResponseInterface $response = null)
+    public function getClientCredentials(RequestInterface $request, ResponseInterface $response = NULL)
     {
         if (!is_null($request->headers('PHP_AUTH_USER')) && !is_null($request->headers('PHP_AUTH_PW'))) {
             return array('client_id' => $request->headers('PHP_AUTH_USER'), 'client_secret' => $request->headers('PHP_AUTH_PW'));
@@ -118,6 +118,6 @@ class HttpBasic implements ClientAssertionTypeInterface
             $response->setError(400, 'invalid_client', 'Client credentials were not found in the headers'.$message);
         }
 
-        return null;
+        return NULL;
     }
 }

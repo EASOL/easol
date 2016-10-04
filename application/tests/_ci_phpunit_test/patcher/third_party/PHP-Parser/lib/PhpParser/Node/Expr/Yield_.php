@@ -18,13 +18,15 @@ class Yield_ extends Expr
      * @param null|Expr $key        Key expression
      * @param array     $attributes Additional attributes
      */
-    public function __construct(Expr $value = null, Expr $key = null, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(Expr $value = NULL, Expr $key = NULL, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->key = $key;
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('key', 'value');
     }
 }

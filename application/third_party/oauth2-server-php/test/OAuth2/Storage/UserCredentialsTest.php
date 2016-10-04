@@ -29,7 +29,7 @@ class UserCredentialsTest extends BaseTest
 
         // ensure all properties are set
         $user = $storage->getUserDetails('testusername');
-        $this->assertTrue($user !== false);
+        $this->assertTrue($user !== FALSE);
         $this->assertArrayHasKey('user_id', $user);
         $this->assertArrayHasKey('first_name', $user);
         $this->assertArrayHasKey('last_name', $user);

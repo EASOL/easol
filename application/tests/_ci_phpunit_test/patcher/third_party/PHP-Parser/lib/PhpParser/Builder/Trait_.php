@@ -17,7 +17,8 @@ class Trait_ extends Declaration
      *
      * @param string $name Name of the interface
      */
-    public function __construct($name) {
+    public function __construct($name) 
+    {
         $this->name = $name;
     }
 
@@ -28,7 +29,8 @@ class Trait_ extends Declaration
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
+    public function addStmt($stmt) 
+    {
         $stmt = $this->normalizeNode($stmt);
 
         if ($stmt instanceof Stmt\Property) {
@@ -47,7 +49,8 @@ class Trait_ extends Declaration
      *
      * @return Stmt\Trait_ The built interface node
      */
-    public function getNode() {
+    public function getNode() 
+    {
         return new Stmt\Trait_(
             $this->name, array_merge($this->properties, $this->methods), $this->attributes
         );

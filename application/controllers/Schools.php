@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Schools extends Easol_Controller {
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  ['System Administrator','Data Administrator'],
         ];
@@ -16,7 +17,7 @@ class Schools extends Easol_Controller {
      * index action
      */
     public function index($id=1)
-	{
+    {
 
 
 
@@ -43,7 +44,7 @@ class Schools extends Easol_Controller {
        // die(print_r($totalCount));
 
 
-		$this->render("index",[
+		$this->render("index", [
             'query' => $query,
             'pagination'  =>
             [
@@ -53,9 +54,10 @@ class Schools extends Easol_Controller {
                 'url'   =>  'schools/index/@pageNo'
             ]
         ]);
-	}
+    }
 
-    public function choose(){
+    public function choose()
+    {
 
         $schools= $this->Edfi_School->getAllSchools();
 
@@ -74,7 +76,7 @@ class Schools extends Easol_Controller {
             }
         }
 
-        $this->render('choose',['schools' => $schools]);
+        $this->render('choose', ['schools' => $schools]);
 
     }
 }

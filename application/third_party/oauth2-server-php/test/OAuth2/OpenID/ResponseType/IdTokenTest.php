@@ -22,7 +22,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
         );
 
         // attempt to do the request without a nonce.
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request($query);
         $valid = $server->validateAuthorizeRequest($request, $response = new Response());
 
@@ -36,7 +36,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
     public function testHandleAuthorizeRequest()
     {
         // add the test parameters in memory
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'response_type' => 'id_token',
             'redirect_uri'  => 'http://adobe.com',
@@ -47,7 +47,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
         ));
 
         $user_id = 'testuser';
-        $server->handleAuthorizeRequest($request, $response = new Response(), true, $user_id);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE, $user_id);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -67,7 +67,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
 
     public function testPassInAuthTime()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'response_type' => 'id_token',
             'redirect_uri'  => 'http://adobe.com',
@@ -79,7 +79,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
 
         // test with a scalar user id
         $user_id = 'testuser123';
-        $server->handleAuthorizeRequest($request, $response = new Response(), true, $user_id);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE, $user_id);
 
         list($header, $payload, $signature) = $this->extractTokenDataFromResponse($response);
 
@@ -94,7 +94,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
             'auth_time' => date('Y-m-d H:i:s', strtotime('20 minutes ago')
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true, $userInfo);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE, $userInfo);
 
         list($header, $payload, $signature) = $this->extractTokenDataFromResponse($response);
 
@@ -123,8 +123,8 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
         list($headb64, $payloadb64, $signature) = explode('.', $params['id_token']);
 
         $jwt = new Jwt();
-        $header = json_decode($jwt->urlSafeB64Decode($headb64), true);
-        $payload = json_decode($jwt->urlSafeB64Decode($payloadb64), true);
+        $header = json_decode($jwt->urlSafeB64Decode($headb64), TRUE);
+        $payload = json_decode($jwt->urlSafeB64Decode($payloadb64), TRUE);
 
         return array($header, $payload, $signature);
     }
@@ -136,7 +136,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
             // Each part is a base64url encoded json string.
             $part = str_replace(array('-', '_'), array('+', '/'), $part);
             $part = base64_decode($part);
-            $part = json_decode($part, true);
+            $part = json_decode($part, TRUE);
         }
         list($header, $claims, $signature) = $parts;
 
@@ -161,7 +161,7 @@ class IdTokenTest extends \PHPUnit_Framework_TestCase
     private function getTestServer($config = array())
     {
         $config += array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'test',
             'id_lifetime' => 3600,
         );

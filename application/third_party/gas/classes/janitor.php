@@ -77,11 +77,11 @@ class Janitor {
 		{
 			case 'app':
 				$path = realpath(APPPATH);
-				break;
+       break;
 			
 			case 'base':
 				$path = realpath(BASEPATH);
-				break;
+       break;
 		}
 
 		return (substr($path, -1) !== DIRECTORY_SEPARATOR) ? $path . DIRECTORY_SEPARATOR : $path;

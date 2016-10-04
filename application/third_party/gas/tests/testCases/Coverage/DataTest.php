@@ -29,7 +29,7 @@ class DataTest extends PHPUnit_Framework_TestCase {
 
 		$gas_data->offsetSet(NULL, 'lorem');
 
-		$this->assertEquals('lorem',$gas_data->last());
+		$this->assertEquals('lorem', $gas_data->last());
 	}
 
 	public function testDataNavigation()

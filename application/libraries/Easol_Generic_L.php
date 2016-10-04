@@ -14,7 +14,7 @@ class Easol_Generic_L {
     {
         $a             = $email . 'http://easol-dev.azurewebsites.net';
         $b             = hash('sha256', $a);
-        $c             = '$2a$10$'.substr(base64_encode($b),0,22);        
+        $c             = '$2a$10$'.substr(base64_encode($b), 0, 22);        
         return crypt($email, $c);
     }    
 

@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Student extends Easol_Controller {
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
         ];
@@ -79,10 +80,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Profile Page
      * @param null $id
      */
-    public function profile($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function profile($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -96,7 +98,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                         [
                             'student'   => $student
                         ],
-                    true
+                    TRUE
                     ),
                 'student'   => $student,
                 'tab'   =>  'overview'
@@ -107,10 +109,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Contact Page
      * @param null $id
      */
-    public function contacts($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function contacts($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -124,7 +127,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                     [
                         'student'   => $student
                     ],
-                    true
+                    TRUE
                 ),
                 'student'   => $student,
                 'tab'   =>  'contacts'
@@ -136,10 +139,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Section Page
      * @param null $id
      */
-    public function sections($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function sections($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -153,7 +157,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                     [
                         'student'   => $student
                     ],
-                    true
+                    TRUE
                 ),
                 'student'   => $student,
                 'tab'   =>  'sections'
@@ -165,10 +169,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Grade Page
      * @param null $id
      */
-    public function grades($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function grades($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -184,7 +189,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                     [
                         'student'   => $student
                     ],
-                    true
+                    TRUE
                 ),
                 'student'   => $student,
                 'tab'   =>  'grades'
@@ -196,10 +201,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Attendance Page
      * @param null $id
      */
-    public function attendance($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function attendance($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -215,7 +221,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                     [
                         'student'   => $student
                     ],
-                    true
+                    TRUE
                 ),
                 'student'   => $student,
                 'tab'   =>  'attendance'
@@ -227,10 +233,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Assessments Page
      * @param null $id
      */
-    public function assessments($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function assessments($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -246,7 +253,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                     [
                         'student'   => $student
                     ],
-                    true
+                    TRUE
                 ),
                 'student'   => $student,
                 'tab'   =>  'assessments'
@@ -258,10 +265,11 @@ LEFT JOIN edfi.StudentCohortAssociation ON
      * Student Cohorts Page
      * @param null $id
      */
-    public function cohorts($id=null){
-        if($id==null) throw new UnexpectedValueException('Student USI not set!!');
+    public function cohorts($id=NULL)
+    {
+        if($id==NULL) throw new UnexpectedValueException('Student USI not set!!');
 
-        $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
+        $this->load->model('entities/edfi/Edfi_Student', 'Edfi_Student');
 
 
 
@@ -277,7 +285,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                     [
                         'student'   => $student
                     ],
-                    true
+                    TRUE
                 ),
                 'student'   => $student,
                 'tab'   =>  'cohorts'
@@ -310,14 +318,14 @@ WHERE
 
 
 
-        $this->render("csv",[
+        $this->render("csv", [
             'query' => $query,
             'colOrderBy' => ['GradeLevelType.Description','Student.FirstName','Student.LastSurname','Student.StudentUSI','StudentCohortAssociation.CohortIdentifier'],
             'filter' =>[
-                'dataBind' => true,
+                'dataBind' => TRUE,
                 'bindIndex' => ['GradeLevel' => ['glue'=>'and'],'Year' => ['glue'=>'and'],'Cohort' => ['glue'=>'and'] ],
                 'bindSort' => ['Sort'],
-                'queryWhere' => false,
+                'queryWhere' => FALSE,
                 'fields' =>
                     [
 
@@ -333,10 +341,10 @@ WHERE
                                 'searchColumn' => 'SchoolYear',
                                 'searchColumnType' => 'int',
                                 'queryBuilderColumn'=>  'StudentSchoolAssociation.SchoolYear',
-                                'default' => ($this->input->get('filter[Year]') == null) ? $currentYear_default : $this->input->get('filter[Year]'),
+                                'default' => ($this->input->get('filter[Year]') == NULL) ? $currentYear_default : $this->input->get('filter[Year]'),
                                 'label' => 'Year',
                                 'type' => 'dropdown',
-                                'bindDatabase' => true,
+                                'bindDatabase' => TRUE,
                                 'prompt' => 'All Years'
 
                             ],
@@ -359,9 +367,9 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                                 'queryBuilderColumn'=>  'GradeLevelType.Description',
                                 'label'     =>  'Grade Level',
                                 'type'      =>  'dropdown',
-                                'bindDatabase'  => true,
+                                'bindDatabase'  => TRUE,
                                 'prompt'    => 'All Grade Levels',
-                                'default'   => ($this->input->get('filter[GradeLevel]')===false) ? "" : $this->input->get('filter[GradeLevel]'),
+                                'default'   => ($this->input->get('filter[GradeLevel]')===FALSE) ? "" : $this->input->get('filter[GradeLevel]'),
 
                             ],
                           'Cohort' =>
@@ -373,7 +381,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                                   'queryBuilderColumn'=>  'StudentCohortAssociation.CohortIdentifier',
                                   'label'     =>  'Cohort',
                                   'type'      =>  'dropdown',
-                                  'bindDatabase'  => false,
+                                  'bindDatabase'  => FALSE,
                                   'prompt'    => 'All Cohorts',
                                   'default'   => $this->input->get('filter[Cohort]'),
 
@@ -386,10 +394,10 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                                         'type'  =>  'set',
                                         'set'   =>  [25,50,100]
                                     ],
-                                'default'   =>   ($this->input->get('filter[Result]')===false) ? 0 : $this->input->get('filter[Result]'),
+                                'default'   =>   ($this->input->get('filter[Result]')===FALSE) ? 0 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Records Per Page',
                                 'type'      =>  'dropdown',
-                                'bindDatabase'  => false,
+                                'bindDatabase'  => FALSE,
                                 'fieldType' => 'pageSize'
                             ],
   
@@ -397,7 +405,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
                             [
                                 'label'     =>  'Sort Column',
                                 'type'      =>  'dataSort',
-                                'bindDatabase'  => true,
+                                'bindDatabase'  => TRUE,
                                 'fieldType' => 'dataSort',
                                 'display' => 'false',
                                 'columns'   =>

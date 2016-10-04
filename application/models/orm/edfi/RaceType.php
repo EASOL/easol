@@ -11,7 +11,8 @@ class RaceType extends ORM {
 	public $primary_key = 'RaceTypeId';
 
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'StudentRace'=> ORM::has_many('\\Model\\Edfi\\StudentRace'),

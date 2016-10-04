@@ -35,13 +35,13 @@ class UserCredentials implements GrantTypeInterface
         if (!$request->request("password") || !$request->request("username")) {
             $response->setError(400, 'invalid_request', 'Missing parameters: "username" and "password" required');
 
-            return null;
+            return NULL;
         }
 
         if (!$this->storage->checkUserCredentials($request->request("username"), $request->request("password"))) {
             $response->setError(401, 'invalid_grant', 'Invalid username and password combination');
 
-            return null;
+            return NULL;
         }
 
         $userInfo = $this->storage->getUserDetails($request->request("username"));
@@ -49,7 +49,7 @@ class UserCredentials implements GrantTypeInterface
         if (empty($userInfo)) {
             $response->setError(400, 'invalid_grant', 'Unable to retrieve user information');
 
-            return null;
+            return NULL;
         }
 
         if (!isset($userInfo['user_id'])) {
@@ -58,12 +58,12 @@ class UserCredentials implements GrantTypeInterface
 
         $this->userInfo = $userInfo;
 
-        return true;
+        return TRUE;
     }
 
     public function getClientId()
     {
-        return null;
+        return NULL;
     }
 
     public function getUserId()
@@ -73,7 +73,7 @@ class UserCredentials implements GrantTypeInterface
 
     public function getScope()
     {
-        return isset($this->userInfo['scope']) ? $this->userInfo['scope'] : null;
+        return isset($this->userInfo['scope']) ? $this->userInfo['scope'] : NULL;
     }
 
     public function createAccessToken(AccessTokenInterface $accessToken, $client_id, $user_id, $scope)

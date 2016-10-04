@@ -65,18 +65,22 @@ $GLOBALS['assets_lib'] = array(
 	)
 );
 
-function assets_js($file) {
+function assets_js($file) 
+{
 	$GLOBALS['js'][] = $file;
 }
-function assets_css($file) {
+function assets_css($file) 
+{
 	$GLOBALS['css'][] = $file;
 }
 
-function assets_widget($widget) {
+function assets_widget($widget) 
+{
 	$GLOBALS['widget'][] = $widget;
 }
 
-function assets_lib($lib) {
+function assets_lib($lib) 
+{
 
 	$files = $GLOBALS['assets_lib'][$lib];
 	if (!empty($files['css'])) {

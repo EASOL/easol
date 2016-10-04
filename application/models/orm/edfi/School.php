@@ -12,7 +12,8 @@ class School extends ORM {
 
 	public $foreign_key = array('\\model\\edfi\\educationorganization' => 'SchoolId');
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'EducationOrganization'=> ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),

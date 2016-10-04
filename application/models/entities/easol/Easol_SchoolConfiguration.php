@@ -6,7 +6,8 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
 
     private static $conf;
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         self::$conf = $this;
 
@@ -26,14 +27,15 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
      * @param $key
      * @return null
      */
-    public static function getValue($key,$EducationOrganizationId=''){
+    public static function getValue($key,$EducationOrganizationId='')
+    {
         if($EducationOrganizationId=='')
             $EducationOrganizationId = Easol_Auth::userdata('SchoolId');
 
         $data=self::$conf->findOne(['Key'=>$key,'EducationOrganizationId'=>$EducationOrganizationId]);
         if(isset($data->Value)) return $data->Value;
 
-        return null;
+        return NULL;
 
     }
 
@@ -63,10 +65,13 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
      * returns peice of query string for filtering out users and filter search object
      * @return array
      */
-    public static function userCanFilter() {
+    public static function userCanFilter() 
+    {
     	$data['allowedUser'] = '';
 	$data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and'], 'Educator'=> ['glue'=>'and']];
-	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator','School Administrator']) ) { $data['allowedUser'] = "AND Staff.StaffUSI=".Easol_Auth::userdata('StaffUSI'); $data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; }
+	if( !Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator','School Administrator']) ) { $data['allowedUser'] = "AND Staff.StaffUSI=".Easol_Auth::userdata('StaffUSI');
+$data['thefilter'] = ['Term' => ['glue'=>'and'],'Year' => ['glue'=>'and'], 'Course' => ['glue'=>'and']]; 
+ }
 	return $data;
     }
 
@@ -74,17 +79,20 @@ class Easol_SchoolConfiguration extends Easol_BaseEntity {
      * returns whether user can filter by Educator in current controller
      * @return boolean
      */
-    public static function canFilterByEducator() {
+    public static function canFilterByEducator() 
+    {
       
-      if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator','School Administrator'])) return true;
-      return false;
+      if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator','School Administrator'])) return TRUE;
+      return FALSE;
     }
     /**
      * sets default of filter field
      * @return string
      */
-    public static function setDefault($filtertype, $default) {
-    	    if( (isset($_GET['filter'][$filtertype]) && $_GET['filter'][$filtertype]=='') || $default==null) { $default="";}
+    public static function setDefault($filtertype, $default) 
+    {
+    	    if( (isset($_GET['filter'][$filtertype]) && $_GET['filter'][$filtertype]=='') || $default==NULL) { $default="";
+         }
     	    return $default;
     }
     

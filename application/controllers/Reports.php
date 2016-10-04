@@ -7,11 +7,13 @@ class Reports extends Easol_Controller {
     /**
      * default constructor
      */
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "default"   => ['System Administrator','Data Administrator'],
             "index"     => ['System Administrator','Data Administrator','School Administrator'],
@@ -32,7 +34,7 @@ class Reports extends Easol_Controller {
             //print_r($this->input->post('dashboardConf'));
             foreach($this->input->post('dashboardConf') as $roleId => $conf){
                 $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
-                if($dashConf==null){
+                if($dashConf==NULL){
                     $dashConf = new Easol_DashboardConfiguration();
                     $dashConf->RoleTypeId = $roleId;
                     $dashConf->EducationOrganizationId = Easol_Auth::userdata('SchoolId');
@@ -53,7 +55,7 @@ class Reports extends Easol_Controller {
 
         }
 
-        $this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
+        $this->render("index", ['reports' => $report->hydrate($report->findAll()->result())]);
     }
 
     /**
@@ -163,7 +165,7 @@ class Reports extends Easol_Controller {
        /* echo $report->ReportName."sdd";
         echo $report->ReportName."sdd"; */
         //$report->save();
-        $this->render("create",['model' => $model]);
+        $this->render("create", ['model' => $model]);
     }
 
 
@@ -171,8 +173,9 @@ class Reports extends Easol_Controller {
      * @param null | int $id
      * @throws Exception
      */
-    public function edit($id=null){
-        if($id==null)
+    public function edit($id=NULL)
+    {
+        if($id==NULL)
             throw new \Exception("Invalid report Id");
 
         $this->load->model('entities/easol/Easol_Report');
@@ -206,7 +209,7 @@ class Reports extends Easol_Controller {
 
                     $aRoles=[];
                     foreach($model->getAccessTypes() as $role){
-                        if(!in_array($role->RoleTypeId,$this->input->post('access[access]'))){
+                        if(!in_array($role->RoleTypeId, $this->input->post('access[access]'))){
                             $this->db->delete('EASOL.ReportAccess', array('ReportId' => $model->ReportId,'RoleTypeId'=>$role->RoleTypeId));
                         }
                         $aRoles[] = $role->RoleTypeId;
@@ -299,11 +302,12 @@ class Reports extends Easol_Controller {
         /* echo $report->ReportName."sdd";
          echo $report->ReportName."sdd"; */
         //$report->save();
-        $this->render("edit",['model' => $model]);
+        $this->render("edit", ['model' => $model]);
 
     }
 
-    public function stdToArray($obj) {
+    public function stdToArray($obj) 
+    {
         $reaged = (array) $obj;
         foreach ($reaged as $key => &$field) {
             if (is_object($field))
@@ -312,8 +316,9 @@ class Reports extends Easol_Controller {
         return $reaged;
     }
 
-    public function view($id=null){
-        if($id==null)
+    public function view($id=NULL)
+    {
+        if($id==NULL)
             throw new \Exception("Invalid report Id");
         $this->load->model('entities/easol/Easol_Report');
 
@@ -323,13 +328,13 @@ class Reports extends Easol_Controller {
         switch($model->DisplayType){
 
             case 'table':
-                return $this->render("display-table",['model' => $model, 'displayTitle'=>true]);
+                return $this->render("display-table", ['model' => $model, 'displayTitle'=>TRUE]);
                 break;
             case 'bar-chart':
-                return $this->render("display-bar-chart",['model' => $model, 'displayTable' => true,'displayTitle'=>true]);
+                return $this->render("display-bar-chart", ['model' => $model, 'displayTable' => TRUE,'displayTitle'=>TRUE]);
                 break;
             case 'pie-chart':
-                return $this->render("display-pie-chart",['model' => $model, 'displayTable' => true,'displayTitle'=>true]);
+                return $this->render("display-pie-chart", ['model' => $model, 'displayTable' => TRUE,'displayTitle'=>TRUE]);
                 break;
             
             default:
@@ -341,7 +346,8 @@ class Reports extends Easol_Controller {
 
     }
 
-    public function preview() {
+    public function preview() 
+    {
         $post = $this->input->post();
 
         if ($this->form_validation->run() == FALSE) {
@@ -383,13 +389,13 @@ class Reports extends Easol_Controller {
         switch($model->DisplayType){
 
             case 'table':
-                $response['html'] = $this->load->view("reports/display-table",['model' => $model, 'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("reports/display-table", ['model' => $model, 'displayTitle'=>TRUE], TRUE);
                 break;
             case 'bar-chart':
-                $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("reports/display-bar-chart", ['model' => $model,'displayTitle'=>TRUE], TRUE);
                 break;
             case 'pie-chart':
-                $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("reports/display-pie-chart", ['model' => $model,'displayTitle'=>TRUE], TRUE);
                 break;
             default:
                 throw new \Exception("Invalid Report Display type..");
@@ -399,8 +405,9 @@ class Reports extends Easol_Controller {
         exit(json_encode($response));
     }
 
-    public function delete($id= null){
-        if($id==null)
+    public function delete($id= NULL)
+    {
+        if($id==NULL)
             throw new \Exception("Invalid report Id");
         $this->db->delete('EASOL.Report', array('ReportId' => $id));
 
@@ -417,7 +424,8 @@ class Reports extends Easol_Controller {
 
     }
 
-    public function export($id) {
+    public function export($id) 
+    {
 
         $this->db->where('ReportId', $id);
         $this->db->join('EASOL.ReportCategory', 'ReportCategory.ReportCategoryId = Report.ReportCategoryId', 'left');
@@ -444,23 +452,24 @@ class Reports extends Easol_Controller {
          
     }
 
-    public function import() {
+    public function import() 
+    {
 
-        $error = false;
+        $error = FALSE;
         if (!$file = $_FILES['import']) {
             $this->session->set_flashdata('message', 'Please Select a File.');
             $this->session->set_flashdata('type', 'error');
 
-            $error = true;
+            $error = TRUE;
         }
         else {
             $input = file_get_contents($file['tmp_name']);
-            $input = json_decode($input, true);
+            $input = json_decode($input, TRUE);
             if (json_last_error()) {
                 $this->session->set_flashdata('message', 'Please Select a Valid Flex Report Export File.');
                 $this->session->set_flashdata('type', 'error');
 
-                $error = true;
+                $error = TRUE;
             }
         }
 
@@ -481,7 +490,7 @@ class Reports extends Easol_Controller {
                 $this->session->set_flashdata('message', 'The export file has invalid report data.');
                 $this->session->set_flashdata('type', 'error');
 
-                $error = true;
+                $error = TRUE;
             }
             else {                   
 
@@ -553,7 +562,7 @@ class Reports extends Easol_Controller {
                     $this->session->set_flashdata('message', 'The export file has invalid report data.');
                     $this->session->set_flashdata('type', 'error');
 
-                    $error = true;
+                    $error = TRUE;
                 }
             }
         }
@@ -565,7 +574,8 @@ class Reports extends Easol_Controller {
 
     }
 
-    public function _import_category($report) {
+    public function _import_category($report) 
+    {
         $this->db->where('ReportCategoryName', $report['ReportCategoryName']);
         $query = $this->db->get('EASOL.ReportCategory');
 
@@ -579,13 +589,14 @@ class Reports extends Easol_Controller {
             if ($model->save()) {
                 return $model->ReportCategoryId;
             }
-            else return null;
+            else return NULL;
         }
 
         return $category->ReportCategoryId;
     }
 
-    public function createCategory($ReportId=null){
+    public function createCategory($ReportId=NULL)
+    {
         $this->load->model('entities/easol/Easol_ReportCategory');
 
         $model = new Easol_ReportCategory();
@@ -603,6 +614,6 @@ class Reports extends Easol_Controller {
         }
 
 
-        return $this->render("createcategory",['model' => $model, 'ReportId'=>$ReportId]);
+        return $this->render("createcategory", ['model' => $model, 'ReportId'=>$ReportId]);
     }
 }

@@ -10,11 +10,13 @@ class XML implements Unserializer
 {
     protected $reader;
 
-    public function __construct() {
+    public function __construct() 
+    {
         $this->reader = new XMLReader;
     }
 
-    public function unserialize($string) {
+    public function unserialize($string) 
+    {
         $this->reader->XML($string);
 
         $this->reader->read();
@@ -25,8 +27,9 @@ class XML implements Unserializer
         return $this->read($this->reader->depth);
     }
 
-    protected function read($depthLimit, $throw = true, &$nodeFound = null) {
-        $nodeFound = true;
+    protected function read($depthLimit, $throw = TRUE, &$nodeFound = NULL) 
+    {
+        $nodeFound = TRUE;
         while ($this->reader->read() && $depthLimit < $this->reader->depth) {
             if (XMLReader::ELEMENT !== $this->reader->nodeType) {
                 continue;
@@ -43,13 +46,14 @@ class XML implements Unserializer
             }
         }
 
-        $nodeFound = false;
+        $nodeFound = FALSE;
         if ($throw) {
             throw new DomainException('Expected node or scalar');
         }
     }
 
-    protected function readNode() {
+    protected function readNode() 
+    {
         $className = $this->getClassNameFromType($this->reader->localName);
 
         // create the node without calling it's constructor
@@ -86,13 +90,14 @@ class XML implements Unserializer
         return $node;
     }
 
-    protected function readScalar() {
+    protected function readScalar() 
+    {
         switch ($name = $this->reader->localName) {
             case 'array':
                 $depth = $this->reader->depth;
                 $array = array();
-                while (true) {
-                    $node = $this->read($depth, false, $nodeFound);
+                while (TRUE) {
+                    $node = $this->read($depth, FALSE, $nodeFound);
                     if (!$nodeFound) {
                         break;
                     }
@@ -105,7 +110,7 @@ class XML implements Unserializer
                 return $this->parseInt($this->reader->readString());
             case 'float':
                 $text = $this->reader->readString();
-                if (false === $float = filter_var($text, FILTER_VALIDATE_FLOAT)) {
+                if (FALSE === $float = filter_var($text, FILTER_VALIDATE_FLOAT)) {
                     throw new DomainException(sprintf('"%s" is not a valid float', $text));
                 }
                 return $float;
@@ -121,14 +126,16 @@ class XML implements Unserializer
         }
     }
 
-    private function parseInt($text) {
-        if (false === $int = filter_var($text, FILTER_VALIDATE_INT)) {
+    private function parseInt($text) 
+    {
+        if (FALSE === $int = filter_var($text, FILTER_VALIDATE_INT)) {
             throw new DomainException(sprintf('"%s" is not a valid integer', $text));
         }
         return $int;
     }
 
-    protected function readComment() {
+    protected function readComment() 
+    {
         $className = $this->reader->getAttribute('isDocComment') === 'true'
             ? 'PhpParser\Comment\Doc'
             : 'PhpParser\Comment'
@@ -139,7 +146,8 @@ class XML implements Unserializer
         );
     }
 
-    protected function getClassNameFromType($type) {
+    protected function getClassNameFromType($type) 
+    {
         $className = 'PhpParser\\Node\\' . strtr($type, '_', '\\');
         if (!class_exists($className)) {
             $className .= '_';

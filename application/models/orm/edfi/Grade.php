@@ -16,7 +16,8 @@ class Grade extends ORM {
 	//	'\\model\\edfi\\GradeType' => 'GradeTypeId'
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::belongs_to('\\Model\\Edfi\\Student'),

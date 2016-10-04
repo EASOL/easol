@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt;
 class Use_ extends BuilderAbstract {
     protected $name;
     protected $type;
-    protected $alias = null;
+    protected $alias = NULL;
 
     /**
      * Creates a name use (alias) builder.
@@ -20,7 +20,8 @@ class Use_ extends BuilderAbstract {
      * @param Node\Name|string $name Name of the entity (namespace, class, function, constant) to alias
      * @param int              $type One of the Stmt\Use_::TYPE_* constants
      */
-    public function __construct($name, $type) {
+    public function __construct($name, $type) 
+    {
         $this->name = $this->normalizeName($name);
         $this->type = $type;
     }
@@ -32,11 +33,13 @@ class Use_ extends BuilderAbstract {
      *
      * @return $this The builder instance (for fluid interface)
      */
-    protected function as_($alias) {
+    protected function as_($alias) 
+    {
         $this->alias = $alias;
         return $this;
     }
-    public function __call($name, $args) {
+    public function __call($name, $args) 
+    {
         if (method_exists($this, $name . '_')) {
             return call_user_func_array(array($this, $name . '_'), $args);
         }
@@ -49,8 +52,9 @@ class Use_ extends BuilderAbstract {
      *
      * @return Node The built node
      */
-    public function getNode() {
-        $alias = null !== $this->alias ? $this->alias : $this->name->getLast();
+    public function getNode() 
+    {
+        $alias = NULL !== $this->alias ? $this->alias : $this->name->getLast();
         return new Stmt\Use_(array(
             new Stmt\UseUse($this->name, $alias)
         ), $this->type);

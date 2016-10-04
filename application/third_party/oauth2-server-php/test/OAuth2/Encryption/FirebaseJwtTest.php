@@ -40,7 +40,7 @@ EOD;
             'iat' => time(),
             'sub' => 'testuser@ourdomain.com',
             'aud' => 'http://myapp.com/oauth/auth',
-            'scope' => null,
+            'scope' => NULL,
         );
 
         $encoded = $jwtUtil->encode($params, $this->privateKey, 'RS256');
@@ -50,7 +50,7 @@ EOD;
         $this->assertEquals($params, $payload);
 
         // test BC behaviour of not verifying by passing false
-        $payload = $jwtUtil->decode($encoded, $client_key, false);
+        $payload = $jwtUtil->decode($encoded, $client_key, FALSE);
         $this->assertEquals($params, $payload);
 
         // test the new restricted algorithms header
@@ -77,7 +77,7 @@ EOD;
             'iat' => time(),
             'sub' => 'testuser@ourdomain.com',
             'aud' => 'http://myapp.com/oauth/auth',
-            'scope' => null,
+            'scope' => NULL,
         );
 
         // testing for algorithm tampering when only RSA256 signing is allowed

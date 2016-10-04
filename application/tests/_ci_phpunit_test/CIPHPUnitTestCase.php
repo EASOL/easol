@@ -66,7 +66,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 
 	protected function tearDown()
 	{
-		if (class_exists('MonkeyPatch', false))
+		if (class_exists('MonkeyPatch', FALSE))
 		{
 			if (MonkeyPatchManager::isEnabled('FunctionPatcher'))
 			{
@@ -167,7 +167,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param int    $times
 	 * @param array  $params arguments
 	 */
-	public function verifyInvokedMultipleTimes($mock, $method, $times, $params = null)
+	public function verifyInvokedMultipleTimes($mock, $method, $times, $params = NULL)
 	{
 		$this->double->verifyInvokedMultipleTimes(
 			$mock, $method, $times, $params
@@ -181,7 +181,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param string $method
 	 * @param array  $params arguments
 	 */
-	public function verifyInvoked($mock, $method, $params = null)
+	public function verifyInvoked($mock, $method, $params = NULL)
 	{
 		$this->double->verifyInvoked($mock, $method, $params);
 	}
@@ -193,7 +193,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param string $method
 	 * @param array  $params arguments
 	 */
-	public function verifyInvokedOnce($mock, $method, $params = null)
+	public function verifyInvokedOnce($mock, $method, $params = NULL)
 	{
 		$this->double->verifyInvokedOnce($mock, $method, $params);
 	}
@@ -205,7 +205,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param string $method
 	 * @param array  $params arguments
 	 */
-	public function verifyNeverInvoked($mock, $method, $params = null)
+	public function verifyNeverInvoked($mock, $method, $params = NULL)
 	{
 		$this->double->verifyNeverInvoked($mock, $method, $params);
 	}
@@ -250,7 +250,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 		$CI =& get_instance();
 		$actual = $CI->output->get_header($name);
 
-		if ($actual === null)
+		if ($actual === NULL)
 		{
 			$this->fail("The '$name' header is not set.\nNote that `assertResponseHeader()` can only assert headers set by `\$this->output->set_header()`");
 		}
@@ -268,11 +268,11 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param string $uri  URI to redirect
 	 * @param int    $code response code
 	 */
-	public function assertRedirect($uri, $code = null)
+	public function assertRedirect($uri, $code = NULL)
 	{
 		$status = $this->request->getStatus();
 
-		if ($status['redirect'] === null)
+		if ($status['redirect'] === NULL)
 		{
 			$this->fail('redirect() is not called.');
 		}
@@ -291,7 +291,7 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 			'URL to redirect is not ' . $expected . ' but ' . $status['redirect'] . '.'
 		);
 
-		if ($code !== null)
+		if ($code !== NULL)
 		{
 			$this->assertSame(
 				$code,

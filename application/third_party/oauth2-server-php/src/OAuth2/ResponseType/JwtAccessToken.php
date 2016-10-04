@@ -24,11 +24,11 @@ class JwtAccessToken extends AccessToken
      *       whether the entire encrypted string is stored,
      *       or just the token ID is stored
      */
-    public function __construct(PublicKeyInterface $publicKeyStorage = null, AccessTokenStorageInterface $tokenStorage = null, RefreshTokenInterface $refreshStorage = null, array $config = array(), EncryptionInterface $encryptionUtil = null)
+    public function __construct(PublicKeyInterface $publicKeyStorage = NULL, AccessTokenStorageInterface $tokenStorage = NULL, RefreshTokenInterface $refreshStorage = NULL, array $config = array(), EncryptionInterface $encryptionUtil = NULL)
     {
         $this->publicKeyStorage = $publicKeyStorage;
         $config = array_merge(array(
-            'store_encrypted_token_string' => true,
+            'store_encrypted_token_string' => TRUE,
             'issuer' => ''
         ), $config);
         if (is_null($tokenStorage)) {
@@ -51,13 +51,13 @@ class JwtAccessToken extends AccessToken
      * User ID associated with the access token
      * @param $scope
      * (optional) Scopes to be stored in space-separated string.
-     * @param bool $includeRefreshToken
+     * @param bool      $includeRefreshToken
      *                                  If true, a new refresh_token will be added to the response
      *
      * @see http://tools.ietf.org/html/rfc6749#section-5
      * @ingroup oauth2_section_5
      */
-    public function createAccessToken($client_id, $user_id, $scope = null, $includeRefreshToken = true)
+    public function createAccessToken($client_id, $user_id, $scope = NULL, $includeRefreshToken = TRUE)
     {
         // token to encrypt
         $expires = time() + $this->config['access_lifetime'];
@@ -85,7 +85,7 @@ class JwtAccessToken extends AccessToken
          * if no secondary storage has been supplied
          */
         $token_to_store = $this->config['store_encrypted_token_string'] ? $access_token : $jwtAccessToken['id'];
-        $this->tokenStorage->setAccessToken($token_to_store, $client_id, $user_id, $this->config['access_lifetime'] ? time() + $this->config['access_lifetime'] : null, $scope);
+        $this->tokenStorage->setAccessToken($token_to_store, $client_id, $user_id, $this->config['access_lifetime'] ? time() + $this->config['access_lifetime'] : NULL, $scope);
 
         // token to return to the client
         $token = array(
@@ -114,7 +114,7 @@ class JwtAccessToken extends AccessToken
         return $token;
     }
 
-    protected function encodeToken(array $token, $client_id = null)
+    protected function encodeToken(array $token, $client_id = NULL)
     {
         $private_key = $this->publicKeyStorage->getPrivateKey($client_id);
         $algorithm   = $this->publicKeyStorage->getEncryptionAlgorithm($client_id);

@@ -1,6 +1,6 @@
 <h3 class='subtitle'>Display Definitions</h3>
 <div class="form-group">
-    <label for="ReportDisplayId" class="col-md-2 control-label"><?= $model->labels()['DisplayType'] ?></label>
+    <label for="ReportDisplayId" class="col-md-2 control-label"><?php echo $model->labels()['DisplayType'] ?></label>
     <div class="col-md-8">
         <?php echo form_dropdown('report[DisplayType]', report_display_types(), $model->DisplayType, "id='DisplayType' class='form-control'"); ?>
     </div>
@@ -28,13 +28,13 @@
         <div class="form-group">
             <label for="LabelX" class="col-md-2 control-label">X Axis Label</label>
             <div class="col-md-8">
-                <input type="text" class="form-control" id="LabelX" name="report[Settings][LabelX]" value="<?= $model->Settings->LabelX ?>" >
+                <input type="text" class="form-control" id="LabelX" name="report[Settings][LabelX]" value="<?php echo $model->Settings->LabelX ?>" >
             </div>
         </div>
         <div class="form-group">
             <label for="LabelY" class="col-md-2 control-label">Y Axis Label</label>
             <div class="col-md-8">
-                <input type="text" class="form-control" id="LabelY" name="report[Settings][LabelY]" value="<?= $model->Settings->LabelY ?>" >
+                <input type="text" class="form-control" id="LabelY" name="report[Settings][LabelY]" value="<?php echo $model->Settings->LabelY ?>" >
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             <label class="col-md-2 control-label">Variable</label>
             <div class="col-md-4">
-                <input type="text" class="form-control" name="report[Settings][Variable]" value="<?= $model->Settings->Variable ?>" >
+                <input type="text" class="form-control" name="report[Settings][Variable]" value="<?php echo $model->Settings->Variable ?>" >
             </div>
             <label class='col-md-1 control-label'>Data Type</label>
             <div class="col-md-2">
@@ -143,7 +143,7 @@
                     </tr>
                     <?php $i++; ?>
                     <?php  } ?>
-                <?php endif; ?>
+                    <?php endif; ?>
             </tbody>
         </table>
 
@@ -157,7 +157,7 @@
             <tr>
                 <td><input type='text' name='report[Settings][Columns][{{id}}][Label]' class='form-control input-template' disabled='disabled'></td>
                 <td>
-                    <?php echo form_dropdown("report[Settings][Columns][{{id}}][Operator]", report_operators(), null, "class='form-control input-template' disabled"); ?>
+                    <?php echo form_dropdown("report[Settings][Columns][{{id}}][Operator]", report_operators(), NULL, "class='form-control input-template' disabled"); ?>
                 </td>
                 <td>
                     <input type='text' name='report[Settings][Columns][{{id}}][Value]' class='form-control input-template' disabled>

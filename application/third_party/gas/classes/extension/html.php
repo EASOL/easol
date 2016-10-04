@@ -165,7 +165,7 @@ class Html implements Extension {
 	 * @param  array
 	 * @return void
 	 */
-	public function heading($headings = null)
+	public function heading($headings = NULL)
 	{
 		if (is_null($headings))
 		{

@@ -18,8 +18,8 @@ class CIPHPUnitTestReflection
 	public static function getPrivateMethodInvoker($obj, $method)
 	{
 		$ref_method = new ReflectionMethod($obj, $method);
-		$ref_method->setAccessible(true);
-		$obj = (gettype($obj) === 'object') ? $obj : null;
+		$ref_method->setAccessible(TRUE);
+		$obj = (gettype($obj) === 'object') ? $obj : NULL;
 
 		return function () use ($obj, $ref_method) {
 			$args = func_get_args();
@@ -36,7 +36,7 @@ class CIPHPUnitTestReflection
 		}
 
 		$ref_property = $ref_class->getProperty($property);
-		$ref_property->setAccessible(true);
+		$ref_property->setAccessible(TRUE);
 
 		return $ref_property;
 	}

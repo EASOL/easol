@@ -8,15 +8,15 @@
  * @link       https://github.com/kenjis/ci-phpunit-test
  */
 
-function exit__($status = null)
+function exit__($status = NULL)
 {
 	$trace = debug_backtrace();
 	$file = $trace[0]['file'];
 	$line = $trace[0]['line'];
-	$class = isset($trace[1]['class']) ? $trace[1]['class'] : null;
+	$class = isset($trace[1]['class']) ? $trace[1]['class'] : NULL;
 	$method = $trace[1]['function'];
 
-	if ($class === null)
+	if ($class === NULL)
 	{
 		$message = 'exit() called in ' . $method . '() function';
 	}

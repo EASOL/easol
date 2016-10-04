@@ -14,7 +14,8 @@ class Report extends ORM {
 		'\\model\\easol\\reportcategory' => 'ReportCategoryId',
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'School' => ORM::belongs_to('\\Model\\Edfi\\School'),

@@ -66,17 +66,17 @@ class PathChecker
 	public static function check($path)
 	{
 		// Whitelist first
-		$is_white = false;
+		$is_white = FALSE;
 		foreach (self::$include_paths as $white_dir) {
 			$len = strlen($white_dir);
 			if (substr($path, 0, $len) === $white_dir)
 			{
-				$is_white = true;
+				$is_white = TRUE;
 			}
 		}
-		if ($is_white === false)
+		if ($is_white === FALSE)
 		{
-			return false;
+			return FALSE;
 		}
 
 		// Then blacklist
@@ -84,10 +84,10 @@ class PathChecker
 			$len = strlen($black_dir);
 			if (substr($path, 0, $len) === $black_dir)
 			{
-				return false;
+				return FALSE;
 			}
 		}
 
-		return true;
+		return TRUE;
 	}
 }

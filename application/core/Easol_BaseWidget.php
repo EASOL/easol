@@ -16,14 +16,15 @@ abstract class Easol_BaseWidget extends CI_Model {
      * @param $view
      * @param array $param
      */
-    public function render($view,$params=[],$return = false){
+    public function render($view,$params=[],$return = FALSE)
+    {
 
-        if($return==true) {
+        if($return==TRUE) {
             ob_start();
         }
-        $this->load->view("../widgets/".get_called_class().'/'.$view,$params);
+        $this->load->view("../widgets/".get_called_class().'/'.$view, $params);
 
-        if($return==true) {
+        if($return==TRUE) {
             $viewContents= ob_get_contents();
             ob_end_clean();
 

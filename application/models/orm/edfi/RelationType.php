@@ -10,7 +10,8 @@ class RelationType extends ORM {
 	public $table = "edfi.RelationType";
 	public $primary_key = 'RelationTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'StudentParent'=> ORM::has_many('\\Model\\Edfi\\StudentParent'),

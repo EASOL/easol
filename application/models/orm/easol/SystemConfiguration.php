@@ -10,7 +10,8 @@ class SystemConfiguration extends ORM {
 	public $primary_key = 'SystemConfigurationId';
 	public $table       = "EASOL.SystemConfiguration";
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$fields = [
 			'SystemConfigurationId' => ORM::field('int[10]'),

@@ -10,7 +10,8 @@ class CohortType extends ORM {
 	public $table = "edfi.CohortType";
 	public $primary_key = 'CohortTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Cohort'=> ORM::has_many('\\Model\\Edfi\\Cohort'),

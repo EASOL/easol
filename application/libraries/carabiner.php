@@ -504,26 +504,26 @@ class Carabiner {
 			case 'js':
 				$this->_display_js();
                 $this->_display_js_string();
-			break;
+       break;
 			
 			case 'CSS':
 			case 'css':
 				$this->_display_css();
                 $this->_display_css_string();
-			break;
+       break;
 			
 			case 'both':
 				$this->_display_js();
 				$this->_display_css();
                 $this->_display_js_string();
                 $this->_display_css_string();
-			break;
+       break;
 			
 			default:
 				if( isset($this->js[$flag]) && ($group_filter == NULL || $group_filter == 'js') ){
                                     $this->_display_js($flag);
                                     $this->_display_js_string($flag);
-                                }
+    }
 					
 				
 				if( isset($this->css[$flag]) && ($group_filter == NULL || $group_filter == 'css') ){
@@ -531,7 +531,7 @@ class Carabiner {
 					$this->_display_css_string($flag);
 				}
 					
-			break;
+       break;
 		}
 	}
 
@@ -597,7 +597,7 @@ class Carabiner {
 			foreach($this->js[$group] as $ref):
 
 				// get the last modified date of the most recently modified file
-				$lastmodified = max( $lastmodified , filemtime(realpath($this->script_path.$ref['dev'])) );
+				$lastmodified = max( $lastmodified, filemtime(realpath($this->script_path.$ref['dev'])) );
 
 				$filenames .= $ref['dev'];
 
@@ -631,7 +631,7 @@ class Carabiner {
 			foreach($this->js[$group] as $ref):
 			
 				// get the last modified date of the most recently modified file
-				$lastmodified = max( $lastmodified , filemtime(realpath($this->script_path.$ref['dev'])) );
+				$lastmodified = max( $lastmodified, filemtime(realpath($this->script_path.$ref['dev'])) );
 
 				$filenames .= $ref['dev'];
 
@@ -764,7 +764,7 @@ class Carabiner {
 		
 				if( !file_exists($this->cache_path.$filename) ) $this->_combine('css', $files, $filename);
 
-				echo $this->_tag('css',  $filename, TRUE, $media);
+				echo $this->_tag('css', $filename, TRUE, $media);
 		
 			endforeach;
 			
@@ -784,7 +784,7 @@ class Carabiner {
 					$lastmodified = max($lastmodified, filemtime( realpath( $this->style_path . $ref['dev'] ) ) );
 					$filenames .= $ref['dev'];
 				
-					if($ref['combine'] == false):
+					if($ref['combine'] == FALSE):
 						echo (isset($ref['prod'])) ? $this->_tag('css', $ref['prod'], $media) : $this->_tag('css', $ref['dev'], $media);
 					else:
 						$files[] = (isset($ref['prod'])) ? array('prod'=>$ref['prod'], 'dev'=>$ref['dev'], 'minify'=>FALSE ) : array('dev'=>$ref['dev'], 'minify'=>FALSE);
@@ -798,7 +798,7 @@ class Carabiner {
 			
 				if( !file_exists($this->cache_path.$filename) ) $this->_combine('css', $files, $filename);
 
-				echo $this->_tag('css',  $filename, TRUE, $media);
+				echo $this->_tag('css', $filename, TRUE, $media);
 			
 			endforeach;
 
@@ -877,7 +877,7 @@ class Carabiner {
 			
 			$v = (isset($file['prod']) ) ? 'prod' : 'dev';
 			
-			if( (isset($file['minify']) && $file['minify'] == true) || (!isset($file['minify']) && $minify) ):
+			if( (isset($file['minify']) && $file['minify'] == TRUE) || (!isset($file['minify']) && $minify) ):
 				
 				$file_data .= rtrim( $this->_minify( $flag, $file['dev'] ), $suffix ) . $suffix ."\n";
 				
@@ -915,7 +915,7 @@ class Carabiner {
 				$this->_load('jsmin');
 				
 				$contents = $this->_get_contents( $ref );
-				return $this->CI->jsmin->minify($contents);
+       return $this->CI->jsmin->minify($contents);
 			
 			break;
 			
@@ -928,7 +928,7 @@ class Carabiner {
 				$this->CI->cssmin->config(array('relativePath'=>$rel));
 
 				$contents = $this->_get_contents( $ref );
-				return $this->CI->cssmin->minify($contents);
+       return $this->CI->cssmin->minify($contents);
 			
 			break;
 		}
@@ -973,7 +973,7 @@ class Carabiner {
 		
 		if(empty($file_data)):
 			log_message('debug', 'Carabiner: Cache file '.$filename.' was empty and therefore not written to disk at '.$this->cache_path);
-			return false;
+			return FALSE;
 		endif;
 		
 		$filepath = $this->cache_path . $filename;
@@ -1007,7 +1007,7 @@ class Carabiner {
 				
 				$dir = ( $this->isURL($ref) ) ? '' : ( ($cache) ? $this->cache_uri : $this->style_uri );
 				
-				return '<link type="text/css" rel="stylesheet" href="'.$dir.$ref.'" media="'.$media.'" />'."\r\n";
+       return '<link type="text/css" rel="stylesheet" href="'.$dir.$ref.'" media="'.$media.'" />'."\r\n";
 			
 			break;
 
@@ -1015,7 +1015,7 @@ class Carabiner {
 				
 				$dir = ( $this->isURL($ref) ) ? '' : ( ($cache) ? $this->cache_uri : $this->script_uri );
 				
-				return '<script type="text/javascript" src="'.$dir.$ref.'" charset="'.$this->CI->config->item('charset').'"></script>'."\r\n";
+       return '<script type="text/javascript" src="'.$dir.$ref.'" charset="'.$this->CI->config->item('charset').'"></script>'."\r\n";
 			
 			break;
 		
@@ -1061,7 +1061,7 @@ class Carabiner {
 					
 				}
 			
-			break;
+       break;
 			
 			case 'both':
 			default:
@@ -1082,7 +1082,7 @@ class Carabiner {
 					
 				}	
 				
-			break;
+       break;
 		
 		}			
 	
@@ -1113,11 +1113,12 @@ class Carabiner {
         /**
          * function will accept string or array of javascripts and group name 
          * as string
-         * @param mixed $string
+         * @param mixed  $string
          * @param string $group
          */
         
-        public function js_string($string = NULL,$group='main'){
+        public function js_string($string = NULL,$group='main')
+        {
             
             $scripts = is_array($string)?$string:array($string);
             
@@ -1134,7 +1135,8 @@ class Carabiner {
          * @return empty if group not found
          */
         
-        private function _display_js_string($group='main'){
+        private function _display_js_string($group='main')
+        {
             $script = '';
             if(!empty($this->_js_string))
             {
@@ -1143,7 +1145,7 @@ class Carabiner {
 			log_message('error', "Carabiner: The JavaScript string group named '{$group}' does not exist.");
 			return;
 		
-		endif;
+                endif;
                 
                 $script = implode(';', $this->_js_string[$group]);
                 
@@ -1159,11 +1161,12 @@ class Carabiner {
         
         /**
          * function will accept string or array of styles and group name as string
-         * @param mixed $string
+         * @param mixed  $string
          * @param string $group
          */
         
-        public function css_string($string = NULL,$group = 'main'){
+        public function css_string($string = NULL,$group = 'main')
+        {
             
             $styles = is_array($string)?$string:array($string);
             
@@ -1180,7 +1183,8 @@ class Carabiner {
          * @return empty if group not found in css
          */
         
-        private function _display_css_string($group = 'main'){
+        private function _display_css_string($group = 'main')
+        {
             $style = '';
             if(!empty($this->_css_string))
             {
@@ -1190,7 +1194,7 @@ class Carabiner {
 			log_message('error', "Carabiner: The CSS string group named '{$group}' does not exist.");
 			return;
 		
-		endif;
+                endif;
                 
                 $style = implode('', $this->_css_string['main']);
                 

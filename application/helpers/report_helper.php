@@ -1,34 +1,42 @@
 <?php
 
-function report_filter_types() {
+function report_filter_types() 
+{
 	return ['Free Text'=>'Free Text', 'Static List'=>'Static List', 'Dynamic List'=>'Dynamic List', 'System Variable'=>'System Variable'];
 }
 
-function report_display_types() {
+function report_display_types() 
+{
 	return ['table'=>'Table', 'bar-chart'=>'Bar Chart', 'pie-chart'=>'Pie Chart'];
 }
 
-function report_display_type($type) {
+function report_display_type($type) 
+{
 	$types = report_display_types();
 
 	return $types[$type];
 }
 
 
-function report_data_types() {
+function report_data_types() 
+{
 	return ['char'=>'Character', 'string'=>'String', 'int'=>'Integer', 'decimal'=>'Decimal', 'percentage'=>'Percentage'];
 }
-function report_operators() {
+function report_operators() 
+{
 	return ['equal' => '=', 'in'=>'IN', 'like'=>'LIKE', 'greater'=>">", 'greater_or_equal'=>">=", 'lesser'=>'<', 'lesser_or_equal'=>'<=', 'between'=>'> AND <', 'between_closed'=>">= AND =<"];
 }
-function report_value_fits($value, $variable, $operator) {
+function report_value_fits($value, $variable, $operator) 
+{
 	$function = "report_value_$operator";
 	return $function($value, $variable);
 }
-function report_value_equal($value, $variable) {
+function report_value_equal($value, $variable) 
+{
 	return $value == $variable;
 }
-function report_value_in($value, $variable) {
+function report_value_in($value, $variable) 
+{
 	$variables = explode(",", $variable);
 	foreach ($variables as $k=>$v ){
 		$variables[$k] = trim($v);
@@ -36,23 +44,29 @@ function report_value_in($value, $variable) {
 
 	return in_array($value, $variables);
 }
-function report_value_like($value, $variable) {
+function report_value_like($value, $variable) 
+{
 	return preg_match("/$variable/i", $value);
 }
-function report_value_greater($value, $variable) {
+function report_value_greater($value, $variable) 
+{
 	return $value > $variable; 
 }
-function report_value_lesser($value, $variable) {
+function report_value_lesser($value, $variable) 
+{
 	return $value < $variable;	
 }
 
-function report_value_greater_or_equal($value, $variable) {
+function report_value_greater_or_equal($value, $variable) 
+{
 	return $value >= $variable; 
 }
-function report_value_lesser_or_equal($value, $variable) {
+function report_value_lesser_or_equal($value, $variable) 
+{
 	return $value <= $variable;	
 }
-function report_value_between($value, $variable) {
+function report_value_between($value, $variable) 
+{
 
 	$variable = explode(";", $variable);
 	foreach ($variable as $k=>$v ){
@@ -61,7 +75,8 @@ function report_value_between($value, $variable) {
 	if (!isset($variable[1])) return report_value_greater($value, $variable[0]);
 	return ($value > $variable[0] and $value < $variable[1]);
 }
-function report_value_between_closed($value, $variable) {
+function report_value_between_closed($value, $variable) 
+{
 
 	$variable = explode(";", $variable);
 	foreach ($variable as $k=>$v ){
@@ -72,14 +87,15 @@ function report_value_between_closed($value, $variable) {
 }
 
 
-function report_filter_options($list) {
+function report_filter_options($list) 
+{
 
 	$ci = &get_instance();
 
 	$list = system_variable_filter($list);
 
 	$options = [''=>'All'];
-	if (stripos($list, "SELECT") !== false) {
+	if (stripos($list, "SELECT") !== FALSE) {
 
 		$query = $ci->db->query($list);
 		foreach ($query->result_array() as $row) {
@@ -97,10 +113,11 @@ function report_filter_options($list) {
 	return $options;
 }
 
-function report_column_link($column_no, $record, $links) {
+function report_column_link($column_no, $record, $links) 
+{
 	if (empty($links)) return "";
 
-	$link = null;
+	$link = NULL;
 	foreach ($links as $rec) {
 		if ($column_no == $rec->ColumnNo) {
 			$link = $rec;
@@ -120,7 +137,8 @@ function report_column_link($column_no, $record, $links) {
 	return "";
 }
 
-function report_colors($type='sequential', $index=false) {
+function report_colors($type='sequential', $index=FALSE) 
+{
 
 	if (!$type) $type = 'sequential';
 	$colors = [];
@@ -143,9 +161,9 @@ function report_colors($type='sequential', $index=false) {
 		['rgb(208,28,139)', 'rgb(241,182,218)', 'rgb(247,247,247)', 'rgb(184,225,134)', 'rgb(77,172,38)']
 	];
 
-	if ($index === null) $index = 0;
+	if ($index === NULL) $index = 0;
 
-	if ($index !== false) $options = $colors[$type][$index];
+	if ($index !== FALSE) $options = $colors[$type][$index];
 	else $options = $colors[$type];
 
 	if (!$options) $options = [];

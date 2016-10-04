@@ -10,7 +10,8 @@ class User extends ORM {
 	public $primary_key = 'StaffUSI';
 	public $table       = "Edfi.Staff";
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'staff' => ORM::belongs_to('\\Model\\Easol\\StaffAuthentication')

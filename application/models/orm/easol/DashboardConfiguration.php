@@ -11,7 +11,8 @@ class DashboardConfiguration extends ORM {
 	public $table       = "EASOL.DashboardConfiguration";
 	public $foreign_key = ['\\model\\edfi\\educationorganization' => 'EducationOrganizationId', '\\model\\easol\\roletype' => 'RoleTypeId'];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'School' => ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),

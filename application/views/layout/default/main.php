@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><?= $title ?></title>
+    <title><?php echo $title ?></title>
 
     <?php assets_lib('chardinjs'); ?>
     <?php assets_lib('datatables'); ?>    
@@ -33,7 +33,7 @@
     <?php $this->carabiner->display('css'); ?>  
     
     <script type="text/javascript">
-        var Easol_SiteUrl = "<?= site_url('/') ?>"
+        var Easol_SiteUrl = "<?php echo site_url('/') ?>"
     </script>
 
 
@@ -50,37 +50,37 @@
     <div id="sidebar-wrapper">
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="logo-header">
-                <a class="navbar-brand" href="<?= site_url("/") ?>">
-                    <img class="center-block" src="<?= site_url("assets/img/easollogo.png") ?>"/>
+                <a class="navbar-brand" href="<?php echo site_url("/") ?>">
+                    <img class="center-block" src="<?php echo site_url("assets/img/easollogo.png") ?>"/>
                 </a>
             </div>
             <div class="collapse navbar-collapse sidebar-collapse menu-collapse">
-                <?php if(Easol_Auth::isLoggedIn() && Easol_Auth::userdata('SchoolId')!=false) : ?>
+                <?php if(Easol_Auth::isLoggedIn() && Easol_Auth::userdata('SchoolId')!=FALSE) : ?>
                     <ul class="nav" id="main-menu">
                         <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])):  ?>
                             <li class="visible-xs-block">
-                                <form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
+                                <form class="navbar-form" action="<?php echo site_url("schools/choose") ?>" method="post">
                                     <select name="school" class="form-control" onchange="this.form.submit()">
                                         <?php  foreach($this->Edfi_School->getAllSchools() as $school):  ?>
-                                            <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                            <option value="<?php echo $school->EducationOrganizationId ?>" <?php echo (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?php echo $school->NameOfInstitution ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </form>
                             </li>
                         <?php  elseif(Easol_Auth::userdata('SchoolName')): ?>
-                            <li class="visible-xs-block"><p class="navbar-text"><?= Easol_Auth::userdata('SchoolName') ?></p></li>
+                            <li class="visible-xs-block"><p class="navbar-text"><?php echo Easol_Auth::userdata('SchoolName') ?></p></li>
                         <?php endif; ?>
 
                         <?php foreach (menu_items() as $slug=>$item): ?>
 
                             <?php
                             if (!empty($item['submenu'])) {
-                                $skip = true;
+                                $skip = TRUE;
                                 foreach ($item['submenu'] as $submenu_slug => $submenu_item) {
                                     if (empty($submenu_item['auth'])) $submenu_item['auth'] = $item['auth'];
 
                                     if (!empty($submenu_item['auth']) && Easol_AuthorizationRoles::hasAccess($submenu_item['auth'], $submenu_slug)) {
-                                        $skip = false;
+                                        $skip = FALSE;
                                     }
                                 }
                             }
@@ -102,13 +102,13 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
 
-                        <li <?= ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
-                            <a href="<?= site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
+                        <li <?php echo ($this->router->class=="admin") ? 'class="active-menu visible-xs-block"' : 'class="visible-xs-block"' ?>>
+                            <a href="<?php echo site_url("/admin") ?>"><i class="fa fa-cog"></i> Administration</a>
                         </li>
 
                         <?php if(Easol_Auth::isLoggedIn()): ?>
                             <li class="visible-xs-block">
-                                <a href="<?= site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
+                                <a href="<?php echo site_url("/home/logout") ?>" onClick="signOut();"><i class="fa fa-user"></i> Logout</a>
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -131,18 +131,18 @@
                 </button>
             </div>
 
-            <?php if(Easol_Auth::isLoggedIn() && Easol_Auth::userdata('SchoolId')!=false) { ?>
+            <?php if(Easol_Auth::isLoggedIn() && Easol_Auth::userdata('SchoolId')!=FALSE) { ?>
                 <ul class="nav navbar-nav navbar-top-links navbar-right hidden-xs">
                     <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) {  ?>
-                        <li><form class="navbar-form" action="<?= site_url("schools/choose") ?>" method="post">
+                        <li><form class="navbar-form" action="<?php echo site_url("schools/choose") ?>" method="post">
                                 <select name="school" class="form-control" onChange="this.form.submit()">
                                     <?php  foreach($this->Edfi_School->getAllSchools() as $school){  ?>
-                                        <option value="<?= $school->EducationOrganizationId ?>" <?= (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?= $school->NameOfInstitution ?></option>
+                                        <option value="<?php echo $school->EducationOrganizationId ?>" <?php echo (Easol_Auth::userdata("SchoolId")==$school->EducationOrganizationId) ? "selected" : "" ?>><?php echo $school->NameOfInstitution ?></option>
                                     <?php } ?>
                                 </select>
                             </form></li>
                     <?php } elseif(Easol_Auth::userdata('SchoolName')){ ?>
-                        <li><p class="navbar-text"><?= Easol_Auth::userdata('SchoolName') ?></p></li>
+                        <li><p class="navbar-text"><?php echo Easol_Auth::userdata('SchoolName') ?></p></li>
                     <?php } ?>
 
                     <li class="dropdown">
@@ -150,10 +150,10 @@
                             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <?php if($this->session->userdata('logged_in')== true)
+                            <?php if($this->session->userdata('logged_in')== TRUE)
                             { ?>
                                 <li>
-                                    <a href="<?= site_url("/home/logout") ?>" onClick="signOut();">Logout</a>
+                                    <a href="<?php echo site_url("/home/logout") ?>" onClick="signOut();">Logout</a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -175,7 +175,7 @@
             <?php }else if (!empty($success)) { ?>
                 <div class="alert alert-success"><?php echo $success ?></div>
             <?php } ?>
-            <?= $content ?>
+            <?php echo $content ?>
             <div class="row">
                 <div class="col-md-8 col-sm-8 txt-annotation">
                     This computer system is the property of the the Center of Education Innovation. It is for authorized
@@ -191,7 +191,7 @@
 </div>
 <!-- /. WRAPPER  -->
 
-<div id="loading-img" style="background: url(<?= site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
+<div id="loading-img" style="background: url(<?php echo site_url("assets/img/loading2.gif") ?>) no-repeat; position: fixed; bottom: 5px;right:5px; height: 11px;width: 43px;display: none">&nbsp;</div>
 <?php if (system_google_auth_enabled()): ?>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="display:none"></div>
 <?php endif; ?>

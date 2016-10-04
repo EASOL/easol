@@ -9,16 +9,16 @@
             <input type="hidden" name="ReportId" value="<?php echo $ReportId; ?>">
 
             <div class="form-group">
-                <label for="ReportCategoryName" class="col-md-4 col-sm-4 control-label"><?= $model->labels()['ReportCategoryName'] ?></label>
+                <label for="ReportCategoryName" class="col-md-4 col-sm-4 control-label"><?php echo $model->labels()['ReportCategoryName'] ?></label>
                 <div class="col-md-8 col-sm-8">
-                    <input type="text" class="form-control" id="ReportCategoryName" name="ReportCategory[ReportCategoryName]" value="<?= $model->ReportCategoryName ?>" required>
+                    <input type="text" class="form-control" id="ReportCategoryName" name="ReportCategory[ReportCategoryName]" value="<?php echo $model->ReportCategoryName ?>" required>
                 </div>
             </div>
 
 
             <div class="form-group">
                 <div class="col-md-12 col-sm-12">
-                    <button type="submit" class="btn btn-primary pull-right"><?= ($model->isNewRecord) ? "Save" : "Update" ?></button>
+                    <button type="submit" class="btn btn-primary pull-right"><?php echo ($model->isNewRecord) ? "Save" : "Update" ?></button>
                 </div>
             </div>
 

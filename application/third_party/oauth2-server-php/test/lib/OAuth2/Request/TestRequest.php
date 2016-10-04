@@ -20,17 +20,17 @@ class TestRequest extends Request implements RequestInterface
         $this->headers = array();
     }
 
-    public function query($name, $default = null)
+    public function query($name, $default = NULL)
     {
         return isset($this->query[$name]) ? $this->query[$name] : $default;
     }
 
-    public function request($name, $default = null)
+    public function request($name, $default = NULL)
     {
         return isset($this->request[$name]) ? $this->request[$name] : $default;
     }
 
-    public function server($name, $default = null)
+    public function server($name, $default = NULL)
     {
         return isset($this->server[$name]) ? $this->server[$name] : $default;
     }

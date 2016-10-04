@@ -48,7 +48,7 @@ class CIPHPUnitTestDouble
 		return $mock;
 	}
 
-	protected function _verify($mock, $method, $params = null, $expects, $with)
+	protected function _verify($mock, $method, $params = NULL, $expects, $with)
 	{
 		$invocation = $mock->expects($expects)
 			->method($method);
@@ -57,34 +57,34 @@ class CIPHPUnitTestDouble
 
 		switch ($count) {
 			case 0:
-				break;
+       break;
 			case 1:
 				$invocation->$with(
 					$params[0]
 				);
-				break;
+       break;
 			case 2:
 				$invocation->$with(
 					$params[0], $params[1]
 				);
-				break;
+       break;
 			case 3:
 				$invocation->$with(
 					$params[0], $params[1], $params[2]
 				);
-				break;
+       break;
 			case 4:
 				$invocation->$with(
 					$params[0], $params[1], $params[2], $params[3]
 				);
-				break;
+       break;
 			case 5:
 				$invocation->$with(
 					$params[0], $params[1], $params[2], $params[3], $params[4], $params[5]
 				);
-				break;
+       break;
 			default:
-				throw new RuntimeException(
+       throw new RuntimeException(
 					'Sorry, ' . $count . ' params not implemented yet'
 				);
 		}
@@ -117,7 +117,7 @@ class CIPHPUnitTestDouble
 	 * @param int    $times
 	 * @param array  $params arguments
 	 */
-	public function verifyInvokedMultipleTimes($mock, $method, $times, $params = null)
+	public function verifyInvokedMultipleTimes($mock, $method, $times, $params = NULL)
 	{
 		$this->_verify(
 			$mock, $method, $params, $this->testCase->exactly($times), 'withConsecutive'
@@ -131,7 +131,7 @@ class CIPHPUnitTestDouble
 	 * @param string $method
 	 * @param array  $params arguments
 	 */
-	public function verifyInvoked($mock, $method, $params = null)
+	public function verifyInvoked($mock, $method, $params = NULL)
 	{
 		$this->_verify(
 			$mock, $method, $params, $this->testCase->atLeastOnce(), 'with'
@@ -145,7 +145,7 @@ class CIPHPUnitTestDouble
 	 * @param string $method
 	 * @param array  $params arguments
 	 */
-	public function verifyInvokedOnce($mock, $method, $params = null)
+	public function verifyInvokedOnce($mock, $method, $params = NULL)
 	{
 		$this->_verify(
 			$mock, $method, $params, $this->testCase->once(), 'with'
@@ -159,7 +159,7 @@ class CIPHPUnitTestDouble
 	 * @param string $method
 	 * @param array  $params arguments
 	 */
-	public function verifyNeverInvoked($mock, $method, $params = null)
+	public function verifyNeverInvoked($mock, $method, $params = NULL)
 	{
 		$this->_verify(
 			$mock, $method, $params, $this->testCase->never(), 'with'

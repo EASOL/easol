@@ -46,8 +46,8 @@ class Pdo implements
             }
             // merge optional parameters
             $connection = array_merge(array(
-                'username' => null,
-                'password' => null,
+                'username' => NULL,
+                'password' => NULL,
                 'options' => array(),
             ), $connection);
             $connection = new \PDO($connection['dsn'], $connection['username'], $connection['password'], $connection['options']);
@@ -71,7 +71,7 @@ class Pdo implements
     }
 
     /* OAuth2\Storage\ClientCredentialsInterface */
-    public function checkClientCredentials($client_id, $client_secret = null)
+    public function checkClientCredentials($client_id, $client_secret = NULL)
     {
         $stmt = $this->db->prepare(sprintf('SELECT * from %s where client_id = :client_id', $this->config['client_table']));
         $stmt->execute(compact('client_id'));
@@ -87,7 +87,7 @@ class Pdo implements
         $stmt->execute(compact('client_id'));
 
         if (!$result = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            return false;
+            return FALSE;
         }
 
         return empty($result['client_secret']);
@@ -102,7 +102,7 @@ class Pdo implements
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function setClientDetails($client_id, $client_secret = null, $redirect_uri = null, $grant_types = null, $scope = null, $user_id = null)
+    public function setClientDetails($client_id, $client_secret = NULL, $redirect_uri = NULL, $grant_types = NULL, $scope = NULL, $user_id = NULL)
     {
         // if it exists, update it.
         if ($this->getClientDetails($client_id)) {
@@ -124,7 +124,7 @@ class Pdo implements
         }
 
         // if grant_types are not defined, then none are restricted
-        return true;
+        return TRUE;
     }
 
     /* OAuth2\Storage\AccessTokenInterface */
@@ -179,7 +179,7 @@ class Pdo implements
         return $code;
     }
 
-    public function setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null)
+    public function setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL, $id_token = NULL)
     {
         if (func_num_args() > 6) {
             // we are calling with an id token
@@ -199,7 +199,7 @@ class Pdo implements
         return $stmt->execute(compact('code', 'client_id', 'user_id', 'redirect_uri', 'expires', 'scope'));
     }
 
-    private function setAuthorizationCodeWithIdToken($code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null)
+    private function setAuthorizationCodeWithIdToken($code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL, $id_token = NULL)
     {
         // convert expires to datestring
         $expires = date('Y-m-d H:i:s', $expires);
@@ -228,7 +228,7 @@ class Pdo implements
             return $this->checkPassword($user, $password);
         }
 
-        return false;
+        return FALSE;
     }
 
     public function getUserDetails($username)
@@ -240,7 +240,7 @@ class Pdo implements
     public function getUserClaims($user_id, $claims)
     {
         if (!$userDetails = $this->getUserDetails($user_id)) {
-            return false;
+            return FALSE;
         }
 
         $claims = explode(' ', trim($claims));
@@ -269,7 +269,7 @@ class Pdo implements
         $claimValues = explode(' ', $claimValuesString);
 
         foreach ($claimValues as $value) {
-            $userClaims[$value] = isset($userDetails[$value]) ? $userDetails[$value] : null;
+            $userClaims[$value] = isset($userDetails[$value]) ? $userDetails[$value] : NULL;
         }
 
         return $userClaims;
@@ -289,7 +289,7 @@ class Pdo implements
         return $token;
     }
 
-    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         // convert expires to datestring
         $expires = date('Y-m-d H:i:s', $expires);
@@ -318,7 +318,7 @@ class Pdo implements
         $stmt->execute(array('username' => $username));
 
         if (!$userInfo = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            return false;
+            return FALSE;
         }
 
         // the default behavior is to use "username" as the user_id
@@ -327,7 +327,7 @@ class Pdo implements
         ), $userInfo);
     }
 
-    public function setUser($username, $password, $firstName = null, $lastName = null)
+    public function setUser($username, $password, $firstName = NULL, $lastName = NULL)
     {
         // do not store in plaintext
         $password = sha1($password);
@@ -354,13 +354,13 @@ class Pdo implements
             return $result['count'] == count($scope);
         }
 
-        return false;
+        return FALSE;
     }
 
-    public function getDefaultScope($client_id = null)
+    public function getDefaultScope($client_id = NULL)
     {
         $stmt = $this->db->prepare(sprintf('SELECT scope FROM %s WHERE is_default=:is_default', $this->config['scope_table']));
-        $stmt->execute(array('is_default' => true));
+        $stmt->execute(array('is_default' => TRUE));
 
         if ($result = $stmt->fetchAll(\PDO::FETCH_ASSOC)) {
             $defaultScope = array_map(function ($row) {
@@ -370,7 +370,7 @@ class Pdo implements
             return implode(' ', $defaultScope);
         }
 
-        return null;
+        return NULL;
     }
 
     /* JWTBearerInterface */
@@ -386,14 +386,14 @@ class Pdo implements
     public function getClientScope($client_id)
     {
         if (!$clientDetails = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($clientDetails['scope'])) {
             return $clientDetails['scope'];
         }
 
-        return null;
+        return NULL;
     }
 
     public function getJti($client_id, $subject, $audience, $expires, $jti)
@@ -412,7 +412,7 @@ class Pdo implements
             );
         }
 
-        return null;
+        return NULL;
     }
 
     public function setJti($client_id, $subject, $audience, $expires, $jti)
@@ -423,7 +423,7 @@ class Pdo implements
     }
 
     /* PublicKeyInterface */
-    public function getPublicKey($client_id = null)
+    public function getPublicKey($client_id = NULL)
     {
         $stmt = $this->db->prepare($sql = sprintf('SELECT public_key FROM %s WHERE client_id=:client_id OR client_id IS NULL ORDER BY client_id IS NOT NULL DESC', $this->config['public_key_table']));
 
@@ -433,7 +433,7 @@ class Pdo implements
         }
     }
 
-    public function getPrivateKey($client_id = null)
+    public function getPrivateKey($client_id = NULL)
     {
         $stmt = $this->db->prepare($sql = sprintf('SELECT private_key FROM %s WHERE client_id=:client_id OR client_id IS NULL ORDER BY client_id IS NOT NULL DESC', $this->config['public_key_table']));
 
@@ -443,7 +443,7 @@ class Pdo implements
         }
     }
 
-    public function getEncryptionAlgorithm($client_id = null)
+    public function getEncryptionAlgorithm($client_id = NULL)
     {
         $stmt = $this->db->prepare($sql = sprintf('SELECT encryption_algorithm FROM %s WHERE client_id=:client_id OR client_id IS NULL ORDER BY client_id IS NOT NULL DESC', $this->config['public_key_table']));
 

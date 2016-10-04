@@ -18,13 +18,15 @@ class StaticVar extends Node\Stmt
      * @param null|Node\Expr $default    Default value
      * @param array          $attributes Additional attributes
      */
-    public function __construct($name, Node\Expr $default = null, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct($name, Node\Expr $default = NULL, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->name = $name;
         $this->default = $default;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('name', 'default');
     }
 }

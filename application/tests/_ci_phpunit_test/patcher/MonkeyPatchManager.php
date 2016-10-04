@@ -17,10 +17,10 @@ use Kenjis\MonkeyPatch\Patcher\FunctionPatcher;
 
 class MonkeyPatchManager
 {
-	public static $debug = false;
+	public static $debug = FALSE;
 
 	private static $log_file;
-	private static $load_patchers = false;
+	private static $load_patchers = FALSE;
 	private static $exit_exception_classname = 
 		'Kenjis\MonkeyPatch\Exception\ExitException';
 	/**
@@ -272,12 +272,12 @@ class MonkeyPatchManager
 			require __DIR__ . '/Patcher/' . $classname . '.php';
 		}
 
-		self::$load_patchers = true;
+		self::$load_patchers = TRUE;
 	}
 
 	protected static function execPatchers($source)
 	{
-		$patched = false;
+		$patched = FALSE;
 		foreach (self::$patcher_list as $classname)
 		{
 			$classname = 'Kenjis\MonkeyPatch\Patcher\\' . $classname;

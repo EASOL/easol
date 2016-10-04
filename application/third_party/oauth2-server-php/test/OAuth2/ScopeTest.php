@@ -21,7 +21,7 @@ class ScopeTest extends \PHPUnit_Framework_TestCase
     public function testScopeStorage()
     {
         $scopeUtil = new Scope();
-        $this->assertEquals($scopeUtil->getDefaultScope(), null);
+        $this->assertEquals($scopeUtil->getDefaultScope(), NULL);
 
         $scopeUtil = new Scope(array(
             'default_scope' => 'default',

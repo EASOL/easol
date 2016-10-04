@@ -14,7 +14,8 @@ class StudentEmail extends ORM {
 		'\\model\\edfi\\student' => 'StudentUSI'
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student' => ORM::belongs_to('\\Model\\Edfi\\Student')

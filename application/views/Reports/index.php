@@ -5,7 +5,7 @@
         <h1 class="page-header">Flex Reports</h1>
 
         <?php if ($this->session->flashdata('message') && $this->session->flashdata('type')) { ?>
-            <div class="alert alert-<?= $this->session->flashdata('type') ?>"> <?= $this->session->flashdata('message') ?> </div>
+            <div class="alert alert-<?php echo $this->session->flashdata('type') ?>"> <?php echo $this->session->flashdata('message') ?> </div>
         <?php } ?>
     </div>
 </div>
@@ -18,7 +18,8 @@
                     <thead>
                         <tr>
                             <th>Report Name</th>
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><th>Display Type</th> <?php } ?>
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><th>Display Type</th> <?php 
+                            } ?>
                             <th>Category</th>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
@@ -33,9 +34,10 @@
                     <tbody>
                         <?php foreach($reports as &$report){ ?>
                         <tr>
-                            <td><a href="<?= site_url('reports/view/'.$report->ReportId) ?>"><?= $report->ReportName ?></a></td>
-                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?= report_display_type($report->DisplayType) ?></td><?php } ?>
-                            <td><?= $report->getCategory()->ReportCategoryName ?></td>
+                            <td><a href="<?php echo site_url('reports/view/'.$report->ReportId) ?>"><?php echo $report->ReportName ?></a></td>
+                            <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?><td><?php echo report_display_type($report->DisplayType) ?></td><?php 
+                            } ?>
+                            <td><?php echo $report->getCategory()->ReportCategoryName ?></td>
                             <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
                                 
                                 <td><?php
@@ -46,8 +48,8 @@
                                     echo '<span>'.implode('</span>, <span>', $_actp).'</span>';
                                 ?></td>
 
-                                <td style="text-align: center"><a href="<?= site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a></td>
-                                <td style="text-align: center"><a href="#" onclick="if(confirm('Do you want to delete this report? ')) window.location=' <?= site_url('reports/delete/'.$report->ReportId) ?>'; return false"><span class="fa fa-trash-o"></span></a></td>
+                                <td style="text-align: center"><a href="<?php echo site_url('reports/edit/'.$report->ReportId) ?>"><span class="fa fa-pencil"></span></a></td>
+                                <td style="text-align: center"><a href="#" onclick="if(confirm('Do you want to delete this report? ')) window.location=' <?php echo site_url('reports/delete/'.$report->ReportId) ?>'; return false"><span class="fa fa-trash-o"></span></a></td>
                             <?php } ?>
 
 
@@ -60,8 +62,8 @@
                 <a name="dashConf"></a>
                  <?php if(Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator'])) { ?>
 
-                <a href="<?= site_url('reports/create') ?>" class="btn btn-primary">New Flex Report</a>
-                <?php } ?>
+                <a href="<?php echo site_url('reports/create') ?>" class="btn btn-primary">New Flex Report</a>
+                 <?php } ?>
             </div>
 
         </div>
@@ -77,10 +79,10 @@
                 </div>
                 <div class="panel-body">
                     <?php if ($this->session->flashdata('message_dash_conf')) { ?>
-                        <div class="alert alert-success"> <?= $this->session->flashdata('message_dash_conf') ?> </div>
+                        <div class="alert alert-success"> <?php echo $this->session->flashdata('message_dash_conf') ?> </div>
                     <?php } ?>
 
-                    <?php $this->load->view("Reports/_dashboard_conf_form",['reports' => $reports]); ?>
+                    <?php $this->load->view("Reports/_dashboard_conf_form", ['reports' => $reports]); ?>
                 </div>
 
             </div>

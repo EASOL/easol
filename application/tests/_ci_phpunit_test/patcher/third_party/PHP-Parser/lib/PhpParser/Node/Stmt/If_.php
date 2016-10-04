@@ -25,15 +25,17 @@ class If_ extends Node\Stmt
      *                              'else'    => null   : Else clause
      * @param array     $attributes Additional attributes
      */
-    public function __construct(Node\Expr $cond, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(Node\Expr $cond, array $subNodes = array(), array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->cond = $cond;
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
         $this->elseifs = isset($subNodes['elseifs']) ? $subNodes['elseifs'] : array();
-        $this->else = isset($subNodes['else']) ? $subNodes['else'] : null;
+        $this->else = isset($subNodes['else']) ? $subNodes['else'] : NULL;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('cond', 'stmts', 'elseifs', 'else');
     }
 }

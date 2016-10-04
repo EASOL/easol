@@ -40,7 +40,7 @@ class Proxy
 	 * 
 	 * @throws LogicException
 	 */
-	public static function patch__($function, $return_value, $class_method = null)
+	public static function patch__($function, $return_value, $class_method = NULL)
 	{
 		$function = strtolower($function);
 
@@ -97,7 +97,7 @@ class Proxy
 			$log_args = function () use ($arguments) {
 				$output = '';
 				foreach ($arguments as $arg) {
-					$output .= var_export($arg, true) . ', ';
+					$output .= var_export($arg, TRUE) . ', ';
 				}
 				$output = rtrim($output, ', ');
 				return $output;
@@ -111,26 +111,26 @@ class Proxy
 	protected static function checkCalledMethod($function)
 	{
 		$trace  = debug_backtrace();
-		$class  = isset($trace[3]['class']) ? strtolower($trace[3]['class']) : null;
+		$class  = isset($trace[3]['class']) ? strtolower($trace[3]['class']) : NULL;
 		$method = strtolower($trace[3]['function']);
 
 		// Patches the functions only in the class
-		if (strpos(self::$patches_to_apply[$function], '::') === false)
+		if (strpos(self::$patches_to_apply[$function], '::') === FALSE)
 		{
 			if (self::$patches_to_apply[$function] !== $class)
 			{
-				return false;
+				return FALSE;
 			}
-			return true;
+			return TRUE;
 		}
 		//Patches the functions only in the class method
 		else
 		{
 			if (self::$patches_to_apply[$function] !== $class.'::'.$method)
 			{
-				return false;
+				return FALSE;
 			}
-			return true;
+			return TRUE;
 		}
 	}
 
@@ -239,7 +239,7 @@ class Proxy
 			return $ref_func->isInternal();
 		} catch (ReflectionException $e) {
 			// ReflectionException: Function xxx() does not exist
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -252,9 +252,9 @@ class Proxy
 		self::logInvocation($function, $arguments);
 		self::$invocations[$function][] = $arguments;
 
-		if ($crypto_strong === null)
+		if ($crypto_strong === NULL)
 		{
-			$crypto_strong = true;
+			$crypto_strong = TRUE;
 		}
 
 		if (isset(self::$patches['openssl_random_pseudo_bytes']))

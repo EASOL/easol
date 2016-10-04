@@ -31,8 +31,8 @@ class RefreshToken implements GrantTypeInterface
     public function __construct(RefreshTokenInterface $storage, $config = array())
     {
         $this->config = array_merge(array(
-            'always_issue_new_refresh_token' => false,
-            'unset_refresh_token_after_use' => true
+            'always_issue_new_refresh_token' => FALSE,
+            'unset_refresh_token_after_use' => TRUE
         ), $config);
 
         // to preserve B.C. with v1.6
@@ -55,25 +55,25 @@ class RefreshToken implements GrantTypeInterface
         if (!$request->request("refresh_token")) {
             $response->setError(400, 'invalid_request', 'Missing parameter: "refresh_token" is required');
 
-            return null;
+            return NULL;
         }
 
         if (!$refreshToken = $this->storage->getRefreshToken($request->request("refresh_token"))) {
             $response->setError(400, 'invalid_grant', 'Invalid refresh token');
 
-            return null;
+            return NULL;
         }
 
         if ($refreshToken['expires'] > 0 && $refreshToken["expires"] < time()) {
             $response->setError(400, 'invalid_grant', 'Refresh token has expired');
 
-            return null;
+            return NULL;
         }
 
         // store the refresh token locally so we can delete it when a new refresh token is generated
         $this->refreshToken = $refreshToken;
 
-        return true;
+        return TRUE;
     }
 
     public function getClientId()
@@ -83,12 +83,12 @@ class RefreshToken implements GrantTypeInterface
 
     public function getUserId()
     {
-        return isset($this->refreshToken['user_id']) ? $this->refreshToken['user_id'] : null;
+        return isset($this->refreshToken['user_id']) ? $this->refreshToken['user_id'] : NULL;
     }
 
     public function getScope()
     {
-        return isset($this->refreshToken['scope']) ? $this->refreshToken['scope'] : null;
+        return isset($this->refreshToken['scope']) ? $this->refreshToken['scope'] : NULL;
     }
 
     public function createAccessToken(AccessTokenInterface $accessToken, $client_id, $user_id, $scope)

@@ -2,10 +2,11 @@
 
 Class Easol_Auth {
 
-    protected static $loggedIn = false;
+    protected static $loggedIn = FALSE;
     private static $userInfo=[];
 
-    public function __construct() {
+    public function __construct() 
+    {
 
         $this->ci = &get_instance();
 
@@ -16,17 +17,17 @@ Class Easol_Auth {
 
         
         self::$userInfo=$this->ci->session->userdata();
-        if($this->ci->session->userdata('logged_in') == true)
+        if($this->ci->session->userdata('logged_in') == TRUE)
         {
             self::$userInfo['__ci_last_regenerate']=time();
             $this->ci->session->set_userdata(self::$userInfo);
-            self::$loggedIn=true;
+            self::$loggedIn=TRUE;
         }
         elseif ($this->controller != 'home') {
             redirect('/');
         }
 
-        if ($this->controller == 'home') return true;
+        if ($this->controller == 'home') return TRUE;
 
         $this->args = [];
         $index = strpos($this->ci->uri->uri_string(), $this->controller);
@@ -39,7 +40,7 @@ Class Easol_Auth {
         $this->role = $this->user_role();
 
 
-        if(!($this->controller == 'schools' && $this->method == 'choose') && self::userdata('SchoolId') == false  ) {
+        if(!($this->controller == 'schools' && $this->method == 'choose') && self::userdata('SchoolId') == FALSE  ) {
             return redirect('schools/choose');
         }
 
@@ -54,7 +55,8 @@ Class Easol_Auth {
 
     }
 
-	public function has_permission($controller=null, $method=null) {
+	public function has_permission($controller=NULL, $method=NULL) 
+ {
 
         if (!$controller) $controller = $this->controller;
         if (!$method) $method = $this->method;
@@ -62,12 +64,12 @@ Class Easol_Auth {
         $this->auth_config = $this->ci->config->item($controller, 'auth');
 
         // auth_config is the array for the current controller in config/auth.php
-        if (empty($this->auth_config)) return false;
+        if (empty($this->auth_config)) return FALSE;
 
         $auth_config = $this->auth_config[$method];
         if (empty($auth_config)) {
             foreach ($this->auth_config as $k=>$v) {
-                if (strpos($k, "*") !== false) {
+                if (strpos($k, "*") !== FALSE) {
                     $auth_config = $v;
                     break;
                 }
@@ -80,53 +82,56 @@ Class Easol_Auth {
                
                 foreach ($auth_config[$this->role]['condition'] as $function) {
                     if (!method_exists($this, $function)) {
-                        return false;
+                        return FALSE;
                     }
                     elseif (!$this->$function()) {
-                        return false;
+                        return FALSE;
                     }
                 }
-                return true;
+                return TRUE;
             }
             else return (bool)$auth_config[$this->role];
         }
-        elseif ($auth_config == "*") return true;
+        elseif ($auth_config == "*") return TRUE;
 
-        return false;
+        return FALSE;
 	}
 
-    public function user_has_school() {
+    public function user_has_school() 
+    {
 
         $StudentUSI = $this->args[0];
-        if (!$StudentUSI) return true;
+        if (!$StudentUSI) return TRUE;
 
         $student = Model\Edfi\Student::find($StudentUSI);
 
         foreach ($student->School() as $school) {
-            if ($school->SchoolId == self::userdata('SchoolId')) return true;
+            if ($school->SchoolId == self::userdata('SchoolId')) return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
-    public function report_has_access($ReportId = null) {
+    public function report_has_access($ReportId = NULL) 
+    {
 
         if (!$ReportId) $ReportId = $this->args[0];
-        if (!$ReportId) return true;
+        if (!$ReportId) return TRUE;
 
-        if (in_array($this->role, ['System Administrator', 'Data Administrator'])) return true;
+        if (in_array($this->role, ['System Administrator', 'Data Administrator'])) return TRUE;
 
         $report = Model\Easol\Report::find($ReportId);
 
         foreach ($report->ReportAccess() as $access) {
-            if ($access->RoleTypeId == self::userdata('RoleId')) return true;
+            if ($access->RoleTypeId == self::userdata('RoleId')) return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
 
-    public function user_role($StaffUSI=null) {
+    public function user_role($StaffUSI=NULL) 
+    {
         if (!$StaffUSI) $StaffUSI = $this->ci->session->userdata('StaffUSI');
         $user = Model\Easol\StaffAuthentication::find($StaffUSI);
         return $user->Role()->RoleTypeName;
@@ -137,7 +142,8 @@ Class Easol_Auth {
      * return true if the current user logged in
      * @return bool
      */
-    public static function isLoggedIn(){
+    public static function isLoggedIn()
+    {
         return self::$loggedIn;
     }
 
@@ -146,15 +152,16 @@ Class Easol_Auth {
      * @param string $field
      * @return mixed
      */
-    public static function userdata($field=""){
+    public static function userdata($field="")
+    {
 
 
         if($field=="")
             return self::$userInfo;
-        if(array_key_exists($field,self::$userInfo)){
+        if(array_key_exists($field, self::$userInfo)){
             return self::$userInfo[$field];
         }
 
-        return false;
+        return FALSE;
     }
 }

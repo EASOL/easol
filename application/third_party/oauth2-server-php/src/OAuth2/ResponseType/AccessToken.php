@@ -27,7 +27,7 @@ class AccessToken implements AccessTokenInterface
      *                                                             );
      *                                                             </endcode>
      */
-    public function __construct(AccessTokenStorageInterface $tokenStorage, RefreshTokenInterface $refreshStorage = null, array $config = array())
+    public function __construct(AccessTokenStorageInterface $tokenStorage, RefreshTokenInterface $refreshStorage = NULL, array $config = array())
     {
         $this->tokenStorage = $tokenStorage;
         $this->refreshStorage = $refreshStorage;
@@ -39,19 +39,19 @@ class AccessToken implements AccessTokenInterface
         ), $config);
     }
 
-    public function getAuthorizeResponse($params, $user_id = null)
+    public function getAuthorizeResponse($params, $user_id = NULL)
     {
         // build the URL to redirect to
         $result = array('query' => array());
 
-        $params += array('scope' => null, 'state' => null);
+        $params += array('scope' => NULL, 'state' => NULL);
 
         /*
          * a refresh token MUST NOT be included in the fragment
          *
          * @see http://tools.ietf.org/html/rfc6749#section-4.2.2
          */
-        $includeRefreshToken = false;
+        $includeRefreshToken = FALSE;
         $result["fragment"] = $this->createAccessToken($params['client_id'], $user_id, $params['scope'], $includeRefreshToken);
 
         if (isset($params['state'])) {
@@ -67,12 +67,12 @@ class AccessToken implements AccessTokenInterface
      * @param $client_id                client identifier related to the access token.
      * @param $user_id                  user ID associated with the access token
      * @param $scope                    OPTIONAL scopes to be stored in space-separated string.
-     * @param bool $includeRefreshToken if true, a new refresh_token will be added to the response
+     * @param bool                                                                            $includeRefreshToken if true, a new refresh_token will be added to the response
      *
      * @see http://tools.ietf.org/html/rfc6749#section-5
      * @ingroup oauth2_section_5
      */
-    public function createAccessToken($client_id, $user_id, $scope = null, $includeRefreshToken = true)
+    public function createAccessToken($client_id, $user_id, $scope = NULL, $includeRefreshToken = TRUE)
     {
         $token = array(
             "access_token" => $this->generateAccessToken(),
@@ -81,7 +81,7 @@ class AccessToken implements AccessTokenInterface
             "scope" => $scope
         );
 
-        $this->tokenStorage->setAccessToken($token["access_token"], $client_id, $user_id, $this->config['access_lifetime'] ? time() + $this->config['access_lifetime'] : null, $scope);
+        $this->tokenStorage->setAccessToken($token["access_token"], $client_id, $user_id, $this->config['access_lifetime'] ? time() + $this->config['access_lifetime'] : NULL, $scope);
 
         /*
          * Issue a refresh token also, if we support them
@@ -116,24 +116,24 @@ class AccessToken implements AccessTokenInterface
     {
         if (function_exists('mcrypt_create_iv')) {
             $randomData = mcrypt_create_iv(20, MCRYPT_DEV_URANDOM);
-            if ($randomData !== false && strlen($randomData) === 20) {
+            if ($randomData !== FALSE && strlen($randomData) === 20) {
                 return bin2hex($randomData);
             }
         }
         if (function_exists('openssl_random_pseudo_bytes')) {
             $randomData = openssl_random_pseudo_bytes(20);
-            if ($randomData !== false && strlen($randomData) === 20) {
+            if ($randomData !== FALSE && strlen($randomData) === 20) {
                 return bin2hex($randomData);
             }
         }
         if (@file_exists('/dev/urandom')) { // Get 100 bytes of random data
-            $randomData = file_get_contents('/dev/urandom', false, null, 0, 20);
-            if ($randomData !== false && strlen($randomData) === 20) {
+            $randomData = file_get_contents('/dev/urandom', FALSE, NULL, 0, 20);
+            if ($randomData !== FALSE && strlen($randomData) === 20) {
                 return bin2hex($randomData);
             }
         }
         // Last resort which you probably should just get rid of:
-        $randomData = mt_rand() . mt_rand() . mt_rand() . mt_rand() . microtime(true) . uniqid(mt_rand(), true);
+        $randomData = mt_rand() . mt_rand() . mt_rand() . mt_rand() . microtime(TRUE) . uniqid(mt_rand(), TRUE);
 
         return substr(hash('sha512', $randomData), 0, 40);
     }
@@ -161,14 +161,14 @@ class AccessToken implements AccessTokenInterface
      * the given hint, it MUST extend its search across all of its supported token types"
      *
      * @param $token
-     * @param null $tokenTypeHint
+     * @param null  $tokenTypeHint
      * @return boolean
      */
-    public function revokeToken($token, $tokenTypeHint = null)
+    public function revokeToken($token, $tokenTypeHint = NULL)
     {
         if ($tokenTypeHint == 'refresh_token') {
             if ($this->refreshStorage && $revoked = $this->refreshStorage->unsetRefreshToken($token)) {
-                return true;
+                return TRUE;
             }
         }
 

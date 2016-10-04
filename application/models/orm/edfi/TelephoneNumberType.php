@@ -11,7 +11,8 @@ class TelephoneNumberType extends ORM {
 	public $primary_key = 'TelephoneNumberTypeId';
 
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'StudentTelephone'=> ORM::has_many('\\Model\\Edfi\\StudentTelephone')

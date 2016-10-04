@@ -17,17 +17,17 @@ class AuthorizationCode implements AuthorizationCodeInterface
     {
         $this->storage = $storage;
         $this->config = array_merge(array(
-            'enforce_redirect' => false,
+            'enforce_redirect' => FALSE,
             'auth_code_lifetime' => 30,
         ), $config);
     }
 
-    public function getAuthorizeResponse($params, $user_id = null)
+    public function getAuthorizeResponse($params, $user_id = NULL)
     {
         // build the URL to redirect to
         $result = array('query' => array());
 
-        $params += array('scope' => null, 'state' => null);
+        $params += array('scope' => NULL, 'state' => NULL);
 
         $result['query']['code'] = $this->createAuthorizationCode($params['client_id'], $user_id, $params['redirect_uri'], $params['scope']);
 
@@ -54,7 +54,7 @@ class AuthorizationCode implements AuthorizationCodeInterface
      * @see http://tools.ietf.org/html/rfc6749#section-4
      * @ingroup oauth2_section_4
      */
-    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = null)
+    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = NULL)
     {
         $code = $this->generateAuthorizationCode();
         $this->storage->setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, time() + $this->config['auth_code_lifetime'], $scope);
@@ -90,9 +90,9 @@ class AuthorizationCode implements AuthorizationCodeInterface
         } elseif (function_exists('openssl_random_pseudo_bytes')) {
             $randomData = openssl_random_pseudo_bytes(100);
         } elseif (@file_exists('/dev/urandom')) { // Get 100 bytes of random data
-            $randomData = file_get_contents('/dev/urandom', false, null, 0, 100) . uniqid(mt_rand(), true);
+            $randomData = file_get_contents('/dev/urandom', FALSE, NULL, 0, 100) . uniqid(mt_rand(), TRUE);
         } else {
-            $randomData = mt_rand() . mt_rand() . mt_rand() . mt_rand() . microtime(true) . uniqid(mt_rand(), true);
+            $randomData = mt_rand() . mt_rand() . mt_rand() . mt_rand() . microtime(TRUE) . uniqid(mt_rand(), TRUE);
         }
 
         return substr(hash('sha512', $randomData), 0, $tokenLen);

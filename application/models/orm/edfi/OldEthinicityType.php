@@ -10,7 +10,8 @@ class OldEthnicityType extends ORM {
 	public $table = "edfi.OldEthnicityType";
 	public $primary_key = 'OldEthnicityTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::has_many('\\Model\\Edfi\\Student'),

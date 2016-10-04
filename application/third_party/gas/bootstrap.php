@@ -151,7 +151,8 @@ if ( ! function_exists('get_instance'))
 	/**
 	 * global get_instance method
 	 */
-	function &get_instance() {
+	function &get_instance() 
+ {
 
 		$instance =& Tron::get_instance();
 
@@ -177,12 +178,15 @@ if ( ! function_exists('get_instance'))
 	/**
 	 * global log_message method
 	 */
-	function log_message(){}
+	function log_message()
+ {
+ }
 
 	/**
 	 * global load_class method
 	 */
-	function load_class(){
+	function load_class()
+ {
 		// Capture argument
 		$args = func_get_args();
 

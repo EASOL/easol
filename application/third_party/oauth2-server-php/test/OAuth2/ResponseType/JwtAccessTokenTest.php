@@ -19,9 +19,9 @@ class JwtAccessTokenTest extends \PHPUnit_Framework_TestCase
         $server = $this->getTestServer();
         $jwtResponseType = $server->getResponseType('token');
 
-        $accessToken = $jwtResponseType->createAccessToken('Test Client ID', 123, 'test', false);
+        $accessToken = $jwtResponseType->createAccessToken('Test Client ID', 123, 'test', FALSE);
         $jwt = new Jwt;
-        $decodedAccessToken = $jwt->decode($accessToken['access_token'], null, false);
+        $decodedAccessToken = $jwt->decode($accessToken['access_token'], NULL, FALSE);
 
         $this->assertArrayHasKey('id', $decodedAccessToken);
         $this->assertArrayHasKey('jti', $decodedAccessToken);
@@ -124,7 +124,7 @@ class JwtAccessTokenTest extends \PHPUnit_Framework_TestCase
 
         // decode token and make sure refresh_token isn't set
         list($header, $payload, $signature) = explode('.', $JwtAccessToken);
-        $decodedToken = json_decode(base64_decode($payload), true);
+        $decodedToken = json_decode(base64_decode($payload), TRUE);
         $this->assertFalse(array_key_exists('refresh_token', $decodedToken));
 
         // use the refresh token to get another access token
@@ -153,7 +153,7 @@ class JwtAccessTokenTest extends \PHPUnit_Framework_TestCase
 
         // make the "token" response type a JwtAccessToken
         $config = array('issuer' => 'https://api.example.com');
-        $server->addResponseType(new JwtAccessToken($memoryStorage, $memoryStorage, null, $config));
+        $server->addResponseType(new JwtAccessToken($memoryStorage, $memoryStorage, NULL, $config));
 
         return $server;
     }

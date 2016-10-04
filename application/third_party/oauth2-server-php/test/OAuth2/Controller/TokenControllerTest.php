@@ -182,7 +182,7 @@ class TokenControllerTest extends \PHPUnit_Framework_TestCase
         $server->addGrantType(new ClientCredentials($storage));
 
         $scope = new Scope(array(
-            'default_scope' => false,
+            'default_scope' => FALSE,
             'supported_scopes' => array('testscope')
         ));
         $server->setScopeUtil($scope);

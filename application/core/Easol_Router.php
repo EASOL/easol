@@ -3,4 +3,5 @@
 /* load the MX_Router class */
 require APPPATH."third_party/MX/Router.php";
 
-class Easol_Router extends MX_Router {}
+class Easol_Router extends MX_Router {
+}

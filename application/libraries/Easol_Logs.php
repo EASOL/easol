@@ -2,7 +2,8 @@
 
 Class Easol_Logs {
 
-	public function Log($data) {
+	public function Log($data) 
+ {
 		$ci = &get_instance();
 		$ci->db->set('DateTime', 'GETDATE()', FALSE);
 //		$data['StaffUSI'] = Easol_Auth::userdata('StaffUSI');

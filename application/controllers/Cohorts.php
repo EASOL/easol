@@ -6,11 +6,13 @@ class Cohorts extends Easol_Controller {
      /**
      * default constructor
      */
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
         ];
@@ -19,7 +21,8 @@ class Cohorts extends Easol_Controller {
     /**
      * index action
      */
-    public function index($id=1){
+    public function index($id=1)
+    {
 
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
@@ -31,18 +34,19 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Auth::userdata
         $data['cohort_listing'] = $query->result();
 
         $this->render("index", $data);
-	}
+    }
 
     /**
      * @param int $cohortIdentifier
      * @return null|string
      */
-    public function students($cohortIdentifier=0,$id=1){
+    public function students($cohortIdentifier=0,$id=1)
+    {
 
 
-        $this->load->model("entities/edfi/Edfi_Cohort",'Edfi_Cohort');
+        $this->load->model("entities/edfi/Edfi_Cohort", 'Edfi_Cohort');
         $cohort = $this->Edfi_Cohort->findOneBySql("select Cohort.CohortIdentifier, Cohort.CohortDescription from edfi.Cohort
-WHERE Cohort.CohortIdentifier = ? and Cohort.EducationOrganizationId = ? ",[$cohortIdentifier,Easol_Auth::userdata('SchoolId')]);
+WHERE Cohort.CohortIdentifier = ? and Cohort.EducationOrganizationId = ? ", [$cohortIdentifier,Easol_Auth::userdata('SchoolId')]);
 
         $query="SELECT Student.FirstName, Student.LastSurname,Student.StudentUSI FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Student ON Student.StudentUSI = StudentCohortAssociation.StudentUSI
@@ -61,7 +65,8 @@ WHERE StudentCohortAssociation.EducationOrganizationId = ".Easol_Auth::userdata(
     /**
      * index action
      */
-    public function csv($id=1){
+    public function csv($id=1)
+    {
         
         $query = "SELECT StudentCohortAssociation.CohortIdentifier, Cohort.CohortDescription, COUNT(*) as StudentCount FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON
@@ -75,9 +80,9 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Auth::userdata
             'colOrderBy' => ['Cohort.CohortDescription'],
             'colGroupBy' => ['StudentCohortAssociation.CohortIdentifier','Cohort.CohortDescription'],
             'filter' => [
-                'dataBind' => true,
+                'dataBind' => TRUE,
                 'bindIndex' => [],
-                'queryWhere' => false,
+                'queryWhere' => FALSE,
                 'fields' =>
                     [
 
@@ -93,7 +98,7 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Auth::userdata
                                 'default'   =>  (!$this->input->get('filter[Result]')) ? 0 : $this->input->get('filter[Result]'),
                                 'label'     =>  'Results',
                                 'type'      =>  'dropdown',
-                                'bindDatabase'  => false,
+                                'bindDatabase'  => FALSE,
                                 'fieldType' => 'pageSize'
                             ],
 
@@ -107,5 +112,5 @@ WHERE StudentCohortAssociation.EducationOrganizationId = '".Easol_Auth::userdata
                     'url' => 'cohorts/index/@pageNo'
                 ]
         ]);
-	}
+    }
 }

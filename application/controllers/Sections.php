@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Sections extends Easol_Controller {
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  ['System Administrator','Data Administrator','School Administrator','Educator'],
         ];
@@ -12,7 +13,7 @@ class Sections extends Easol_Controller {
 
 
 public function index()
-    {
+{
         $data = array();
 
         $data['filters']                = $_GET;
@@ -68,7 +69,7 @@ public function index()
         foreach ($data['results'] as $k => $v)
         {
 
-            if(strpos($v->ClassPeriodName, " - ")!== false)
+            if(strpos($v->ClassPeriodName, " - ")!== FALSE)
                 list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             else 
                 $pCode = $v->ClassPeriodName; 
@@ -109,10 +110,10 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
 
         $data['educators']      = $this->db->query($sql)->result();
 
-        $this->render("index",[
+        $this->render("index", [
             'data'  => $data,
         ]);
-    }
+}
 
     public function details()
     {
@@ -139,7 +140,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
         foreach ($data['results'] as $k => $v)
         {   
              
-            if(strpos($v->ClassPeriodName, " - ")!== false)
+            if(strpos($v->ClassPeriodName, " - ")!== FALSE)
                 list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             else 
                 $pCode = $v->ClassPeriodName; 
@@ -148,7 +149,7 @@ WHERE "edfi"."Grade"."SchoolId" = '.Easol_Auth::userdata('SchoolId').' ) and Ter
             $data['results'][$k]->Educator = $v->teacher_fname . ' ' . $v->teacher_lname;            
         } 
 
-        $this->render("details",[
+        $this->render("details", [
             'data'  => $data,
         ]);
 

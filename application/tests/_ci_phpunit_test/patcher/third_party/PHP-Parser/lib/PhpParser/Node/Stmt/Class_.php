@@ -24,9 +24,9 @@ class Class_ extends ClassLike
     public $implements;
 
     protected static $specialNames = array(
-        'self'   => true,
-        'parent' => true,
-        'static' => true,
+        'self'   => TRUE,
+        'parent' => TRUE,
+        'static' => TRUE,
     );
 
     /**
@@ -40,15 +40,16 @@ class Class_ extends ClassLike
      *                                'stmts'      => array(): Statements
      * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
         $this->name = $name;
-        $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : null;
+        $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : NULL;
         $this->implements = isset($subNodes['implements']) ? $subNodes['implements'] : array();
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
 
-        if (null !== $this->name && isset(self::$specialNames[strtolower($this->name)])) {
+        if (NULL !== $this->name && isset(self::$specialNames[strtolower($this->name)])) {
             throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));
         }
 
@@ -69,26 +70,31 @@ class Class_ extends ClassLike
         }
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('type', 'name', 'extends', 'implements', 'stmts');
     }
 
-    public function isAbstract() {
+    public function isAbstract() 
+    {
         return (bool) ($this->type & self::MODIFIER_ABSTRACT);
     }
 
-    public function isFinal() {
+    public function isFinal() 
+    {
         return (bool) ($this->type & self::MODIFIER_FINAL);
     }
 
-    public function isAnonymous() {
-        return null === $this->name;
+    public function isAnonymous() 
+    {
+        return NULL === $this->name;
     }
 
     /**
      * @internal
      */
-    public static function verifyModifier($a, $b) {
+    public static function verifyModifier($a, $b) 
+    {
         if ($a & self::VISIBILITY_MODIFER_MASK && $b & self::VISIBILITY_MODIFER_MASK) {
             throw new Error('Multiple access type modifiers are not allowed');
         }

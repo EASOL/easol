@@ -1,7 +1,8 @@
 <?php
 
 class Composer {
-	function __construct() {
+	function __construct() 
+ {
 		include("./vendor/autoload.php");
 	}
 }

@@ -116,7 +116,8 @@ class Curl {
      * Use these methods to build up more complex queries
      * ================================================================================= */
      
-    public function post($params = array(), $options = array()) { 
+    public function post($params = array(), $options = array()) 
+    { 
         
         // If its an array (instead of a query string) then format it correctly
         if(is_array($params)) {
@@ -132,7 +133,8 @@ class Curl {
         $this->option(CURLOPT_POSTFIELDS, $params);
     }
     
-    public function put($params = array(), $options = array()) { 
+    public function put($params = array(), $options = array()) 
+    { 
         
         // If its an array (instead of a query string) then format it correctly
         if(is_array($params)) {
@@ -146,7 +148,8 @@ class Curl {
         $this->option(CURLOPT_POSTFIELDS, $params);
     }
     
-    public function set_cookies($params = array()) {
+    public function set_cookies($params = array()) 
+    {
         
         if(is_array($params)) {
             $params = http_build_query($params);
@@ -174,14 +177,16 @@ class Curl {
         return $this;
     }
     
-    public function proxy($url = '', $port = 80) {
+    public function proxy($url = '', $port = 80) 
+    {
         
         $this->option(CURLOPT_HTTPPROXYTUNNEL. TRUE);
         $this->option(CURLOPT_PROXY, $url.':'. 80);
         return $this;
     }
     
-    public function proxy_login($username = '', $password = '') {
+    public function proxy_login($username = '', $password = '') 
+    {
         $this->option(CURLOPT_PROXYUSERPWD, $username.':'.$password);
         return $this;
     }
@@ -201,13 +206,15 @@ class Curl {
         return $this;
     }
     
-    public function option($code, $value) {
+    public function option($code, $value) 
+    {
     	$this->options[$code] = $value;
         return $this;
     }
     
     // Start a session from a URL
-    public function create($url) {
+    public function create($url) 
+    {
         
         // Reset the class
         $this->set_defaults();
@@ -287,7 +294,7 @@ class Curl {
         echo "<pre>";
         print_r($this->info);
         echo "</pre>";
-	}
+    }
     
     private function set_defaults()
     {

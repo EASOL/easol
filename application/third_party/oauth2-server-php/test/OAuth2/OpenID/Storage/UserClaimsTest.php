@@ -36,6 +36,6 @@ class UserClaimsTest extends BaseTest
 
         /* assert the decoded token is the same */
         $this->assertEquals($claims['email'], "testuser@test.com");
-        $this->assertEquals($claims['email_verified'], true);
+        $this->assertEquals($claims['email_verified'], TRUE);
     }
 }

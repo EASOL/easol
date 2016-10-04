@@ -8,21 +8,23 @@ class Easol_Model extends CI_Model {
 	public $belongs_to;
 	public $extends;
 
-	public function __construct(){
+	public function __construct()
+ {
 
 		parent::__construct();
 
 	}
 
-	function get($filter=array(), $select=null) {
+	function get($filter=array(), $select=NULL) 
+ {
 
-		if ($filter === null) {
-			return null;
+		if ($filter === NULL) {
+			return NULL;
 		}
 
 		if (is_array($filter)) {
 			foreach($filter as $field=>$value) {
-				($value === false) ? $this->db->where($field) : $this->db->where($field, $value);
+				($value === FALSE) ? $this->db->where($field) : $this->db->where($field, $value);
 			}
 		}
 		elseif (is_numeric($filter)) {
@@ -30,7 +32,7 @@ class Easol_Model extends CI_Model {
 		}
 
 		if ($select) {
-			$this->db->select($select, false);
+			$this->db->select($select, FALSE);
 		}
 		$this->db->limit(1);
 		$query = $this->db->get($this->table);
@@ -38,7 +40,7 @@ class Easol_Model extends CI_Model {
 		$row = $query->row_array();
 
 		if ($select && sizeof(explode(",", $select)) == 1) {
-			if (stripos($select, ' as ') !== false) {
+			if (stripos($select, ' as ') !== FALSE) {
 				$select = explode(' as ', $select);
 				return $row[$select[1]];
 			}
@@ -48,7 +50,8 @@ class Easol_Model extends CI_Model {
 		return $row;
 	}
 
-	public function listing($filter=array(), $key_value=null) {
+	public function listing($filter=array(), $key_value=NULL) 
+ {
 
 		if (isset($filter['order_by'])) {
 			if (is_array($filter['order_by'])) {
@@ -73,7 +76,7 @@ class Easol_Model extends CI_Model {
 
 		if (is_array($filter)) {
 			foreach ($filter as $field=>$v) {
-				if ($v === false) {
+				if ($v === FALSE) {
 					$this->db->where($field);
 				}
 				else {
@@ -107,7 +110,8 @@ class Easol_Model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function save($data, $key="id") {
+	public function save($data, $key="id") 
+ {
 		unset($data['submit']);
 
 		if ($data["$key"]) {
@@ -118,7 +122,7 @@ class Easol_Model extends CI_Model {
 		}
 
 		foreach ($data as $k=>$v) {
-			if ($v === null) {
+			if ($v === NULL) {
 				$this->db->set($k, 'DEFAULT', FALSE);
 				unset($data[$k]);
 			}
@@ -145,13 +149,14 @@ class Easol_Model extends CI_Model {
 		return $id;
 	}
 
-	public function count($filter=array()) {
+	public function count($filter=array()) 
+ {
 
 		unset($filter['limit'], $filter['offset'], $filter['order_by'], $filter['group_by']);
 
 		if (is_array($filter)) {
 			foreach ($filter as $field=>$value) {
-				if ($value === false) {
+				if ($value === FALSE) {
 					$this->db->where($field);
 				}
 				else {
@@ -165,7 +170,8 @@ class Easol_Model extends CI_Model {
 		return $count;
 	}
 
-	public function add_batch($data) {
+	public function add_batch($data) 
+ {
 		foreach ($data as $k=>$row) {
 
 		}
@@ -173,14 +179,15 @@ class Easol_Model extends CI_Model {
 		//echo $this->db->last_query();
 	}
 
-	public function delete($filter=null) {
+	public function delete($filter=NULL) 
+ {
 
-		if ($filter === null) {
-			return null;
+		if ($filter === NULL) {
+			return NULL;
 		}
 		if (is_array($filter)) {
 			foreach($filter as $field=>$value) {
-				($value === false) ? $this->db->where($field) : $this->db->where($field, $value);
+				($value === FALSE) ? $this->db->where($field) : $this->db->where($field, $value);
 			}
 		}
 		elseif (is_numeric($filter)) {
@@ -196,4 +203,3 @@ class Easol_Model extends CI_Model {
 	}
 }
 
-?>

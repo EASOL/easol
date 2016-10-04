@@ -24,7 +24,8 @@ class User extends Easol_Controller {
 		]);
 	}
 
-	public function save($StaffUSI=null) {
+	public function save($StaffUSI=NULL) 
+ {
 
 		$data = array('school'=>'');
 		if ($StaffUSI) {
@@ -43,7 +44,7 @@ class User extends Easol_Controller {
 			if (!isset($post['user']['GoogleAuth']) && !isset($user))
 				$this->form_validation->set_rules('user[Password]', 'Password', 'required|min_length[6]');
 
-			if ($this->form_validation->run() === true) {
+			if ($this->form_validation->run() === TRUE) {
 
 				if (!isset($post['user']['GoogleAuth'])) $post['user']['GoogleAuth'] = 0;
 
@@ -82,7 +83,8 @@ class User extends Easol_Controller {
 		$this->render('save', $data);
 	}
 
-	public function delete($StaffUSI) {
+	public function delete($StaffUSI) 
+ {
 		Model\Easol\StaffAuthentication::delete($StaffUSI);
 		redirect('/management/user');
 	}

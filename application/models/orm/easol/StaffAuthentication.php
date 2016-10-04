@@ -11,7 +11,8 @@ class StaffAuthentication extends ORM {
 	public $table       = "EASOL.StaffAuthentication";
 	public $foreign_key = array('\\model\\edfi\\staff' => 'StaffUSI', '\\model\\easol\\roletype'=> 'RoleId');
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Staff' => ORM::belongs_to('\\Model\\Edfi\\Staff'),

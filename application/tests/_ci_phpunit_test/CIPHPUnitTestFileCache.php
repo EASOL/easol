@@ -26,13 +26,13 @@ class CIPHPUnitTestFileCache implements ArrayAccess
 		$dir = dirname($this->file);
 		if (! is_dir($dir))
 		{
-			if (@mkdir($dir, 0777, true) === false)
+			if (@mkdir($dir, 0777, TRUE) === FALSE)
 			{
 				throw new RuntimeException('Failed to create folder: ' . $dir);
 			}
 		}
 
-		if (file_put_contents($this->file, '') === false)
+		if (file_put_contents($this->file, '') === FALSE)
 		{
 			throw new RuntimeException(
 				'Failed to write to cache file: ' . $this->file
@@ -70,7 +70,7 @@ class CIPHPUnitTestFileCache implements ArrayAccess
 		}
 		else
 		{
-			return null;
+			return NULL;
 		}
 	}
 

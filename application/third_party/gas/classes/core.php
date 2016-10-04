@@ -1630,7 +1630,7 @@ class Core {
 		// All done
 		if (isset($holder))
 		{
-			$final_key = substr($token,0,-1);
+			$final_key = substr($token, 0, -1);
 
 			list($table, $identifier) = explode(':', $final_key);
 
@@ -1716,7 +1716,7 @@ class Core {
 
 					$identifier = $parent_pk;
 
-					break;
+        break;
 
 				case '=>':
 					$key = $child_pk;
@@ -1731,7 +1731,7 @@ class Core {
 					}
 
 
-					break;
+        break;
 			}
 
 			// Build the tuple information
@@ -1784,12 +1784,12 @@ class Core {
 						$select_statement = explode(',', $args);
 						$queries[$method] = Janitor::arr_trim($select_statement);
 
-						break;
+         break;
 
 					case 'limit':
 						$queries[$method] = " 0, $args";
 
-						break;
+         break;
 					
 					case 'order_by':
 						if (preg_match('/^([^\n]+)\[(.*?)\]$/', $args, $m) AND count($m) == 3)
@@ -1797,7 +1797,7 @@ class Core {
 							$queries[$method] = "`$m[1]` ".strtoupper($m[2]);
 						}
 
-						break;
+         break;
 				}
 			}
 		}

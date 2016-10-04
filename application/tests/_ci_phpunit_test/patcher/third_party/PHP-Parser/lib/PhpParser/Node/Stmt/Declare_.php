@@ -17,13 +17,15 @@ class Declare_ extends Node\Stmt
      * @param Node[]           $stmts      Statements
      * @param array            $attributes Additional attributes
      */
-    public function __construct(array $declares, array $stmts, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(array $declares, array $stmts, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->declares = $declares;
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('declares', 'stmts');
     }
 }

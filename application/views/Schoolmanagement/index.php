@@ -21,7 +21,7 @@
                         <td><?php echo $school->NameOfInstitution ?></td>
                         <td><?php echo $school->WebSite ?></td>
                         <td>
-                            <a href="<?= site_url("/schoolmanagement/details/$school->SchoolId") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <a href="<?php echo site_url("/schoolmanagement/details/$school->SchoolId") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         </td>                                    
                     </tr>
                 <?php endforeach; ?>

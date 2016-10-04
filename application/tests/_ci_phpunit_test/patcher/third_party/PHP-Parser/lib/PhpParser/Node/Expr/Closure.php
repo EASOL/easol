@@ -33,33 +33,39 @@ class Closure extends Expr implements FunctionLike
      *                          'stmts'      => array(): Statements
      * @param array $attributes Additional attributes
      */
-    public function __construct(array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
-        $this->static = isset($subNodes['static']) ? $subNodes['static'] : false;
-        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
+    public function __construct(array $subNodes = array(), array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
+        $this->static = isset($subNodes['static']) ? $subNodes['static'] : FALSE;
+        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : FALSE;
         $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
         $this->uses = isset($subNodes['uses']) ? $subNodes['uses'] : array();
-        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
+        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : NULL;
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('static', 'byRef', 'params', 'uses', 'returnType', 'stmts');
     }
 
-    public function returnsByRef() {
+    public function returnsByRef() 
+    {
         return $this->byRef;
     }
 
-    public function getParams() {
+    public function getParams() 
+    {
         return $this->params;
     }
 
-    public function getReturnType() {
+    public function getReturnType() 
+    {
         return $this->returnType;
     }
 
-    public function getStmts() {
+    public function getStmts() 
+    {
         return $this->stmts;
     }
 }

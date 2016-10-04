@@ -40,7 +40,7 @@ EOL;
 		reset(self::$replacement);
 		$replacement = each(self::$replacement);
 
-		$start_method = false;
+		$start_method = FALSE;
 
 		foreach ($tokens as $token)
 		{
@@ -48,7 +48,7 @@ EOL;
 
 			if ($i == $replacement['key'])
 			{
-				$start_method = true;
+				$start_method = TRUE;
 			}
 
 			if (is_string($token))
@@ -56,7 +56,7 @@ EOL;
 				if ($start_method && $token === '{')
 				{
 					$new_source .= '{ ' . self::CODE;
-					$start_method = false;
+					$start_method = FALSE;
 					$replacement = each(self::$replacement);
 				}
 				else
@@ -70,7 +70,7 @@ EOL;
 			}
 		}
 
-		if ($replacement !== false)
+		if ($replacement !== FALSE)
 		{
 			throw new LogicException('Replacement data still remain');
 		}

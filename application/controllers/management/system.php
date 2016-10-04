@@ -14,14 +14,15 @@ class System extends Easol_Controller {
 		];
 	}
 
-	public function index() 	{
+	public function index() 	
+ {
 
 		$data['module_listing'] = $this->easol_module->listing();
 
 		$configurations = ['module', 'timezone', 'google_auth', 'language'];
 
 		foreach ($configurations as $key) {
-			$$key = Model\Easol\SystemConfiguration::limit(1)->find_by_key($key, false);
+			$$key = Model\Easol\SystemConfiguration::limit(1)->find_by_key($key, FALSE);
 		}
 
 		
@@ -33,10 +34,10 @@ class System extends Easol_Controller {
 			foreach ($configurations as $key) {
 				if (!isset($post[$key])) continue;
 
-				$new = false;
+				$new = FALSE;
 				if (!$$key) {
 					$rec = new Model\Easol\SystemConfiguration();
-					$new = true;
+					$new = TRUE;
 				}
 				else $rec = $$key;
 				
@@ -64,15 +65,17 @@ class System extends Easol_Controller {
 
 		foreach ($configurations as $key) {
 			if (!$$key) continue;
-			$data[$key] = json_decode($$key->Value, true);
+			$data[$key] = json_decode($$key->Value, TRUE);
 		}
 
 		$this->render('index', $data);
 
 	}
-	private function TrimArray($arr){
+	private function TrimArray($arr)
+ {
 
-    if (!is_array($arr)){ return $arr; }
+    if (!is_array($arr)){ return $arr; 
+    }
     while (list($key, $value) = each($arr)){
         if (is_array($value)){
             $arr[$key] = $this->TrimArray($value);

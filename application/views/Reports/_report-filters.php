@@ -14,12 +14,12 @@
             <?php $fieldName = str_replace(".", "-", $row->FieldName); ?>
             <?php if ($row->FilterType == 'Free Text'): ?>
                 <div class="form-group">
-                    <label for="filter-<?= $key ?>"><?= $row->DisplayName ?></label>
+                    <label for="filter-<?php echo $key ?>"><?php echo $row->DisplayName ?></label>
                     <input type='text' name='filter[<?php echo $report->ReportId ?>][<?php echo $fieldName ?>]' class='form-control' value="<?php echo (isset($_GET["filter"][$report->ReportId][$fieldName])) ? $_GET["filter"][$report->ReportId][$fieldName] : system_variable($row->DefaultValue) ?>">
                 </div>
             <?php elseif ($row->FilterType == 'Static List' || $row->FilterType == 'Dynamic List'): ?>
                 <div class='form-group'>
-                    <label for="filter-<?= $key ?>"><?= $row->DisplayName ?></label>
+                    <label for="filter-<?php echo $key ?>"><?php echo $row->DisplayName ?></label>
                     
                     <?php echo form_dropdown("filter[{$report->ReportId}][{$fieldName}]", report_filter_options($row->FilterOptions), (isset($_GET["filter"][$report->ReportId][$fieldName])) ? $_GET["filter"][$report->ReportId]["$fieldName"] : system_variable($row->DefaultValue), "class='form-control'"); ?>
                 </div>

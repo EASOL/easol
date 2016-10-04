@@ -13,7 +13,8 @@ class ReportFilter extends ORM {
 		'\\model\\easol\\report' => 'ReportId'
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Report' => ORM::belongs_to('\\Model\\Easol\\Report')

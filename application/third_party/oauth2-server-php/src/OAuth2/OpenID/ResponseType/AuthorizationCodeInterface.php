@@ -23,5 +23,5 @@ interface AuthorizationCodeInterface extends BaseAuthorizationCodeInterface
      * @see http://tools.ietf.org/html/rfc6749#section-4
      * @ingroup oauth2_section_4
      */
-    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = null, $id_token = null);
+    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = NULL, $id_token = NULL);
 }

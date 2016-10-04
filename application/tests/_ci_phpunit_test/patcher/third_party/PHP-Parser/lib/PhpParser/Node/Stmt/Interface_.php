@@ -11,9 +11,9 @@ class Interface_ extends ClassLike
     public $extends;
 
     protected static $specialNames = array(
-        'self'   => true,
-        'parent' => true,
-        'static' => true,
+        'self'   => TRUE,
+        'parent' => TRUE,
+        'static' => TRUE,
     );
 
     /**
@@ -25,8 +25,9 @@ class Interface_ extends ClassLike
      *                           'stmts'   => array(): Statements
      * @param array  $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->name = $name;
         $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : array();
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
@@ -45,7 +46,8 @@ class Interface_ extends ClassLike
         }
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('name', 'extends', 'stmts');
     }
 }

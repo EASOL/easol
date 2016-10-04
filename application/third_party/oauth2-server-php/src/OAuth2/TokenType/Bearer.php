@@ -74,7 +74,7 @@ class Bearer implements TokenTypeInterface
         if ($methodsUsed > 1) {
             $response->setError(400, 'invalid_request', 'Only one method may be used to authenticate at a time (Auth header, GET or POST)');
 
-            return null;
+            return NULL;
         }
 
         /**
@@ -86,7 +86,7 @@ class Bearer implements TokenTypeInterface
         if ($methodsUsed == 0) {
             $response->setStatusCode(401);
 
-            return null;
+            return NULL;
         }
 
         // HEADER: Get the access token from the header
@@ -94,7 +94,7 @@ class Bearer implements TokenTypeInterface
             if (!preg_match('/' . $this->config['token_bearer_header_name'] . '\s(\S+)/i', $headers, $matches)) {
                 $response->setError(400, 'invalid_request', 'Malformed auth header');
 
-                return null;
+                return NULL;
             }
 
             return $matches[1];
@@ -105,20 +105,20 @@ class Bearer implements TokenTypeInterface
             if (!in_array(strtolower($request->server('REQUEST_METHOD')), array('post', 'put'))) {
                 $response->setError(400, 'invalid_request', 'When putting the token in the body, the method must be POST or PUT', '#section-2.2');
 
-                return null;
+                return NULL;
             }
 
             $contentType = $request->server('CONTENT_TYPE');
-            if (false !== $pos = strpos($contentType, ';')) {
+            if (FALSE !== $pos = strpos($contentType, ';')) {
                 $contentType = substr($contentType, 0, $pos);
             }
 
-            if ($contentType !== null && $contentType != 'application/x-www-form-urlencoded') {
+            if ($contentType !== NULL && $contentType != 'application/x-www-form-urlencoded') {
                 // IETF specifies content-type. NB: Not all webservers populate this _SERVER variable
                 // @see http://tools.ietf.org/html/rfc6750#section-2.2
                 $response->setError(400, 'invalid_request', 'The content type for POST requests must be "application/x-www-form-urlencoded"');
 
-                return null;
+                return NULL;
             }
 
             return $request->request($this->config['token_param_name']);

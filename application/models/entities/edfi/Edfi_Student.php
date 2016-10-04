@@ -52,9 +52,10 @@ class Edfi_Student extends Easol_baseentity {
     /**
      * @return Edfi_SexType
      */
-    public function getSex(){
+    public function getSex()
+    {
         if(!isset($this->sex)){
-            $this->load->model('entities/edfi/Edfi_SexType','Edfi_SexType');
+            $this->load->model('entities/edfi/Edfi_SexType', 'Edfi_SexType');
             $this->sex = $this->Edfi_SexType->hydrate($this->Edfi_SexType->findOne(['SexTypeId' =>$this->SexTypeId]));
         }
             return $this->sex;
@@ -63,12 +64,13 @@ class Edfi_Student extends Easol_baseentity {
     /**
      * @return Edfi_RaceType
      */
-    public function getRace(){
+    public function getRace()
+    {
         if(!isset($this->race)){
-            $this->load->model('entities/edfi/Edfi_RaceType','Edfi_RaceType');
+            $this->load->model('entities/edfi/Edfi_RaceType', 'Edfi_RaceType');
             $this->race = $this->Edfi_RaceType->hydrate($this->Edfi_RaceType->findOneBySql("select RaceType.* from edfi.StudentRace inner join
 edfi.RaceType on RaceType.RaceTypeId=StudentRace.RaceTypeId where StudentRace.StudentUSI = ?
-",[$this->StudentUSI]));
+", [$this->StudentUSI]));
         }
 
 
@@ -78,9 +80,10 @@ edfi.RaceType on RaceType.RaceTypeId=StudentRace.RaceTypeId where StudentRace.St
     /**
      * @return Edfi_LimitedEnglishProficiencyType
      */
-    public function getLimitedEnglishProficiency(){
+    public function getLimitedEnglishProficiency()
+    {
       if(!isset($this->limitedEnglishProficiency)){
-            $this->load->model('entities/edfi/Edfi_LimitedEnglishProficiencyType','Edfi_LimitedEnglishProficiencyType');
+            $this->load->model('entities/edfi/Edfi_LimitedEnglishProficiencyType', 'Edfi_LimitedEnglishProficiencyType');
             $this->limitedEnglishProficiency = $this->Edfi_LimitedEnglishProficiencyType->hydrate($this->Edfi_LimitedEnglishProficiencyType->findOneBySql(
             "select LimitedEnglishProficiencyType.* from edfi.LimitedEnglishProficiencyType inner join
 edfi.LimitedEnglishProficiencyDescriptor on LimitedEnglishProficiencyType.LimitedEnglishProficiencyTypeId=LimitedEnglishProficiencyDescriptor.LimitedEnglishProficiencyTypeId where LimitedEnglishProficiencyDescriptor.LimitedEnglishProficiencyDescriptorId = ?",
@@ -88,14 +91,15 @@ edfi.LimitedEnglishProficiencyDescriptor on LimitedEnglishProficiencyType.Limite
                 $this->LimitedEnglishProficiencyDescriptorId
             ]
             ));
-        }
+      }
 
 
         return $this->limitedEnglishProficiency;
     }
 
 
-    public function getAddresses(){
+    public function getAddresses()
+    {
         return $this->db->query("select AddressType.Description  as Type, StreetNumberName, ApartmentRoomSuiteNumber, City, StateAbbreviationType.Description as State, PostalCode from edfi.StudentAddress
 inner join edfi.AddressType on AddressType.addresstypeid = StudentAddress.AddressTypeId
 inner join edfi.StateAbbreviationType on StateAbbreviationType.StateAbbreviationTypeId = StudentAddress.StateAbbreviationTypeId
@@ -105,7 +109,8 @@ where StudentUSI = ?",
             ]);
     }
 
-    public function getParents(){
+    public function getParents()
+    {
         return $this->db->query("select Parent.PersonalTitlePrefix, Parent.FirstName, Parent.LastSurname, RelationType.Description as Role, StudentParentAssociation.PrimaryContactStatus, StudentParentAssociation.LivesWith, StudentParentAssociation.EmergencyContactStatus from edfi.StudentParentAssociation
 inner join edfi.RelationType on RelationType.RelationTypeId = StudentParentAssociation.RelationTypeId
 inner join edfi.Parent on Parent.ParentUSI = StudentParentAssociation.ParentUSI
@@ -115,7 +120,8 @@ where StudentUSI = ?",
             ]);
     }
 
-    public function getTelephones(){
+    public function getTelephones()
+    {
         return $this->db->query("select StudentTelephone.TelephoneNumber, TelephoneNumberType.Description as telephonetype  from edfi.StudentTelephone
 left join edfi.TelephoneNumberType on StudentTelephone.telephonenumbertypeid = TelephoneNumberType.TelephoneNumberTypeId
 where StudentTelephone.StudentUSI =  ?",
@@ -124,7 +130,8 @@ where StudentTelephone.StudentUSI =  ?",
             ]);
     }
 
-    public function getEmailAddresses(){
+    public function getEmailAddresses()
+    {
         return $this->db->query("select ElectronicMailType.Description as emailType, StudentElectronicMail.ElectronicMailAddress from edfi.StudentElectronicMail
 inner join edfi.ElectronicMailType on ElectronicMailType.ElectronicMailTypeId = StudentElectronicMail.ElectronicMailTypeId
 where StudentElectronicMail.StudentUSI = ?",
@@ -182,7 +189,8 @@ StudentSectionAssociation.SchoolYear, Staff.FirstName, Staff.LastSurname,Grade.N
     }
 
 
-    public function getGrades(){
+    public function getGrades()
+    {
 
         return $this->db->query("SELECT Grade.LocalCourseCode, Course.CourseTitle, Grade.ClassPeriodName, TermType.CodeValue as Term, Grade.SchoolYear, Grade.LetterGradeEarned, Grade.NumericGradeEarned
 FROM edfi.Grade
@@ -202,7 +210,8 @@ ORDER BY Grade.BeginDate DESC",
      /**
      * @return mixed
      */
-    public function getAttendance(){
+    public function getAttendance()
+    {
         $query = "SELECT edfi.StudentSchoolAttendanceEvent.*, edfi.AttendanceEventCategoryType.*, edfi.GradeLevelType.CodeValue as Grade FROM edfi.StudentSchoolAttendanceEvent 
                 INNER JOIN edfi.AttendanceEventCategoryDescriptor ON AttendanceEventCategoryDescriptor.AttendanceEventCategoryDescriptorId = StudentSchoolAttendanceEvent.AttendanceEventCategoryDescriptorId
 
@@ -232,7 +241,8 @@ ORDER BY Grade.BeginDate DESC",
     /**
      * @return mixed
      */
-    public function getSectionAttendance(){
+    public function getSectionAttendance()
+    {
         $query = "SELECT Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.UniqueSectionCode, COUNT(*) as Days, 'Absence' as EventType
 FROM edfi.StudentSectionAttendanceEvent
 INNER JOIN edfi.[Section] ON
@@ -304,7 +314,8 @@ GROUP BY Section.ClassPeriodName, Section.LocalCourseCode, Section.id, Section.U
 
     }
 
-    public function getAssessments(){
+    public function getAssessments()
+    {
 
         return $this->db->query("SELECT StudentAssessment.AssessmentTitle,
 StudentAssessment.Version, StudentAssessment.AdministrationDate, StudentAssessmentScoreResult.Result, AcademicSubjectType.CodeValue
@@ -329,7 +340,8 @@ ORDER BY AdministrationDate DESC",
 
     }
 
-    public function getCohorts(){
+    public function getCohorts()
+    {
 
         return $this->db->query("SELECT edfi.Cohort.Id, edfi.Cohort.CohortIdentifier FROM edfi.StudentCohortAssociation
 INNER JOIN edfi.Cohort ON edfi.StudentCohortAssociation.CohortIdentifier = edfi.Cohort.CohortIdentifier AND edfi.StudentCohortAssociation.EducationOrganizationId = edfi.Cohort.EducationOrganizationId

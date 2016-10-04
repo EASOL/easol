@@ -32,7 +32,7 @@ class CIPHPUnitTestRequest
 	 */
 	protected $callablePreConstructor;
 
-	protected $enableHooks = false;
+	protected $enableHooks = FALSE;
 	protected $CI;
 	
 	/**
@@ -47,7 +47,7 @@ class CIPHPUnitTestRequest
 	 * 
 	 * @deprecated
 	 */
-	protected $bc_mode_throw_PHPUnit_Framework_Exception = false;
+	protected $bc_mode_throw_PHPUnit_Framework_Exception = FALSE;
 
 	public function __construct(PHPUnit_Framework_TestCase $testCase)
 	{
@@ -93,7 +93,7 @@ class CIPHPUnitTestRequest
 	 */
 	public function enableHooks()
 	{
-		$this->enableHooks = true;
+		$this->enableHooks = TRUE;
 		$this->hooks =& load_class('Hooks', 'core');
 	}
 

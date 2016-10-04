@@ -14,7 +14,8 @@ class AcademicSubjectDescriptor extends ORM {
 		'\\model\\edfi\\academicsubjecttype'     => 'AcademicSubjectTypeId',
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Cohort'=> ORM::has_many('\\Model\\Edfi\\Cohort'),

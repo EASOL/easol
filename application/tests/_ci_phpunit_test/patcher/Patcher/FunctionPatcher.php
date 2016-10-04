@@ -19,7 +19,7 @@ use Kenjis\MonkeyPatch\Patcher\FunctionPatcher\NodeVisitor;
 
 class FunctionPatcher extends AbstractPatcher
 {
-	private static $lock_function_list = false;
+	private static $lock_function_list = FALSE;
 	
 	/**
 	 * @var array list of function names (in lower case) which you patch
@@ -125,7 +125,7 @@ class FunctionPatcher extends AbstractPatcher
 
 	public static function lockFunctionList()
 	{
-		self::$lock_function_list = true;
+		self::$lock_function_list = TRUE;
 	}
 
 	/**
@@ -136,10 +136,10 @@ class FunctionPatcher extends AbstractPatcher
 	{
 		if (in_array(strtolower($name), self::$whitelist))
 		{
-			return true;
+			return TRUE;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -150,10 +150,10 @@ class FunctionPatcher extends AbstractPatcher
 	{
 		if (in_array(strtolower($name), self::$blacklist))
 		{
-			return true;
+			return TRUE;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	protected static function generateNewSource($source)
@@ -185,7 +185,7 @@ class FunctionPatcher extends AbstractPatcher
 			}
 		}
 
-		if ($replacement !== false)
+		if ($replacement !== FALSE)
 		{
 			throw new LogicException('Replacement data still remain');
 		}

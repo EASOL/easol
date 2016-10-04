@@ -1,6 +1,7 @@
 <?php
 
-function menu_items() {
+function menu_items() 
+{
 	$ci = &get_instance();
 	$ci->config->load('menu');
 	$menu = $ci->config->item('menu');

@@ -139,11 +139,11 @@ class Result implements Extension {
 				case 'data':
 					$records_data = new \Gas\Data();
 					$records_data->set('data', $records_array);
-					break;
+        break;
 
 				case 'json':
 					$records_data = json_encode($records_array);
-					break;
+        break;
 
 				case 'xml':
 
@@ -166,7 +166,7 @@ class Result implements Extension {
 					}
 
 					$records_data = $result->asXML();
-					break;
+        break;
 			}
 
 			return $records_data;

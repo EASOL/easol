@@ -23,7 +23,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
         ));
 
         // Test valid id_token request
-        $server->handleAuthorizeRequest($request, $response, true);
+        $server->handleAuthorizeRequest($request, $response, TRUE);
 
         $parts = parse_url($response->getHttpHeader('Location'));
         parse_str($parts['fragment'], $query);
@@ -39,7 +39,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
         // Test valid token id_token request
         $request->query['response_type'] = 'id_token token';
-        $server->handleAuthorizeRequest($request, $response, true);
+        $server->handleAuthorizeRequest($request, $response, TRUE);
 
         $parts = parse_url($response->getHttpHeader('Location'));
         parse_str($parts['fragment'], $query);
@@ -55,7 +55,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
         // assert that with multiple-valued response types, order does not matter
         $request->query['response_type'] = 'token id_token';
-        $server->handleAuthorizeRequest($request, $response, true);
+        $server->handleAuthorizeRequest($request, $response, TRUE);
 
         $parts = parse_url($response->getHttpHeader('Location'));
         parse_str($parts['fragment'], $query);
@@ -71,7 +71,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
         // assert that with multiple-valued response types with extra spaces do not matter
         $request->query['response_type'] = ' token  id_token ';
-        $server->handleAuthorizeRequest($request, $response, true);
+        $server->handleAuthorizeRequest($request, $response, TRUE);
 
         $parts = parse_url($response->getHttpHeader('Location'));
         parse_str($parts['fragment'], $query);
@@ -100,7 +100,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
         ));
 
         // Test missing nonce for 'id_token' response type
-        $server->handleAuthorizeRequest($request, $response, true);
+        $server->handleAuthorizeRequest($request, $response, TRUE);
         $params = $response->getParameters();
 
         $this->assertEquals($params['error'], 'invalid_nonce');
@@ -108,7 +108,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
         // Test missing nonce for 'id_token token' response type
         $request->query['response_type'] = 'id_token token';
-        $server->handleAuthorizeRequest($request, $response, true);
+        $server->handleAuthorizeRequest($request, $response, TRUE);
         $params = $response->getParameters();
 
         $this->assertEquals($params['error'], 'invalid_nonce');
@@ -129,7 +129,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
         ));
 
         // Test not approved application
-        $server->handleAuthorizeRequest($request, $response, false);
+        $server->handleAuthorizeRequest($request, $response, FALSE);
 
         $params = $response->getParameters();
 
@@ -138,7 +138,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
         // Test not approved application with prompt parameter
         $request->query['prompt'] = 'none';
-        $server->handleAuthorizeRequest($request, $response, false);
+        $server->handleAuthorizeRequest($request, $response, FALSE);
 
         $params = $response->getParameters();
 
@@ -147,7 +147,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
         // Test not approved application with user_id set
         $request->query['prompt'] = 'none';
-        $server->handleAuthorizeRequest($request, $response, false, 'some-user-id');
+        $server->handleAuthorizeRequest($request, $response, FALSE, 'some-user-id');
 
         $params = $response->getParameters();
 
@@ -169,9 +169,9 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
     private function getTestServer($config = array())
     {
         $config += array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer'             => 'phpunit',
-            'allow_implicit'     => true
+            'allow_implicit'     => TRUE
         );
 
         $storage = Bootstrap::getInstance()->getMemoryStorage();

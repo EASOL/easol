@@ -9,7 +9,7 @@
     define('SECRET_KEY', '2d5de');
     define('THUMBNAIL_URI', base_url('stw_thumbs').'/'); // set permissions to 0755
     define('THUMBNAIL_DIR', 'stw_thumbs/'); // set permissions to 0755
-    define('INSIDE_PAGES', true); // set to true if inside capturing should be allowed
+    define('INSIDE_PAGES', TRUE); // set to true if inside capturing should be allowed
     define('CUSTOM_MSG_URL', ''); // i.e. 'http://yourdomain.com/path/to/your/custom/msgs'
     define('CACHE_DAYS', 0); // how many days should the local copy be valid?
                              // Enter 0 (zero) to never update screenshots once cached
@@ -22,14 +22,15 @@
 
     // DB constants, must be setup when using debug
 	// For Advanced Users: create a database, add a user w/ permission to it, and then run the SQL in stw_debug_db.sql to setup it up
-    define('DEBUG', false); // MUST be "true" to log debug entries to database
+    define('DEBUG', FALSE); // MUST be "true" to log debug entries to database
 	define('DATABASE_HOST', 'localhost'); // localhost is common
 	define('DATABASE_PORT', '3306'); // 3306 is the default
 	define('DATABASE_SOCK', ''); // typically left blank
 	define('DATABASE_NAME', '');
 	define('DATABASE_USER', '');
 	define('DATABASE_PASS', '');
-	if(DEBUG){include_once("/stw_db_funcs.php");} // only load db functions if debug=true
+	if(DEBUG){include_once("/stw_db_funcs.php");
+ } // only load db functions if debug=true
 
     // EXAMPLE CALL OF THUMBNAIL REQUEST
     error_reporting(E_ALL ^ E_NOTICE);
@@ -52,7 +53,7 @@
         // do not use options
         $sImageHTML = getThumbnailHTML($sUrl);
         echo $sImageHTML;
-	}
+    }
 
 	/******************************************** 
 	*	!! DO NOT CHANGE BELOW THIS LINE !!		*
@@ -62,9 +63,10 @@
     /**
      * Gets the thumbnail for the specified website, stores it in the cache, and then returns the HTML for loading the image.
      */
-    function getThumbnailHTML($sUrl, $aOptions = array(), $sAttribAlt = false, $sAttribClass = false, $sAttribStyle = false, $isLink = false) {
+    function getThumbnailHTML($sUrl, $aOptions = array(), $sAttribAlt = FALSE, $sAttribClass = FALSE, $sAttribStyle = FALSE, $isLink = FALSE) 
+    {
   	    // $sUrl = 'http://www.shrinktheweb.com';
-        $sImageTag = false;
+        $sImageTag = FALSE;
         $aOptions = _generateOptions($aOptions);
 
         $sImageTag = _getThumbnailAdvanced($sUrl, $aOptions, $sAttribAlt, $sAttribClass, $sAttribStyle, $isLink);
@@ -75,7 +77,8 @@
     /**
      * Delete thumbnail
      */
-    function deleteThumbnail($sUrl, $aOptions = array()) {
+    function deleteThumbnail($sUrl, $aOptions = array()) 
+    {
         $aOptions = _generateOptions($aOptions);
         $aArgs = _generateRequestArgs($aOptions);
         $aArgs['stwurl'] = $sUrl;
@@ -85,16 +88,17 @@
 
        	if (file_exists($sFile)) {
     		@unlink($sFile);
-    	}
+        }
     }
 
     /**
      * refresh a thumbnail for a url with specified options
      * first delete it and then do a new request and return the HTML for image loading
      */
-    function refreshThumbnail($sUrl, $aOptions = array(), $sAttribAlt = false, $sAttribClass = false, $sAttribStyle = false, $isLink = false) {
+    function refreshThumbnail($sUrl, $aOptions = array(), $sAttribAlt = FALSE, $sAttribClass = FALSE, $sAttribStyle = FALSE, $isLink = FALSE) 
+    {
         $aOptions = _generateOptions($aOptions);
-        $aOptions['RefreshOnDemand'] = true;
+        $aOptions['RefreshOnDemand'] = TRUE;
 
         deleteThumbnail($sUrl, $aOptions);
         $sImageTag = getThumbnailHTML($sUrl, $aOptions, $sAttribAlt, $sAttribClass, $sAttribStyle, $isLink);
@@ -107,7 +111,8 @@
     **********************/
 
     // getting the thumbnal with advanced api
-    function _getThumbnailAdvanced($sUrl, $aOptions, $sAttribAlt, $sAttribClass, $sAttribStyle, $isLink) {
+    function _getThumbnailAdvanced($sUrl, $aOptions, $sAttribAlt, $sAttribClass, $sAttribStyle, $isLink) 
+    {
         $sImageUrl = _getThumbnail($sUrl, $aOptions);
 
         // if WAY OVER the limits (i.e. request is ignored by STW), grab an "Account Problem" image and store it as NO_RESPONSE_IMAGE
@@ -116,7 +121,7 @@
         }
 
         // add attributes if set
-        $sTags = false;
+        $sTags = FALSE;
         if ($sAttribStyle) {
             $sTags .= ' style="' . $sAttribStyle . '"';
         }
@@ -129,9 +134,9 @@
 
         // add link?
         if ($isLink) {
-            $sImageHTML = $sImageUrl ? '<a href="' . $sUrl . '" target="_blank"><img src="' . $sImageUrl . '"'.$sTags.'/></a>' : false;
+            $sImageHTML = $sImageUrl ? '<a href="' . $sUrl . '" target="_blank"><img src="' . $sImageUrl . '"'.$sTags.'/></a>' : FALSE;
         } else {
-            $sImageHTML = $sImageUrl ? '<img src="' . $sImageUrl . '"'.$sTags.'/>' : false;
+            $sImageHTML = $sImageUrl ? '<img src="' . $sImageUrl . '"'.$sTags.'/>' : FALSE;
         }
 
         return $sImageHTML;
@@ -141,7 +146,8 @@
      * Gets the thumbnail for the specified website, stores it in the cache, and then returns the
      * relative path to the cached image.
      */
-    function _getThumbnail($sUrl, $aOptions) {
+    function _getThumbnail($sUrl, $aOptions) 
+    {
         // create cache directory if it doesn't exist
         _createCacheDirectory();
 
@@ -157,7 +163,7 @@
             unset($aArgs['stwu']); // ONLY on "Advanced" method requests!! (not allowed on embedded)
             $aArgs['stwembed'] = 1;
             $aArgs['stwurl'] = $sUrl;
-            $sImageUrl = urldecode("http://images.shrinktheweb.com/xino.php?".http_build_query($aArgs,'','&'));
+            $sImageUrl = urldecode("http://images.shrinktheweb.com/xino.php?".http_build_query($aArgs, '', '&'));
         }
 
         return $sImageUrl;
@@ -166,17 +172,18 @@
     /**
      * generate options
      */
-    function _generateOptions($aOptions) {
+    function _generateOptions($aOptions) 
+    {
         // check if there are options set, otherwise set it to default or false
         $aOptions['Size'] = isset($aOptions['Size']) ? $aOptions['Size'] : 'sm';
-        $aOptions['SizeCustom'] = isset($aOptions['SizeCustom']) ? $aOptions['SizeCustom'] : false;
-        $aOptions['FullSizeCapture'] = isset($aOptions['FullSizeCapture']) ? $aOptions['FullSizeCapture'] : false;
-        $aOptions['MaxHeight'] = isset($aOptions['MaxHeight']) ? $aOptions['MaxHeight'] : false;
-        $aOptions['NativeResolution'] = isset($aOptions['NativeResolution']) ? $aOptions['NativeResolution'] : false;
-        $aOptions['WidescreenY'] = isset($aOptions['WidescreenY']) ? $aOptions['WidescreenY'] : false;
-        $aOptions['RefreshOnDemand'] = isset($aOptions['RefreshOnDemand']) ? $aOptions['RefreshOnDemand'] : false;
-        $aOptions['Delay'] = isset($aOptions['Delay']) ? $aOptions['Delay'] : false;
-        $aOptions['Quality'] = isset($aOptions['Quality']) ? $aOptions['Quality'] : false;
+        $aOptions['SizeCustom'] = isset($aOptions['SizeCustom']) ? $aOptions['SizeCustom'] : FALSE;
+        $aOptions['FullSizeCapture'] = isset($aOptions['FullSizeCapture']) ? $aOptions['FullSizeCapture'] : FALSE;
+        $aOptions['MaxHeight'] = isset($aOptions['MaxHeight']) ? $aOptions['MaxHeight'] : FALSE;
+        $aOptions['NativeResolution'] = isset($aOptions['NativeResolution']) ? $aOptions['NativeResolution'] : FALSE;
+        $aOptions['WidescreenY'] = isset($aOptions['WidescreenY']) ? $aOptions['WidescreenY'] : FALSE;
+        $aOptions['RefreshOnDemand'] = isset($aOptions['RefreshOnDemand']) ? $aOptions['RefreshOnDemand'] : FALSE;
+        $aOptions['Delay'] = isset($aOptions['Delay']) ? $aOptions['Delay'] : FALSE;
+        $aOptions['Quality'] = isset($aOptions['Quality']) ? $aOptions['Quality'] : FALSE;
 
         return $aOptions;
     }
@@ -184,7 +191,8 @@
     /**
      * generate the request arguments
      */
-    function _generateRequestArgs($aOptions) {
+    function _generateRequestArgs($aOptions) 
+    {
         $aArgs['stwaccesskeyid'] = ACCESS_KEY;
         $aArgs['stwu'] = SECRET_KEY;
         $aArgs['stwver'] = VER;
@@ -257,16 +265,17 @@
     /**
      * Get a thumbnail, caching it first if possible
      */
-    function _getCachedThumbnail($aArgs = null) {
+    function _getCachedThumbnail($aArgs = NULL) 
+    {
         $aArgs = is_array($aArgs) ? $aArgs : array();
 
         // Use arguments to work out the target filename
         $sFilename = _generateHash($aArgs).'.jpg';
         $sFile = THUMBNAIL_DIR . $sFilename;
 
-        $sReturnName = false;
+        $sReturnName = FALSE;
         // Work out if we need to update the cached thumbnail
-        $iForceUpdate = $aArgs['stwredo'] ? true : false;
+        $iForceUpdate = $aArgs['stwredo'] ? TRUE : FALSE;
         if ($iForceUpdate || _cacheFileExpired($sFile)) {
             // if bandwidth limit has reached return the BANDWIDTH_IMAGE
             if (_checkLimitReached(THUMBNAIL_DIR . BANDWIDTH_IMAGE)) {
@@ -283,7 +292,7 @@
                 switch ($aImage['status']) {
                     case 'save': // download the image to local path
                         _downloadRemoteImageToLocalPath($aImage['url'], $sFile);
-                    break;
+                        break;
 
                     case 'nosave': // dont save the image but return the url
                         return $aImage['url'];
@@ -293,13 +302,13 @@
                         $sFilename = QUOTA_IMAGE;
                         $sFile = THUMBNAIL_DIR . $sFilename;
                         _downloadRemoteImageToLocalPath($aImage['url'], $sFile);
-                    break;
+                        break;
 
                     case 'bandwidth_exceed': // download the image to local path for locking requests
                         $sFilename = BANDWIDTH_IMAGE;
                         $sFile = THUMBNAIL_DIR . $sFilename;
                         _downloadRemoteImageToLocalPath($aImage['url'], $sFile);
-                    break;
+                        break;
 
                     default: // otherwise return the status
                         return $aImage['status'];
@@ -319,7 +328,8 @@
     /**
      * Method that checks if the thumbnail for the specified website exists
      */
-    function _checkWebsiteThumbnailCaptured($aArgs) {
+    function _checkWebsiteThumbnailCaptured($aArgs) 
+    {
         $sRequestUrl = 'http://images.shrinktheweb.com/xino.php';
         $sRemoteData = _fileGetContent($sRequestUrl, $aArgs);
 
@@ -363,7 +373,8 @@
     /**
      * Method to get image at the specified remote Url and attempt to save it to the specifed local path
      */
-    function _downloadRemoteImageToLocalPath($sRemoteUrl, $sFile) {
+    function _downloadRemoteImageToLocalPath($sRemoteUrl, $sFile) 
+    {
         $sRemoteData = _fileGetContent($sRemoteUrl, array());
 
         // Only save data if we managed to get the file content
@@ -377,16 +388,17 @@
                 @unlink($sFile);
             }
 
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     /**
      * Gets the account problem image and returns the relative path to the cached image
      */
-    function _getNoResponseImage($sUrl, $aOptions) {
+    function _getNoResponseImage($sUrl, $aOptions) 
+    {
         // create cache directory if it doesn't exist
         _createCacheDirectory();
 
@@ -413,13 +425,13 @@
                 $sFile = THUMBNAIL_DIR . $sFilename;
                 $isDownloaded = _downloadRemoteImageToLocalPath($sImageUrl, $sFile);
 
-                if ($isDownloaded == true) {
+                if ($isDownloaded == TRUE) {
                     return THUMBNAIL_URI . $sFilename;
                 }
             }
         }
         
-        return false;
+        return FALSE;
     }
 
     /**
@@ -427,30 +439,32 @@
      * return false if there is no image existing or the limit reached file is
      * older then 6 hours
      */
-    function _checkLimitReached($sFile) {
+    function _checkLimitReached($sFile) 
+    {
         // file is not existing
         if (!file_exists($sFile)) {
-            return false;
+            return FALSE;
         }
 
         // is file older then 6 hours?
         $iCutoff = time() - (3600 * 6);
         if (filemtime($sFile) <= $iCutoff) {
             @unlink($sFile);
-            return false;
+            return FALSE;
         }
 
         // file is existing and not expired!
-        return true;
+        return TRUE;
     }
 
     /**
      * Create cache directory if it doesnt exist
      */
-    function _createCacheDirectory() {
+    function _createCacheDirectory() 
+    {
         // Create cache directory if it doesnt exist
         if (!file_exists(THUMBNAIL_DIR)) {
-            @mkdir(THUMBNAIL_DIR, 0777, true);
+            @mkdir(THUMBNAIL_DIR, 0777, TRUE);
         } else {
             // Try to make the directory writable
             @chmod(THUMBNAIL_DIR, 0777);
@@ -460,7 +474,8 @@
     /**
      * Generate the hash for the thumbnail, this is used as filename also
      */
-    function _generateHash($aArgs) {
+    function _generateHash($aArgs) 
+    {
         $sPrehash = $aArgs['stwfull'] ? 'a' : 'c';
         $sPrehash .= $aArgs['stwxmax'].'x'.$aArgs['stwymax'];
         if ($aArgs['stwnrx']) {
@@ -477,7 +492,8 @@
     /**
      * store the XML response in an array and generate status bits
      */
-    function _getXMLResponse($sResponse) {
+    function _getXMLResponse($sResponse) 
+    {
         if (extension_loaded('simplexml')) { // If simplexml is available, we can do more stuff!
             $oDOM = new DOMDocument;
             $oDOM->loadXML($sResponse);
@@ -509,67 +525,70 @@
         }
         
         if ($aResponse['stw_action'] == 'delivered') {
-            $aResponse['exists'] = true;
+            $aResponse['exists'] = TRUE;
         } else {
-            $aResponse['exists'] = false;
+            $aResponse['exists'] = FALSE;
         }
 
         if ($aResponse['stw_action'] == 'fix_and_retry') {
-            $aResponse['problem'] = true;
+            $aResponse['problem'] = TRUE;
         } else {
-            $aResponse['problem'] = false;
+            $aResponse['problem'] = FALSE;
         }
 
         if ($aResponse['stw_action'] == 'noretry') {
-            $aResponse['error'] = true;
+            $aResponse['error'] = TRUE;
         } else {
-            $aResponse['error'] = false;
+            $aResponse['error'] = FALSE;
         }
 
         // if we use the advanced api for free account we get an invalid request
         if ($aResponse['stw_response_code'] == 'INVALID_REQUEST') {
-            $aResponse['invalid'] = true;
+            $aResponse['invalid'] = TRUE;
         } else {
-            $aResponse['invalid'] = false;
+            $aResponse['invalid'] = FALSE;
         }
 		
 		// if our domain or IP is not listed in the account's "Allowed Referrers" AND "Lock to Account" is enabled, then we get this error
         if ($aResponse['stw_response_code'] == 'LOCK_TO_ACCOUNT') {
-            $aResponse['locked'] = true;
+            $aResponse['locked'] = TRUE;
         } else {
-            $aResponse['locked'] = false;
+            $aResponse['locked'] = FALSE;
         }
 
         return $aResponse;
     }
 
-    function _getLegacyResponse($sSearch, $s) {
+    function _getLegacyResponse($sSearch, $s) 
+    {
 	    $sRegex = '/<[^:]*:' . $sSearch . '[^>]*>[^<]*<[^:]*:StatusCode[^>]*>([^<]*)<\//';
 	    if (preg_match($sRegex, $s, $sMatches)) {
 	    	return $sMatches[1];
 	    }
-        return false;
+        return FALSE;
     }
 
-    function _getThumbnailStatus($s) {
+    function _getThumbnailStatus($s) 
+    {
         $sRegex = '/<[^:]*:ThumbnailResult?[^>]*>[^<]*<[^:]*:Thumbnail\s*(?:Exists=\"((?:true)|(?:false))\")+[^>]*>([^<]*)<\//';
         if (preg_match($sRegex, $s, $sMatches)) {
             return array('stw_action' => $sMatches[1],
                          'thumbnail' => $sMatches[2]);
         }
-        return false;
+        return FALSE;
     }
 
     /**
      * Determine if specified file has expired from the cache
      */
-    function _cacheFileExpired($sFile) {
+    function _cacheFileExpired($sFile) 
+    {
         // Use setting to check age of files.
         $iCacheDays = CACHE_DAYS + 0;
 
         // dont update image once it is cached
         if ($iCacheDays == 0 && file_exists($sFile)) {
-            return false;
+            return FALSE;
         // check age of file and if file exists return false, otherwise recache the file
         } else {
             $iCutoff = time() - (3600 * 24 * $iCacheDays);
@@ -580,7 +599,8 @@
     /**
      * Safe method to get the value from an array using the specified key
      */
-    function _getArrayValue($aArray, $sKey, $isReturnSpace = false) {
+    function _getArrayValue($aArray, $sKey, $isReturnSpace = FALSE) 
+    {
         if ($aArray && isset($aArray[$sKey])) {
             return $aArray[$sKey];
         }
@@ -589,14 +609,15 @@
         if ($isReturnSpace) {
             return '&nbsp;';
         } else {
-            return false;
+            return FALSE;
         }
     }
 
     /**
     * Gets file content by URL
     */
-    function _fileGetContent($sFileUrl, $aParams = array()) {
+    function _fileGetContent($sFileUrl, $aParams = array()) 
+    {
         $sParams = '?';
         foreach($aParams as $sKey => $sValue)
             $sParams .= $sKey . '=' . $sValue . '&';
@@ -625,4 +646,3 @@
 
         return $sResult;
     }
-?>

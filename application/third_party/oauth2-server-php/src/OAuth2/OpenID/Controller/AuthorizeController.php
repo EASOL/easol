@@ -13,7 +13,7 @@ class AuthorizeController extends BaseAuthorizeController implements AuthorizeCo
 {
     private $nonce;
 
-    protected function setNotAuthorizedResponse(RequestInterface $request, ResponseInterface $response, $redirect_uri, $user_id = null)
+    protected function setNotAuthorizedResponse(RequestInterface $request, ResponseInterface $response, $redirect_uri, $user_id = NULL)
     {
         $prompt = $request->query('prompt', 'consent');
         if ($prompt == 'none') {
@@ -52,7 +52,7 @@ class AuthorizeController extends BaseAuthorizeController implements AuthorizeCo
     public function validateAuthorizeRequest(RequestInterface $request, ResponseInterface $response)
     {
         if (!parent::validateAuthorizeRequest($request, $response)) {
-            return false;
+            return FALSE;
         }
 
         $nonce = $request->query('nonce');
@@ -61,12 +61,12 @@ class AuthorizeController extends BaseAuthorizeController implements AuthorizeCo
         if (!$nonce && in_array($this->getResponseType(), array(self::RESPONSE_TYPE_ID_TOKEN, self::RESPONSE_TYPE_ID_TOKEN_TOKEN))) {
             $response->setError(400, 'invalid_nonce', 'This application requires you specify a nonce parameter');
 
-            return false;
+            return FALSE;
         }
 
         $this->nonce = $nonce;
 
-        return true;
+        return TRUE;
     }
 
     protected function getValidResponseTypes()

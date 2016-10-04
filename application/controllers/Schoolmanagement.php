@@ -17,13 +17,13 @@ class Schoolmanagement extends Easol_Controller {
     }
 
     public function index()
-	{
+    {
         $schools = $this->Schoolmanagement_M->getSchools();
 
         $this->render('index', [
                 'schools' => $schools,
             ]);
-	}
+    }
 
     public function details()
     {
@@ -33,9 +33,9 @@ class Schoolmanagement extends Easol_Controller {
             // we are processing the school details form submitted via AJAX
             $result = $this->Schoolmanagement_M->setSchoolDetails($school, $post);
             if (!$result)
-                $this->session->set_flashdata('error','There was an error processing your request.');
+                $this->session->set_flashdata('error', 'There was an error processing your request.');
             else
-                $this->session->set_flashdata('success','The edits were saved sucessfully.');
+                $this->session->set_flashdata('success', 'The edits were saved sucessfully.');
 
             // send the response to the AJAX for processing.
             exit(json_encode($result));
@@ -44,7 +44,7 @@ class Schoolmanagement extends Easol_Controller {
             $results = $this->Schoolmanagement_M->getSchoolDetails($school);
 
             $this->load->library('Schoolmanagement_L');
-            $config = $this->schoolmanagement_l->getConfig(true);
+            $config = $this->schoolmanagement_l->getConfig(TRUE);
 
             foreach ($results['details'] as $key => $value) {
                 if (isset($config['schoolattributes'][$value->Key]))
@@ -64,9 +64,9 @@ class Schoolmanagement extends Easol_Controller {
         if ($post = $this->input->post()) {
             $result = $this->Schoolmanagement_M->addSchoolDetails($school, $post);
             if (!$result)
-                $this->session->set_flashdata('error','There was an error processing your request.');
+                $this->session->set_flashdata('error', 'There was an error processing your request.');
             else
-                $this->session->set_flashdata('success','The configurations were saved sucessfully.');
+                $this->session->set_flashdata('success', 'The configurations were saved sucessfully.');
 
             redirect('/schoolmanagement/details/'.$school);
         }else 

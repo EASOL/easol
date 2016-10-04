@@ -60,9 +60,9 @@ class Redis implements AuthorizationCodeInterface,
         }
         $value = $this->redis->get($key);
         if ( isset($value) ) {
-            return json_decode($value, true);
+            return json_decode($value, TRUE);
         } else {
-            return false;
+            return FALSE;
         }
     }
 
@@ -95,7 +95,7 @@ class Redis implements AuthorizationCodeInterface,
         return $this->getValue($this->config['code_key'] . $code);
     }
 
-    public function setAuthorizationCode($authorization_code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null)
+    public function setAuthorizationCode($authorization_code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL, $id_token = NULL)
     {
         return $this->setValue(
             $this->config['code_key'] . $authorization_code,
@@ -128,7 +128,7 @@ class Redis implements AuthorizationCodeInterface,
     public function getUser($username)
     {
         if (!$userInfo = $this->getValue($this->config['user_key'] . $username)) {
-            return false;
+            return FALSE;
         }
 
         // the default behavior is to use "username" as the user_id
@@ -137,7 +137,7 @@ class Redis implements AuthorizationCodeInterface,
         ), $userInfo);
     }
 
-    public function setUser($username, $password, $first_name = null, $last_name = null)
+    public function setUser($username, $password, $first_name = NULL, $last_name = NULL)
     {
         return $this->setValue(
             $this->config['user_key'] . $username,
@@ -146,10 +146,10 @@ class Redis implements AuthorizationCodeInterface,
     }
 
     /* ClientCredentialsInterface */
-    public function checkClientCredentials($client_id, $client_secret = null)
+    public function checkClientCredentials($client_id, $client_secret = NULL)
     {
         if (!$client = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         return isset($client['client_secret'])
@@ -159,7 +159,7 @@ class Redis implements AuthorizationCodeInterface,
     public function isPublicClient($client_id)
     {
         if (!$client = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         return empty($result['client_secret']);
@@ -171,7 +171,7 @@ class Redis implements AuthorizationCodeInterface,
         return $this->getValue($this->config['client_key'] . $client_id);
     }
 
-    public function setClientDetails($client_id, $client_secret = null, $redirect_uri = null, $grant_types = null, $scope = null, $user_id = null)
+    public function setClientDetails($client_id, $client_secret = NULL, $redirect_uri = NULL, $grant_types = NULL, $scope = NULL, $user_id = NULL)
     {
         return $this->setValue(
             $this->config['client_key'] . $client_id,
@@ -189,7 +189,7 @@ class Redis implements AuthorizationCodeInterface,
         }
 
         // if grant_types are not defined, then none are restricted
-        return true;
+        return TRUE;
     }
 
     /* RefreshTokenInterface */
@@ -198,7 +198,7 @@ class Redis implements AuthorizationCodeInterface,
         return $this->getValue($this->config['refresh_token_key'] . $refresh_token);
     }
 
-    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         return $this->setValue(
             $this->config['refresh_token_key'] . $refresh_token,
@@ -218,7 +218,7 @@ class Redis implements AuthorizationCodeInterface,
         return $this->getValue($this->config['access_token_key'].$access_token);
     }
 
-    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = null)
+    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         return $this->setValue(
             $this->config['access_token_key'].$access_token,
@@ -244,7 +244,7 @@ class Redis implements AuthorizationCodeInterface,
         return (count(array_diff($scope, $supportedScope)) == 0);
     }
 
-    public function getDefaultScope($client_id = null)
+    public function getDefaultScope($client_id = NULL)
     {
         if (is_null($client_id) || !$result = $this->getValue($this->config['scope_key'].'default:'.$client_id)) {
             $result = $this->getValue($this->config['scope_key'].'default:global');
@@ -253,7 +253,7 @@ class Redis implements AuthorizationCodeInterface,
         return $result;
     }
 
-    public function setScope($scope, $client_id = null, $type = 'supported')
+    public function setScope($scope, $client_id = NULL, $type = 'supported')
     {
         if (!in_array($type, array('default', 'supported'))) {
             throw new \InvalidArgumentException('"$type" must be one of "default", "supported"');
@@ -272,17 +272,17 @@ class Redis implements AuthorizationCodeInterface,
     public function getClientKey($client_id, $subject)
     {
         if (!$jwt = $this->getValue($this->config['jwt_key'] . $client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($jwt['subject']) && $jwt['subject'] == $subject) {
             return $jwt['key'];
         }
 
-        return null;
+        return NULL;
     }
 
-    public function setClientKey($client_id, $key, $subject = null)
+    public function setClientKey($client_id, $key, $subject = NULL)
     {
         return $this->setValue($this->config['jwt_key'] . $client_id, array(
             'key' => $key,
@@ -293,14 +293,14 @@ class Redis implements AuthorizationCodeInterface,
     public function getClientScope($client_id)
     {
         if (!$clientDetails = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($clientDetails['scope'])) {
             return $clientDetails['scope'];
         }
 
-        return null;
+        return NULL;
     }
 
     public function getJti($client_id, $subject, $audience, $expiration, $jti)

@@ -24,7 +24,8 @@
                     <select name="year" class="form-control">
                         <option value="">All Years</option>                         
                         <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $k; ?>"<?php if($currentYear == $k) {echo "selected";} ?>>
+                            <option value="<?php echo $k; ?>"<?php if($currentYear == $k) {echo "selected";
+                           } ?>>
                               <?php echo $v; ?></option>
                         <?php endforeach; ?>                        
                     </select>   
@@ -73,8 +74,10 @@
                             <td><?php echo easol_year($year);  ?></td>
                             <td><?php echo implode(', ', $v['Term']); ?></td>
                           </tr>
-                        <?php endforeach; endforeach; ?>
-                    <?php endif; ?>
+                        <?php endforeach;
+
+                        endforeach; ?>
+                      <?php endif; ?>
                   </tbody>
                 </table>
                 

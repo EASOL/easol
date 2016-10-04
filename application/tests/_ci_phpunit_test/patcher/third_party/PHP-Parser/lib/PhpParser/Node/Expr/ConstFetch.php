@@ -16,12 +16,14 @@ class ConstFetch extends Expr
      * @param Name  $name       Constant name
      * @param array $attributes Additional attributes
      */
-    public function __construct(Name $name, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(Name $name, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->name = $name;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('name');
     }
 }

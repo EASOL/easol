@@ -23,7 +23,8 @@ class Edfi_School extends Easol_baseentity {
 
 
 
-    public function getAllSchools(){
+    public function getAllSchools()
+    {
          return $this->db->query("SELECT EducationOrganization.EducationOrganizationId,
                   EducationOrganization.NameOfInstitution/*, EducationOrganizationAddress.City*/
                   FROM edfi.EducationOrganization

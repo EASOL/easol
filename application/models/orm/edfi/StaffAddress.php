@@ -12,7 +12,8 @@ class StaffAddress extends ORM {
 
 	public $foreign_key = array('\\model\\edfi\\staff' => 'StaffUSI');
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Staff' => ORM::belongs_to('\\Model\\Edfi\\Staff')

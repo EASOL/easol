@@ -13,7 +13,7 @@ class AuthorizationCode extends BaseAuthorizationCode
 {
     public function createAccessToken(AccessTokenInterface $accessToken, $client_id, $user_id, $scope)
     {
-        $includeRefreshToken = true;
+        $includeRefreshToken = TRUE;
         if (isset($this->authCode['id_token'])) {
             // OpenID Connect requests include the refresh token only if the
             // offline_access scope has been requested and granted.

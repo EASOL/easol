@@ -54,7 +54,7 @@ class CI_Loader {
 	/**
 	 * Nesting level of the output buffering mechanism
 	 *
-	 * @var	int
+	 * @var	integer
 	 */
 	protected $_ci_ob_level;
 
@@ -166,7 +166,7 @@ class CI_Loader {
 	 *
 	 * @used-by	Mainly used by Form Helper function _get_validation_object().
 	 *
-	 * @param 	string		$class	Class name to check for
+	 * @param 	string $class Class name to check for
 	 * @return 	string|bool	Class object name if loaded or FALSE
 	 */
 	public function is_loaded($class)
@@ -182,8 +182,8 @@ class CI_Loader {
 	 * Loads and instantiates libraries.
 	 * Designed to be called from application controllers.
 	 *
-	 * @param	string	$library	Library name
-	 * @param	array	$params		Optional parameters to pass to the library class constructor
+	 * @param	string $library     Library name
+	 * @param	array  $params      Optional parameters to pass to the library class constructor
 	 * @param	string	$object_name	An optional object name to assign to
 	 * @return	object
 	 */
@@ -226,9 +226,9 @@ class CI_Loader {
 	 *
 	 * Loads and instantiates models.
 	 *
-	 * @param	string	$model		Model name
-	 * @param	string	$name		An optional object name to assign to
-	 * @param	bool	$db_conn	An optional database connection configuration to initialize
+	 * @param	string $model   Model name
+	 * @param	string $name    An optional object name to assign to
+	 * @param	bool   $db_conn An optional database connection configuration to initialize
 	 * @return	object
 	 * 
 	 * modified by ci-phpunit-test
@@ -331,9 +331,9 @@ class CI_Loader {
 	/**
 	 * Database Loader
 	 *
-	 * @param	mixed	$params		Database configuration options
-	 * @param	bool	$return 	Whether to return the database object
-	 * @param	bool	$query_builder	Whether to enable Query Builder
+	 * @param	mixed $params        Database configuration options
+	 * @param	bool  $return        Whether to return the database object
+	 * @param	bool  $query_builder Whether to enable Query Builder (overrides the configuration setting)
 	 *					(overrides the configuration setting)
 	 *
 	 * @return	object|bool	Database object if $return is set to TRUE,
@@ -371,8 +371,8 @@ class CI_Loader {
 	/**
 	 * Load the Database Utilities Class
 	 *
-	 * @param	object	$db	Database object
-	 * @param	bool	$return	Whether to return the DB Utilities class object or not
+	 * @param	object $db     Database object
+	 * @param	bool   $return Whether to return the DB Utilities class object or not
 	 * @return	object
 	 */
 	public function dbutil($db = NULL, $return = FALSE)
@@ -403,8 +403,8 @@ class CI_Loader {
 	/**
 	 * Load the Database Forge Class
 	 *
-	 * @param	object	$db	Database object
-	 * @param	bool	$return	Whether to return the DB Forge class object or not
+	 * @param	object $db     Database object
+	 * @param	bool   $return Whether to return the DB Forge class object or not
 	 * @return	object
 	 */
 	public function dbforge($db = NULL, $return = FALSE)
@@ -449,10 +449,10 @@ class CI_Loader {
 	 *
 	 * Loads "view" files.
 	 *
-	 * @param	string	$view	View name
-	 * @param	array	$vars	An associative array of data
+	 * @param	string $view   View name
+	 * @param	array  $vars   An associative array of data to be extracted for use in the view to be extracted for use in the view
 	 *				to be extracted for use in the view
-	 * @param	bool	$return	Whether to return the view output
+	 * @param	bool   $return Whether to return the view output or leave it to the Output class
 	 *				or leave it to the Output class
 	 * @return	object|string
 	 */
@@ -466,8 +466,8 @@ class CI_Loader {
 	/**
 	 * Generic File Loader
 	 *
-	 * @param	string	$path	File path
-	 * @param	bool	$return	Whether to return the file output
+	 * @param	string $path   File path
+	 * @param	bool   $return Whether to return the file output
 	 * @return	object|string
 	 */
 	public function file($path, $return = FALSE)
@@ -486,7 +486,7 @@ class CI_Loader {
 	 * @param	array|object|string	$vars
 	 *					An associative array or object containing values
 	 *					to be set, or a value's name if string
-	 * @param 	string	$val	Value to set, only used if $vars is a string
+	 * @param 	string              $val  Value to set, only used if $vars is a string
 	 * @return	object
 	 */
 	public function vars($vars, $val = '')
@@ -644,7 +644,7 @@ class CI_Loader {
 	 *
 	 * Loads language files.
 	 *
-	 * @param	string|string[]	$files	List of language file names to load
+	 * @param	string|string[]       $files List of language file names to load
 	 * @param	string		Language name
 	 * @return	object
 	 */
@@ -662,9 +662,9 @@ class CI_Loader {
 	 * Loads a config file (an alias for CI_Config::load()).
 	 *
 	 * @uses	CI_Config::load()
-	 * @param	string	$file			Configuration file name
-	 * @param	bool	$use_sections		Whether configuration values should be loaded into their own section
-	 * @param	bool	$fail_gracefully	Whether to just return FALSE or display an error message
+	 * @param	string $file            Configuration file name
+	 * @param	bool   $use_sections    Whether configuration values should be loaded into their own section
+	 * @param	bool   $fail_gracefully Whether to just return FALSE or display an error message
 	 * @return	bool	TRUE if the file was loaded correctly or FALSE on failure
 	 */
 	public function config($file, $use_sections = FALSE, $fail_gracefully = FALSE)
@@ -679,9 +679,9 @@ class CI_Loader {
 	 *
 	 * Loads a driver library.
 	 *
-	 * @param	string|string[]	$library	Driver name(s)
-	 * @param	array		$params		Optional parameters to pass to the driver
-	 * @param	string		$object_name	An optional object name to assign to
+	 * @param	string|string[] $library     Driver name(s)
+	 * @param	array           $params      Optional parameters to pass to the driver
+	 * @param	string          $object_name An optional object name to assign to
 	 *
 	 * @return	object|bool	Object or FALSE on failure if $library is a string
 	 *				and $object_name is set. CI_Loader instance otherwise.
@@ -731,8 +731,8 @@ class CI_Loader {
 	 * @see CI_Loader::$_ci_helper_paths
 	 * @see CI_Config::$_config_paths
 	 *
-	 * @param	string	$path		Path to add
-	 * @param 	bool	$view_cascade	(default: TRUE)
+	 * @param	string $path         Path to add
+	 * @param 	bool   $view_cascade (default: TRUE)
 	 * @return	object
 	 */
 	public function add_package_path($path, $view_cascade = TRUE)
@@ -970,8 +970,8 @@ class CI_Loader {
 	 * @used-by	CI_Loader::library()
 	 * @uses	CI_Loader::_ci_init_library()
 	 *
-	 * @param	string	$class		Class name to load
-	 * @param	mixed	$params		Optional parameters to pass to the class constructor
+	 * @param	string $class       Class name to load
+	 * @param	mixed  $params      Optional parameters to pass to the class constructor
 	 * @param	string	$object_name	Optional object name to assign to
 	 * @return	void
 	 * 
@@ -1065,9 +1065,9 @@ class CI_Loader {
 	 * @used-by	CI_Loader::_ci_load_library()
 	 * @uses	CI_Loader::_ci_init_library()
 	 *
-	 * @param	string	$library	Library name to load
-	 * @param	string	$file_path	Path to the library filename, relative to libraries/
-	 * @param	mixed	$params		Optional parameters to pass to the class constructor
+	 * @param	string $library     Library name to load
+	 * @param	string $file_path   Path to the library filename, relative to libraries/
+	 * @param	mixed  $params      Optional parameters to pass to the class constructor
 	 * @param	string	$object_name	Optional object name to assign to
 	 * @return	void
 	 * 
@@ -1154,13 +1154,13 @@ class CI_Loader {
 	 * @used-by	CI_Loader::_ci_load_stock_library()
 	 * @used-by	CI_Loader::_ci_load_library()
 	 *
-	 * @param	string		$class		Class name
-	 * @param	string		$prefix		Class name prefix
-	 * @param	array|null|bool	$config		Optional configuration to pass to the class constructor:
+	 * @param	string          $class       Class name
+	 * @param	string          $prefix      Class name prefix
+	 * @param	array|null|bool $config      Optional configuration to pass to the class constructor: FALSE to skip; NULL to search in config paths; array containing configuration data
 	 *						FALSE to skip;
 	 *						NULL to search in config paths;
 	 *						array containing configuration data
-	 * @param	string		$object_name	Optional object name to assign to
+	 * @param	string          $object_name Optional object name to assign to
 	 * @return	void
 	 */
 	protected function _ci_init_library($class, $prefix, $config = FALSE, $object_name = NULL)
@@ -1377,8 +1377,8 @@ class CI_Loader {
 	 * This function prepares filenames of various items to
 	 * make their loading more reliable.
 	 *
-	 * @param	string|string[]	$filename	Filename(s)
-	 * @param 	string		$extension	Filename extension
+	 * @param	string|string[] $filename  Filename(s)
+	 * @param 	string          $extension Filename extension
 	 * @return	array
 	 */
 	protected function _ci_prep_filename($filename, $extension)

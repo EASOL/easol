@@ -24,7 +24,8 @@ class Lexer
      *                       'startFilePos', 'endFilePos'. The option defaults to the first three.
      *                       For more info see getNextToken() docs.
      */
-    public function __construct(array $options = array()) {
+    public function __construct(array $options = array()) 
+    {
         // map from internal tokens to PhpParser tokens
         $this->tokenMap = $this->createTokenMap();
 
@@ -37,7 +38,7 @@ class Lexer
         $options += array(
             'usedAttributes' => array('comments', 'startLine', 'endLine'),
         );
-        $this->usedAttributes = array_fill_keys($options['usedAttributes'], true);
+        $this->usedAttributes = array_fill_keys($options['usedAttributes'], TRUE);
     }
 
     /**
@@ -47,14 +48,15 @@ class Lexer
      *
      * @throws Error on lexing errors (unterminated comment or unexpected character)
      */
-    public function startLexing($code) {
+    public function startLexing($code) 
+    {
         $scream = ini_set('xdebug.scream', '0');
 
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
         $this->handleErrors();
 
-        if (false !== $scream) {
+        if (FALSE !== $scream) {
             ini_set('xdebug.scream', $scream);
         }
 
@@ -64,14 +66,18 @@ class Lexer
         $this->filePos = 0;
     }
 
-    protected function resetErrors() {
+    protected function resetErrors() 
+    {
         // set error_get_last() to defined state by forcing an undefined variable error
-        set_error_handler(function() { return false; }, 0);
+        set_error_handler(function() { return FALSE;
+
+        }, 0);
         @$undefinedVariable;
         restore_error_handler();
     }
 
-    protected function handleErrors() {
+    protected function handleErrors() 
+    {
         $error = error_get_last();
 
         if (preg_match(
@@ -119,7 +125,8 @@ class Lexer
      *
      * @return int Token id
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+    public function getNextToken(&$value = NULL, &$startAttributes = NULL, &$endAttributes = NULL) 
+    {
         $startAttributes = array();
         $endAttributes   = array();
 
@@ -210,7 +217,8 @@ class Lexer
      *
      * @return array Array of tokens in token_get_all() format
      */
-    public function getTokens() {
+    public function getTokens() 
+    {
         return $this->tokens;
     }
 
@@ -219,7 +227,8 @@ class Lexer
      *
      * @return string Remaining text
      */
-    public function handleHaltCompiler() {
+    public function handleHaltCompiler() 
+    {
         // text after T_HALT_COMPILER, still including ();
         $textAfter = substr($this->code, $this->filePos);
 
@@ -246,7 +255,8 @@ class Lexer
      *
      * @return array The token map
      */
-    protected function createTokenMap() {
+    protected function createTokenMap() 
+    {
         $tokenMap = array();
 
         // 256 is the minimum possible token number, as everything below

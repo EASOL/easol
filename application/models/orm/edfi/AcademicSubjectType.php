@@ -10,7 +10,8 @@ class AcademicSubjectType extends ORM {
 	public $table = "edfi.AcademicSubjectType";
 	public $primary_key = 'AcademicSubjectTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'AcademicSubjectDescriptor'=> ORM::has_many('\\Model\\Edfi\\AcademicSubjectDescriptor'),

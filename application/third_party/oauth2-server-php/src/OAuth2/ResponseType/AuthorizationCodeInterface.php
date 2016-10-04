@@ -26,5 +26,5 @@ interface AuthorizationCodeInterface extends ResponseTypeInterface
      * @see http://tools.ietf.org/html/rfc6749#section-4
      * @ingroup oauth2_section_4
      */
-    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = null);
+    public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = NULL);
 }
