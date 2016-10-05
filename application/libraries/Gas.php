@@ -73,9 +73,9 @@ class Gas {
 		if (static::$init == FALSE)
 		{
 			// Register exception and error handler
-			set_exception_handler(function($e) {
-				Gas::exception($e);
-			});
+			/*set_exception_handler(function($e) {
+				Gas::Exception($e);
+			});*/
 
 			// Access current instance singleton
 			$CI =& get_instance();

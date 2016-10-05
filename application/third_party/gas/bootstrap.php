@@ -7,7 +7,7 @@
  */
  
 // Set error level
-if (ENVIRONMENT === 'testing') error_reporting(E_STRICT);
+// if (ENVIRONMENT === 'testing' OR ENVIRONMENT === 'development') error_reporting(E_STRICT);
 
 // Check the environment var
 if ( ! defined('DB_GROUP'))

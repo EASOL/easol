@@ -27,7 +27,7 @@
 */
 
 $config['models_path'] = array(
-	'Model' => APPPATH . 'models/orm/'
+	'Model' => APPPATH . 'models/orm'
 );
 
 
