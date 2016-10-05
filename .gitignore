@@ -14,4 +14,4 @@ logs
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-*/vendor/*
+/vendor/*
