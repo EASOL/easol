@@ -8,7 +8,7 @@
 
         <div class="panel panel-default">
             <div class="panel-body">
-
+ 
                 <form action="" method="get" class="form-inline" name="dataGridFormFilter" id="dataGridFormFilter">
 
                     <div class="row">
@@ -18,24 +18,23 @@
                     </div>
                     <div class="form-group">
                         <label for="filter-Year">Year</label>
-                        <?php echo form_dropdown('filter[Year]', $year_listing, '', "class='form-control' id='Year'"); ?>
+                        <?php echo form_dropdown('filter[Year]', filter_year_listing($school_id), '', "class='form-control' id='Year'"); ?>
                     </div>
 
                     <div class="form-group">
                         <label for="filter-GradeLevel">Grade Level</label>
 
-                        <?php echo form_dropdown('filter[GradeLevel]', $grade_listing, '', "class='form-control'"); ?>
+                        <?php echo form_dropdown('filter[GradeLevel]', filter_grade_listing($school_id), '', "class='form-control'"); ?>
                     </div>
 
                     <div class="form-group">
                         <label for="filter-Subject">Cohort</label>
-
-                        <?php echo form_dropdown('filter[Cohort]', $cohort_listing, '', "class='form-control'"); ?>
+                        <?php echo form_dropdown('filter[Cohort]', filter_cohort_listing(), '', "class='form-control'"); ?>
                     </div>
 
                     <div class="form-group">
                         <label for="filter-PageLength">Records Per Page:</label>
-                        <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
+                        <?php echo form_dropdown('filter[PageLength]', filter_page_size_listing(), '', "class='form-control'"); ?>
                     </div>
                 </form>
 

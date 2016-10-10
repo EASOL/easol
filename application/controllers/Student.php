@@ -35,42 +35,12 @@ LEFT JOIN edfi.StudentCohortAssociation ON
 WHERE
      StudentSchoolAssociation.SchoolId = '".Easol_Auth::userdata('SchoolId')."'
 
-                  ";
-
+     ";
+ 
         $query = $this->db->query($query);
         $data['student_listing'] = $query->result();
-
-        $query = "SELECT * FROM edfi.GradeLevelType where GradeLevelTypeId in (SELECT distinct GradeLevelType.GradeLevelTypeId from edfi.StudentSchoolAssociation
-INNER JOIN edfi.Student ON
-     StudentSchoolAssociation.StudentUSI = Student.StudentUSI
-INNER JOIN edfi.GradeLevelDescriptor ON
-     StudentSchoolAssociation.EntryGradeLevelDescriptorId = GradeLevelDescriptor.GradeLevelDescriptorId
-INNER JOIN edfi.GradeLevelType ON
-     GradeLevelDescriptor.GradeLevelTypeId = GradeLevelType.GradeLevelTypeId
-LEFT JOIN edfi.StudentCohortAssociation ON
-      StudentCohortAssociation.EducationOrganizationId = StudentSchoolAssociation.SchoolId AND StudentCohortAssociation.StudentUSI = StudentSchoolAssociation.StudentUSI
- WHERE StudentSchoolAssociation.SchoolId = '" . Easol_Auth::userdata('SchoolId') . "' and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ";
-        $query = $this->db->query($query);
-        $data['grade_listing'] = [''=>'All Grades'];
-        foreach ($query->result() as $row) {
-            $data['grade_listing'][$row->GradeLevelTypeId] = $row->Description;
-        }
-
-
-         $query = "SELECT DISTINCT edfi.StudentCohortAssociation.CohortIdentifier FROM edfi.StudentCohortAssociation";
-         $query = $this->db->query($query);
-
-         $data['cohort_listing'] = [''=>'All Cohorts'];
-         foreach ($query->result() as $row) {
-              $data['cohort_listing'][$row->CohortIdentifier] = $row->CohortIdentifier;
-         }
-
-         $data['year_listing'] = [];
-         foreach ($data['student_listing'] as $row) {
-              $data['year_listing'][easol_year($row->SchoolYear)] = easol_year($row->SchoolYear);
-         }
-
-
+        $data['school_id'] = Easol_Auth::userdata('SchoolId');
+ 
         $this->render("index", $data);
     }
 
@@ -113,7 +83,7 @@ LEFT JOIN edfi.StudentCohortAssociation ON
         $this->load->model('entities/edfi/Edfi_Student','Edfi_Student');
 
 
-
+ 
         $student = $this->Edfi_Student->hydrate($this->Edfi_Student->findOne(['StudentUSI' => $id]));
 
 

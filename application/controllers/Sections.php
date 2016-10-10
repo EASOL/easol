@@ -15,7 +15,7 @@ public function index()
     {
         $data = array();
 
-        $data['filters']                = $_GET;
+        $data['filters']                = $this -> input -> get();
        
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
         $data['currentYear_default']    = (isset($data['filters']['year'])) ? $data['filters']['year'] : Easol_SchoolConfiguration::setDefault('Year', $data['currentYear']);
