@@ -2267,9 +2267,9 @@ class Core {
 			$fragments = explode('\\', $class);
 			
 			// Parse the namespace spec for further process
-			$namespace = strtolower(array_shift($fragments));
-			$filename  = strtolower(array_pop($fragments));
-			$ori_path  = strtolower(implode(DIRECTORY_SEPARATOR, $fragments));
+			$namespace = array_shift($fragments);
+			$filename  = array_pop($fragments);
+			$ori_path  = implode(DIRECTORY_SEPARATOR, $fragments);
 
 			// Finalize the path
 			$full_namespace = (empty($ori_path)) ? $namespace : $namespace.'\\'.str_replace(DIRECTORY_SEPARATOR, '\\', $ori_path);
@@ -2299,15 +2299,15 @@ class Core {
 			}
 
 			// Process matched directory
-			if (array_key_exists($namespace, static::$path)
-			    && ($directories = static::$path[$namespace]))
+			if (array_key_exists(strtolower($namespace), static::$path)
+			    && ($directories = static::$path[strtolower($namespace)]))
 			{
 				// Walk through files and possible path
 				foreach ($directories as $ns => $dir)
 				{
-					$orm_path = str_replace(strtolower($ns), '', $full_namespace);
-					$orm_path = str_replace('\\', DIRECTORY_SEPARATOR, $orm_path).DIRECTORY_SEPARATOR;
-
+					$orm_path = str_replace($ns, '', $full_namespace);
+					$orm_path = strtolower(str_replace('\\', DIRECTORY_SEPARATOR, $orm_path).DIRECTORY_SEPARATOR);
+					$filename = str_replace('Model', '', $filename);
 					if (file_exists($dir.$orm_path.$filename.'.php'))
 					{
 						include_once($dir.$orm_path.$filename.'.php');

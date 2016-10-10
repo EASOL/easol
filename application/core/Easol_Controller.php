@@ -68,7 +68,7 @@ class Easol_Controller extends CI_Controller {
 		if (strpos($this->router->fetch_directory(), 'modules/') !== FALSE)
 			$this->load->view($this->router->fetch_class() . '/' . $view, $params);
 		else
-			$this->load->view($this->router->fetch_directory() . $this->router->fetch_class() . '/' . $view, $params);
+			$this->load->view($this->router->fetch_directory() . ucfirst($this->router->fetch_class()) . '/' . $view, $params);
 		$content = ob_get_contents();
 		ob_clean();
 

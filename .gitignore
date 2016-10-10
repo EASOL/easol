@@ -8,3 +8,13 @@ application/config/database.php
 logs
 /application/tests/build/coverage
 /application/config/carabiner.php
+
+*/logs/log-*.php
+!*/logs/index.html
+*/cache/*
+!*/cache/index.html
+!*/cache/.htaccess
+/vendor/*
+
+composer.phar
+composer.lock
