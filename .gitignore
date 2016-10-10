@@ -14,7 +14,3 @@ logs
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-/vendor/*
-
-composer.phar
-composer.lock
