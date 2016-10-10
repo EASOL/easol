@@ -12,48 +12,26 @@
                 <form class="form-inline" id="dataGridFormFilter">
                   <div class="form-group">
                       <label for="term">Term</label>
-                      <select name="term" class="form-control">
-                          <option value="">All Terms</option>                       
-                          <?php foreach($terms as $k => $v): ?>
-                            <option value="<?php echo $v->CodeValue; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";
-                           } ?> ><?php echo $v->CodeValue; ?></option>
-                          <?php endforeach; ?>                        
-                      </select>   
+                      <?php echo form_dropdown('term', filter_terms_listing($school_id), $currentTerm_default, "class='form-control'")?>
                   </div>
                   <div class="form-group">
                       <label for="year">School Year</label>
-                      <select name="year" class="form-control">
-                          <option value="">All Years</option>                       
-                          <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $k; ?>" <?php if($currentYear_default == $k) {echo "selected";
-                           } ?> ><?php echo $v; ?></option>
-                          <?php endforeach; ?>                        
-                      </select>   
+                      <?php echo form_dropdown('year', filter_year_listing($school_id), $currentYear_default, 'class="form-control"')?>
                   </div>
                   <div class="form-group">
                       <label for="course">Course</label>
-                      <select name="course" class="form-control">
-                          <option value="">All Courses</option>                       
-                          <?php foreach($courses as $k => $v): ?>
-                            <option value="<?php echo $v->CourseCode; ?>"><?php echo $v->CourseTitle; ?></option>
-                          <?php endforeach; ?>                        
-                      </select>   
+                      <?php echo form_dropdown('course', filter_courses_listing($school_id), '', 'class="form-control"')?>
                   </div>
                     <?php if($userCanFilter){ ?>
                   <div class="form-group">
                       <label for="educator">Educator</label>
-                      <select name="educator" class="form-control">
-                          <option value="">All Educators</option>                       
-                          <?php foreach($educators as $k => $v): ?>
-                            <option value="<?php echo $v->FullName; ?>"><?php echo $v->FullName; ?></option>
-                          <?php endforeach; ?>                        
-                      </select>   
+                      <?php echo form_dropdown('educator', filter_educators_listing($school_id), '', 'class="form-control"')?>
                   </div>    
                     <?php } ?>
                     
                     <div class="form-group">
                         <label for="filter-PageLength">Records Per Page:</label>
-                        <?php echo form_dropdown('filter[PageLength]', ['25' => '25', '50' => '50', '100' => '100'], '', "class='form-control'"); ?>
+                        <?php echo form_dropdown('filter[PageLength]', filter_page_size_listing(), '', "class='form-control'"); ?>
                     </div>
                 </form>
                 
