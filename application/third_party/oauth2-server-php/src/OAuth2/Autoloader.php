@@ -12,7 +12,7 @@ class Autoloader
 {
     private $dir;
 
-    public function __construct($dir = null)
+    public function __construct($dir = NULL)
     {
         if (is_null($dir)) {
             $dir = dirname(__FILE__).'/..';
@@ -22,7 +22,7 @@ class Autoloader
     /**
      * Registers OAuth2\Autoloader as an SPL autoloader.
      */
-    public static function register($dir = null)
+    public static function register($dir = NULL)
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(new self($dir), 'autoload'));

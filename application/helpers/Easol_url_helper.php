@@ -9,11 +9,13 @@ function current_url_full()
 }
 
 
-function strip_accents($string){
-	return strtr($string,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+function strip_accents($string)
+{
+	return strtr($string, 'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ', 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
 }
 
-function slug($url) {
+function slug($url) 
+{
 	$url = strtolower(str_replace(array(" ", "&"), array("-", "-and-"), $url));
 	$url = str_replace(array("(", ")", ".", "@", "#", "$", "%", "¨", "*", "{", "[", "}", "]", "\"", "'", "=", "+", "§", "ª", "º", ",", "/", "\\", "~", "^"), "", $url);
 	$url = str_replace("--", "-", str_replace("--", "-", $url));

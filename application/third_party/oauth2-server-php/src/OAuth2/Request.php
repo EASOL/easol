@@ -31,7 +31,7 @@ class Request implements RequestInterface
      *
      * @api
      */
-    public function __construct(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null, array $headers = null)
+    public function __construct(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = NULL, array $headers = NULL)
     {
         $this->initialize($query, $request, $attributes, $cookies, $files, $server, $content, $headers);
     }
@@ -51,7 +51,7 @@ class Request implements RequestInterface
      *
      * @api
      */
-    public function initialize(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null, array $headers = null)
+    public function initialize(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = NULL, array $headers = NULL)
     {
         $this->request = $request;
         $this->query = $query;
@@ -63,22 +63,22 @@ class Request implements RequestInterface
         $this->headers = is_null($headers) ? $this->getHeadersFromServer($this->server) : $headers;
     }
 
-    public function query($name, $default = null)
+    public function query($name, $default = NULL)
     {
         return isset($this->query[$name]) ? $this->query[$name] : $default;
     }
 
-    public function request($name, $default = null)
+    public function request($name, $default = NULL)
     {
         return isset($this->request[$name]) ? $this->request[$name] : $default;
     }
 
-    public function server($name, $default = null)
+    public function server($name, $default = NULL)
     {
         return isset($this->server[$name]) ? $this->server[$name] : $default;
     }
 
-    public function headers($name, $default = null)
+    public function headers($name, $default = NULL)
     {
         $headers = array_change_key_case($this->headers);
         $name = strtolower($name);
@@ -98,19 +98,19 @@ class Request implements RequestInterface
      *
      * @return string|resource The request body content or a resource to read the body stream.
      */
-    public function getContent($asResource = false)
+    public function getContent($asResource = FALSE)
     {
-        if (false === $this->content || (true === $asResource && null !== $this->content)) {
+        if (FALSE === $this->content || (TRUE === $asResource && NULL !== $this->content)) {
             throw new \LogicException('getContent() can only be called once when using the resource return type.');
         }
 
-        if (true === $asResource) {
-            $this->content = false;
+        if (TRUE === $asResource) {
+            $this->content = FALSE;
 
             return fopen('php://input', 'rb');
         }
 
-        if (null === $this->content) {
+        if (NULL === $this->content) {
             $this->content = file_get_contents('php://input');
         }
 
@@ -146,7 +146,7 @@ class Request implements RequestInterface
              * RewriteRule ^(.*)$ app.php [QSA,L]
              */
 
-            $authorizationHeader = null;
+            $authorizationHeader = NULL;
             if (isset($server['HTTP_AUTHORIZATION'])) {
                 $authorizationHeader = $server['HTTP_AUTHORIZATION'];
             } elseif (isset($server['REDIRECT_HTTP_AUTHORIZATION'])) {
@@ -162,7 +162,7 @@ class Request implements RequestInterface
                 }
             }
 
-            if (null !== $authorizationHeader) {
+            if (NULL !== $authorizationHeader) {
                 $headers['AUTHORIZATION'] = $authorizationHeader;
                 // Decode AUTHORIZATION header into PHP_AUTH_USER and PHP_AUTH_PW when authorization header is basic
                 if (0 === stripos($authorizationHeader, 'basic')) {
@@ -204,7 +204,7 @@ class Request implements RequestInterface
         } elseif (0 === strpos($contentType, 'application/json')
             && in_array(strtoupper($requestMethod), array('POST', 'PUT', 'DELETE'))
         ) {
-            $data = json_decode($request->getContent(), true);
+            $data = json_decode($request->getContent(), TRUE);
             $request->request = $data;
         }
 

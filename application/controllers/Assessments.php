@@ -6,11 +6,13 @@ class Assessments extends Easol_Controller {
 	/**
 	 * default constructor
 	 */
-	public function __construct(){
+	public function __construct()
+ {
 		parent::__construct();
 	}
 
-	protected function accessRules(){
+	protected function accessRules()
+ {
 		return [
 			"index"     =>  ['System Administrator','Data Administrator','School Administrator'],
 		];
@@ -18,7 +20,8 @@ class Assessments extends Easol_Controller {
 	/**
 	 * index action
 	 */
-	public function index() {
+	public function index() 
+ {
 		$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
 		$currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
 
@@ -85,7 +88,8 @@ class Assessments extends Easol_Controller {
 	 * @param $AssessedGradeLevelDescriptorId
 	 * @param $AdministrationDate
 	 */
-	public function details($AssessmentTitle, $AcademicSubjectDescriptorId, $AssessedGradeLevelDescriptorId,  $Version, $AdministrationDate) {
+	public function details($AssessmentTitle, $AcademicSubjectDescriptorId, $AssessedGradeLevelDescriptorId,  $Version, $AdministrationDate) 
+ {
 
 		$AdministrationDate = date('Y-m-d', $AdministrationDate);
 		$AssessmentTitle = base64_decode(urldecode($AssessmentTitle));

@@ -65,7 +65,7 @@ class Cassandra implements AuthorizationCodeInterface,
             }
             $connection = array_merge(array(
                 'keyspace' => 'oauth2',
-                'servers'  => null,
+                'servers'  => NULL,
             ), $connection);
 
             $this->cassandra = new ConnectionPool($connection['keyspace'], $connection['servers']);
@@ -98,10 +98,10 @@ class Cassandra implements AuthorizationCodeInterface,
             $value = $cf->get($key, new ColumnSlice("", ""));
             $value = array_shift($value);
         } catch (\cassandra\NotFoundException $e) {
-            return false;
+            return FALSE;
         }
 
-        return json_decode($value, true);
+        return json_decode($value, TRUE);
     }
 
     protected function setValue($key, $value, $expire = 0)
@@ -115,20 +115,20 @@ class Cassandra implements AuthorizationCodeInterface,
             try {
                 $seconds = $expire - time();
                 // __data key set as C* requires a field, note: max TTL can only be 630720000 seconds
-                $cf->insert($key, array('__data' => $str), null, $seconds);
+                $cf->insert($key, array('__data' => $str), NULL, $seconds);
             } catch (\Exception $e) {
-                return false;
+                return FALSE;
             }
         } else {
             try {
                 // __data key set as C* requires a field
                 $cf->insert($key, array('__data' => $str));
             } catch (\Exception $e) {
-                return false;
+                return FALSE;
             }
         }
 
-        return true;
+        return TRUE;
     }
 
     protected function expireValue($key)
@@ -140,10 +140,10 @@ class Cassandra implements AuthorizationCodeInterface,
             // __data key set as C* requires a field
             $cf->remove($key, array('__data'));
         } catch (\Exception $e) {
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     /* AuthorizationCodeInterface */
@@ -152,7 +152,7 @@ class Cassandra implements AuthorizationCodeInterface,
         return $this->getValue($this->config['code_key'] . $code);
     }
 
-    public function setAuthorizationCode($authorization_code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null)
+    public function setAuthorizationCode($authorization_code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL, $id_token = NULL)
     {
         return $this->setValue(
             $this->config['code_key'] . $authorization_code,
@@ -176,7 +176,7 @@ class Cassandra implements AuthorizationCodeInterface,
             return $this->checkPassword($user, $password);
         }
 
-        return false;
+        return FALSE;
     }
 
     // plaintext passwords are bad!  Override this for your application
@@ -193,7 +193,7 @@ class Cassandra implements AuthorizationCodeInterface,
     public function getUser($username)
     {
         if (!$userInfo = $this->getValue($this->config['user_key'] . $username)) {
-            return false;
+            return FALSE;
         }
 
         // the default behavior is to use "username" as the user_id
@@ -202,7 +202,7 @@ class Cassandra implements AuthorizationCodeInterface,
         ), $userInfo);
     }
 
-    public function setUser($username, $password, $first_name = null, $last_name = null)
+    public function setUser($username, $password, $first_name = NULL, $last_name = NULL)
     {
         $password = sha1($password);
 
@@ -213,10 +213,10 @@ class Cassandra implements AuthorizationCodeInterface,
     }
 
     /* ClientCredentialsInterface */
-    public function checkClientCredentials($client_id, $client_secret = null)
+    public function checkClientCredentials($client_id, $client_secret = NULL)
     {
         if (!$client = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         return isset($client['client_secret'])
@@ -226,10 +226,11 @@ class Cassandra implements AuthorizationCodeInterface,
     public function isPublicClient($client_id)
     {
         if (!$client = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
-        return empty($result['client_secret']);;
+        return empty($result['client_secret']);
+;
     }
 
     /* ClientInterface */
@@ -238,7 +239,7 @@ class Cassandra implements AuthorizationCodeInterface,
         return $this->getValue($this->config['client_key'] . $client_id);
     }
 
-    public function setClientDetails($client_id, $client_secret = null, $redirect_uri = null, $grant_types = null, $scope = null, $user_id = null)
+    public function setClientDetails($client_id, $client_secret = NULL, $redirect_uri = NULL, $grant_types = NULL, $scope = NULL, $user_id = NULL)
     {
         return $this->setValue(
             $this->config['client_key'] . $client_id,
@@ -256,7 +257,7 @@ class Cassandra implements AuthorizationCodeInterface,
         }
 
         // if grant_types are not defined, then none are restricted
-        return true;
+        return TRUE;
     }
 
     /* RefreshTokenInterface */
@@ -265,7 +266,7 @@ class Cassandra implements AuthorizationCodeInterface,
         return $this->getValue($this->config['refresh_token_key'] . $refresh_token);
     }
 
-    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         return $this->setValue(
             $this->config['refresh_token_key'] . $refresh_token,
@@ -285,7 +286,7 @@ class Cassandra implements AuthorizationCodeInterface,
         return $this->getValue($this->config['access_token_key'].$access_token);
     }
 
-    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = null)
+    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         return $this->setValue(
             $this->config['access_token_key'].$access_token,
@@ -311,7 +312,7 @@ class Cassandra implements AuthorizationCodeInterface,
         return (count(array_diff($scope, $supportedScope)) == 0);
     }
 
-    public function getDefaultScope($client_id = null)
+    public function getDefaultScope($client_id = NULL)
     {
         if (is_null($client_id) || !$result = $this->getValue($this->config['scope_key'].'default:'.$client_id)) {
             $result = $this->getValue($this->config['scope_key'].'default:global');
@@ -320,7 +321,7 @@ class Cassandra implements AuthorizationCodeInterface,
         return $result;
     }
 
-    public function setScope($scope, $client_id = null, $type = 'supported')
+    public function setScope($scope, $client_id = NULL, $type = 'supported')
     {
         if (!in_array($type, array('default', 'supported'))) {
             throw new \InvalidArgumentException('"$type" must be one of "default", "supported"');
@@ -339,17 +340,17 @@ class Cassandra implements AuthorizationCodeInterface,
     public function getClientKey($client_id, $subject)
     {
         if (!$jwt = $this->getValue($this->config['jwt_key'] . $client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($jwt['subject']) && $jwt['subject'] == $subject ) {
             return $jwt['key'];
         }
 
-        return null;
+        return NULL;
     }
 
-    public function setClientKey($client_id, $key, $subject = null)
+    public function setClientKey($client_id, $key, $subject = NULL)
     {
         return $this->setValue($this->config['jwt_key'] . $client_id, array(
             'key' => $key,
@@ -361,14 +362,14 @@ class Cassandra implements AuthorizationCodeInterface,
     public function getClientScope($client_id)
     {
         if (!$clientDetails = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($clientDetails['scope'])) {
             return $clientDetails['scope'];
         }
 
-        return null;
+        return NULL;
     }
 
     public function getJti($client_id, $subject, $audience, $expiration, $jti)
@@ -408,7 +409,7 @@ class Cassandra implements AuthorizationCodeInterface,
         }
     }
 
-    public function getEncryptionAlgorithm($client_id = null)
+    public function getEncryptionAlgorithm($client_id = NULL)
     {
         $public_key = $this->getValue($this->config['public_key_key'] . $client_id);
         if (is_array($public_key)) {
@@ -427,7 +428,7 @@ class Cassandra implements AuthorizationCodeInterface,
     {
         $userDetails = $this->getUserDetails($user_id);
         if (!is_array($userDetails)) {
-            return false;
+            return FALSE;
         }
 
         $claims = explode(' ', trim($claims));
@@ -457,9 +458,9 @@ class Cassandra implements AuthorizationCodeInterface,
 
         foreach ($claimValues as $value) {
             if ($value == 'email_verified') {
-                $userClaims[$value] = $userDetails[$value]=='true' ? true : false;
+                $userClaims[$value] = $userDetails[$value]=='true' ? TRUE : FALSE;
             } else {
-                $userClaims[$value] = isset($userDetails[$value]) ? $userDetails[$value] : null;
+                $userClaims[$value] = isset($userDetails[$value]) ? $userDetails[$value] : NULL;
             }
         }
 

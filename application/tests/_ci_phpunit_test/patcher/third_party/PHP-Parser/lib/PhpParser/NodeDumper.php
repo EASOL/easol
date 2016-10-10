@@ -11,7 +11,8 @@ class NodeDumper
      *
      * @return string Dumped value
      */
-    public function dump($node) {
+    public function dump($node) 
+    {
         if ($node instanceof Node) {
             $r = $node->getType() . '(';
 
@@ -19,11 +20,11 @@ class NodeDumper
                 $r .= "\n    " . $key . ': ';
 
                 $value = $node->$key;
-                if (null === $value) {
+                if (NULL === $value) {
                     $r .= 'null';
-                } elseif (false === $value) {
+                } elseif (FALSE === $value) {
                     $r .= 'false';
-                } elseif (true === $value) {
+                } elseif (TRUE === $value) {
                     $r .= 'true';
                 } elseif (is_scalar($value)) {
                     $r .= $value;
@@ -37,11 +38,11 @@ class NodeDumper
             foreach ($node as $key => $value) {
                 $r .= "\n    " . $key . ': ';
 
-                if (null === $value) {
+                if (NULL === $value) {
                     $r .= 'null';
-                } elseif (false === $value) {
+                } elseif (FALSE === $value) {
                     $r .= 'false';
-                } elseif (true === $value) {
+                } elseif (TRUE === $value) {
                     $r .= 'true';
                 } elseif (is_scalar($value)) {
                     $r .= $value;

@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <h1 class="page-header">Dashboard</h1>
         <?php if ($this->session->flashdata('message') && $this->session->flashdata('type')) { ?>
-            <div class="alert alert-<?= $this->session->flashdata('type') ?>"> <?= $this->session->flashdata('message') ?> </div>
+            <div class="alert alert-<?php echo $this->session->flashdata('type') ?>"> <?php echo $this->session->flashdata('message') ?> </div>
         <?php } ?>
     </div>
 </div>
@@ -17,10 +17,10 @@
                         <div class="col-md-6 col-sm-12" id="left-chart">
                             <div class="thumbnail">                              
                             
-                                <?php $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(),['model' => $dashboardConf->getLeftChart(), 'displayTitle' => false, 'hideFilters'=>true ]);
+                                <?php $this->load->view("Reports/".$dashboardConf->getLeftChart()->getViewName(), ['model' => $dashboardConf->getLeftChart(), 'displayTitle' => FALSE, 'hideFilters'=>TRUE ]);
                                 ?>
                                 <div class="caption">
-                                    <?= anchor('reports/view/'.$dashboardConf->getLeftChart()->ReportId, '<h3>'.$dashboardConf->getLeftChart()->ReportName.'</h3>'); ?>
+                                    <?php echo anchor('reports/view/'.$dashboardConf->getLeftChart()->ReportId, '<h3>'.$dashboardConf->getLeftChart()->ReportName.'</h3>'); ?>
                                     <br>
                                 </div>
                             </div>
@@ -29,9 +29,9 @@
                     <?php if ($dashboardConf->getRightChart()->ReportId && $this->easol_auth->report_has_access($dashboardConf->getRightChart()->ReportId)): ?>
                         <div class="col-md-6 col-sm-12" id="right-chart">
                             <div class="thumbnail">
-                                <?php $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(),['model' => $dashboardConf->getRightChart(), 'displayTitle' => false, 'hideFilters'=>true]); ?>
+                                <?php $this->load->view("Reports/".$dashboardConf->getRightChart()->getViewName(), ['model' => $dashboardConf->getRightChart(), 'displayTitle' => FALSE, 'hideFilters'=>TRUE]); ?>
                                 <div class="caption">
-                                    <?= anchor('reports/view/'.$dashboardConf->getRightChart()->ReportId, '<h3>'.$dashboardConf->getRightChart()->ReportName.'</h3>'); ?>
+                                    <?php echo anchor('reports/view/'.$dashboardConf->getRightChart()->ReportId, '<h3>'.$dashboardConf->getRightChart()->ReportName.'</h3>'); ?>
                                     <br>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                     <?php if ($dashboardConf->getBottomTable()->ReportId && $this->easol_auth->report_has_access($dashboardConf->getBottomTable()->ReportId)): ?>
                         <div class="col-md-12 col-sm-12" id="bottom-table">
                             <div class="thumbnail">
-                                <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(),['model' => $dashboardConf->getBottomTable(), 'displayTitle' => true, 'hideFilters'=>true ]); ?>
+                                <?php $this->load->view("Reports/".$dashboardConf->getBottomTable()->getViewName(), ['model' => $dashboardConf->getBottomTable(), 'displayTitle' => TRUE, 'hideFilters'=>TRUE ]); ?>
 
                             </div>
                         </div>
@@ -76,4 +76,4 @@
         </div>
     </div>
 </div>
-<?php assets_widget('charts'); ?>
+<?php assets_widget('charts'); 

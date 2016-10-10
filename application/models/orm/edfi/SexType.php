@@ -10,7 +10,8 @@ class SexType extends ORM {
 	public $table = "edfi.SexType";
 	public $primary_key = 'SexTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::has_many('\\Model\\Edfi\\Student'),

@@ -15,23 +15,23 @@ class FirebaseJwt implements EncryptionInterface
         }
     }
 
-    public function encode($payload, $key, $alg = 'HS256', $keyId = null)
+    public function encode($payload, $key, $alg = 'HS256', $keyId = NULL)
     {
         return \JWT::encode($payload, $key, $alg, $keyId);
     }
 
-    public function decode($jwt, $key = null, $allowedAlgorithms = null)
+    public function decode($jwt, $key = NULL, $allowedAlgorithms = NULL)
     {
         try {
 
             //Maintain BC: Do not verify if no algorithms are passed in.
             if (!$allowedAlgorithms) {
-                $key = null;
+                $key = NULL;
             }
 
             return (array)\JWT::decode($jwt, $key, $allowedAlgorithms);
         } catch (\Exception $e) {
-            return false;
+            return FALSE;
         }
     }
 

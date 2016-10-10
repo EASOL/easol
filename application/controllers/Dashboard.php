@@ -5,7 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Dashboard extends Easol_Controller {
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index" => "@",
         ];
@@ -16,26 +17,26 @@ class Dashboard extends Easol_Controller {
      * index action
      */
     public function index()
-	{
+    {
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
 
         $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Auth::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Auth::userdata('SchoolId')]);
-        if($dashboardConf!=null){
+        if($dashboardConf!=NULL){
             $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
         }
 
-        $this->render("index",['dashboardConf' =>$dashboardConf]);
-	}
+        $this->render("index", ['dashboardConf' =>$dashboardConf]);
+    }
         
     public function csv($pageNo=1)
-	{
+    {
         $this->load->model('entities/easol/Easol_DashboardConfiguration');
 
         $dashboardConf = (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>Easol_Auth::userdata('RoleId'), 'EducationOrganizationId'=>Easol_Auth::userdata('SchoolId')]);
-        if($dashboardConf!=null){
+        if($dashboardConf!=NULL){
             $dashboardConf = (new Easol_DashboardConfiguration())->hydrate($dashboardConf);
         }
 
-        $this->render("csv",['dashboardConf' =>$dashboardConf,'tablePageNo' => $pageNo]);
-	}
+        $this->render("csv", ['dashboardConf' =>$dashboardConf,'tablePageNo' => $pageNo]);
+    }
 }

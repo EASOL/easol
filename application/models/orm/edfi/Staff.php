@@ -10,7 +10,8 @@ class Staff extends ORM {
 	public $table = "edfi.Staff";
 	public $primary_key = 'StaffUSI';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Address' => ORM::has_many('\\Model\\Edfi\\StaffAddress'),

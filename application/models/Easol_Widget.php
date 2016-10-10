@@ -6,7 +6,8 @@ class Easol_Widget extends CI_Model {
     /**
      * constructor method
      */
-    public function __construct(){
+    public function __construct()
+    {
 
         parent::__construct();
     }
@@ -14,9 +15,10 @@ class Easol_Widget extends CI_Model {
     /**
      * display the widget
      * @param $widgetClass
-     * @param array $param
+     * @param array       $param
      */
-    public static function show($widgetClass,$param=[]){
+    public static function show($widgetClass,$param=[])
+    {
             /* @var $obj Easol_BaseWidget */
 
             require_once APPPATH.'/widgets/'.$widgetClass.'/'.$widgetClass.'.php';

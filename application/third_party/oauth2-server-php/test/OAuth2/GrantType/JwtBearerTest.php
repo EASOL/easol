@@ -131,7 +131,7 @@ EOD;
         ));
 
         //Get a future NBF
-        $jwt = $this->getJWT(null, time() + 10000);
+        $jwt = $this->getJWT(NULL, time() + 10000);
         $request->request['assertion'] = $jwt;
 
         $server->grantAccessToken($request, $response = new Response());
@@ -149,7 +149,7 @@ EOD;
         ));
 
         //Get a non timestamp nbf
-        $jwt = $this->getJWT(null, 'notatimestamp');
+        $jwt = $this->getJWT(NULL, 'notatimestamp');
         $request->request['assertion'] = $jwt;
 
         $server->grantAccessToken($request, $response = new Response());
@@ -179,7 +179,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-            'assertion' => $this->getJWT(null, null, null, 'bad_client_id'),
+            'assertion' => $this->getJWT(NULL, NULL, NULL, 'bad_client_id'),
         ));
 
         $server->grantAccessToken($request, $response = new Response());
@@ -194,7 +194,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-            'assertion' => $this->getJWT(null, null, 'anotheruser@ourdomain,com'),
+            'assertion' => $this->getJWT(NULL, NULL, 'anotheruser@ourdomain,com'),
         ));
 
         $server->grantAccessToken($request, $response = new Response());
@@ -209,7 +209,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-            'assertion' => $this->getJWT(null, null, null, 'Missing Key Cli,nt'),
+            'assertion' => $this->getJWT(NULL, NULL, NULL, 'Missing Key Cli,nt'),
         ));
 
         $server->grantAccessToken($request, $response = new Response());
@@ -237,7 +237,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-            'assertion'  => $this->getJWT(null, null, null, 'Test Client ID'), // valid assertion
+            'assertion'  => $this->getJWT(NULL, NULL, NULL, 'Test Client ID'), // valid assertion
             'scope'      => 'scope1', // valid scope
         ));
         $token = $server->grantAccessToken($request, new Response());
@@ -253,7 +253,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-            'assertion'  => $this->getJWT(null, null, null, 'Test Client ID'), // valid assertion
+            'assertion'  => $this->getJWT(NULL, NULL, NULL, 'Test Client ID'), // valid assertion
             'scope'      => 'invalid-scope', // invalid scope
         ));
         $token = $server->grantAccessToken($request, $response = new Response());
@@ -268,7 +268,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-                'assertion' => $this->getJWT(null, null, 'testuser@ourdomain.com', 'Test Client ID', 'unused_jti'), // valid assertion with invalid scope
+                'assertion' => $this->getJWT(NULL, NULL, 'testuser@ourdomain.com', 'Test Client ID', 'unused_jti'), // valid assertion with invalid scope
         ));
         $token = $server->grantAccessToken($request, $response = new Response());
 
@@ -281,7 +281,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-                'assertion' => $this->getJWT(99999999900, null, 'testuser@ourdomain.com', 'Test Client ID', 'used_jti'), // valid assertion with invalid scope
+                'assertion' => $this->getJWT(99999999900, NULL, 'testuser@ourdomain.com', 'Test Client ID', 'used_jti'), // valid assertion with invalid scope
         ));
         $token = $server->grantAccessToken($request, $response = new Response());
 
@@ -295,7 +295,7 @@ EOD;
         $server = $this->getTestServer();
         $request = TestRequest::createPost(array(
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',  // valid grant type
-                'assertion' => $this->getJWT(99999999900, null, 'testuser@ourdomain.com', 'Test Client ID', 'totally_new_jti'), // valid assertion with invalid scope
+                'assertion' => $this->getJWT(99999999900, NULL, 'testuser@ourdomain.com', 'Test Client ID', 'totally_new_jti'), // valid assertion with invalid scope
         ));
         $token = $server->grantAccessToken($request, $response = new Response());
 
@@ -318,7 +318,7 @@ EOD;
      * @param $iss The issuer, usually the client_id.
      * @return string
      */
-    private function getJWT($exp = null, $nbf = null, $sub = null, $iss = 'Test Client ID', $jti = null)
+    private function getJWT($exp = NULL, $nbf = NULL, $sub = NULL, $iss = 'Test Client ID', $jti = NULL)
     {
         if (!$exp) {
             $exp = time() + 1000;

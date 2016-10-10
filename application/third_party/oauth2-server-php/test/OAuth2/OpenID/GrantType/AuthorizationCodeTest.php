@@ -49,7 +49,7 @@ class AuthorizationCodeTest extends \PHPUnit_Framework_TestCase
     private function getTestServer()
     {
         $storage = Bootstrap::getInstance()->getMemoryStorage();
-        $server = new Server($storage, array('use_openid_connect' => true));
+        $server = new Server($storage, array('use_openid_connect' => TRUE));
         $server->addGrantType(new AuthorizationCode($storage));
 
         return $server;

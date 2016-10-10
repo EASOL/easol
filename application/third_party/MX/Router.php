@@ -221,13 +221,13 @@ class MX_Router extends CI_Router
 				switch ($sgs)
 				{
 					case 1:	$_route = $module.'/index';
-						break;
+         break;
 					case 2: $_route = ($this->located < 2) ? $module.'/'.$directory : $directory.'/index';
-						break;
+         break;
 					case 3: $_route = ($this->located == 2) ? $directory.'/'.$class : $class.'/index';
-						break;
+         break;
 					case 4: $_route = ($this->located == 3) ? $class.'/'.$method : $method.'/index';
-						break;
+         break;
 				}
 			}
 		}

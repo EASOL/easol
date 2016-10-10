@@ -19,7 +19,7 @@
                         <label class="control-label col-md-1 col-sm-3 loginLabel">Email:</label>
 
                         <div class="col-md-4 col-sm-8">
-                            <input type="text" id="login" class="form-control" name="login[email]" value="<?= $this->input->post('login[email]') ?>"/>
+                            <input type="text" id="login" class="form-control" name="login[email]" value="<?php echo $this->input->post('login[email]') ?>"/>
                         </div>
                     </div>
 

@@ -10,10 +10,10 @@
     }
 ?>
 
-<?php if($displayTitle==true){ ?>
+<?php if($displayTitle==TRUE){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h3 class="page-header"><a href="<?php echo site_url('reports/view/'.$model->ReportId) ?>"><?= $model->ReportName ?></a></h3>
+        <h3 class="page-header"><a href="<?php echo site_url('reports/view/'.$model->ReportId) ?>"><?php echo $model->ReportName ?></a></h3>
     </div>
 </div>
 <?php } ?>
@@ -23,7 +23,7 @@
 
             <?php if(($filter = $model->getFilters()) && !$hideFilters): ?>
                 <div class="panel-body" id="filter-destination">
-                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
+                    <?php $this->load->view('Reports/_report-filters', ['filter'=>$filter, 'report'=>$model]); ?>
                 </div>
             <?php endif;   ?>
 

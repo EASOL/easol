@@ -7,7 +7,8 @@ class Easol_Module {
 		$this->ci =& get_instance();
 	}
 
-	public function listing() {
+	public function listing() 
+ {
 		$modules = scandir(APPPATH.'modules');
 		$listing = array();
 		foreach ($modules as $module) {
@@ -28,8 +29,9 @@ class Easol_Module {
 
 	}
 
-	public function module_config($module=NULL) {
-		$config = Model\Easol\SystemConfiguration::limit(1)->find_by_key('module', false);
+	public function module_config($module=NULL) 
+ {
+		$config = Model\Easol\SystemConfiguration::limit(1)->find_by_key('module', FALSE);
 
 		if (!$config) return [];
 
@@ -40,16 +42,18 @@ class Easol_Module {
 		return $config->$module;
 	}
 
-	public function is_module($section) {
-		if (is_dir(APPPATH . 'modules/' . $section)) return true;
-		return false;
+	public function is_module($section) 
+ {
+		if (is_dir(APPPATH . 'modules/' . $section)) return TRUE;
+		return FALSE;
 	}
 
-	public function is_enabled($module) {
+	public function is_enabled($module) 
+ {
 		$config = $this->module_config($module);
 
-		if ($config->enabled == 1) return true;
-		return false;
+		if ($config->enabled == 1) return TRUE;
+		return FALSE;
 	}
 
 }

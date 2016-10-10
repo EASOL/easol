@@ -31,7 +31,7 @@ class UserInfoControllerTest extends \PHPUnit_Framework_TestCase
         $parameters = $response->getParameters();
         $this->assertEquals($parameters['sub'], 'testuser');
         $this->assertEquals($parameters['email'], 'testuser@test.com');
-        $this->assertEquals($parameters['email_verified'], true);
+        $this->assertEquals($parameters['email_verified'], TRUE);
     }
 
     private function getTestServer($config = array())

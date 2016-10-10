@@ -15,7 +15,8 @@ class Easol_CSVProcessor extends CI_Model {
      * @param $csvData
      * @param $tableName
      */
-    public function __construct($csvFile="",$tableName=""){
+    public function __construct($csvFile="",$tableName="")
+    {
         $this->csvFile = $csvFile;
         $this->tableName = $tableName;
         $this->load->model('Datamanagementqueries');
@@ -30,9 +31,10 @@ class Easol_CSVProcessor extends CI_Model {
      * @param bool $updateData
      * @return bool
      */
-    public function insert( $updateData = false){
+    public function insert( $updateData = FALSE)
+    {
 
-        $this->db->db_debug = false;
+        $this->db->db_debug = FALSE;
         $csv = array_map('str_getcsv', file($this->csvFile));
         if (is_array($csv)) {
 
@@ -45,7 +47,7 @@ class Easol_CSVProcessor extends CI_Model {
 
 
                     //if current row doesn't have duplicats with the primary keys - we insert it
-                    if(!$this->rowExists($this->csvHeader,$row)){
+                    if(!$this->rowExists($this->csvHeader, $row)){
                         //Short fix for Student table - so far only this table has this property
                      //   if($this->tableName == 'Student')
                         $this->db->query("set identity_insert edfi.".$this->tableName." on");
@@ -64,7 +66,7 @@ class Easol_CSVProcessor extends CI_Model {
                         //else if we can update data, then we can work even with duplicated rows
                     }elseif($updateData && !$this->identicalRow($insertData)){
                         //get an array of all primary keys and their values
-                        $where = $this->getPrimaryKeysArray($this->csvHeader,$row);
+                        $where = $this->getPrimaryKeysArray($this->csvHeader, $row);
 
                         //removing primary keys from the data insertion
                         foreach($where as $k => $v) unset($insertData[$k]);
@@ -97,7 +99,7 @@ class Easol_CSVProcessor extends CI_Model {
         //var_dump($updated);
         // var_dump($skipped);
 
-        return true;
+        return TRUE;
     }
 
 
@@ -106,15 +108,17 @@ class Easol_CSVProcessor extends CI_Model {
     /**
      * @return bool
      */
-    public function update(){
-        return $this->insert(true);
+    public function update()
+    {
+        return $this->insert(TRUE);
 
     }
 
-    public function delete(){
+    public function delete()
+    {
 
         try {
-            $this->db->db_debug = false;
+            $this->db->db_debug = FALSE;
             $csv = array_map('str_getcsv', file($this->csvFile));
             if (is_array($csv)) {
 
@@ -155,7 +159,7 @@ class Easol_CSVProcessor extends CI_Model {
             }
 
 
-            return true;
+            return TRUE;
         }
         catch(  \Exception $ex){
 
@@ -168,9 +172,10 @@ class Easol_CSVProcessor extends CI_Model {
      * validate csv header with table columns
      * @return bool
      */
-    private function validateData(){
+    private function validateData()
+    {
 
-        return false;
+        return FALSE;
 
     }
 
@@ -179,9 +184,10 @@ class Easol_CSVProcessor extends CI_Model {
      * @param $row
      * @return array
      */
-    private function propagateColumnsToDbColumn($csvHeaders,$row){
+    private function propagateColumnsToDbColumn($csvHeaders,$row)
+    {
         $retData = [];
-        $data = array_combine($csvHeaders,$row);
+        $data = array_combine($csvHeaders, $row);
 
         foreach($data as $key => $value){
             if(trim($value)!=="" && trim($value) !== 'NULL'){
@@ -199,9 +205,10 @@ class Easol_CSVProcessor extends CI_Model {
      * @param $row
      * @return boolean
      */
-    private function rowExists($csvHeaders, $row){
+    private function rowExists($csvHeaders, $row)
+    {
 
-        $data = array_combine($csvHeaders,$row);
+        $data = array_combine($csvHeaders, $row);
 
         //If primary column is 1 value, then we just use 1 line, otherwise we need to loop through each.
         if(is_array(($this->primaryColumn))){
@@ -216,8 +223,8 @@ class Easol_CSVProcessor extends CI_Model {
         }
         $this->db->where($where);
         $num = $this->db->count_all_results("edfi.".$this->tableName);
-        if ($num > 0) return true;
-        return false;
+        if ($num > 0) return TRUE;
+        return FALSE;
     }
 
     /**
@@ -225,9 +232,10 @@ class Easol_CSVProcessor extends CI_Model {
      * @param $row
      * @return array
      */
-    private function getPrimaryKeysArray($csvHeaders, $row){
+    private function getPrimaryKeysArray($csvHeaders, $row)
+    {
 
-        $data = array_combine($csvHeaders,$row);
+        $data = array_combine($csvHeaders, $row);
         $result = array();
         //If primary column is 1 value, then we just use 1 line, otherwise we need to loop through each.
         if(is_array(($this->primaryColumn))){
@@ -247,12 +255,13 @@ class Easol_CSVProcessor extends CI_Model {
      * @param $data
      * @return boolean
      */
-    private function identicalRow($data){
+    private function identicalRow($data)
+    {
 
         $this->db->where($data);
         $num = $this->db->count_all_results("edfi.".$this->tableName);
-        if ($num > 0) return true;
-        return false;
+        if ($num > 0) return TRUE;
+        return FALSE;
     }
 
 }

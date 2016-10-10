@@ -16,11 +16,11 @@ if (empty($student)) {
                     </tr>
                     <?php foreach($student->getAddresses()->result() as $row) { ?>
                     <tr>
-                        <td><?= $row->Type ?></td>
-                        <td><?= $row->StreetNumberName ?></td>
-                        <td><?= $row->City ?></td>
-                        <td><?= $row->State ?></td>
-                        <td><?= $row->PostalCode ?></td>
+                        <td><?php echo $row->Type ?></td>
+                        <td><?php echo $row->StreetNumberName ?></td>
+                        <td><?php echo $row->City ?></td>
+                        <td><?php echo $row->State ?></td>
+                        <td><?php echo $row->PostalCode ?></td>
                     </tr>
                     <?php } ?>
                 </table>
@@ -36,10 +36,10 @@ if (empty($student)) {
                     </tr>
                     <?php foreach($student->getParents()->result() as $row) { ?>
                         <tr>
-                            <td><?= $row->PersonalTitlePrefix ?> <?= $row->FirstName ?> <?= $row->LastSurname ?></td>
-                            <td><?= $row->Role ?></td>
-                            <td><?= $row->PrimaryContactStatus==1 ? "Yes" : "No" ?></td>
-                            <td><?= $row->EmergencyContactStatus ?></td>
+                            <td><?php echo $row->PersonalTitlePrefix ?> <?php echo $row->FirstName ?> <?php echo $row->LastSurname ?></td>
+                            <td><?php echo $row->Role ?></td>
+                            <td><?php echo $row->PrimaryContactStatus==1 ? "Yes" : "No" ?></td>
+                            <td><?php echo $row->EmergencyContactStatus ?></td>
                         </tr>
                     <?php } ?>
                 </table>
@@ -53,8 +53,8 @@ if (empty($student)) {
                     </tr>
                     <?php foreach($student->getTelephones()->result() as $row) { ?>
                         <tr>
-                            <td><?= $row->telephonetype ?></td>
-                            <td><?= $row->TelephoneNumber ?></td>
+                            <td><?php echo $row->telephonetype ?></td>
+                            <td><?php echo $row->TelephoneNumber ?></td>
                         </tr>
                     <?php } ?>
                 </table>
@@ -68,12 +68,12 @@ if (empty($student)) {
                     </tr>
                     <?php foreach($student->getEmailAddresses()->result() as $row) { ?>
                         <tr>
-                            <td><?= $row->emailType ?></td>
-                            <td><?= $row->ElectronicMailAddress ?></td>
+                            <td><?php echo $row->emailType ?></td>
+                            <td><?php echo $row->ElectronicMailAddress ?></td>
                         </tr>
                     <?php } ?>
                 </table>
             </div>
         </div>
     </div>
-<?php } ?>
+<?php } 

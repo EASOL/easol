@@ -14,12 +14,12 @@ interface AccessTokenInterface extends ResponseTypeInterface
      * @param $client_id                client identifier related to the access token.
      * @param $user_id                  user ID associated with the access token
      * @param $scope                    OPTONAL scopes to be stored in space-separated string.
-     * @param bool $includeRefreshToken if true, a new refresh_token will be added to the response
+     * @param bool                                                                           $includeRefreshToken if true, a new refresh_token will be added to the response
      *
      * @see http://tools.ietf.org/html/rfc6749#section-5
      * @ingroup oauth2_section_5
      */
-    public function createAccessToken($client_id, $user_id, $scope = null, $includeRefreshToken = true);
+    public function createAccessToken($client_id, $user_id, $scope = NULL, $includeRefreshToken = TRUE);
 
     /**
      * Handle the revoking of refresh tokens, and access tokens if supported / desirable

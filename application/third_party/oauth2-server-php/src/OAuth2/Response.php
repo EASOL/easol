@@ -107,14 +107,14 @@ class Response implements ResponseInterface
         return $this->statusCode;
     }
 
-    public function setStatusCode($statusCode, $text = null)
+    public function setStatusCode($statusCode, $text = NULL)
     {
         $this->statusCode = (int) $statusCode;
         if ($this->isInvalid()) {
             throw new \InvalidArgumentException(sprintf('The HTTP status code "%s" is not valid.', $statusCode));
         }
 
-        $this->statusText = false === $text ? '' : (null === $text ? self::$statusTexts[$this->statusCode] : $text);
+        $this->statusText = FALSE === $text ? '' : (NULL === $text ? self::$statusTexts[$this->statusCode] : $text);
     }
 
     public function getStatusText()
@@ -137,7 +137,7 @@ class Response implements ResponseInterface
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
-    public function getParameter($name, $default = null)
+    public function getParameter($name, $default = NULL)
     {
         return isset($this->parameters[$name]) ? $this->parameters[$name] : $default;
     }
@@ -167,7 +167,7 @@ class Response implements ResponseInterface
         return $this->httpHeaders;
     }
 
-    public function getHttpHeader($name, $default = null)
+    public function getHttpHeader($name, $default = NULL)
     {
         return isset($this->httpHeaders[$name]) ? $this->httpHeaders[$name] : $default;
     }
@@ -215,7 +215,7 @@ class Response implements ResponseInterface
         echo $this->getResponseBody($format);
     }
 
-    public function setError($statusCode, $error, $errorDescription = null, $errorUri = null)
+    public function setError($statusCode, $error, $errorDescription = NULL, $errorUri = NULL)
     {
         $parameters = array(
             'error' => $error,
@@ -243,7 +243,7 @@ class Response implements ResponseInterface
         }
     }
 
-    public function setRedirect($statusCode, $url, $state = null, $error = null, $errorDescription = null, $errorUri = null)
+    public function setRedirect($statusCode, $url, $state = NULL, $error = NULL, $errorDescription = NULL, $errorUri = NULL)
     {
         if (empty($url)) {
             throw new \InvalidArgumentException('Cannot redirect to an empty URL.');

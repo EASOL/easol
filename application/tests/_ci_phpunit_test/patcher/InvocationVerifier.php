@@ -28,11 +28,11 @@ class InvocationVerifier
 				list($expected_params, $expected_times) = $params_times;
 
 				$invoked = isset($invocations[$class_method]);
-				if ($invoked === false)
+				if ($invoked === FALSE)
 				{
 					$actual_times = 0;
 				}
-				elseif ($expected_params === null)
+				elseif ($expected_params === NULL)
 				{
 					$actual_times = count($invocations[$class_method]);
 				}

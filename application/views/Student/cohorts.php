@@ -13,10 +13,10 @@ if (empty($cohorts)) {
             <tbody>
             <?php foreach($cohorts as $cohort){ ?>
                 <tr>
-                    <td><?= $cohort->CohortIdentifier ?></td>
+                    <td><?php echo $cohort->CohortIdentifier ?></td>
                 </tr>
             <?php } ?>
             </tbody>
         </table>
     </div>
-<?php } ?>
+<?php } 

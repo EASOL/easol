@@ -22,7 +22,7 @@ abstract class AbstractPatcher
 
 	public function patch($source)
 	{
-		$patched = false;
+		$patched = FALSE;
 		static::$replacement = [];
 
 		$parser = new Parser(new Lexer(
@@ -36,7 +36,7 @@ abstract class AbstractPatcher
 
 		if (static::$replacement !== [])
 		{
-			$patched = true;
+			$patched = TRUE;
 			$new_source = static::generateNewSource($source);
 		}
 		else

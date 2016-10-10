@@ -49,7 +49,7 @@ class Token extends CI_Controller
 				// Handle a request for an OAuth2.0 Access Token and send the response to the client
 				return $this->server->handleTokenRequest(OAuth2\Request::createFromGlobals())->send();
 	        }
-	    }
+  }
 
 		exit(json_encode(array( 'error' 				=> 'login invalid',
 								'error_description'		=> 'The email and/or password is invalid.|'.$email."|".$password."|"
@@ -69,10 +69,10 @@ class Token extends CI_Controller
             $this->load->model('entities/easol/Easol_StaffAuthentication');
             $authentication = $this->Easol_StaffAuthentication->findOne(['StaffUSI' => $user[0]->StaffUSI]);
             if($authentication && $authentication->Password == sha1($data['password'])) {
-                return true;
+                return TRUE;
             }
-         }
-         return false;
+        }
+         return FALSE;
     }
 
     function verify ()
@@ -82,7 +82,7 @@ class Token extends CI_Controller
     		return $this->server->getResponse()->send();
 		}
 
-		echo json_encode(array('success' => true, 'message' => 'verified'));
+		echo json_encode(array('success' => TRUE, 'message' => 'verified'));
     }
 
 }

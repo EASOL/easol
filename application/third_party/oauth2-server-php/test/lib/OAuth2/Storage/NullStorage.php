@@ -10,7 +10,7 @@ class NullStorage extends Memory
     private $name;
     private $description;
 
-    public function __construct($name, $description = null)
+    public function __construct($name, $description = NULL)
     {
         $this->name = $name;
         $this->description = $description;

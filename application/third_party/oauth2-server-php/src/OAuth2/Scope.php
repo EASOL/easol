@@ -16,7 +16,7 @@ class Scope implements ScopeInterface
      * @param mixed @storage
      * Either an array of supported scopes, or an instance of OAuth2\Storage\ScopeInterface
      */
-    public function __construct($storage = null)
+    public function __construct($storage = NULL)
     {
         if (is_null($storage) || is_array($storage)) {
             $storage = new Memory((array) $storage);
@@ -67,7 +67,7 @@ class Scope implements ScopeInterface
         $reservedScope = $this->getReservedScopes();
         $nonReservedScopes = array_diff($scope, $reservedScope);
         if (count($nonReservedScopes) == 0) {
-            return true;
+            return TRUE;
         } else {
             // Check the storage for non-reserved scopes.
             $nonReservedScopes = implode(' ', $nonReservedScopes);
@@ -82,7 +82,7 @@ class Scope implements ScopeInterface
         return $request->request('scope', $request->query('scope'));
     }
 
-    public function getDefaultScope($client_id = null)
+    public function getDefaultScope($client_id = NULL)
     {
         return $this->storage->getDefaultScope($client_id);
     }

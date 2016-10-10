@@ -22,7 +22,7 @@ class ClientCredentials extends HttpBasic implements GrantTypeInterface
          *
          * @see http://tools.ietf.org/html/rfc6749#section-4.4
          */
-        $config['allow_public_clients'] = false;
+        $config['allow_public_clients'] = FALSE;
 
         parent::__construct($storage, $config);
     }
@@ -36,14 +36,14 @@ class ClientCredentials extends HttpBasic implements GrantTypeInterface
     {
         $this->loadClientData();
 
-        return isset($this->clientData['scope']) ? $this->clientData['scope'] : null;
+        return isset($this->clientData['scope']) ? $this->clientData['scope'] : NULL;
     }
 
     public function getUserId()
     {
         $this->loadClientData();
 
-        return isset($this->clientData['user_id']) ? $this->clientData['user_id'] : null;
+        return isset($this->clientData['user_id']) ? $this->clientData['user_id'] : NULL;
     }
 
     public function createAccessToken(AccessTokenInterface $accessToken, $client_id, $user_id, $scope)
@@ -53,7 +53,7 @@ class ClientCredentials extends HttpBasic implements GrantTypeInterface
          *
          * @see http://tools.ietf.org/html/rfc6749#section-4.4.3
          */
-        $includeRefreshToken = false;
+        $includeRefreshToken = FALSE;
 
         return $accessToken->createAccessToken($client_id, $user_id, $scope, $includeRefreshToken);
     }

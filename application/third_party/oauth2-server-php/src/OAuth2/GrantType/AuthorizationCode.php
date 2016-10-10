@@ -34,14 +34,14 @@ class AuthorizationCode implements GrantTypeInterface
         if (!$request->request('code')) {
             $response->setError(400, 'invalid_request', 'Missing parameter: "code" is required');
 
-            return false;
+            return FALSE;
         }
 
         $code = $request->request('code');
         if (!$authCode = $this->storage->getAuthorizationCode($code)) {
             $response->setError(400, 'invalid_grant', 'Authorization code doesn\'t exist or is invalid for the client');
 
-            return false;
+            return FALSE;
         }
 
         /*
@@ -52,7 +52,7 @@ class AuthorizationCode implements GrantTypeInterface
             if (!$request->request('redirect_uri') || urldecode($request->request('redirect_uri')) != $authCode['redirect_uri']) {
                 $response->setError(400, 'redirect_uri_mismatch', "The redirect URI is missing or do not match", "#section-4.1.3");
 
-                return false;
+                return FALSE;
             }
         }
 
@@ -63,7 +63,7 @@ class AuthorizationCode implements GrantTypeInterface
         if ($authCode["expires"] < time()) {
             $response->setError(400, 'invalid_grant', "The authorization code has expired");
 
-            return false;
+            return FALSE;
         }
 
         if (!isset($authCode['code'])) {
@@ -72,7 +72,7 @@ class AuthorizationCode implements GrantTypeInterface
 
         $this->authCode = $authCode;
 
-        return true;
+        return TRUE;
     }
 
     public function getClientId()
@@ -82,12 +82,12 @@ class AuthorizationCode implements GrantTypeInterface
 
     public function getScope()
     {
-        return isset($this->authCode['scope']) ? $this->authCode['scope'] : null;
+        return isset($this->authCode['scope']) ? $this->authCode['scope'] : NULL;
     }
 
     public function getUserId()
     {
-        return isset($this->authCode['user_id']) ? $this->authCode['user_id'] : null;
+        return isset($this->authCode['user_id']) ? $this->authCode['user_id'] : NULL;
     }
 
     public function createAccessToken(AccessTokenInterface $accessToken, $client_id, $user_id, $scope)

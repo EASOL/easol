@@ -17,14 +17,14 @@ if (empty($assessments)) {
             <tbody>
             <?php foreach($assessments as $assessment){ ?>
                 <tr>
-                    <td><?= $assessment->AssessmentTitle ?></td>
-                    <td><?= easol_date($assessment->AdministrationDate) ?></td>
-                    <td><?= $assessment->Result ?></td>
-                    <td><?= $assessment->GradeLevel ?></td>
-                    <td><?= $assessment->AcademicSubject ?></td>
+                    <td><?php echo $assessment->AssessmentTitle ?></td>
+                    <td><?php echo easol_date($assessment->AdministrationDate) ?></td>
+                    <td><?php echo $assessment->Result ?></td>
+                    <td><?php echo $assessment->GradeLevel ?></td>
+                    <td><?php echo $assessment->AcademicSubject ?></td>
                 </tr>
             <?php } ?>
             </tbody>
         </table>
     </div>
-<?php } ?>
+<?php } 

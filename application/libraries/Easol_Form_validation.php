@@ -8,7 +8,7 @@ class Easol_Form_validation extends CI_Form_validation {
 		if (substr_count($field, '.')==3)
 		{
 			list($table,$field,$id_field,$id_val) = explode('.', $field);
-			$query = $this->CI->db->limit(1)->where($field,$str)->where($id_field.' != ',$id_val)->get($table);
+			$query = $this->CI->db->limit(1)->where($field, $str)->where($id_field.' != ', $id_val)->get($table);
 		} else {
 			list($table, $field)=explode('.', $field);
 			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
@@ -18,10 +18,11 @@ class Easol_Form_validation extends CI_Form_validation {
 	}
 
 	
-	public function is_safe_query($sql) {
+	public function is_safe_query($sql) 
+ {
 
 		if (preg_match_all("/(INSERT |UPDATE |DELETE|DROP |SET |REPLACE |INTO |information_schema)/i", $sql, $matches)) {
-			return false;
+			return FALSE;
 		}
 
 		// SQL Injection check - http://www.symantec.com/connect/articles/detection-sql-injection-and-cross-site-scripting-attacks
@@ -34,12 +35,12 @@ class Easol_Form_validation extends CI_Form_validation {
 			$filter = preg_quote($filter, '/');
 			if (preg_match("/".$filter."/", $sql)) {
 				$this->set_message('is_safe_query', 'SQL Injection detected.');
-				return false;
+				return FALSE;
 			}
 		}
 
 		$this->CI->load->model('entities/easol/Easol_Report');
-		$this->CI->db->db_debug = false;
+		$this->CI->db->db_debug = FALSE;
 
 		$filters = [];
 		if ($this->CI->input->post('filter')) $filters = $this->CI->input->post('filter'); 
@@ -50,10 +51,10 @@ class Easol_Form_validation extends CI_Form_validation {
 		if (!$result) {
 			$error = $this->CI->db->error();
 			$this->set_message('is_safe_query', 'The %s field produces a SQL error. <br><small><i>'.$error['message'].'</i></small>');
-			return false;
+			return FALSE;
 		}
 
-		return true;
+		return TRUE;
 	}
   
 }

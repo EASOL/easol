@@ -45,7 +45,7 @@ class Memory implements AuthorizationCodeInterface,
             'access_tokens' => array(),
             'jwt' => array(),
             'jti' => array(),
-            'default_scope' => null,
+            'default_scope' => NULL,
             'supported_scopes' => array(),
             'keys' => array(),
         ), $params);
@@ -66,7 +66,7 @@ class Memory implements AuthorizationCodeInterface,
     public function getAuthorizationCode($code)
     {
         if (!isset($this->authorizationCodes[$code])) {
-            return false;
+            return FALSE;
         }
 
         return array_merge(array(
@@ -74,11 +74,11 @@ class Memory implements AuthorizationCodeInterface,
         ), $this->authorizationCodes[$code]);
     }
 
-    public function setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null)
+    public function setAuthorizationCode($code, $client_id, $user_id, $redirect_uri, $expires, $scope = NULL, $id_token = NULL)
     {
         $this->authorizationCodes[$code] = compact('code', 'client_id', 'user_id', 'redirect_uri', 'expires', 'scope', 'id_token');
 
-        return true;
+        return TRUE;
     }
 
     public function setAuthorizationCodes($authorization_codes)
@@ -99,7 +99,7 @@ class Memory implements AuthorizationCodeInterface,
         return $userDetails && $userDetails['password'] && $userDetails['password'] === $password;
     }
 
-    public function setUser($username, $password, $firstName = null, $lastName = null)
+    public function setUser($username, $password, $firstName = NULL, $lastName = NULL)
     {
         $this->userCredentials[$username] = array(
             'password'   => $password,
@@ -107,20 +107,20 @@ class Memory implements AuthorizationCodeInterface,
             'last_name'  => $lastName,
         );
 
-        return true;
+        return TRUE;
     }
 
     public function getUserDetails($username)
     {
         if (!isset($this->userCredentials[$username])) {
-            return false;
+            return FALSE;
         }
 
         return array_merge(array(
             'user_id'    => $username,
-            'password'   => null,
-            'first_name' => null,
-            'last_name'  => null,
+            'password'   => NULL,
+            'first_name' => NULL,
+            'last_name'  => NULL,
         ), $this->userCredentials[$username]);
     }
 
@@ -128,7 +128,7 @@ class Memory implements AuthorizationCodeInterface,
     public function getUserClaims($user_id, $claims)
     {
         if (!$userDetails = $this->getUserDetails($user_id)) {
-            return false;
+            return FALSE;
         }
 
         $claims = explode(' ', trim($claims));
@@ -157,14 +157,14 @@ class Memory implements AuthorizationCodeInterface,
         $claimValues = explode(' ', $claimValuesString);
 
         foreach ($claimValues as $value) {
-            $userClaims[$value] = isset($userDetails[$value]) ? $userDetails[$value] : null;
+            $userClaims[$value] = isset($userDetails[$value]) ? $userDetails[$value] : NULL;
         }
 
         return $userClaims;
     }
 
     /* ClientCredentialsInterface */
-    public function checkClientCredentials($client_id, $client_secret = null)
+    public function checkClientCredentials($client_id, $client_secret = NULL)
     {
         return isset($this->clientCredentials[$client_id]['client_secret']) && $this->clientCredentials[$client_id]['client_secret'] === $client_secret;
     }
@@ -172,7 +172,7 @@ class Memory implements AuthorizationCodeInterface,
     public function isPublicClient($client_id)
     {
         if (!isset($this->clientCredentials[$client_id])) {
-            return false;
+            return FALSE;
         }
 
         return empty($this->clientCredentials[$client_id]['client_secret']);
@@ -182,14 +182,14 @@ class Memory implements AuthorizationCodeInterface,
     public function getClientDetails($client_id)
     {
         if (!isset($this->clientCredentials[$client_id])) {
-            return false;
+            return FALSE;
         }
 
         $clientDetails = array_merge(array(
             'client_id'     => $client_id,
-            'client_secret' => null,
-            'redirect_uri'  => null,
-            'scope'         => null,
+            'client_secret' => NULL,
+            'redirect_uri'  => NULL,
+            'scope'         => NULL,
         ), $this->clientCredentials[$client_id]);
 
         return $clientDetails;
@@ -204,10 +204,10 @@ class Memory implements AuthorizationCodeInterface,
         }
 
         // if grant_types are not defined, then none are restricted
-        return true;
+        return TRUE;
     }
 
-    public function setClientDetails($client_id, $client_secret = null, $redirect_uri = null, $grant_types = null, $scope = null, $user_id = null)
+    public function setClientDetails($client_id, $client_secret = NULL, $redirect_uri = NULL, $grant_types = NULL, $scope = NULL, $user_id = NULL)
     {
         $this->clientCredentials[$client_id] = array(
             'client_id'     => $client_id,
@@ -218,20 +218,20 @@ class Memory implements AuthorizationCodeInterface,
             'user_id'       => $user_id,
         );
 
-        return true;
+        return TRUE;
     }
 
     /* RefreshTokenInterface */
     public function getRefreshToken($refresh_token)
     {
-        return isset($this->refreshTokens[$refresh_token]) ? $this->refreshTokens[$refresh_token] : false;
+        return isset($this->refreshTokens[$refresh_token]) ? $this->refreshTokens[$refresh_token] : FALSE;
     }
 
-    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL)
     {
         $this->refreshTokens[$refresh_token] = compact('refresh_token', 'client_id', 'user_id', 'expires', 'scope');
 
-        return true;
+        return TRUE;
     }
 
     public function unsetRefreshToken($refresh_token)
@@ -247,14 +247,14 @@ class Memory implements AuthorizationCodeInterface,
     /* AccessTokenInterface */
     public function getAccessToken($access_token)
     {
-        return isset($this->accessTokens[$access_token]) ? $this->accessTokens[$access_token] : false;
+        return isset($this->accessTokens[$access_token]) ? $this->accessTokens[$access_token] : FALSE;
     }
 
-    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = null, $id_token = null)
+    public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = NULL, $id_token = NULL)
     {
         $this->accessTokens[$access_token] = compact('access_token', 'client_id', 'user_id', 'expires', 'scope', 'id_token');
 
-        return true;
+        return TRUE;
     }
 
     public function unsetAccessToken($access_token)
@@ -269,7 +269,7 @@ class Memory implements AuthorizationCodeInterface,
         return (count(array_diff($scope, $this->supportedScopes)) == 0);
     }
 
-    public function getDefaultScope($client_id = null)
+    public function getDefaultScope($client_id = NULL)
     {
         return $this->defaultScope;
     }
@@ -286,20 +286,20 @@ class Memory implements AuthorizationCodeInterface,
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     public function getClientScope($client_id)
     {
         if (!$clientDetails = $this->getClientDetails($client_id)) {
-            return false;
+            return FALSE;
         }
 
         if (isset($clientDetails['scope'])) {
             return $clientDetails['scope'];
         }
 
-        return null;
+        return NULL;
     }
 
     public function getJti($client_id, $subject, $audience, $expires, $jti)
@@ -316,7 +316,7 @@ class Memory implements AuthorizationCodeInterface,
             }
         }
 
-        return null;
+        return NULL;
     }
 
     public function setJti($client_id, $subject, $audience, $expires, $jti)
@@ -325,7 +325,7 @@ class Memory implements AuthorizationCodeInterface,
     }
 
     /*PublicKeyInterface */
-    public function getPublicKey($client_id = null)
+    public function getPublicKey($client_id = NULL)
     {
         if (isset($this->keys[$client_id])) {
             return $this->keys[$client_id]['public_key'];
@@ -336,10 +336,10 @@ class Memory implements AuthorizationCodeInterface,
             return $this->keys['public_key'];
         }
 
-        return false;
+        return FALSE;
     }
 
-    public function getPrivateKey($client_id = null)
+    public function getPrivateKey($client_id = NULL)
     {
         if (isset($this->keys[$client_id])) {
             return $this->keys[$client_id]['private_key'];
@@ -350,10 +350,10 @@ class Memory implements AuthorizationCodeInterface,
             return $this->keys['private_key'];
         }
 
-        return false;
+        return FALSE;
     }
 
-    public function getEncryptionAlgorithm($client_id = null)
+    public function getEncryptionAlgorithm($client_id = NULL)
     {
         if (isset($this->keys[$client_id]['encryption_algorithm'])) {
             return $this->keys[$client_id]['encryption_algorithm'];

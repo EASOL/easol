@@ -6,11 +6,13 @@ class Attendance extends Easol_Controller {
     /**
      * default constructor
      */
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  ['System Administrator','Data Administrator','School Administrator'],
         ];
@@ -19,7 +21,8 @@ class Attendance extends Easol_Controller {
     /**
      * index action
      */
-    public function index(){
+    public function index()
+    {
        
         $data = array();
         $data['currentYear']            = Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');

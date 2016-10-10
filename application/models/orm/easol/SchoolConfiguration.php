@@ -11,7 +11,8 @@ class SchoolConfiguration extends ORM {
 	public $table       = "EASOL.SchoolConfiguration";
 	public $foreign_key = array('\\model\\edfi\\educationorganization' => 'EducationOrganizationId');
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'school' => ORM::belongs_to('\\Model\\Edfi\\EducationOrganization')

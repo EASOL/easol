@@ -20,7 +20,8 @@ class Edfi_StaffElectronicMail extends Easol_baseentity {
         ];
     }
 
-    public function getAssociatedSchool(){
+    public function getAssociatedSchool()
+    {
        return $this->findOneBySql("SELECT EducationOrganization.EducationOrganizationId,
 EducationOrganization.NameOfInstitution, /*EducationOrganizationAddress.City*/
 FROM edfi.EducationOrganization
@@ -30,7 +31,7 @@ ON edfi.School.SchoolId = edfi.EducationOrganization.EducationOrganizationId
 ON edfi.EducationOrganizationAddress.EducationOrganizationId = edfi.EducationOrganization.EducationOrganizationId*/
 INNER JOIN edfi.StaffSchoolAssociation
 ON School.SchoolId=StaffSchoolAssociation.SchoolId
-WHERE OperationalStatusTypeId = 1 /*and AddressTypeId = 2*/ AND StaffSchoolAssociation.StaffUSI=?",[$this->StaffUSI]);
+WHERE OperationalStatusTypeId = 1 /*and AddressTypeId = 2*/ AND StaffSchoolAssociation.StaffUSI=?", [$this->StaffUSI]);
 
     }
 

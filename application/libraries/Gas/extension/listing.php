@@ -31,7 +31,7 @@ class Listing extends Result {
 	 * @param string Additional entry. If provided, an additional entry will be prepended to the result array. Useful for dropdown options, when you need a first empty value option for "Select a option".
 	 * @return mixed Explanation
 	 */
-	public function get_array($key=null, $fields=null, $additional_option=null)
+	public function get_array($key=NULL, $fields=NULL, $additional_option=NULL)
 	{
 		$records = $this->to_array();
 		if (!$key && !$fields) {

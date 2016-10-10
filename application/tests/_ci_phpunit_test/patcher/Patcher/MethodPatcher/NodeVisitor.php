@@ -26,6 +26,6 @@ class NodeVisitor extends NodeVisitorAbstract
 		}
 
 		$pos = $node->getAttribute('startTokenPos');
-		MethodPatcher::$replacement[$pos] = true;
+		MethodPatcher::$replacement[$pos] = TRUE;
 	}
 }

@@ -77,7 +77,7 @@ class Bootstrap
 
     public function getMemoryStorage()
     {
-        return new Memory(json_decode(file_get_contents($this->configDir. '/storage.json'), true));
+        return new Memory(json_decode(file_get_contents($this->configDir. '/storage.json'), TRUE));
     }
 
     public function getRedisStorage()
@@ -106,16 +106,16 @@ class Bootstrap
             $redis->connect();
         } catch (\Predis\CommunicationException $exception) {
             // we were unable to connect to the redis server
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     public function getMysqlPdo()
     {
         if (!$this->mysql) {
-            $pdo = null;
+            $pdo = NULL;
             try {
                 $pdo = new \PDO('mysql:host=localhost;', 'root');
             } catch (\PDOException $e) {
@@ -139,7 +139,7 @@ class Bootstrap
         if (!$this->mongo) {
             $skipMongo = $this->getEnvVar('SKIP_MONGO_TESTS');
             if (!$skipMongo && class_exists('MongoClient')) {
-                $mongo = new \MongoClient('mongodb://localhost:27017', array('connect' => false));
+                $mongo = new \MongoClient('mongodb://localhost:27017', array('connect' => FALSE));
                 if ($this->testMongoConnection($mongo)) {
                     $db = $mongo->oauth2_server_php;
                     $this->removeMongoDb($db);
@@ -162,10 +162,10 @@ class Bootstrap
         try {
             $mongo->connect();
         } catch (\MongoConnectionException $e) {
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     public function getCouchbase()
@@ -182,7 +182,7 @@ class Bootstrap
                 $exec = sprintf('php -r "%s"', $code);
                 $ret = exec($exec, $test, $var);
                 if ($ret != 0) {
-                    $couchbase = new \Couchbase(array('localhost:8091'), '', '', 'auth', false);
+                    $couchbase = new \Couchbase(array('localhost:8091'), '', '', 'auth', FALSE);
                     if ($this->testCouchbaseConnection($couchbase)) {
                         $this->clearCouchbase($couchbase);
                         $this->createCouchbaseDB($couchbase);
@@ -204,13 +204,13 @@ class Bootstrap
     {
         try {
             if (count($couchbase->getServers()) > 0) {
-                return true;
+                return TRUE;
             }
         } catch (\CouchbaseException $e) {
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     public function getCassandraStorage()
@@ -238,10 +238,10 @@ class Bootstrap
         try {
             new \phpcassa\SystemManager('localhost:9160');
         } catch (\Exception $e) {
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     private function removeCassandraDb()
@@ -275,7 +275,7 @@ class Bootstrap
         $storage->setAuthorizationCode("testcode", "Some Client", '', '', time() + 1000);
 
         $storage->setScope('supportedscope1 supportedscope2 supportedscope3 supportedscope4');
-        $storage->setScope('defaultscope1 defaultscope2', null, 'default');
+        $storage->setScope('defaultscope1 defaultscope2', NULL, 'default');
 
         $storage->setScope('clientscope1 clientscope2', 'Test Client ID');
         $storage->setScope('clientscope1 clientscope2', 'Test Client ID', 'default');
@@ -295,7 +295,7 @@ class Bootstrap
         $cf->insert("oauth_public_keys:ClientID_Two", array('__data' => json_encode(array("public_key" => "client_2_public", "private_key" => "client_2_private", "encryption_algorithm" => "RS256"))));
         $cf->insert("oauth_public_keys:", array('__data' => json_encode(array("public_key" => $this->getTestPublicKey(), "private_key" =>  $this->getTestPrivateKey(), "encryption_algorithm" => "RS256"))));
 
-        $cf->insert("oauth_users:testuser", array('__data' =>json_encode(array("password" => "password", "email" => "testuser@test.com", "email_verified" => true))));
+        $cf->insert("oauth_users:testuser", array('__data' =>json_encode(array("password" => "password", "email" => "testuser@test.com", "email_verified" => TRUE))));
 
     }
 
@@ -359,33 +359,33 @@ class Bootstrap
 
         $sql = 'INSERT INTO oauth_scopes (scope, is_default) VALUES (?, ?)';
         foreach (array('defaultscope1', 'defaultscope2') as $defaultScope) {
-            $pdo->prepare($sql)->execute(array($defaultScope, true));
+            $pdo->prepare($sql)->execute(array($defaultScope, TRUE));
         }
 
         // set up clients
         $sql = 'INSERT INTO oauth_clients (client_id, client_secret, scope, grant_types) VALUES (?, ?, ?, ?)';
-        $pdo->prepare($sql)->execute(array('Test Client ID', 'TestSecret', 'clientscope1 clientscope2', null));
-        $pdo->prepare($sql)->execute(array('Test Client ID 2', 'TestSecret', 'clientscope1 clientscope2 clientscope3', null));
-        $pdo->prepare($sql)->execute(array('Test Default Scope Client ID', 'TestSecret', 'clientscope1 clientscope2', null));
-        $pdo->prepare($sql)->execute(array('oauth_test_client', 'testpass', null, 'implicit password'));
+        $pdo->prepare($sql)->execute(array('Test Client ID', 'TestSecret', 'clientscope1 clientscope2', NULL));
+        $pdo->prepare($sql)->execute(array('Test Client ID 2', 'TestSecret', 'clientscope1 clientscope2 clientscope3', NULL));
+        $pdo->prepare($sql)->execute(array('Test Default Scope Client ID', 'TestSecret', 'clientscope1 clientscope2', NULL));
+        $pdo->prepare($sql)->execute(array('oauth_test_client', 'testpass', NULL, 'implicit password'));
 
         // set up misc
         $sql = 'INSERT INTO oauth_access_tokens (access_token, client_id, expires, user_id) VALUES (?, ?, ?, ?)';
-        $pdo->prepare($sql)->execute(array('testtoken', 'Some Client', date('Y-m-d H:i:s', strtotime('+1 hour')), null));
+        $pdo->prepare($sql)->execute(array('testtoken', 'Some Client', date('Y-m-d H:i:s', strtotime('+1 hour')), NULL));
         $pdo->prepare($sql)->execute(array('accesstoken-openid-connect', 'Some Client', date('Y-m-d H:i:s', strtotime('+1 hour')), 'testuser'));
 
         $sql = 'INSERT INTO oauth_authorization_codes (authorization_code, client_id, expires) VALUES (?, ?, ?)';
         $pdo->prepare($sql)->execute(array('testcode', 'Some Client', date('Y-m-d H:i:s', strtotime('+1 hour'))));
 
         $sql = 'INSERT INTO oauth_users (username, password, email, email_verified) VALUES (?, ?, ?, ?)';
-        $pdo->prepare($sql)->execute(array('testuser', 'password', 'testuser@test.com', true));
+        $pdo->prepare($sql)->execute(array('testuser', 'password', 'testuser@test.com', TRUE));
 
         $sql = 'INSERT INTO oauth_public_keys (client_id, public_key, private_key, encryption_algorithm) VALUES (?, ?, ?, ?)';
         $pdo->prepare($sql)->execute(array('ClientID_One', 'client_1_public', 'client_1_private', 'RS256'));
         $pdo->prepare($sql)->execute(array('ClientID_Two', 'client_2_public', 'client_2_private', 'RS256'));
 
         $sql = 'INSERT INTO oauth_public_keys (client_id, public_key, private_key, encryption_algorithm) VALUES (?, ?, ?, ?)';
-        $pdo->prepare($sql)->execute(array(null, $this->getTestPublicKey(), $this->getTestPrivateKey(), 'RS256'));
+        $pdo->prepare($sql)->execute(array(NULL, $this->getTestPublicKey(), $this->getTestPrivateKey(), 'RS256'));
 
         $sql = 'INSERT INTO oauth_jwt (client_id, subject, public_key) VALUES (?, ?, ?)';
         $pdo->prepare($sql)->execute(array('oauth_test_client', 'test_subject', $this->getTestPublicKey()));
@@ -403,29 +403,29 @@ class Bootstrap
 
     private function createCouchbaseDB(\Couchbase $db)
     {
-        $db->set('oauth_clients-oauth_test_client',json_encode(array(
+        $db->set('oauth_clients-oauth_test_client', json_encode(array(
             'client_id' => "oauth_test_client",
             'client_secret' => "testpass",
             'redirect_uri' => "http://example.com",
             'grant_types' => 'implicit password'
         )));
 
-        $db->set('oauth_access_tokens-testtoken',json_encode(array(
+        $db->set('oauth_access_tokens-testtoken', json_encode(array(
             'access_token' => "testtoken",
             'client_id' => "Some Client"
         )));
 
-        $db->set('oauth_authorization_codes-testcode',json_encode(array(
+        $db->set('oauth_authorization_codes-testcode', json_encode(array(
             'access_token' => "testcode",
             'client_id' => "Some Client"
         )));
 
-        $db->set('oauth_users-testuser',json_encode(array(
+        $db->set('oauth_users-testuser', json_encode(array(
             'username' => "testuser",
             'password' => "password"
         )));
 
-        $db->set('oauth_jwt-oauth_test_client',json_encode(array(
+        $db->set('oauth_jwt-oauth_test_client', json_encode(array(
             'client_id' => 'oauth_test_client',
             'key'       => $this->getTestPublicKey(),
             'subject'   => 'test_subject',
@@ -479,7 +479,7 @@ class Bootstrap
         $storage->setUser("testuser", "password");
 
         $storage->setScope('supportedscope1 supportedscope2 supportedscope3 supportedscope4');
-        $storage->setScope('defaultscope1 defaultscope2', null, 'default');
+        $storage->setScope('defaultscope1 defaultscope2', NULL, 'default');
 
         $storage->setScope('clientscope1 clientscope2', 'Test Client ID');
         $storage->setScope('clientscope1 clientscope2', 'Test Client ID', 'default');
@@ -515,7 +515,7 @@ class Bootstrap
     {
         if (!$this->dynamodb) {
             // only run once per travis build
-            if (true == $this->getEnvVar('TRAVIS')) {
+            if (TRUE == $this->getEnvVar('TRAVIS')) {
                 if (self::DYNAMODB_PHP_VERSION != $this->getEnvVar('TRAVIS_PHP_VERSION')) {
                     $this->dynamodb = new NullStorage('DynamoDb', 'Skipping for travis.ci - only run once per build');
 
@@ -529,7 +529,7 @@ class Bootstrap
                     if ($build_id = $this->getEnvVar('TRAVIS_JOB_NUMBER')) {
                         $prefix = sprintf('build_%s_', $build_id);
                     } else {
-                        if (!$this->deleteDynamoDb($client, $prefix, true)) {
+                        if (!$this->deleteDynamoDb($client, $prefix, TRUE)) {
                             return $this->dynamodb = new NullStorage('DynamoDb', 'Timed out while waiting for DynamoDB deletion (30 seconds)');
                         }
                     }
@@ -583,7 +583,7 @@ class Bootstrap
         return \Aws\DynamoDb\DynamoDbClient::factory($config);
     }
 
-    private function deleteDynamoDb(\Aws\DynamoDb\DynamoDbClient $client, $prefix = null, $waitForDeletion = false)
+    private function deleteDynamoDb(\Aws\DynamoDb\DynamoDbClient $client, $prefix = NULL, $waitForDeletion = FALSE)
     {
         $tablesList = explode(' ', 'oauth_access_tokens oauth_authorization_codes oauth_clients oauth_jwt oauth_public_keys oauth_refresh_tokens oauth_scopes oauth_users');
         $nbTables  = count($tablesList);
@@ -614,7 +614,7 @@ class Bootstrap
                 if ($nbTableDeleted != $nbTables) {
                     if ($retries < 0) {
                         // we are tired of waiting
-                        return false;
+                        return FALSE;
                     }
                     sleep(5);
                     echo "Sleeping 5 seconds for DynamoDB ($retries more retries)...\n";
@@ -623,10 +623,10 @@ class Bootstrap
             }
         }
 
-        return true;
+        return TRUE;
     }
 
-    private function createDynamoDb(\Aws\DynamoDb\DynamoDbClient $client, $prefix = null)
+    private function createDynamoDb(\Aws\DynamoDb\DynamoDbClient $client, $prefix = NULL)
     {
         $tablesList = explode(' ', 'oauth_access_tokens oauth_authorization_codes oauth_clients oauth_jwt oauth_public_keys oauth_refresh_tokens oauth_scopes oauth_users');
         $nbTables  = count($tablesList);
@@ -734,7 +734,7 @@ class Bootstrap
         }
     }
 
-    private function populateDynamoDb($client, $prefix = null)
+    private function populateDynamoDb($client, $prefix = NULL)
     {
         // set up scopes
         foreach (explode(' ', 'supportedscope1 supportedscope2 supportedscope3 supportedscope4 clientscope1 clientscope2 clientscope3') as $supportedScope) {
@@ -862,7 +862,7 @@ class Bootstrap
         ));
     }
 
-    public function cleanupTravisDynamoDb($prefix = null)
+    public function cleanupTravisDynamoDb($prefix = NULL)
     {
         if (is_null($prefix)) {
             // skip this when not applicable
@@ -877,7 +877,7 @@ class Bootstrap
         $this->deleteDynamoDb($client, $prefix);
     }
 
-    private function getEnvVar($var, $default = null)
+    private function getEnvVar($var, $default = NULL)
     {
         return isset($_SERVER[$var]) ? $_SERVER[$var] : (getenv($var) ?: $default);
     }

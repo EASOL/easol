@@ -1,7 +1,7 @@
 <?php extract($data); ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h2 class="page-header">Section:  <?=$results[0]->UniqueSectionCode?></h2>
+        <h2 class="page-header">Section:  <?php echo $results[0]->UniqueSectionCode?></h2>
     </div>
 </div>
 <div class="row">
@@ -39,7 +39,7 @@
                       <tbody>
                         <?php foreach ($results as $k => $v) : ?>
                           <tr>
-                            <td><a href="<?= site_url("/student/sections/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
+                            <td><a href="<?php echo site_url("/student/sections/$v->StudentUSI") ?>"><?php echo $v->FirstName . ' ' . $v->MiddleName . ' ' . $v->LastSurname; ?></a></td>                             
                           </tr>
                         <?php endforeach; ?>
                       </tbody>

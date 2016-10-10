@@ -10,7 +10,8 @@ class StateAbbreviationType extends ORM {
 	public $table = "edfi.StateAbbreviationType";
 	public $primary_key = 'StateAbbreviationTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::has_many('\\Model\\Edfi\\Student'),

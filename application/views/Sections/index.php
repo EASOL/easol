@@ -15,7 +15,8 @@
                       <select name="term" class="form-control">
                           <option value="">All Terms</option>                       
                           <?php foreach($terms as $k => $v): ?>
-                            <option value="<?php echo $v->CodeValue; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";} ?> ><?php echo $v->CodeValue; ?></option>
+                            <option value="<?php echo $v->CodeValue; ?>" <?php if ($currentTerm_default == $v->TermTypeId) {echo "selected";
+                           } ?> ><?php echo $v->CodeValue; ?></option>
                           <?php endforeach; ?>                        
                       </select>   
                   </div>
@@ -24,7 +25,8 @@
                       <select name="year" class="form-control">
                           <option value="">All Years</option>                       
                           <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $k; ?>" <?php if($currentYear_default == $k) {echo "selected";} ?> ><?php echo $v; ?></option>
+                            <option value="<?php echo $k; ?>" <?php if($currentYear_default == $k) {echo "selected";
+                           } ?> ><?php echo $v; ?></option>
                           <?php endforeach; ?>                        
                       </select>   
                   </div>
@@ -47,7 +49,7 @@
                           <?php endforeach; ?>                        
                       </select>   
                   </div>    
-                  <?php } ?>
+                    <?php } ?>
                     
                     <div class="form-group">
                         <label for="filter-PageLength">Records Per Page:</label>
@@ -80,7 +82,7 @@
                               <td><?php echo $v->CodeValue; ?></td>
                               <td><?php echo easol_year($v->SchoolYear); ?></td>                              
                               <td><?php echo $v->LocalCourseCode; ?></td>
-                              <td><a href="<?= site_url("/sections/details/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
+                              <td><a href="<?php echo site_url("/sections/details/$v->id") ?>"><?php echo $v->UniqueSectionCode; ?></a></td>
                               <td><?php echo $v->Period; ?></td>
                               <td><?php echo $v->Educator; ?></td>
                               <td><?php echo $v->StudentCount; ?></td>

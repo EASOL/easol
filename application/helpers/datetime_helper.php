@@ -1,14 +1,16 @@
 <?php
 
-function set_timezone() {
+function set_timezone() 
+{
 
 	$timezone     = get_timezone();
 	date_default_timezone_set($timezone);
 }
 
-function get_timezone() {
+function get_timezone() 
+{
 
-	$timezone = Model\Easol\SystemConfiguration::limit(1)->find_by_key('timezone', false);
+	$timezone = Model\Easol\SystemConfiguration::limit(1)->find_by_key('timezone', FALSE);
 	if ($timezone) {
 		$timezone         = json_decode($timezone->Value);
 		$timezone_listing = timezone_listing();
@@ -22,14 +24,16 @@ function get_timezone() {
 }
 
 
-function timezone_listing() {
+function timezone_listing() 
+{
 
 	$timezone_listing = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 
 	return $timezone_listing;
 }
 
-function easol_date($date, $format='m/d/Y') {
+function easol_date($date, $format='m/d/Y') 
+{
 	if (!$date)
 		return NULL;
 
@@ -38,7 +42,8 @@ function easol_date($date, $format='m/d/Y') {
 	return $my_date;
 }
 
-function easol_time($time, $timezone=null) {
+function easol_time($time, $timezone=NULL) 
+{
 
 	if (!$timezone) {
 		$timezone = get_timezone();
@@ -51,7 +56,8 @@ function easol_time($time, $timezone=null) {
 
 }
 
-function easol_datetime_from_utc($time, $timezone=null) {
+function easol_datetime_from_utc($time, $timezone=NULL) 
+{
 	if (!$timezone) {
 		$timezone = get_timezone();
 	}

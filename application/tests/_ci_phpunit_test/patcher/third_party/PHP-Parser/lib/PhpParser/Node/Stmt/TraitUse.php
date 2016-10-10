@@ -19,13 +19,15 @@ class TraitUse extends Node\Stmt
      * @param TraitUseAdaptation[] $adaptations Adaptations
      * @param array                $attributes  Additional attributes
      */
-    public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->traits = $traits;
         $this->adaptations = $adaptations;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('traits', 'adaptations');
     }
 }

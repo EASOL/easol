@@ -10,11 +10,11 @@ require_once APPPATH.'/core/Easol_BaseEntity.php';
  */
 class Easol_Report extends Easol_BaseEntity {
 
-    private $category = null;
-    private $school = null;
-    private $accessTypes = null;
-    public $filters = null;
-    public $links = null;
+    private $category = NULL;
+    private $school = NULL;
+    private $accessTypes = NULL;
+    public $filters = NULL;
+    public $links = NULL;
 
     /**
      * return table name
@@ -48,7 +48,8 @@ class Easol_Report extends Easol_BaseEntity {
         ];
     }
 
-    public function beforeSave(){
+    public function beforeSave()
+    {
         $this->SchoolId = Easol_Auth::userdata("SchoolId");
         parent::beforeSave();
     }
@@ -56,7 +57,8 @@ class Easol_Report extends Easol_BaseEntity {
     /**
      * @return array
      */
-    public function validationRules(){
+    public function validationRules()
+    {
         return [
             'ReportName' => ['string','Required'],
             'ReportCategoryId' => ['int','Required'],
@@ -76,8 +78,9 @@ class Easol_Report extends Easol_BaseEntity {
     }
 
 
-    public function getCategory(){
-        if($this->category==null) {
+    public function getCategory()
+    {
+        if($this->category==NULL) {
             $this->load->model('entities/easol/Easol_ReportCategory');
             $category = new Easol_ReportCategory();
             $this->category = $category->findOne(['ReportCategoryId' => $this->ReportCategoryId]);
@@ -85,9 +88,10 @@ class Easol_Report extends Easol_BaseEntity {
         return $this->category;
     }
 
-    public function getSchool(){
+    public function getSchool()
+    {
 
-        if($this->school==null) {
+        if($this->school==NULL) {
             $this->load->model('entities/edfi/Edfi_EducationOrganization');
             $school = new Edfi_EducationOrganization();
             $this->school = $school->hydrate($school->findOne($this->SchoolId));
@@ -97,7 +101,8 @@ class Easol_Report extends Easol_BaseEntity {
 
     
 
-    public function getFilters(){
+    public function getFilters()
+    {
 
         if (!$this->filters) {
             $query = $this->db->query("SELECT ReportFilterId ,ReportId , DisplayName ,FieldName ,FilterType ,FilterOptions ,DefaultValue 
@@ -113,7 +118,8 @@ class Easol_Report extends Easol_BaseEntity {
 
     }
     
-    public function getLinks(){
+    public function getLinks()
+    {
         if (!$this->links) {
             $query = $this->db->query("SELECT ReportLinkId ,ReportId , URL ,ColumnNo
                                     FROM EASOL.ReportLink WHERE ReportId=?
@@ -132,16 +138,17 @@ class Easol_Report extends Easol_BaseEntity {
      * @return null|object
      */
     //public $dt=0;
-    public function getAccessTypes(){
+    public function getAccessTypes()
+    {
 
-        if($this->accessTypes==null && !property_exists($this,"flagAccessTypes")) {
-            $this->flagAccessTypes = true;
+        if($this->accessTypes==NULL && !property_exists($this, "flagAccessTypes")) {
+            $this->flagAccessTypes = TRUE;
             //echo '#'.(++$this->dt).'sspd';
             $this->accessTypes = [];
             $this->load->model('entities/easol/Easol_ReportAccess');
             $accessType = new Easol_ReportAccess();
 
-            $this->accessTypes = $accessType->findAllBySql("SELECT EASOL.RoleType.* FROM EASOL.ReportAccess, EASOL.RoleType WHERE EASOL.RoleType.RoleTypeId=EASOL.ReportAccess.RoleTypeId AND EASOL.ReportAccess.ReportId=? ORDER BY RoleTypeName ASC",[$this->ReportId]);
+            $this->accessTypes = $accessType->findAllBySql("SELECT EASOL.RoleType.* FROM EASOL.ReportAccess, EASOL.RoleType WHERE EASOL.RoleType.RoleTypeId=EASOL.ReportAccess.RoleTypeId AND EASOL.ReportAccess.ReportId=? ORDER BY RoleTypeName ASC", [$this->ReportId]);
 
 
         }
@@ -150,7 +157,8 @@ class Easol_Report extends Easol_BaseEntity {
 
     }
 
-    public function getReportData(){
+    public function getReportData()
+    {
 
         $query = $this->getReportQuery();
 
@@ -163,18 +171,19 @@ class Easol_Report extends Easol_BaseEntity {
 
     }
 
-    public function getReportQuery($query=null, $filters=null) {
+    public function getReportQuery($query=NULL, $filters=NULL) 
+    {
         
         if (!$query) $query = $this->CommandText;
-        if ($filters === null) $filters = $this->getFilters();
+        if ($filters === NULL) $filters = $this->getFilters();
         $get = $this->input->get('filter');
 
         if (!empty($filters)) {
             foreach ($filters as $key=>$filter) {
 
-                if (is_array($filter)) $filter = json_decode(json_encode($filter), false);
+                if (is_array($filter)) $filter = json_decode(json_encode($filter), FALSE);
 
-                if (stripos($query, '$filter.'.$filter->FieldName) !== false) {
+                if (stripos($query, '$filter.'.$filter->FieldName) !== FALSE) {
 
                     $fieldName = str_replace(".", "-", $filter->FieldName);
 
@@ -194,7 +203,7 @@ class Easol_Report extends Easol_BaseEntity {
 
             foreach($filters as $key => $filter){ 
 
-                if (is_array($filter)) $filter = json_decode(json_encode($filter), false);
+                if (is_array($filter)) $filter = json_decode(json_encode($filter), FALSE);
 
                 $fieldName = str_replace(".", "-", $filter->FieldName);
 
@@ -227,7 +236,8 @@ class Easol_Report extends Easol_BaseEntity {
         return $query;
     }
 
-    public function getViewName(){
+    public function getViewName()
+    {
        
         switch($this->DisplayType){
 

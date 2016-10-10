@@ -13,7 +13,7 @@ class CodeIdToken implements CodeIdTokenInterface
         $this->idToken = $idToken;
     }
 
-    public function getAuthorizeResponse($params, $user_id = null)
+    public function getAuthorizeResponse($params, $user_id = NULL)
     {
         $result = $this->authCode->getAuthorizeResponse($params, $user_id);
         $id_token = $this->idToken->createIdToken($params['client_id'], $user_id, $params['nonce']);

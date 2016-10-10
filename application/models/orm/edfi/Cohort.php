@@ -17,7 +17,8 @@ class Cohort extends ORM {
 		'\\model\\edfi\\academicsubjectdescriptor' => 'AcademicSubjectDescriptorId',
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'School'=> ORM::belongs_to('\\Model\\Edfi\\EducationOrganizationId'),

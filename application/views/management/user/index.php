@@ -60,8 +60,8 @@
 							if (!$user->StaffUSI) : ?>
 								<span class="alert alert-danger alert-small" data-toggle="tooltip" data-placement="left" title="Cant edit/delete without a StaffUSI">Error</span>
 							<?php else : ?>
-								<a href="<?= site_url("/management/user/save/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-								<a href="<?= site_url("/management/user/delete/$user->StaffUSI") ?>" class="usermanagement-index-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+								<a href="<?php echo site_url("/management/user/save/$user->StaffUSI") ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+								<a href="<?php echo site_url("/management/user/delete/$user->StaffUSI") ?>" class="usermanagement-index-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							<?php endif; ?>
 						</td>
 					</tr>

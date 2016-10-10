@@ -11,7 +11,8 @@ class Staff extends ORM {
 	public $table       = "edfi.StaffEducationOrganizationEmploymentAssociation";
 	public $foreign_key = array('\\model\\edfi\\educationorganization' => 'EducationOrganizationId', '\\model\\edfi\\staff' => 'StaffUSI');
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'EducationOrganization' => ORM::belongs_to('\\Model\\Edfi\\EducationOrganization'),

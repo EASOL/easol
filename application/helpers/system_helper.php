@@ -1,23 +1,26 @@
 <?php
 
-function system_google_auth_enabled() {
-	$google_auth = Model\Easol\SystemConfiguration::limit(1)->find_by_key('google_auth', false);
+function system_google_auth_enabled() 
+{
+	$google_auth = Model\Easol\SystemConfiguration::limit(1)->find_by_key('google_auth', FALSE);
 
 	$google_auth = json_decode($google_auth->Value);
 
-	if ($google_auth->enabled == 'yes') return true;
-	return false;
+	if ($google_auth->enabled == 'yes') return TRUE;
+	return FALSE;
 }
 
-function system_google_auth_app_id() {
-	$google_auth = Model\Easol\SystemConfiguration::limit(1)->find_by_key('google_auth', false);
+function system_google_auth_app_id() 
+{
+	$google_auth = Model\Easol\SystemConfiguration::limit(1)->find_by_key('google_auth', FALSE);
 
 	$google_auth = json_decode($google_auth->Value);
 
 	return $google_auth->app_id;
 }
 
-function system_variables() {
+function system_variables() 
+{
 	return [
 		'$CURRENT_EDORG' => Easol_Auth::userdata("SchoolId"),
 		'$CURRENT_YEAR' => date('Y'),
@@ -26,7 +29,8 @@ function system_variables() {
 		'$CURRENT_TERMID' => Easol_SchoolConfiguration::getValue('CURRENT_TERMID'),
 	];
 }
-function system_variable($variable=null) {
+function system_variable($variable=NULL) 
+{
 	$variables = system_variables();
 
 	$value = $variables[$variable];
@@ -36,7 +40,8 @@ function system_variable($variable=null) {
 	return $value;
 }
 
-function system_variable_filter($string) {
+function system_variable_filter($string) 
+{
 
 	$variables = system_variables();
 		
@@ -47,11 +52,13 @@ function system_variable_filter($string) {
 	return $string;
 }
 
-function is_json($string) {
+function is_json($string) 
+{
 	json_decode($string);
 	return (json_last_error() == JSON_ERROR_NONE);
 }
 
-function easol_year($year) {
+function easol_year($year) 
+{
 	return $year.'-'.($year + 1);
 }

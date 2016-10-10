@@ -15,12 +15,14 @@ class Isset_ extends Expr
      * @param Expr[] $vars       Variables
      * @param array  $attributes Additional attributes
      */
-    public function __construct(array $vars, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(array $vars, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->vars = $vars;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('vars');
     }
 }

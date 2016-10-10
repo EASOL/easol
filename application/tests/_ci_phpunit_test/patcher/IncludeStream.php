@@ -65,7 +65,7 @@ class IncludeStream
 		if ($including && $this->shouldPreprocess($path)) {
 			$this->resource = $this->preprocessAndOpen($path);
 			$this->wrap();
-			return true;
+			return TRUE;
 		}
 		if (isset($this->context)) {
 			$this->resource = fopen($path, $mode, $options, $this->context);
@@ -73,7 +73,7 @@ class IncludeStream
 			$this->resource = fopen($path, $mode, $options);
 		}
 		$this->wrap();
-		return $this->resource !== false;
+		return $this->resource !== FALSE;
 	}
 
 	public function stream_close()
@@ -115,7 +115,8 @@ class IncludeStream
 	{
 		$this->unwrap();
 		if ($flags & STREAM_URL_STAT_QUIET) {
-			set_error_handler(function() {});
+			set_error_handler(function() {
+   });
 		}
 		$result = stat($path);
 		if ($flags & STREAM_URL_STAT_QUIET) {
@@ -128,7 +129,7 @@ class IncludeStream
 	public function dir_closedir()
 	{
 		closedir($this->resource);
-		return true;
+		return TRUE;
 	}
 
 	public function dir_opendir($path, $options)
@@ -140,7 +141,7 @@ class IncludeStream
 			$this->resource = opendir($path);
 		}
 		$this->wrap();
-		return $this->resource !== false;
+		return $this->resource !== FALSE;
 	}
 
 	public function dir_readdir()
@@ -151,7 +152,7 @@ class IncludeStream
 	public function dir_rewinddir()
 	{
 		rewinddir($this->resource);
-		return true;
+		return TRUE;
 	}
 
 	public function mkdir($path, $mode, $options)
@@ -204,13 +205,13 @@ class IncludeStream
 	{
 		switch ($option) {
 			case STREAM_OPTION_BLOCKING:
-				return stream_set_blocking($this->resource, $arg1);
+       return stream_set_blocking($this->resource, $arg1);
 			case STREAM_OPTION_READ_TIMEOUT:
-				return stream_set_timeout($this->resource, $arg1, $arg2);
+       return stream_set_timeout($this->resource, $arg1, $arg2);
 			case STREAM_OPTION_WRITE_BUFFER:
-				return stream_set_write_buffer($this->resource, $arg1);
+       return stream_set_write_buffer($this->resource, $arg1);
 			case STREAM_OPTION_READ_BUFFER:
-				return stream_set_read_buffer($this->resource, $arg1);
+       return stream_set_read_buffer($this->resource, $arg1);
 		}
 	}
 
@@ -241,18 +242,18 @@ class IncludeStream
 				} else {
 					$result = touch($path, $value[0], $value[1]);
 				}
-				break;
+       break;
 			case STREAM_META_OWNER_NAME:
 			case STREAM_META_OWNER:
 				$result = chown($path, $value);
-				break;
+       break;
 			case STREAM_META_GROUP_NAME:
 			case STREAM_META_GROUP:
 				$result = chgrp($path, $value);
-				break;
+       break;
 			case STREAM_META_ACCESS:
 				$result = chmod($path, $value);
-				break;
+       break;
 		}
 		$this->wrap();
 		return $result;

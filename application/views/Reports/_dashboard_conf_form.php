@@ -38,9 +38,9 @@
                                 //check if table
                                // if($report->ReportDisplayId==1)
                                  //   continue;
-                                $flagLeftOptions= false;
-                                $flagRightOptions= false;
-                                $flagBottomOptions= false;
+                                $flagLeftOptions= FALSE;
+                                $flagRightOptions= FALSE;
+                                $flagBottomOptions= FALSE;
                                 foreach($report->getAccessTypes() as $access){
 
                                     if($role->RoleTypeId==1 || $role->RoleTypeId==2 || $access->RoleTypeId == $role->RoleTypeId  ){
@@ -49,20 +49,20 @@
                                         //check if not table
                                             if($report->DisplayType != 'table'){ ?>
                                                 <?php
-                                                if($flagLeftOptions==false) {
-                                                    $flagLeftOptions = true;
+                                                if($flagLeftOptions==FALSE) {
+                                                    $flagLeftOptions = TRUE;
                                                 $leftOptions.='<option ';
-                                                if($dashConf!=null && $dashConf->LeftChartReportId == $report->ReportId )
+                                                if($dashConf!=NULL && $dashConf->LeftChartReportId == $report->ReportId )
                                                     $leftOptions.= 'selected="selected" ';
                                                  $leftOptions.= 'value="'.$report->ReportId.'">'.$report->ReportName.'</option>';
 
                                                 }
                                                 ?>
                                                 <?php
-                                                if($flagRightOptions==false) {
-                                                    $flagRightOptions = true;
+                                                if($flagRightOptions==FALSE) {
+                                                    $flagRightOptions = TRUE;
                                                     $rightOptions.='<option ';
-                                                    if($dashConf!=null && $dashConf->RightChartReportId == $report->ReportId )
+                                                    if($dashConf!=NULL && $dashConf->RightChartReportId == $report->ReportId )
                                                         $rightOptions.= 'selected="selected" ';
                                                     $rightOptions.= 'value="'.$report->ReportId.'">'.$report->ReportName.'</option>';
 
@@ -71,10 +71,10 @@
 
                                             <?php } else { ?>
                                                 <?php
-                                                if($flagBottomOptions==false) {
-                                                    $flagBottomOptions = true;
+                                                if($flagBottomOptions==FALSE) {
+                                                    $flagBottomOptions = TRUE;
                                                     $bottomOptions.='<option ';
-                                                    if($dashConf!=null && $dashConf->BottomTableReportId == $report->ReportId )
+                                                    if($dashConf!=NULL && $dashConf->BottomTableReportId == $report->ReportId )
                                                         $bottomOptions.= 'selected="selected" ';
                                                     $bottomOptions.= 'value="'.$report->ReportId.'">'.$report->ReportName.'</option>';
 
@@ -90,17 +90,17 @@
                             <?php } ?>
 
                         <tr>
-                            <td style='width: 150px; vertical-align: middle'><?= $role->RoleTypeName ?></td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][left]" class='form-control'>
-                                    <?= $leftOptions ?>
+                            <td style='width: 150px; vertical-align: middle'><?php echo $role->RoleTypeName ?></td>
+                            <td><select name="dashboardConf[<?php echo $role->RoleTypeId ?>][left]" class='form-control'>
+                                    <?php echo $leftOptions ?>
 
 
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][right]" class='form-control'>
-                                <?= $rightOptions ?>
+                            <td><select name="dashboardConf[<?php echo $role->RoleTypeId ?>][right]" class='form-control'>
+                                <?php echo $rightOptions ?>
                                 </select> </td>
-                            <td><select name="dashboardConf[<?= $role->RoleTypeId ?>][bottom]" class='form-control'>
-                                <?= $bottomOptions ?>
+                            <td><select name="dashboardConf[<?php echo $role->RoleTypeId ?>][bottom]" class='form-control'>
+                                <?php echo $bottomOptions ?>
                                 </select> </td>
                         </tr>
                         <?php } ?>

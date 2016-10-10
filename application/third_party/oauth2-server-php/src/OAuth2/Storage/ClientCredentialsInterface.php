@@ -27,7 +27,7 @@ interface ClientCredentialsInterface extends ClientInterface
      *
      * @ingroup oauth2_section_3
      */
-    public function checkClientCredentials($client_id, $client_secret = null);
+    public function checkClientCredentials($client_id, $client_secret = NULL);
 
     /**
      * Determine if the client is a "public" client, and therefore

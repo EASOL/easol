@@ -20,20 +20,20 @@ if (empty($attendances)) {
                 <tr>
                     <td><?php
 
-                    if(strpos($attendance->ClassPeriodName, " - ")!== false)
+                    if(strpos($attendance->ClassPeriodName, " - ")!== FALSE)
                      list($pCode,$pName) = explode(' - ', $attendance->ClassPeriodName);
                     else
                      $pCode = $attendance->ClassPeriodName;
                     echo $pCode;
                      ?></td>
-                    <td><?= $attendance->LocalCourseCode ?></td>
-                    <td><?= anchor('sections/details/'.$attendance->id, $attendance->UniqueSectionCode, 'target="_blank"'); ?></td>
-                    <td><?= $attendance->Present ?></td>
-                    <td><?= $attendance->Tardy ?></td>
-                    <td><?= $attendance->Absence ?></td>
+                    <td><?php echo $attendance->LocalCourseCode ?></td>
+                    <td><?php echo anchor('sections/details/'.$attendance->id, $attendance->UniqueSectionCode, 'target="_blank"'); ?></td>
+                    <td><?php echo $attendance->Present ?></td>
+                    <td><?php echo $attendance->Tardy ?></td>
+                    <td><?php echo $attendance->Absence ?></td>
                 </tr>
             <?php }  ?>
             </tbody>
         </table>
     </div>
-<?php } ?>
+<?php } 

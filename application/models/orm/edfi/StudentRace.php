@@ -15,7 +15,8 @@ class StudentRace extends ORM {
 		'\\model\\edfi\\racetype' => 'RaceTypeId',
 	];
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::belongs_to('\\Model\\Edfi\\Student'),

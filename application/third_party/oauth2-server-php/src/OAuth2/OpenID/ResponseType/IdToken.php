@@ -14,7 +14,7 @@ class IdToken implements IdTokenInterface
     protected $config;
     protected $encryptionUtil;
 
-    public function __construct(UserClaimsInterface $userClaimsStorage, PublicKeyInterface $publicKeyStorage, array $config = array(), EncryptionInterface $encryptionUtil = null)
+    public function __construct(UserClaimsInterface $userClaimsStorage, PublicKeyInterface $publicKeyStorage, array $config = array(), EncryptionInterface $encryptionUtil = NULL)
     {
         $this->userClaimsStorage = $userClaimsStorage;
         $this->publicKeyStorage = $publicKeyStorage;
@@ -31,17 +31,17 @@ class IdToken implements IdTokenInterface
         ), $config);
     }
 
-    public function getAuthorizeResponse($params, $userInfo = null)
+    public function getAuthorizeResponse($params, $userInfo = NULL)
     {
         // build the URL to redirect to
         $result = array('query' => array());
-        $params += array('scope' => null, 'state' => null, 'nonce' => null);
+        $params += array('scope' => NULL, 'state' => NULL, 'nonce' => NULL);
 
         // create the id token.
         list($user_id, $auth_time) = $this->getUserIdAndAuthTime($userInfo);
         $userClaims = $this->userClaimsStorage->getUserClaims($user_id, $params['scope']);
 
-        $id_token = $this->createIdToken($params['client_id'], $userInfo, $params['nonce'], $userClaims, null);
+        $id_token = $this->createIdToken($params['client_id'], $userInfo, $params['nonce'], $userClaims, NULL);
         $result["fragment"] = array('id_token' => $id_token);
         if (isset($params['state'])) {
             $result["fragment"]["state"] = $params['state'];
@@ -50,7 +50,7 @@ class IdToken implements IdTokenInterface
         return array($params['redirect_uri'], $result);
     }
 
-    public function createIdToken($client_id, $userInfo, $nonce = null, $userClaims = null, $access_token = null)
+    public function createIdToken($client_id, $userInfo, $nonce = NULL, $userClaims = NULL, $access_token = NULL)
     {
         // pull auth_time from user info if supplied
         list($user_id, $auth_time) = $this->getUserIdAndAuthTime($userInfo);
@@ -79,7 +79,7 @@ class IdToken implements IdTokenInterface
         return $this->encodeToken($token, $client_id);
     }
 
-    protected function createAtHash($access_token, $client_id = null)
+    protected function createAtHash($access_token, $client_id = NULL)
     {
         // maps HS256 and RS256 to sha256, etc.
         $algorithm = $this->publicKeyStorage->getEncryptionAlgorithm($client_id);
@@ -90,7 +90,7 @@ class IdToken implements IdTokenInterface
         return $this->encryptionUtil->urlSafeB64Encode($at_hash);
     }
 
-    protected function encodeToken(array $token, $client_id = null)
+    protected function encodeToken(array $token, $client_id = NULL)
     {
         $private_key = $this->publicKeyStorage->getPrivateKey($client_id);
         $algorithm = $this->publicKeyStorage->getEncryptionAlgorithm($client_id);
@@ -100,7 +100,7 @@ class IdToken implements IdTokenInterface
 
     private function getUserIdAndAuthTime($userInfo)
     {
-        $auth_time = null;
+        $auth_time = NULL;
 
         // support an array for user_id / auth_time
         if (is_array($userInfo)) {
@@ -108,7 +108,7 @@ class IdToken implements IdTokenInterface
                 throw new \LogicException('if $user_id argument is an array, user_id index must be set');
             }
 
-            $auth_time = isset($userInfo['auth_time']) ? $userInfo['auth_time'] : null;
+            $auth_time = isset($userInfo['auth_time']) ? $userInfo['auth_time'] : NULL;
             $user_id = $userInfo['user_id'];
         } else {
             $user_id = $userInfo;

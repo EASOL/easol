@@ -40,10 +40,10 @@ if (!empty($ReportData)) {
 }
 
 ?>
-<?php if($displayTitle==true){ ?>
+<?php if($displayTitle==TRUE){ ?>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h1 class="page-header">Flex Reports : Stacked Bar : <?= $model->ReportName ?></h1>
+        <h1 class="page-header">Flex Reports : Stacked Bar : <?php echo $model->ReportName ?></h1>
     </div>
 </div>
 <?php } ?>
@@ -52,9 +52,9 @@ if (!empty($ReportData)) {
         <div class="panel panel-default">
              <?php if($filter = $model->getFilters()): ?>
                 <div class="panel-body" id="filter-destination">
-                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
+                    <?php $this->load->view('Reports/_report-filters', ['filter'=>$filter, 'report'=>$model]); ?>
                 </div>
-            <?php endif;   ?>
+             <?php endif;   ?>
             <div class="panel-body">
                 <style>
                     #chart1, svg {
@@ -70,7 +70,7 @@ if (!empty($ReportData)) {
                 </div>
 
                 <script>
-                  /* */ var long_short_data = <?= json_encode($jsonData) ?>; /* */
+                  /* */ var long_short_data = <?php echo json_encode($jsonData) ?>; /* */
 
                     var chart;
                     nv.addGraph(function() {
@@ -87,9 +87,9 @@ if (!empty($ReportData)) {
                            // .margin({left: 100})
                               .showControls(true)        //Allow user to switch between "Grouped" and "Stacked" mode.
                               .stacked(true);
-                        chart.xAxis.axisLabel('<?= $model->LabelY ?>').axisLabelDistance(35);
+                        chart.xAxis.axisLabel('<?php echo $model->LabelY ?>').axisLabelDistance(35);
                         chart.yAxis.tickFormat(d3.format(',.2f'));
-                        chart.yAxis.axisLabel('<?= $model->LabelX ?>');
+                        chart.yAxis.axisLabel('<?php echo $model->LabelX ?>');
 
                         d3.select('#chart1 svg')
                             .datum(long_short_data)
@@ -115,4 +115,4 @@ if (!empty($ReportData)) {
         <?php include('display-table-view.php'); ?>
     </div>
 </div>
-<?php } ?>
+<?php } 

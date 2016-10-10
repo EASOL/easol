@@ -19,8 +19,9 @@ class UseUse extends Node\Stmt
      * @param null|string $alias      Alias
      * @param array       $attributes Additional attributes
      */
-    public function __construct(Node\Name $name, $alias = null, array $attributes = array()) {
-        if (null === $alias) {
+    public function __construct(Node\Name $name, $alias = NULL, array $attributes = array()) 
+    {
+        if (NULL === $alias) {
             $alias = $name->getLast();
         }
 
@@ -31,12 +32,13 @@ class UseUse extends Node\Stmt
             ));
         }
 
-        parent::__construct(null, $attributes);
+        parent::__construct(NULL, $attributes);
         $this->name = $name;
         $this->alias = $alias;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('name', 'alias');
     }
 }

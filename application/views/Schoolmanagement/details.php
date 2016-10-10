@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12">
         <button id="schoolmanagement-details-form-enable" class="btn btn-primary">Edit School Configurations</button>
-        <?php echo anchor('schoolmanagement/addschooldetails/'.$school[0]->SchoolId ,'<button class="btn btn-primary pull-right">Add a Configuration value</button>'); ?>
+        <?php echo anchor('schoolmanagement/addschooldetails/'.$school[0]->SchoolId, '<button class="btn btn-primary pull-right">Add a Configuration value</button>'); ?>
         <div style="clear:both; margin:25px 0;">
             <form id="schoolmanagement-details-form" method="post">
                 <table id="manageschooldetails" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">

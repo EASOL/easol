@@ -27,7 +27,7 @@
 */
 
 $config['models_path'] = array(
-	'Model' => APPPATH . 'models/orm/'
+	'Model' => APPPATH . 'models/orm'
 );
 
 
@@ -70,7 +70,7 @@ $config['cache_request'] = TRUE;
 |
 */
 
-$config['auto_create_models'] = false;
+$config['auto_create_models'] = FALSE;
 
 /*
 | -------------------------------------------------------------------
@@ -99,4 +99,4 @@ $config['auto_create_models'] = false;
 |
 */
 
-$config['auto_create_tables'] = false;
+$config['auto_create_tables'] = FALSE;

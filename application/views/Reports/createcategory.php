@@ -8,7 +8,7 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-        			<?php $this->load->view("Reports/_category_form",['model' => $model]); ?>
+        			<?php $this->load->view("Reports/_category_form", ['model' => $model]); ?>
             </div>
         </div>
     </div>

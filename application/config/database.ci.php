@@ -34,4 +34,3 @@ $db['testing'] = array(
 );
 $db['testing']['port'] = 1433;
 
-?>

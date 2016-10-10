@@ -7,21 +7,23 @@ class Edfi_Model extends CI_Model {
 	public $has_one;
 	public $belongs_to;
 
-	public function __construct(){
+	public function __construct()
+ {
 
 		parent::__construct();
 
 	}
 
-	function get($filter=array(), $select=null) {
+	function get($filter=array(), $select=NULL) 
+ {
 
-		if ($filter === null) {
-			return null;
+		if ($filter === NULL) {
+			return NULL;
 		}
 
 		if (is_array($filter)) {
 			foreach($filter as $field=>$value) {
-				($value === false) ? $this->db->where($field) : $this->db->where($field, $value);
+				($value === FALSE) ? $this->db->where($field) : $this->db->where($field, $value);
 			}
 		}
 		elseif (is_numeric($filter)) {
@@ -29,7 +31,7 @@ class Edfi_Model extends CI_Model {
 		}
 
 		if ($select) {
-			$this->db->select($select, false);
+			$this->db->select($select, FALSE);
 		}
 		$this->db->limit(1);
 		$query = $this->db->get($this->table);
@@ -37,7 +39,7 @@ class Edfi_Model extends CI_Model {
 		$row = $query->row_array();
 
 		if ($select && sizeof(explode(",", $select)) == 1) {
-			if (stripos($select, ' as ') !== false) {
+			if (stripos($select, ' as ') !== FALSE) {
 				$select = explode(' as ', $select);
 				return $row[$select[1]];
 			}
@@ -47,7 +49,8 @@ class Edfi_Model extends CI_Model {
 		return $row;
 	}
 
-	public function listing($filter=array(), $key_value=null) {
+	public function listing($filter=array(), $key_value=NULL) 
+ {
 
 		if (isset($filter['order_by'])) {
 			if (is_array($filter['order_by'])) {
@@ -72,7 +75,7 @@ class Edfi_Model extends CI_Model {
 
 		if (is_array($filter)) {
 			foreach ($filter as $field=>$v) {
-				if ($v === false) {
+				if ($v === FALSE) {
 					$this->db->where($field);
 				}
 				else {
@@ -106,13 +109,14 @@ class Edfi_Model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function count($filter=array()) {
+	public function count($filter=array()) 
+ {
 
 		unset($filter['limit'], $filter['offset'], $filter['order_by'], $filter['group_by']);
 
 		if (is_array($filter)) {
 			foreach ($filter as $field=>$value) {
-				if ($value === false) {
+				if ($value === FALSE) {
 					$this->db->where($field);
 				}
 				else {
@@ -127,4 +131,3 @@ class Edfi_Model extends CI_Model {
 	}
 }
 
-?>

@@ -6,11 +6,13 @@ class Datamanagement extends Easol_Controller {
     /**
      * default constructor
      */
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  ['System Administrator','Data Administrator'],
         ];
@@ -19,12 +21,14 @@ class Datamanagement extends Easol_Controller {
     /**
      * index action
      */
-    public function index(){
+    public function index()
+    {
 
 		$this->render("index");
-	}
+    }
 
-    public function showAllTable(){
+    public function showAllTable()
+    {
 
         $msg = [];
         $msg['status']['type'] = 'success';
@@ -38,16 +42,16 @@ class Datamanagement extends Easol_Controller {
             $this->load->model('Datamanagementqueries');
             switch($_POST['tableType']){
                 case 'object':
-                    $msg['objects'] = Datamanagementqueries::getObjectsList(false);
+                    $msg['objects'] = Datamanagementqueries::getObjectsList(FALSE);
                     break;
                 case 'association':
-                    $msg['objects'] = Datamanagementqueries::getAssociationsList(false);
+                    $msg['objects'] = Datamanagementqueries::getAssociationsList(FALSE);
                     break;
                 case 'type':
-                    $msg['objects'] = Datamanagementqueries::getTypesList(false);
+                    $msg['objects'] = Datamanagementqueries::getTypesList(FALSE);
                     break;
                 case 'descriptor':
-                    $msg['objects'] = Datamanagementqueries::getDescriptorsList(false);
+                    $msg['objects'] = Datamanagementqueries::getDescriptorsList(FALSE);
                     break;
                 default:
                     $msg['status']['type'] = 'failed';
@@ -59,7 +63,8 @@ class Datamanagement extends Easol_Controller {
         echo json_encode($msg);
     }
 
-    public function ShowTableInfo(){
+    public function ShowTableInfo()
+    {
         $msg = [];
         $msg['status']['type'] = 'success';
         $msg['status']['msg'] = '';
@@ -77,7 +82,8 @@ class Datamanagement extends Easol_Controller {
     /**
      *
      */
-    public function showTableDetails(){
+    public function showTableDetails()
+    {
 
         $msg = [];
         $msg['status']['type'] = 'success';
@@ -89,7 +95,7 @@ class Datamanagement extends Easol_Controller {
         else{
             $this->load->model('Datamanagementqueries');
             $msg['total'] = Datamanagementqueries::getTableDataCount($_POST['tableName'])->total;
-            $msg['objects'] = Datamanagementqueries::getTableData($_POST['tableName'],$_POST['start'],$_POST['pageSize']);
+            $msg['objects'] = Datamanagementqueries::getTableData($_POST['tableName'], $_POST['start'], $_POST['pageSize']);
         }
         echo json_encode($msg);
 
@@ -99,8 +105,9 @@ class Datamanagement extends Easol_Controller {
      * @param null $tableName
      * @throws Exception
      */
-    public function downloadTableTemplate($tableName=null){
-        if($tableName==null)
+    public function downloadTableTemplate($tableName=NULL)
+    {
+        if($tableName==NULL)
             throw new \Exception("Table not Set");
 
 
@@ -109,15 +116,16 @@ class Datamanagement extends Easol_Controller {
         header("Content-Disposition: attachment; filename=".$tableName);
         header("Pragma: no-cache");
         header("Expires: 0");
-        echo $this->renderPartial("download-table-headers",['data' => Datamanagementqueries::getTableDetails(str_replace(".csv","",$tableName)) ]);
+        echo $this->renderPartial("download-table-headers", ['data' => Datamanagementqueries::getTableDetails(str_replace(".csv", "", $tableName)) ]);
     }
 
     /**
      * @param null $tableName
      * @throws Exception
      */
-    public function downloadTableData($tableName=null){
-        if($tableName==null)
+    public function downloadTableData($tableName=NULL)
+    {
+        if($tableName==NULL)
             throw new \Exception("Table not Set");
 
 
@@ -127,7 +135,7 @@ class Datamanagement extends Easol_Controller {
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo $this->renderPartial("download-table-data",['data' => Datamanagementqueries::getAllTableData($tableName) ]);
+        echo $this->renderPartial("download-table-data", ['data' => Datamanagementqueries::getAllTableData($tableName) ]);
 
 
 
@@ -136,7 +144,8 @@ class Datamanagement extends Easol_Controller {
     /**
      *
      */
-    public function uploadcsv(){
+    public function uploadcsv()
+    {
         //$this->load->model('Datamanagementqueries');
        // echo Datamanagementqueries::getPrimaryKey($_POST['tableName']);
 
@@ -157,7 +166,7 @@ class Datamanagement extends Easol_Controller {
                     if($this->checkFile($_FILES['csvFile']['tmp_name'], $_POST['tableName'])) {
                         $this->load->model('Datamanagementqueries');
                         $this->load->model('Easol_CSVProcessor');
-                        $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'],$_POST['tableName']);
+                        $csvProcessor = new Easol_CSVProcessor($_FILES['csvFile']['tmp_name'], $_POST['tableName']);
                         $this->importedFileName = $_FILES['csvFile']['name'];
                         //print_r($csv = array_map('str_getcsv', file($_FILES['csvFile']['tmp_name'])));
                         switch($_POST['data_action']){
@@ -231,7 +240,8 @@ class Datamanagement extends Easol_Controller {
         echo json_encode($msg);
     }
 
-    public function checkFile($file, $tableName) {
+    public function checkFile($file, $tableName) 
+    {
 
         $this->load->model('Datamanagementqueries');
         $this->objectDescription = $tableName;
@@ -241,14 +251,15 @@ class Datamanagement extends Easol_Controller {
 
         foreach ($content[0] as $k=>$column_name) {
             if (trim(strtolower($columns[$k]->COLUMN_NAME)) !== trim(strtolower($column_name))) {
-               return false;
+               return FALSE;
             }
         }
 
-        return true;
+        return TRUE;
     }
 
-    private function writeLog ($csvProcessor){
+    private function writeLog ($csvProcessor)
+    {
         $this->easol_logs->Log( [
             'Description'=>'Data Management (Data Upload)',
             'Data'=>["Object"=>$this->objectDescription, "ImportedFileName"=>$this->importedFileName, "Result"=>$csvProcessor->result, "RowsDetails"=>'["Inserted":"'.count($csvProcessor->result['inserted']).'", "Updated":"'.count($csvProcessor->result['updated']).'", "Deleted":"'.count($csvProcessor->result['deleted']).'", "Failed":"'.(count($csvProcessor->result['error'])+count($csvProcessor->result['skipped'])).'"]']

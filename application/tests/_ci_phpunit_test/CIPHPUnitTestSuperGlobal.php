@@ -26,7 +26,7 @@ class CIPHPUnitTestSuperGlobal
 		if (is_string($argv))
 		{
 			$query_string = $this->getQueryString($argv);
-			if ($query_string !== null)
+			if ($query_string !== NULL)
 			{
 				// Set $_GET if URI string has query string
 				parse_str($query_string, $_GET);
@@ -73,7 +73,7 @@ class CIPHPUnitTestSuperGlobal
 	{
 		$query_string = parse_url('http://localhost/'.$uri, PHP_URL_QUERY);
 
-		if ($query_string === false)
+		if ($query_string === FALSE)
 		{
 			throw new LogicException('Bad URI string: ' . $uri);
 		}

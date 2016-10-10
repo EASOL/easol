@@ -28,20 +28,22 @@ class Param extends NodeAbstract
      * @param bool             $variadic   Whether this is a variadic argument
      * @param array            $attributes Additional attributes
      */
-    public function __construct($name, Expr $default = null, $type = null, $byRef = false, $variadic = false, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct($name, Expr $default = NULL, $type = NULL, $byRef = FALSE, $variadic = FALSE, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->type = $type;
         $this->byRef = $byRef;
         $this->variadic = $variadic;
         $this->name = $name;
         $this->default = $default;
 
-        if ($variadic && null !== $default) {
+        if ($variadic && NULL !== $default) {
             throw new Error('Variadic parameter cannot have a default value', $default->getAttributes());
         }
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('type', 'byRef', 'variadic', 'name', 'default');
     }
 }

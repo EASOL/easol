@@ -17,7 +17,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
     {
         $server = $this->getTestServer();
         $request = new Request();
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'invalid_client');
@@ -30,7 +30,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
         $request = new Request(array(
             'client_id' => 'Fake Client ID', // invalid client id
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'invalid_client');
@@ -43,7 +43,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'invalid_uri');
@@ -57,7 +57,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -76,7 +76,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'invalid', // invalid response type
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -95,7 +95,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://adobe.com#fragment', // valid redirect URI
             'response_type' => 'code', // invalid response type
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'invalid_uri');
@@ -104,13 +104,13 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testEnforceState()
     {
-        $server = $this->getTestServer(array('enforce_state' => true));
+        $server = $this->getTestServer(array('enforce_state' => TRUE));
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'code',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -123,13 +123,13 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testDoNotEnforceState()
     {
-        $server = $this->getTestServer(array('enforce_state' => false));
+        $server = $this->getTestServer(array('enforce_state' => FALSE));
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'code',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertNotContains('error', $response->getHttpHeader('Location'));
@@ -138,7 +138,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
     public function testEnforceScope()
     {
         $server = $this->getTestServer();
-        $scopeStorage = new Memory(array('default_scope' => false, 'supported_scopes' => array('testscope')));
+        $scopeStorage = new Memory(array('default_scope' => FALSE, 'supported_scopes' => array('testscope')));
         $server->setScopeUtil(new Scope($scopeStorage));
 
         $request = new Request(array(
@@ -147,7 +147,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'response_type' => 'code',
             'state' => 'xyz',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $parts = parse_url($response->getHttpHeader('Location'));
@@ -157,7 +157,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($query['error_description'], 'This application requires you specify a scope parameter');
 
         $request->query['scope'] = 'testscope';
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertNotContains('error', $response->getHttpHeader('Location'));
@@ -171,7 +171,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://adobe.com', // invalid redirect URI
             'response_type' => 'code',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'redirect_uri_mismatch');
@@ -188,7 +188,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'response_type' => 'code',
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'invalid_uri');
@@ -207,7 +207,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'state'         => 'xyz',
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertContains('code', $response->getHttpHeader('Location'));
@@ -215,7 +215,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testRedirectUriWithDifferentQueryAndExactMatchRequired()
     {
-        $server = $this->getTestServer(array('require_exact_redirect_uri' => true));
+        $server = $this->getTestServer(array('require_exact_redirect_uri' => TRUE));
 
         // create a request with no "redirect_uri" in querystring
         $request = new Request(array(
@@ -224,7 +224,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://user:pass@brentertainment.com:2222/authorize/cb?auth_type=oauth&test=true&hereisa=querystring',
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 400);
         $this->assertEquals($response->getParameter('error'), 'redirect_uri_mismatch');
@@ -233,7 +233,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testRedirectUriWithDifferentQueryAndExactMatchNotRequired()
     {
-        $server = $this->getTestServer(array('require_exact_redirect_uri' => false));
+        $server = $this->getTestServer(array('require_exact_redirect_uri' => FALSE));
 
         // create a request with no "redirect_uri" in querystring
         $request = new Request(array(
@@ -243,7 +243,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'state'         => 'xyz',
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertContains('code', $response->getHttpHeader('Location'));
@@ -259,14 +259,14 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'state'         => 'xyz'
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertContains('code', $response->getHttpHeader('Location'));
 
         // call again with different (but still valid) redirect URI
         $request->query['redirect_uri'] = 'http://morehazards.com';
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertContains('code', $response->getHttpHeader('Location'));
     }
@@ -284,7 +284,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'state'         => 'xyz',
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertContains('state', $response->getHttpHeader('Location'));
         $this->assertStringStartsWith('http://brentertainment.com?code=', $response->getHttpHeader('Location'));
@@ -300,7 +300,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'code'          => $query['code'],
         ));
 
-        $server->handleTokenRequest($request, $response = new Response(), true);
+        $server->handleTokenRequest($request, $response = new Response(), TRUE);
         $this->assertEquals($response->getStatusCode(), 200);
         $this->assertNotNull($response->getParameter('access_token'));
     }
@@ -314,7 +314,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'response_type' => 'code',
             'state' => 'xyz',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -334,7 +334,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'response_type' => 'code',
             'state'         => 'xyz',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -366,14 +366,14 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessfulRequestReturnsStateParameter()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'client_id'     => 'Test Client ID', // valid client id
             'redirect_uri'  => 'http://adobe.com', // valid redirect URI
             'response_type' => 'code',
             'state'         => 'test', // valid state string (just needs to be passed back to us)
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
 
@@ -392,7 +392,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessfulRequestStripsExtraParameters()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'client_id'     => 'Test Client ID', // valid client id
             'redirect_uri'  => 'http://adobe.com', // valid redirect URI
@@ -400,7 +400,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'state'         => 'test',      // valid state string (just needs to be passed back to us)
             'fake'          => 'something', // extra query param
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -419,7 +419,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
     public function testSuccessfulOpenidConnectRequest()
     {
         $server = $this->getTestServer(array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'bojanz',
         ));
 
@@ -430,7 +430,7 @@ class AuthorizeControllerTest extends \PHPUnit_Framework_TestCase
             'state'         => 'xyz',
             'scope'         => 'openid',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');

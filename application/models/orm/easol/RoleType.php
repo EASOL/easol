@@ -10,7 +10,8 @@ class RoleType extends ORM {
 	public $primary_key = 'RoleTypeId';
 	public $table       = "EASOL.RoleType";
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'StaffAuthentication'  => ORM::has_many('\\Model\\Easol\\StaffAuthentication'),

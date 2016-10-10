@@ -1,13 +1,13 @@
 <?php
 
-$time_start = microtime(true);
+$time_start = microtime(TRUE);
 
 $ReportData = [];
 $ChartFilter = [];
 $ChartColors = [];
 $Settings = json_decode($model->Settings);
 $variable = str_replace(array("[", "]", "`"), "", $Settings->Variable);
-if (strpos($variable, ".") !== false) $variable = substr(strrchr($variable, '.'), 1);
+if (strpos($variable, ".") !== FALSE) $variable = substr(strrchr($variable, '.'), 1);
 
 $ReportQuery = $this->db->query($model->getReportQuery());
 
@@ -52,10 +52,10 @@ foreach($ReportData as $key=>$value){
 }
 
 ?>
-<?php if($displayTitle==true){ ?>
+<?php if($displayTitle==TRUE){ ?>
 <div class="row">
     <div class="col-md-12">
-        <h3 class="page-header"><?= $model->ReportName ?></h3>
+        <h3 class="page-header"><?php echo $model->ReportName ?></h3>
     </div>
 </div>
 <?php } ?>
@@ -66,7 +66,7 @@ foreach($ReportData as $key=>$value){
            
             <?php if(($filter = $model->getFilters()) && !$hideFilters): ?>
                 <div class="panel-body" id="filter-destination">
-                    <?php $this->load->view('Reports/_report-filters',  ['filter'=>$filter, 'report'=>$model]); ?>
+                    <?php $this->load->view('Reports/_report-filters', ['filter'=>$filter, 'report'=>$model]); ?>
                 </div>
             <?php endif;   ?>
            

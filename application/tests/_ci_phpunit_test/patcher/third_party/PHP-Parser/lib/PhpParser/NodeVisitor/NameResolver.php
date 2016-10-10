@@ -17,11 +17,13 @@ class NameResolver extends NodeVisitorAbstract
     /** @var array Map of format [aliasType => [aliasName => originalName]] */
     protected $aliases;
 
-    public function beforeTraverse(array $nodes) {
+    public function beforeTraverse(array $nodes) 
+    {
         $this->resetState();
     }
 
-    public function enterNode(Node $node) {
+    public function enterNode(Node $node) 
+    {
         if ($node instanceof Stmt\Namespace_) {
             $this->resetState($node->name);
         } elseif ($node instanceof Stmt\Use_) {
@@ -29,7 +31,7 @@ class NameResolver extends NodeVisitorAbstract
                 $this->addAlias($use, $node->type);
             }
         } elseif ($node instanceof Stmt\Class_) {
-            if (null !== $node->extends) {
+            if (NULL !== $node->extends) {
                 $node->extends = $this->resolveClassName($node->extends);
             }
 
@@ -37,7 +39,7 @@ class NameResolver extends NodeVisitorAbstract
                 $interface = $this->resolveClassName($interface);
             }
 
-            if (null !== $node->name) {
+            if (NULL !== $node->name) {
                 $this->addNamespacedName($node);
             }
         } elseif ($node instanceof Stmt\Interface_) {
@@ -82,7 +84,7 @@ class NameResolver extends NodeVisitorAbstract
             }
 
             foreach ($node->adaptations as $adaptation) {
-                if (null !== $adaptation->trait) {
+                if (NULL !== $adaptation->trait) {
                     $adaptation->trait = $this->resolveClassName($adaptation->trait);
                 }
 
@@ -96,7 +98,8 @@ class NameResolver extends NodeVisitorAbstract
         }
     }
 
-    protected function resetState(Name $namespace = null) {
+    protected function resetState(Name $namespace = NULL) 
+    {
         $this->namespace = $namespace;
         $this->aliases   = array(
             Stmt\Use_::TYPE_NORMAL   => array(),
@@ -105,7 +108,8 @@ class NameResolver extends NodeVisitorAbstract
         );
     }
 
-    protected function addAlias(Stmt\UseUse $use, $type) {
+    protected function addAlias(Stmt\UseUse $use, $type) 
+    {
         // Constant names are case sensitive, everything else case insensitive
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             $aliasName = $use->alias;
@@ -133,7 +137,8 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
-    private function resolveSignature($node) {
+    private function resolveSignature($node) 
+    {
         foreach ($node->params as $param) {
             if ($param->type instanceof Name) {
                 $param->type = $this->resolveClassName($param->type);
@@ -144,7 +149,8 @@ class NameResolver extends NodeVisitorAbstract
         }
     }
 
-    protected function resolveClassName(Name $name) {
+    protected function resolveClassName(Name $name) 
+    {
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
@@ -166,7 +172,7 @@ class NameResolver extends NodeVisitorAbstract
         if (!$name->isRelative() && isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName])) {
             // resolve aliases (for non-relative names)
             $name->setFirst($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName]);
-        } elseif (null !== $this->namespace) {
+        } elseif (NULL !== $this->namespace) {
             // if no alias exists prepend current namespace
             $name->prepend($this->namespace);
         }
@@ -174,7 +180,8 @@ class NameResolver extends NodeVisitorAbstract
         return new Name\FullyQualified($name->parts, $name->getAttributes());
     }
 
-    protected function resolveOtherName(Name $name, $type) {
+    protected function resolveOtherName(Name $name, $type) 
+    {
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
             return $name;
@@ -197,7 +204,7 @@ class NameResolver extends NodeVisitorAbstract
                 // unqualified, unaliased names cannot be resolved at compile-time
                 return $name;
             }
-        } elseif (null !== $this->namespace) {
+        } elseif (NULL !== $this->namespace) {
             // if no alias exists prepend current namespace
             $name->prepend($this->namespace);
         }
@@ -205,8 +212,9 @@ class NameResolver extends NodeVisitorAbstract
         return new Name\FullyQualified($name->parts, $name->getAttributes());
     }
 
-    protected function addNamespacedName(Node $node) {
-        if (null !== $this->namespace) {
+    protected function addNamespacedName(Node $node) 
+    {
+        if (NULL !== $this->namespace) {
             $node->namespacedName = clone $this->namespace;
             $node->namespacedName->append($node->name);
         } else {

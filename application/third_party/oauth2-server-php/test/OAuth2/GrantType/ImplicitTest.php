@@ -17,7 +17,7 @@ class ImplicitTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'token', // invalid response type
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -30,14 +30,14 @@ class ImplicitTest extends \PHPUnit_Framework_TestCase
 
     public function testUserDeniesAccessResponse()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'token', // valid response type
             'state' => 'xyz',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), false);
+        $server->handleAuthorizeRequest($request, $response = new Response(), FALSE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -50,14 +50,14 @@ class ImplicitTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessfulRequestFragmentParameter()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'token', // valid response type
             'state' => 'xyz',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertNull($response->getParameter('error'));
@@ -81,14 +81,14 @@ class ImplicitTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessfulRequestReturnsStateParameter()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com', // valid redirect URI
             'response_type' => 'token', // valid response type
             'state' => 'test', // valid state string (just needs to be passed back to us)
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertNull($response->getParameter('error'));
@@ -105,7 +105,7 @@ class ImplicitTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessfulRequestStripsExtraParameters()
     {
-        $server = $this->getTestServer(array('allow_implicit' => true));
+        $server = $this->getTestServer(array('allow_implicit' => TRUE));
         $request = new Request(array(
             'client_id' => 'Test Client ID', // valid client id
             'redirect_uri' => 'http://adobe.com?fake=something', // valid redirect URI
@@ -113,7 +113,7 @@ class ImplicitTest extends \PHPUnit_Framework_TestCase
             'state' => 'test', // valid state string (just needs to be passed back to us)
             'fake' => 'something', // add extra param to querystring
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $this->assertNull($response->getParameter('error'));

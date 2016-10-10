@@ -20,7 +20,7 @@ class CIPHPUnitTestAutoloader
 	 */
 	private $cache;
 
-	public function __construct(CIPHPUnitTestFileCache $cache = null)
+	public function __construct(CIPHPUnitTestFileCache $cache = NULL)
 	{
 		$this->cache = $cache;
 	}
@@ -80,7 +80,7 @@ class CIPHPUnitTestAutoloader
 		{
 			if ($this->loadClassFile($dir, $class))
 			{
-				return true;
+				return TRUE;
 			}
 
 			$iterator = new \RecursiveIteratorIterator(
@@ -96,7 +96,7 @@ class CIPHPUnitTestAutoloader
 				{
 					if ($this->loadClassFile($file, $class))
 					{
-						return true;
+						return TRUE;
 					}
 				}
 			}
@@ -113,10 +113,10 @@ class CIPHPUnitTestAutoloader
 			{
 				$this->cache[$class] = $class_file;
 			}
-			return true;
+			return TRUE;
 		}
 		
-		return false;
+		return FALSE;
 	}
 
 	protected function loadFromCache($class)
@@ -126,7 +126,7 @@ class CIPHPUnitTestAutoloader
 			if (is_readable($filename))
 			{
 				require $filename;
-				return true;
+				return TRUE;
 			}
 			else
 			{
@@ -134,6 +134,6 @@ class CIPHPUnitTestAutoloader
 			}
 		}
 		
-		return false;
+		return FALSE;
 	}
 }

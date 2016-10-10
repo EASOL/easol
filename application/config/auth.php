@@ -7,8 +7,8 @@ $config['auth']['dashboard'] = [
 
 $config['auth']['student'] = [
 	'*' => [
-		'System Administrator' => true,
-		'Data Administrator' => true,
+		'System Administrator' => TRUE,
+		'Data Administrator' => TRUE,
 		'School Administrator' => [
 			'condition' => ['user_has_school']
 		]
@@ -21,29 +21,29 @@ $config['auth']['sections'] = [
 ];
 
 $config['auth']['attendance'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true,'School Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE,'School Administrator' => TRUE]
 ];
 
 $config['auth']['assessments'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true,'School Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE,'School Administrator' => TRUE]
 ];
 
 $config['auth']['cohorts'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true,'School Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE,'School Administrator' => TRUE]
 ];
 $config['auth']['cron'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true,'School Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE,'School Administrator' => TRUE]
 ];
 
 $config['auth']['schools'] = [
 	'*' => [
-		'System Administrator' => true,
-		'Data Administrator' => true,
+		'System Administrator' => TRUE,
+		'Data Administrator' => TRUE,
 		'School Administrator' => [
 			'condition' => ['user_has_school']
 		]
 	],
-	'choose' =>  [ 'System Administrator' => true, 'Data Administrator' => true ]
+	'choose' =>  [ 'System Administrator' => TRUE, 'Data Administrator' => TRUE ]
 	
 ];
 
@@ -57,20 +57,20 @@ $config['auth']['analytics'] = [
 
 $config['auth']['reports'] = [
 	'*'=>[
-		'System Administrator' => true,
-		'Data Administrator' => true,
+		'System Administrator' => TRUE,
+		'Data Administrator' => TRUE,
 		'School Administrator' => [
 			'condition'=> ['report_has_access']
 		]
 	],
 	'edit'=>[
-		'System Administrator' => true,
-		'Data Administrator' => true,
-		'School Administrator' => false
+		'System Administrator' => TRUE,
+		'Data Administrator' => TRUE,
+		'School Administrator' => FALSE
 	],
 	'view'=>[
-		'System Administrator' => true,
-		'Data Administrator' => true,
+		'System Administrator' => TRUE,
+		'Data Administrator' => TRUE,
 		'School Administrator' => [
 			'condition'=> ['report_has_access']
 		],
@@ -82,17 +82,17 @@ $config['auth']['reports'] = [
 
 
 $config['auth']['datamanagement'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE]
 ];
 
 $config['auth']['user'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE]
 ];
 
 $config['auth']['schoolmanagement'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE]
 ];
 
 $config['auth']['system'] = [
-	'*'=>['System Administrator' => true,'Data Administrator' => true]
+	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE]
 ];

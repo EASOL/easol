@@ -15,12 +15,14 @@ class Const_ extends Node\Stmt
      * @param Node\Const_[] $consts     Constant declarations
      * @param array         $attributes Additional attributes
      */
-    public function __construct(array $consts, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+    public function __construct(array $consts, array $attributes = array()) 
+    {
+        parent::__construct(NULL, $attributes);
         $this->consts = $consts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('consts');
     }
 }

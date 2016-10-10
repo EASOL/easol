@@ -9,11 +9,11 @@
 <table class="table table-bordered ">
     <tr>
         <th>Cohort ID:</th>
-        <td><?= $cohort->CohortIdentifier ?></td>
+        <td><?php echo $cohort->CohortIdentifier ?></td>
     </tr>
     <tr>
         <th>Cohort Description:</th>
-        <td><?= $cohort->CohortDescription ?></td>
+        <td><?php echo $cohort->CohortDescription ?></td>
     </tr>
 </table>
 </div>

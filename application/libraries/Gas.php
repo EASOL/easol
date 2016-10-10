@@ -73,9 +73,9 @@ class Gas {
 		if (static::$init == FALSE)
 		{
 			// Register exception and error handler
-			set_exception_handler(function($e) {
-				Gas::exception($e);
-			});
+			/*set_exception_handler(function($e) {
+				Gas::Exception($e);
+			});*/
 
 			// Access current instance singleton
 			$CI =& get_instance();
@@ -122,7 +122,7 @@ class Gas {
 			// Set initialization flag
 			static::$init = TRUE;
 		}
-    }
+ }
 
     /**
      * Exception handler
@@ -206,7 +206,7 @@ class Gas {
 
 			        while (($each_line = fgets($handle, 4096)) !== FALSE) {
 			        	$lines[] = $each_line;
-				    }
+           }
 
 				    if ( ! feof($handle)) {
 				    	return $lines;

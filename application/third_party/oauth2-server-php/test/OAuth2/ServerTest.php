@@ -65,7 +65,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testGetAuthorizeControllerWithClientStorageAndAccessTokenStorage()
     {
         // must set AuthorizationCode or AccessToken / implicit
-        $server = new Server(array(), array('allow_implicit' => true));
+        $server = new Server(array(), array('allow_implicit' => TRUE));
         $server->addStorage($this->getMock('OAuth2\Storage\ClientInterface'));
         $server->addStorage($this->getMock('OAuth2\Storage\AccessTokenInterface'));
 
@@ -178,7 +178,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
         $reflection = new \ReflectionClass($server);
         $prop = $reflection->getProperty('storages');
-        $prop->setAccessible(true);
+        $prop->setAccessible(TRUE);
 
         $storages = $prop->getValue($server); // get the private "storages" property
 
@@ -203,7 +203,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $memory = $this->getMock('OAuth2\Storage\Memory');
         $server = new Server($memory);
-        $server->addStorage(null, 'refresh_token');
+        $server->addStorage(NULL, 'refresh_token');
 
         $client_credentials = $server->getStorage('client_credentials');
 
@@ -220,7 +220,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $memory = $this->getMock('OAuth2\Storage\Memory');
         $server = new Server(array(
             'client_credentials' => $memory,
-            'refresh_token'      => null,
+            'refresh_token'      => NULL,
         ));
 
         $client_credentials = $server->getStorage('client_credentials');
@@ -273,7 +273,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $storage
           ->expects($this->any())
           ->method('checkRestrictedGrantType')
-          ->will($this->returnValue(true));
+          ->will($this->returnValue(TRUE));
 
         // add with the "code" key explicitly set
         $codeType = new AuthorizationCode($storage);
@@ -286,7 +286,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://example.com',
             'state' => 'xyx',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         // the response is successful
         $this->assertEquals($response->getStatusCode(), 302);
@@ -304,7 +304,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'redirect_uri' => 'http://example.com',
             'state' => 'xyx',
         ));
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         // the response is successful
         $this->assertEquals($response->getStatusCode(), 302);
@@ -326,7 +326,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $clientAssertionType
             ->expects($this->once())
             ->method('validateRequest')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue(TRUE));
         $clientAssertionType
             ->expects($this->once())
             ->method('getClientId')
@@ -334,7 +334,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
         // create mock storage
         $storage = Bootstrap::getInstance()->getMemoryStorage();
-        $server = new Server(array($storage), array(), array(), array(), null, null, $clientAssertionType);
+        $server = new Server(array($storage), array(), array(), array(), NULL, NULL, $clientAssertionType);
         $server->handleTokenRequest($request, $response = new Response());
     }
 
@@ -343,20 +343,20 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         // create mock storage
         $storage = Bootstrap::getInstance()->getMemoryStorage();
         $server = new Server(array($storage), array(
-            'allow_credentials_in_request_body' => false,
-            'allow_public_clients' => false
+            'allow_credentials_in_request_body' => FALSE,
+            'allow_public_clients' => FALSE
         ));
         $server->getTokenController();
         $httpBasic = $server->getClientAssertionType();
 
         $reflection = new \ReflectionClass($httpBasic);
         $prop = $reflection->getProperty('config');
-        $prop->setAccessible(true);
+        $prop->setAccessible(TRUE);
 
         $config = $prop->getValue($httpBasic); // get the private "config" property
 
-        $this->assertEquals($config['allow_credentials_in_request_body'], false);
-        $this->assertEquals($config['allow_public_clients'], false);
+        $this->assertEquals($config['allow_credentials_in_request_body'], FALSE);
+        $this->assertEquals($config['allow_public_clients'], FALSE);
     }
 
     public function testRefreshTokenConfig()
@@ -364,7 +364,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         // create mock storage
         $storage = Bootstrap::getInstance()->getMemoryStorage();
         $server1 = new Server(array($storage));
-        $server2 = new Server(array($storage), array('always_issue_new_refresh_token' => true, 'unset_refresh_token_after_use' => false));
+        $server2 = new Server(array($storage), array('always_issue_new_refresh_token' => TRUE, 'unset_refresh_token_after_use' => FALSE));
 
         $server1->getTokenController();
         $refreshToken1 = $server1->getGrantType('refresh_token');
@@ -374,21 +374,21 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
         $reflection1 = new \ReflectionClass($refreshToken1);
         $prop1 = $reflection1->getProperty('config');
-        $prop1->setAccessible(true);
+        $prop1->setAccessible(TRUE);
 
         $reflection2 = new \ReflectionClass($refreshToken2);
         $prop2 = $reflection2->getProperty('config');
-        $prop2->setAccessible(true);
+        $prop2->setAccessible(TRUE);
 
         // get the private "config" property
         $config1 = $prop1->getValue($refreshToken1);
         $config2 = $prop2->getValue($refreshToken2);
 
-        $this->assertEquals($config1['always_issue_new_refresh_token'], false);
-        $this->assertEquals($config2['always_issue_new_refresh_token'], true);
+        $this->assertEquals($config1['always_issue_new_refresh_token'], FALSE);
+        $this->assertEquals($config2['always_issue_new_refresh_token'], TRUE);
 
-        $this->assertEquals($config1['unset_refresh_token_after_use'], true);
-        $this->assertEquals($config2['unset_refresh_token_after_use'], false);
+        $this->assertEquals($config1['unset_refresh_token_after_use'], TRUE);
+        $this->assertEquals($config2['unset_refresh_token_after_use'], FALSE);
     }
 
     /**
@@ -399,7 +399,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testValidRefreshTokenWithNewRefreshTokenInResponse()
     {
         $storage = Bootstrap::getInstance()->getMemoryStorage();
-        $server = new Server($storage, array('always_issue_new_refresh_token' => true));
+        $server = new Server($storage, array('always_issue_new_refresh_token' => TRUE));
 
         $request = TestRequest::createPost(array(
             'grant_type' => 'refresh_token', // valid grant type
@@ -433,7 +433,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      **/
     public function testUsingJwtAccessTokensWithoutPublicKeyStorageThrowsException()
     {
-        $server = new Server(array(), array('use_jwt_access_tokens' => true));
+        $server = new Server(array(), array('use_jwt_access_tokens' => TRUE));
         $server->addGrantType($this->getMock('OAuth2\GrantType\GrantTypeInterface'));
         $server->addStorage($this->getMock('OAuth2\Storage\ClientCredentialsInterface'));
         $server->addStorage($this->getMock('OAuth2\Storage\ClientCredentialsInterface'));
@@ -444,7 +444,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testUsingJustJwtAccessTokenStorageWithResourceControllerIsOkay()
     {
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
-        $server = new Server(array($pubkey), array('use_jwt_access_tokens' => true));
+        $server = new Server(array($pubkey), array('use_jwt_access_tokens' => TRUE));
 
         $this->assertNotNull($server->getResourceController());
         $this->assertInstanceOf('OAuth2\Storage\PublicKeyInterface', $server->getStorage('public_key'));
@@ -456,7 +456,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testUsingJustJwtAccessTokenStorageWithAuthorizeControllerThrowsException()
     {
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
-        $server = new Server(array($pubkey), array('use_jwt_access_tokens' => true));
+        $server = new Server(array($pubkey), array('use_jwt_access_tokens' => TRUE));
         $this->assertNotNull($server->getAuthorizeController());
     }
 
@@ -466,7 +466,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testUsingJustJwtAccessTokenStorageWithTokenControllerThrowsException()
     {
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
-        $server = new Server(array($pubkey), array('use_jwt_access_tokens' => true));
+        $server = new Server(array($pubkey), array('use_jwt_access_tokens' => TRUE));
         $server->getTokenController();
     }
 
@@ -474,7 +474,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
         $client = $this->getMock('OAuth2\Storage\ClientInterface');
-        $server = new Server(array($pubkey, $client), array('use_jwt_access_tokens' => true, 'allow_implicit' => true));
+        $server = new Server(array($pubkey, $client), array('use_jwt_access_tokens' => TRUE, 'allow_implicit' => TRUE));
         $this->assertNotNull($server->getAuthorizeController());
 
         $this->assertInstanceOf('OAuth2\ResponseType\JwtAccessToken', $server->getResponseType('token'));
@@ -486,7 +486,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testUsingOpenIDConnectWithoutUserClaimsThrowsException()
     {
         $client = $this->getMock('OAuth2\Storage\ClientInterface');
-        $server = new Server($client, array('use_openid_connect' => true));
+        $server = new Server($client, array('use_openid_connect' => TRUE));
 
         $server->getAuthorizeController();
     }
@@ -498,7 +498,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $client = $this->getMock('OAuth2\Storage\ClientInterface');
         $userclaims = $this->getMock('OAuth2\OPenID\Storage\UserClaimsInterface');
-        $server = new Server(array($client, $userclaims), array('use_openid_connect' => true));
+        $server = new Server(array($client, $userclaims), array('use_openid_connect' => TRUE));
 
         $server->getAuthorizeController();
     }
@@ -511,7 +511,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $client = $this->getMock('OAuth2\Storage\ClientInterface');
         $userclaims = $this->getMock('OAuth2\OpenID\Storage\UserClaimsInterface');
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
-        $server = new Server(array($client, $userclaims, $pubkey), array('use_openid_connect' => true));
+        $server = new Server(array($client, $userclaims, $pubkey), array('use_openid_connect' => TRUE));
 
         $server->getAuthorizeController();
     }
@@ -522,7 +522,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $userclaims = $this->getMock('OAuth2\OpenID\Storage\UserClaimsInterface');
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
         $server = new Server(array($client, $userclaims, $pubkey), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy',
         ));
 
@@ -541,9 +541,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $userclaims = $this->getMock('OAuth2\OpenID\Storage\UserClaimsInterface');
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
         $server = new Server(array($client, $userclaims, $pubkey), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy',
-            'allow_implicit' => true,
+            'allow_implicit' => TRUE,
         ));
 
         $server->getAuthorizeController();
@@ -555,10 +555,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $userclaims = $this->getMock('OAuth2\OpenID\Storage\UserClaimsInterface');
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
         $server = new Server(array($client, $userclaims, $pubkey), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy',
-            'allow_implicit' => true,
-            'use_jwt_access_tokens' => true,
+            'allow_implicit' => TRUE,
+            'use_jwt_access_tokens' => TRUE,
         ));
 
         $server->getAuthorizeController();
@@ -574,9 +574,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
         $token = $this->getMock('OAuth2\Storage\AccessTokenInterface');
         $server = new Server(array($client, $userclaims, $pubkey, $token), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy',
-            'allow_implicit' => true,
+            'allow_implicit' => TRUE,
         ));
 
         $server->getAuthorizeController();
@@ -592,9 +592,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $pubkey = $this->getMock('OAuth2\Storage\PublicKeyInterface');
         // $token = $this->getMock('OAuth2\Storage\AccessTokenInterface');
         $server = new Server(array($client, $userclaims, $pubkey), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy',
-            'allow_implicit' => true,
+            'allow_implicit' => TRUE,
         ));
 
         $token = $this->getMock('OAuth2\ResponseType\AccessTokenInterface');
@@ -618,7 +618,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $authcode = $this->getMock('OAuth2\Storage\AuthorizationCodeInterface');
 
         $server = new Server(array($client, $userclaims, $pubkey, $token, $authcode), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy'
         ));
 
@@ -636,7 +636,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $authcode = $this->getMock('OAuth2\OpenID\Storage\AuthorizationCodeInterface');
 
         $server = new Server(array($client, $userclaims, $pubkey, $token, $authcode), array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'someguy'
         ));
 

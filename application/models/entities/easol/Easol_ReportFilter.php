@@ -39,7 +39,8 @@ class Easol_ReportFilter extends Easol_BaseEntity {
         return 'ReportFilterId';
     }
 
-    public function delete($ReportId=null) {
+    public function delete($ReportId=NULL) 
+    {
         if ($ReportId) $this->db->where('ReportId', $ReportId);
         $this->db->delete($this->getTableName());
     }

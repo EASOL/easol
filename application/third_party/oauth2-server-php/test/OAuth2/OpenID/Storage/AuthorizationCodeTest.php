@@ -26,7 +26,7 @@ class AuthorizationCodeTest extends BaseTest
 
         // add new code
         $expires = time() + 20;
-        $scope = null;
+        $scope = NULL;
         $id_token = 'fake_id_token';
         $success = $storage->setAuthorizationCode('new-openid-code', 'client ID', 'SOMEUSERID', 'http://example.com', $expires, $scope, $id_token);
         $this->assertTrue($success);
@@ -71,7 +71,7 @@ class AuthorizationCodeTest extends BaseTest
     {
         // add new code
         $expires = time() + 20;
-        $scope = null;
+        $scope = NULL;
         $id_token = 'fake_id_token_to_remove';
         $authcode = 'new-openid-code-'.rand();
         $success = $storage->setAuthorizationCode($authcode, 'client ID', 'SOMEUSERID', 'http://example.com', $expires, $scope, $id_token);
@@ -84,12 +84,12 @@ class AuthorizationCodeTest extends BaseTest
         $this->assertEquals($code['id_token'], $id_token);
 
         // remove the id_token
-        $success = $storage->setAuthorizationCode($authcode, 'client ID', 'SOMEUSERID', 'http://example.com', $expires, $scope, null);
+        $success = $storage->setAuthorizationCode($authcode, 'client ID', 'SOMEUSERID', 'http://example.com', $expires, $scope, NULL);
 
         // verify the "id_token" is now null
         $code = $storage->getAuthorizationCode($authcode);
         $this->assertNotNull($code);
         $this->assertArrayHasKey('id_token', $code);
-        $this->assertEquals($code['id_token'], null);
+        $this->assertEquals($code['id_token'], NULL);
     }
 }

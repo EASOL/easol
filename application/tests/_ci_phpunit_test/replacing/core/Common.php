@@ -16,8 +16,8 @@
  * @staticvar array $_classes
  * @param string $class
  * @param string $directory
- * @param array $param
- * @param bool $reset
+ * @param array  $param
+ * @param bool   $reset
  * @param object $obj
  * @return object
  */
@@ -112,7 +112,7 @@ function &load_class(
  * 
  * @staticvar array $_is_loaded
  * @param string $class
- * @param bool $reset
+ * @param bool   $reset
  * @return array
  */
 function &is_loaded($class = '', $reset = FALSE)
@@ -133,11 +133,11 @@ function &is_loaded($class = '', $reset = FALSE)
 	return $_is_loaded;
 }
 
-function is_cli($return = null)
+function is_cli($return = NULL)
 {
 	static $_return = TRUE;
 
-	if ($return !== null)
+	if ($return !== NULL)
 	{
 		$_return = $return;
 	}
@@ -261,7 +261,7 @@ function set_status_header($code = 200, $text = '')
 	$output->_status = [
 		'code'     => $code,
 		'text'     => $text,
-		'redirect' => null,
+		'redirect' => NULL,
 	];
 
 	// Everything is done, so return

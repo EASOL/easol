@@ -29,7 +29,7 @@ class Cache
 	public static function setProjectRootDir($dir)
 	{
 		self::$project_root = realpath($dir);
-		if (self::$project_root === false)
+		if (self::$project_root === FALSE)
 		{
 			throw new LogicException("No such directory: $dir");
 		}
@@ -40,7 +40,7 @@ class Cache
 		self::createDir($dir);
 		self::$cache_dir = realpath($dir);
 		
-		if (self::$cache_dir === false)
+		if (self::$cache_dir === FALSE)
 		{
 			throw new LogicException("No such directory: $dir");
 		}
@@ -68,9 +68,9 @@ class Cache
 		$len = strlen(self::$project_root);
 		$relative_path = substr($path, $len);
 
-		if ($relative_path === false)
+		if ($relative_path === FALSE)
 		{
-			return false;
+			return FALSE;
 		}
 
 		return self::$src_cache_dir . '/' . $relative_path;
@@ -80,7 +80,7 @@ class Cache
 	{
 		if (! is_dir($dir))
 		{
-			if (! @mkdir($dir, 0777, true))
+			if (! @mkdir($dir, 0777, TRUE))
 			{
 				throw new RuntimeException('Failed to create folder: ' . $dir);
 			}
@@ -102,7 +102,7 @@ class Cache
 			return $cache_file;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Cache
 	public static function writeSrcCacheFile($path, $source)
 	{
 		$cache_file = self::getSrcCacheFilePath($path);
-		if ($cache_file !== false)
+		if ($cache_file !== FALSE)
 		{
 			self::writeCacheFile($cache_file, $source);
 		}
@@ -123,7 +123,7 @@ class Cache
 	/**
 	 * Write to cache file
 	 * 
-	 * @param string $path   file path
+	 * @param string $path     file path
 	 * @param string $contents file contents
 	 */
 	public static function writeCacheFile($path, $contents)

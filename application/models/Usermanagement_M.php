@@ -2,11 +2,13 @@
 
 class Usermanagement_M extends CI_Model {
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function getEasolUsers($user = "", $key = "EFS.StaffUSI") {
+    public function getEasolUsers($user = "", $key = "EFS.StaffUSI") 
+    {
         /*
         * Get listing of easol users with details from edfi tables for editing/deleting in easol
         * system via the UI.
@@ -48,7 +50,8 @@ class Usermanagement_M extends CI_Model {
         return $users;
     }
 
-    public function getEdfiUsers($user = "") {
+    public function getEdfiUsers($user = "") 
+    {
         /*
         * Get listing of edfi users with details from edfi tables for use in easol
         * system via the UI.
@@ -129,7 +132,8 @@ class Usermanagement_M extends CI_Model {
         return $userData;
     }
 
-    public function addEditEasolUser($post) {
+    public function addEditEasolUser($post) 
+    {
         // unset and post data that does not get sent to the db.
         unset($post['school']);
        
@@ -173,7 +177,8 @@ class Usermanagement_M extends CI_Model {
         return $result;
     }
 
-    public function deleteEasolUsers($user) {
+    public function deleteEasolUsers($user) 
+    {
 
         if (is_array($user))
         {

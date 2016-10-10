@@ -24,7 +24,7 @@ class CodeIdTokenTest extends \PHPUnit_Framework_TestCase
             'nonce'         => 'test',
         ));
 
-        $server->handleAuthorizeRequest($request, $response = new Response(), true);
+        $server->handleAuthorizeRequest($request, $response = new Response(), TRUE);
 
         $this->assertEquals($response->getStatusCode(), 302);
         $location = $response->getHttpHeader('Location');
@@ -45,7 +45,7 @@ class CodeIdTokenTest extends \PHPUnit_Framework_TestCase
             // Each part is a base64url encoded json string.
             $part = str_replace(array('-', '_'), array('+', '/'), $part);
             $part = base64_decode($part);
-            $part = json_decode($part, true);
+            $part = json_decode($part, TRUE);
         }
         list($header, $claims, $signature) = $parts;
 
@@ -70,10 +70,10 @@ class CodeIdTokenTest extends \PHPUnit_Framework_TestCase
     private function getTestServer($config = array())
     {
         $config += array(
-            'use_openid_connect' => true,
+            'use_openid_connect' => TRUE,
             'issuer' => 'test',
             'id_lifetime' => 3600,
-            'allow_implicit' => true,
+            'allow_implicit' => TRUE,
         );
 
         $memoryStorage = Bootstrap::getInstance()->getMemoryStorage();

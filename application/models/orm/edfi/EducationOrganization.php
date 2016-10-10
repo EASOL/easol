@@ -10,7 +10,8 @@ class EducationOrganization extends ORM {
 	public $primary_key = 'EducationOrganizationId';
 	public $table = "edfi.EducationOrganization";
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'School'=> ORM::has_one('\\Model\\Edfi\\School')

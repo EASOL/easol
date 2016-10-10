@@ -18,7 +18,7 @@ class ExitPatcher
 	{
 		$tokens = token_get_all($source);
 
-		$patched = false;
+		$patched = FALSE;
 		$new_source = '';
 		$i = -1;
 
@@ -38,7 +38,7 @@ class ExitPatcher
 				{
 					$new_source .= 'exit__';
 				}
-				$patched = true;
+				$patched = TRUE;
 			}
 			else
 			{

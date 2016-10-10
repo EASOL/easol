@@ -123,7 +123,7 @@ class Jquery implements Extension {
 					case 'sEcho':
 						$echo = intval($data['sEcho']);
 
-						break;
+         break;
 
 					case 'sSearch':
 						if ( ! empty($data['sSearch']))
@@ -131,7 +131,7 @@ class Jquery implements Extension {
 							$like = $data['sSearch'];
 						}
 
-						break;
+         break;
 					
 					case 'iDisplayLength':
 						if ($data['iDisplayLength'] != '-1')
@@ -139,17 +139,17 @@ class Jquery implements Extension {
 							$limit = $data['iDisplayLength'];
 						}
 
-						break;
+         break;
 
 					case 'iDisplayStart':
 						$offset = $data['iDisplayStart'];
 
-						break;
+         break;
 
 					case 'iSortCol_0':
 						$order = array($data['iSortCol_0'], $data['sSortDir_0']);
 
-						break;
+         break;
 				}
 				
 			}

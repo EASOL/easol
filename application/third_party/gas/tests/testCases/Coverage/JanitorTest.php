@@ -34,7 +34,7 @@ class JanitorTest extends PHPUnit_Framework_TestCase {
 	{
 		$sanity_input = Gas\Janitor::get_input('some_method', array('foo'=>'bar'), TRUE);
 
-		$this->assertArrayHasKey('foo',$sanity_input);
+		$this->assertArrayHasKey('foo', $sanity_input);
 
 		$continue_even_empty = Gas\Janitor::get_input('some_method', array(), FALSE);
 

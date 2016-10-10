@@ -85,13 +85,13 @@ if ( ! function_exists('redirect'))
 				{
 					header('Refresh:0;url='.$uri);
 				}
-				break;
+       break;
 			default:
 				if (ENVIRONMENT !== 'testing')
 				{
 					header('Location: '.$uri, TRUE, $code);
 				}
-				break;
+       break;
 		}
 
 		if (ENVIRONMENT !== 'testing')

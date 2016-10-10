@@ -3,7 +3,7 @@
 		<h1 class="page-header">System Configuration</h1>
 
 		<?php if ($this->session->flashdata('message') && $this->session->flashdata('type')) { ?>
-			<div class="alert alert-<?= $this->session->flashdata('type') ?>"> <?= $this->session->flashdata('message') ?> </div>
+			<div class="alert alert-<?php echo $this->session->flashdata('type') ?>"> <?php echo $this->session->flashdata('message') ?> </div>
 		<?php } ?>
 	</div>
 </div>

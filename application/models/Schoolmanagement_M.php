@@ -2,11 +2,13 @@
 
 class Schoolmanagement_M extends CI_Model {
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function getSchools($school = "") {
+    public function getSchools($school = "") 
+    {
 
         $where = (!empty($school)) ? "WHERE SC.SchoolId = '$school'" : '';       
 
@@ -21,7 +23,8 @@ class Schoolmanagement_M extends CI_Model {
         return $schools;
     }
 
-    public function getSchoolDetails($school = "") {
+    public function getSchoolDetails($school = "") 
+    {
 
         $results = array();
         $results['school'] = $this->getSchools($school);
@@ -32,7 +35,8 @@ class Schoolmanagement_M extends CI_Model {
         return $results;
     }
 
-    public function setSchoolDetails($school = '', $post = array()) {
+    public function setSchoolDetails($school = '', $post = array()) 
+    {
 
         $delete = (isset($post['delete'])) ? $post['delete'] : array();
         unset($post['delete']);
@@ -53,7 +57,8 @@ class Schoolmanagement_M extends CI_Model {
         return $result;
     }
 
-   public function addSchoolDetails($school = '', $post = array()) {
+   public function addSchoolDetails($school = '', $post = array()) 
+   {
 
         $key    = (isset($post['key'])) ? $post['key'] : '';
         $value  = (isset($post['value'])) ? $post['value'] : '';
@@ -62,9 +67,10 @@ class Schoolmanagement_M extends CI_Model {
             $result = $this->db->query($sql);
 
         return $result;
-    }
+   }
 
-    public function getTermTypes() {
+    public function getTermTypes() 
+    {
 
         $query = "SELECT * FROM edfi.TermType";
         $results = $this->db->query($query)->result();

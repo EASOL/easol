@@ -39,14 +39,14 @@ class AuthorizeController implements AuthorizeControllerInterface
      *                                                      </code>
      * @param OAuth2\ScopeInterface          $scopeUtil     OPTIONAL Instance of OAuth2\ScopeInterface to validate the requested scope
      */
-    public function __construct(ClientInterface $clientStorage, array $responseTypes = array(), array $config = array(), ScopeInterface $scopeUtil = null)
+    public function __construct(ClientInterface $clientStorage, array $responseTypes = array(), array $config = array(), ScopeInterface $scopeUtil = NULL)
     {
         $this->clientStorage = $clientStorage;
         $this->responseTypes = $responseTypes;
         $this->config = array_merge(array(
-            'allow_implicit' => false,
-            'enforce_state'  => true,
-            'require_exact_redirect_uri' => true,
+            'allow_implicit' => FALSE,
+            'enforce_state'  => TRUE,
+            'require_exact_redirect_uri' => TRUE,
             'redirect_status_code' => 302,
         ), $config);
 
@@ -56,7 +56,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         $this->scopeUtil = $scopeUtil;
     }
 
-    public function handleAuthorizeRequest(RequestInterface $request, ResponseInterface $response, $is_authorized, $user_id = null)
+    public function handleAuthorizeRequest(RequestInterface $request, ResponseInterface $response, $is_authorized, $user_id = NULL)
     {
         if (!is_bool($is_authorized)) {
             throw new \InvalidArgumentException('Argument "is_authorized" must be a boolean.  This method must know if the user has granted access to the client.');
@@ -75,7 +75,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         }
 
         // the user declined access to the client's application
-        if ($is_authorized === false) {
+        if ($is_authorized === FALSE) {
             $redirect_uri = $this->redirect_uri ?: $registered_redirect_uri;
             $this->setNotAuthorizedResponse($request, $response, $redirect_uri, $user_id);
 
@@ -101,7 +101,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         $response->setRedirect($this->config['redirect_status_code'], $uri);
     }
 
-    protected function setNotAuthorizedResponse(RequestInterface $request, ResponseInterface $response, $redirect_uri, $user_id = null)
+    protected function setNotAuthorizedResponse(RequestInterface $request, ResponseInterface $response, $redirect_uri, $user_id = NULL)
     {
         $error = 'access_denied';
         $error_message = 'The user denied access to your application';
@@ -133,14 +133,14 @@ class AuthorizeController implements AuthorizeControllerInterface
             // We don't have a good URI to use
             $response->setError(400, 'invalid_client', "No client id supplied");
 
-            return false;
+            return FALSE;
         }
 
         // Get client details
         if (!$clientData = $this->clientStorage->getClientDetails($client_id)) {
             $response->setError(400, 'invalid_client', 'The client id supplied is invalid');
 
-            return false;
+            return FALSE;
         }
 
         $registered_redirect_uri = isset($clientData['redirect_uri']) ? $clientData['redirect_uri'] : '';
@@ -155,14 +155,14 @@ class AuthorizeController implements AuthorizeControllerInterface
             if (isset($parts['fragment']) && $parts['fragment']) {
                 $response->setError(400, 'invalid_uri', 'The redirect URI must not contain a fragment');
 
-                return false;
+                return FALSE;
             }
 
             // validate against the registered redirect uri(s) if available
             if ($registered_redirect_uri && !$this->validateRedirectUri($supplied_redirect_uri, $registered_redirect_uri)) {
                 $response->setError(400, 'redirect_uri_mismatch', 'The redirect URI provided is missing or does not match', '#section-3.1.2');
 
-                return false;
+                return FALSE;
             }
             $redirect_uri = $supplied_redirect_uri;
         } else {
@@ -170,13 +170,13 @@ class AuthorizeController implements AuthorizeControllerInterface
             if (!$registered_redirect_uri) {
                 $response->setError(400, 'invalid_uri', 'No redirect URI was supplied or stored');
 
-                return false;
+                return FALSE;
             }
 
             if (count(explode(' ', $registered_redirect_uri)) > 1) {
                 $response->setError(400, 'invalid_uri', 'A redirect URI must be supplied when multiple redirect URIs are registered', '#section-3.1.2.3');
 
-                return false;
+                return FALSE;
             }
             $redirect_uri = $registered_redirect_uri;
         }
@@ -185,7 +185,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         $response_type = $request->query('response_type', $request->request('response_type'));
 
         // for multiple-valued response types - make them alphabetical
-        if (false !== strpos($response_type, ' ')) {
+        if (FALSE !== strpos($response_type, ' ')) {
             $types = explode(' ', $response_type);
             sort($types);
             $response_type = ltrim(implode(' ', $types));
@@ -195,37 +195,37 @@ class AuthorizeController implements AuthorizeControllerInterface
 
         // type and client_id are required
         if (!$response_type || !in_array($response_type, $this->getValidResponseTypes())) {
-            $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_request', 'Invalid or missing response type', null);
+            $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_request', 'Invalid or missing response type', NULL);
 
-            return false;
+            return FALSE;
         }
 
         if ($response_type == self::RESPONSE_TYPE_AUTHORIZATION_CODE) {
             if (!isset($this->responseTypes['code'])) {
-                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unsupported_response_type', 'authorization code grant type not supported', null);
+                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unsupported_response_type', 'authorization code grant type not supported', NULL);
 
-                return false;
+                return FALSE;
             }
             if (!$this->clientStorage->checkRestrictedGrantType($client_id, 'authorization_code')) {
-                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unauthorized_client', 'The grant type is unauthorized for this client_id', null);
+                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unauthorized_client', 'The grant type is unauthorized for this client_id', NULL);
 
-                return false;
+                return FALSE;
             }
             if ($this->responseTypes['code']->enforceRedirect() && !$redirect_uri) {
                 $response->setError(400, 'redirect_uri_mismatch', 'The redirect URI is mandatory and was not supplied');
 
-                return false;
+                return FALSE;
             }
         } else {
             if (!$this->config['allow_implicit']) {
-                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unsupported_response_type', 'implicit grant type not supported', null);
+                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unsupported_response_type', 'implicit grant type not supported', NULL);
 
-                return false;
+                return FALSE;
             }
             if (!$this->clientStorage->checkRestrictedGrantType($client_id, 'implicit')) {
-                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unauthorized_client', 'The grant type is unauthorized for this client_id', null);
+                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'unauthorized_client', 'The grant type is unauthorized for this client_id', NULL);
 
-                return false;
+                return FALSE;
             }
         }
 
@@ -238,18 +238,18 @@ class AuthorizeController implements AuthorizeControllerInterface
             $clientScope = $this->clientStorage->getClientScope($client_id);
             if ((is_null($clientScope) && !$this->scopeUtil->scopeExists($requestedScope))
                 || ($clientScope && !$this->scopeUtil->checkScope($requestedScope, $clientScope))) {
-                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_scope', 'An unsupported scope was requested', null);
+                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_scope', 'An unsupported scope was requested', NULL);
 
-                return false;
+                return FALSE;
             }
         } else {
             // use a globally-defined default scope
             $defaultScope = $this->scopeUtil->getDefaultScope($client_id);
 
-            if (false === $defaultScope) {
-                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_client', 'This application requires you specify a scope parameter', null);
+            if (FALSE === $defaultScope) {
+                $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, $state, 'invalid_client', 'This application requires you specify a scope parameter', NULL);
 
-                return false;
+                return FALSE;
             }
 
             $requestedScope = $defaultScope;
@@ -257,9 +257,9 @@ class AuthorizeController implements AuthorizeControllerInterface
 
         // Validate state parameter exists (if configured to enforce this)
         if ($this->config['enforce_state'] && !$state) {
-            $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, null, 'invalid_request', 'The state parameter is required');
+            $response->setRedirect($this->config['redirect_status_code'], $redirect_uri, NULL, 'invalid_request', 'The state parameter is required');
 
-            return false;
+            return FALSE;
         }
 
         // save the input data and return true
@@ -270,7 +270,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         $this->redirect_uri  = $supplied_redirect_uri;
         $this->response_type = $response_type;
 
-        return true;
+        return TRUE;
     }
 
     /**
@@ -330,7 +330,7 @@ class AuthorizeController implements AuthorizeControllerInterface
     protected function validateRedirectUri($inputUri, $registeredUriString)
     {
         if (!$inputUri || !$registeredUriString) {
-            return false; // if either one is missing, assume INVALID
+            return FALSE; // if either one is missing, assume INVALID
         }
 
         $registered_uris = preg_split('/\s+/', $registeredUriString);
@@ -338,18 +338,18 @@ class AuthorizeController implements AuthorizeControllerInterface
             if ($this->config['require_exact_redirect_uri']) {
                 // the input uri is validated against the registered uri using exact match
                 if (strcmp($inputUri, $registered_uri) === 0) {
-                    return true;
+                    return TRUE;
                 }
             } else {
                 // the input uri is validated against the registered uri using case-insensitive match of the initial string
                 // i.e. additional query parameters may be applied
                 if (strcasecmp(substr($inputUri, 0, strlen($registered_uri)), $registered_uri) === 0) {
-                    return true;
+                    return TRUE;
                 }
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**

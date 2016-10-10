@@ -3,6 +3,6 @@
 
 class Easol_Flag {
 
-    public static $downloadFile = false;
+    public static $downloadFile = FALSE;
 
 }

@@ -14,7 +14,8 @@ class User_test extends TestCase
 
 	}
 
-	public function setUp() {
+	public function setUp() 
+ {
 		//system("sqlcmd -S REGIS-PC\SQLEXPRESS -i ".APPPATH."tests/database.sql");
 	}
 

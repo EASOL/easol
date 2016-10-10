@@ -29,7 +29,7 @@ function reset_instance()
 	if (isset($CI->db))
 	{
 		$CI->db->close();
-		$CI->db = null;
+		$CI->db = NULL;
 	}
 
 	// Reset loaded classes

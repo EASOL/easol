@@ -5,7 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends Easol_Controller {
 
 
-    protected function accessRules(){
+    protected function accessRules()
+    {
         return [
             "index"     =>  "*",
             "logout"    =>  "@",
@@ -16,16 +17,16 @@ class Home extends Easol_Controller {
      * index page
      */
     public function index()
-	{
+    {
 
-		if($this->session->userdata('logged_in')== true)
+		if($this->session->userdata('logged_in')== TRUE)
 			return redirect('/dashboard');
 
 		if((isset($_POST['login']) and $data = $this->input->post('login')) or isset($_REQUEST['idtoken'])) {
 
 		    if(isset($_REQUEST['idtoken'])) {
     			$this->_idtoken_login();
-        	}
+      }
 
 		    if( isset($_POST['login']) && $data=$this->input->post('login')) {
 				return $this->_password_login($data);
@@ -37,9 +38,10 @@ class Home extends Easol_Controller {
 		} else {
 			$this->render("login");
 		}
-	}
+    }
         
-    private function writeLog($method) {
+    private function writeLog($method) 
+    {
         if($method)
             $this->easol_logs->Log(['Description' => 'Login']);
         else 
@@ -48,7 +50,7 @@ class Home extends Easol_Controller {
     }
 
     private function _idtoken_login ()
-	{
+    {
 
 		if (system_google_auth_enabled() != 'yes') {
 			$this->session->set_flashdata('error', 'Google Sign In is disabled.');
@@ -66,9 +68,9 @@ class Home extends Easol_Controller {
 	     		$this->session->set_flashdata('error', 'This account can not Sign In with Google.');
 	     		echo "gloginInvalid";
 	     		return;
-	    		}
+   }
 
-	 		$this->load->model('External_Auth','vToken');
+	 		$this->load->model('External_Auth', 'vToken');
 	 		$gAuthGood = $this->vToken->validate_google_token($_REQUEST['uemail'], $_REQUEST['idtoken'], 'http://easol-dev.azurewebsites.net');
 
 	 		if($gAuthGood == "valid") {
@@ -86,8 +88,8 @@ class Home extends Easol_Controller {
 					];
 
 				    if($authentication->RoleId == 3 or $authentication->RoleId == 4) {
-					    $data['SchoolId'] = isset($user[0]->Institutions[0]) ? $user[0]->Institutions[0]->EducationOrganizationId : null;
-				    	$data['SchoolName'] = isset($user[0]->Institutions[0]) ? $user[0]->Institutions[0]->NameOfInstitution : null;
+					    $data['SchoolId'] = isset($user[0]->Institutions[0]) ? $user[0]->Institutions[0]->EducationOrganizationId : NULL;
+				    	$data['SchoolName'] = isset($user[0]->Institutions[0]) ? $user[0]->Institutions[0]->NameOfInstitution : NULL;
 				    }
 
 		    		$this->session->set_userdata($data);
@@ -109,7 +111,7 @@ class Home extends Easol_Controller {
 			$this->session->set_flashdata('error', '"Error Logging in - no matching email - Please contact Support.');
 			/* NO matching email found */ echo "Error Logging in - no matching email - Please contact Support.";
 		}
-	}
+    }
 
 	private function _password_login ($data = array())
 	{
@@ -120,7 +122,7 @@ class Home extends Easol_Controller {
 	    if(is_array($user) and !empty($user)) {
 
 	    	if ($user[0]->GoogleAuth) {
-	     		return $this->render("login",['message' => 'This account must Sign In with Google.']);
+	     		return $this->render("login", ['message' => 'This account must Sign In with Google.']);
 	    	}
 
 			$this->load->model('entities/easol/Easol_StaffAuthentication');
@@ -146,15 +148,16 @@ class Home extends Easol_Controller {
                             
 			    redirect('/');
 			}
-	     }
+     }
 
 	     $this->writeLog(TRUE);
-	     $this->render("login",['message' => 'Invalid email/password']);
+	     $this->render("login", ['message' => 'Invalid email/password']);
 	}
     /**
      * logout page
      */
-    public function logout(){
+    public function logout()
+    {
         $this->writeLog(FALSE);
         $this->session->sess_destroy();
         $this->load->helper('cookie');
@@ -168,7 +171,8 @@ class Home extends Easol_Controller {
     /**
      * access denied page
      */
-    public function accessdenied(){
+    public function accessdenied()
+    {
         $this->render("access-denied");
     }
 }

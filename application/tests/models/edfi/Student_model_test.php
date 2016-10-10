@@ -5,11 +5,13 @@
  */
 class Student_model_test extends TestCase {
 
-	public function setUp() {
+	public function setUp() 
+ {
 		$this->resetInstance();
 	}
 
-	public function test_find() {
+	public function test_find() 
+ {
 
 		$expected = [
 			'555555' => ['FirstName' => 'Sarah', 'MiddleName' => '', 'LastSurname' => 'Stevens'],
@@ -23,12 +25,14 @@ class Student_model_test extends TestCase {
 		}
 	}
 
-	public function test_student_sex_type() {
+	public function test_student_sex_type() 
+ {
 		$student = Model\Edfi\Student::find(604901);
 		$this->assertEquals('Female', $student->SexType()->CodeValue);
 	}
 
-	public function test_student_address() {
+	public function test_student_address() 
+ {
 		$student = Model\Edfi\Student::find(555555);
 		$this->assertEquals('123 Simons Way', $student->Address()[0]->StreetNumberName);
 	}

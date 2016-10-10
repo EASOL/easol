@@ -10,6 +10,5 @@
 
  <arg value="np"/>
 
- <rule ref="CodeIgniter"/>
- <rule ref="PHPCompatibility"/>
+ <rule ref="PHPCS"/>
 </ruleset>

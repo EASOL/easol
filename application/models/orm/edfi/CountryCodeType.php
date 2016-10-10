@@ -10,7 +10,8 @@ class CountryCodeType extends ORM {
 	public $table = "edfi.CountryCodeType";
 	public $primary_key = 'CountryCodeTypeId';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'Student'=> ORM::has_many('\\Model\\Edfi\\Student'),

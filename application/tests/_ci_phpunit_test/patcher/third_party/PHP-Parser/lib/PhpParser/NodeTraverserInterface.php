@@ -20,7 +20,7 @@ interface NodeTraverserInterface
      * For subsequent visitors leaveNode() will still be invoked for the
      * removed node.
      */
-    const REMOVE_NODE = false;
+    const REMOVE_NODE = FALSE;
 
     /**
      * Adds a visitor.

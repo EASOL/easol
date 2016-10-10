@@ -12,7 +12,8 @@ class Parents extends ORM {
 	public $table = "edfi.Parent";
 	public $primary_key = 'ParentUSI';
 
-	function _init() {
+	function _init() 
+ {
 
 		self::$relationships = [
 			'StudentParent'=> ORM::has_many('\\Model\\Edfi\\StudentParent'),

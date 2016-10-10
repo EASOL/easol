@@ -8,7 +8,7 @@ namespace PhpParser;
 class Autoloader
 {
     /** @var bool Whether the autoloader has been registered. */
-    private static $registered = false;
+    private static $registered = FALSE;
 
     /** @var bool Whether we're running on PHP 7. */
     private static $runningOnPhp7;
@@ -18,13 +18,14 @@ class Autoloader
      *
      * @param bool $prepend Whether to prepend the autoloader instead of appending
      */
-    static public function register($prepend = false) {
-        if (self::$registered === true) {
+    static public function register($prepend = FALSE) 
+    {
+        if (self::$registered === TRUE) {
             return;
         }
 
-        spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
-        self::$registered = true;
+        spl_autoload_register(array(__CLASS__, 'autoload'), TRUE, $prepend);
+        self::$registered = TRUE;
         self::$runningOnPhp7 = version_compare(PHP_VERSION, '7.0-dev', '>=');
     }
 
@@ -33,7 +34,8 @@ class Autoloader
      *
      * @param string $class A class name.
      */
-    static public function autoload($class) {
+    static public function autoload($class) 
+    {
         if (0 === strpos($class, 'PhpParser\\')) {
             if (isset(self::$php7AliasesOldToNew[$class])) {
                 if (self::$runningOnPhp7) {
@@ -64,7 +66,8 @@ class Autoloader
         }
     }
 
-    private static function registerNonNamespacedAliases() {
+    private static function registerNonNamespacedAliases() 
+    {
         foreach (self::$nonNamespacedAliases as $old => $new) {
             class_alias($new, $old);
         }

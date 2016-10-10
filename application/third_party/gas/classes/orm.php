@@ -175,7 +175,7 @@ abstract class ORM {
 		// Validate meta data, and assign into its place
 		$metadata = self::validate_meta($this);
 		$this->meta->set('entities', $metadata['entities']);
-		$this->meta->set('fields',   $metadata['fields']);
+		$this->meta->set('fields', $metadata['fields']);
 		$this->meta->set('collumns', $metadata['collumns']);
 
 		// Validate identifier key (PK) and composite key (FK)
@@ -521,7 +521,7 @@ abstract class ORM {
 	 *
 	 * @return  string
 	 */
-	final public function model($gas = null)
+	final public function model($gas = NULL)
 	{
 		// If there is no model instance passed, use recent class
 		return is_null($gas) ? strtolower(get_class($this)) : strtolower(get_class($gas));
@@ -595,13 +595,13 @@ abstract class ORM {
 					$annotations[] = 'INTEGER';
 				}
 
-				break;
+       break;
 
 			case 'datetime':
 				$rules[]       = 'callback_date_check'; 
 				$annotations[] = 'DATETIME';
 
-				break;
+       break;
 			
 			case 'string':
 				$rules[] = 'callback_char_check'; 
@@ -615,19 +615,19 @@ abstract class ORM {
 					$annotations[] = 'TEXT';
 				}
 
-				break;
+       break;
 
 			case 'spatial':
 				$rules[]       = 'callback_char_check'; 
 				$annotations[] = 'GEOMETRY';
 
-				break;
+       break;
 
 			case 'char':
 				$rules[]       = 'callback_char_check'; 
 				$annotations[] = 'VARCHAR';
 
-				break;
+       break;
 
 			case 'numeric':
 				$rules[] = 'numeric'; 
@@ -642,7 +642,7 @@ abstract class ORM {
 					$annotations[] = 'INTEGER';
 				}
 
-				break;
+       break;
 				
 			case 'int':
 				$rules[] = 'integer';
@@ -657,13 +657,13 @@ abstract class ORM {
 					$annotations[] = 'INTEGER';
 				}
 
-				break;
+       break;
 			
 			case 'email':
 				$rules[]       = 'valid_email';
 				$annotations[] = 'VARCHAR';
 
-				break;
+       break;
 		}
 
 		// Are there other annotations?
@@ -728,25 +728,25 @@ abstract class ORM {
 				$direction = '=';
 				$single    = TRUE;
 
-				break;
+       break;
 
 			case 'has_one':
 				$direction = '<=';
 				$single    = TRUE;
 
-				break;
+       break;
 
 			case 'has_many':
 				$direction = '<=';
 				$single    = FALSE;
 
-				break;
+       break;
 
 			case 'belongs_to':
 				$direction = '=>';
 				$single    = TRUE;
 
-				break;
+       break;
 		}
 
 		$full_path = $root.$direction.$path;

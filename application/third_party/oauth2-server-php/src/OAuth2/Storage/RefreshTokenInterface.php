@@ -60,7 +60,7 @@ interface RefreshTokenInterface
      *
      * @ingroup oauth2_section_6
      */
-    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null);
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL);
 
     /**
      * Expire a used refresh token.

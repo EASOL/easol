@@ -49,7 +49,7 @@ class RefreshTokenTest extends \PHPUnit_Framework_TestCase
     public function testValidRefreshTokenWithNewRefreshTokenInResponse()
     {
         $server = $this->getTestServer();
-        $server->addGrantType(new RefreshToken($this->storage, array('always_issue_new_refresh_token' => true)));
+        $server->addGrantType(new RefreshToken($this->storage, array('always_issue_new_refresh_token' => TRUE)));
 
         $request = TestRequest::createPost(array(
             'grant_type' => 'refresh_token', // valid grant type
@@ -73,8 +73,8 @@ class RefreshTokenTest extends \PHPUnit_Framework_TestCase
     {
         $server = $this->getTestServer();
         $server->addGrantType(new RefreshToken($this->storage, array(
-            'always_issue_new_refresh_token' => true,
-            'unset_refresh_token_after_use'  => false,
+            'always_issue_new_refresh_token' => TRUE,
+            'unset_refresh_token_after_use'  => FALSE,
         )));
 
         $request = TestRequest::createPost(array(
@@ -93,7 +93,7 @@ class RefreshTokenTest extends \PHPUnit_Framework_TestCase
     public function testValidRefreshTokenWithNoRefreshTokenInResponse()
     {
         $server = $this->getTestServer();
-        $server->addGrantType(new RefreshToken($this->storage, array('always_issue_new_refresh_token' => false)));
+        $server->addGrantType(new RefreshToken($this->storage, array('always_issue_new_refresh_token' => FALSE)));
 
         $request = TestRequest::createPost(array(
             'grant_type' => 'refresh_token', // valid grant type

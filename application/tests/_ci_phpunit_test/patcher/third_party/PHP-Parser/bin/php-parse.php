@@ -81,7 +81,8 @@ foreach ($files as $file) {
     }
 }
 
-function showHelp($error) {
+function showHelp($error) 
+{
     die($error . "\n\n" .
         <<<OUTPUT
 Usage: php php-parse.php [operations] file1.php [file2.php ...]
@@ -107,15 +108,16 @@ OUTPUT
     );
 }
 
-function parseArgs($args) {
+function parseArgs($args) 
+{
     $operations = array();
     $files = array();
     $attributes = array(
-        'with-column-info' => false,
+        'with-column-info' => FALSE,
     );
 
     array_shift($args);
-    $parseOptions = true;
+    $parseOptions = TRUE;
     foreach ($args as $arg) {
         if (!$parseOptions) {
             $files[] = $arg;
@@ -143,10 +145,10 @@ function parseArgs($args) {
                 break;
             case '--with-column-info':
             case '-c';
-                $attributes['with-column-info'] = true;
+                $attributes['with-column-info'] = TRUE;
                 break;
             case '--':
-                $parseOptions = false;
+                $parseOptions = FALSE;
                 break;
             default:
                 if ($arg[0] === '-') {

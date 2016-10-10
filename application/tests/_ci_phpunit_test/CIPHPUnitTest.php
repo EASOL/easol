@@ -94,9 +94,9 @@ class CIPHPUnitTest
 		require __DIR__ . '/replacing/helpers/url_helper.php';
 	}
 
-	public static function setPatcherCacheDir($dir = null)
+	public static function setPatcherCacheDir($dir = NULL)
 	{
-		if ($dir === null)
+		if ($dir === NULL)
 		{
 			$dir = APPPATH . 'tests/_ci_phpunit_test/tmp/cache';
 		}

@@ -27,17 +27,18 @@ class Easol_Controller extends CI_Controller {
 	 * Render method, renders view file and put it in the layout
 	 * @param $view
 	 * @param array $params
-	 * @param bool $return
+	 * @param bool  $return
 	 * @return string | null
 	 */
-	public function render($view,$params=[],$return=false){
+	public function render($view,$params=[],$return=FALSE)
+ {
 
 
-		$content= $this->renderPartial($view, $params, true);
+		$content= $this->renderPartial($view, $params, TRUE);
 
 
 		ob_start();
-		if($this->layout!=null){
+		if($this->layout!=NULL){
 			$this->load->view($this->layout,
 				[
 					'content'   =>  $content,
@@ -60,13 +61,14 @@ class Easol_Controller extends CI_Controller {
 
 	}
 
-	public function renderPartial($view, $params = [], $return = false) {
+	public function renderPartial($view, $params = [], $return = FALSE) 
+ {
 		ob_start();
 
-		if (strpos($this->router->fetch_directory(), 'modules/') !== false)
+		if (strpos($this->router->fetch_directory(), 'modules/') !== FALSE)
 			$this->load->view($this->router->fetch_class() . '/' . $view, $params);
 		else
-			$this->load->view($this->router->fetch_directory() . $this->router->fetch_class() . '/' . $view, $params);
+			$this->load->view($this->router->fetch_directory() . ucfirst($this->router->fetch_class()) . '/' . $view, $params);
 		$content = ob_get_contents();
 		ob_clean();
 
@@ -91,7 +93,8 @@ class Easol_Controller extends CI_Controller {
 	 * $allowedRoles * for grant all access, @ for all logged in users, [] for specific user
 	 * @return bool|void
 	 */
-	protected function authorize($allowedRoles=[]){
+	protected function authorize($allowedRoles=[])
+ {
 
 		if ($this->easol_module->is_module($this->router->fetch_class()) && !$this->easol_module->is_enabled($this->router->fetch_class())) {
 			return redirect('home/accessdenied');
@@ -101,11 +104,11 @@ class Easol_Controller extends CI_Controller {
 		if($allowedRoles=='@' && !Easol_Auth::isLoggedIn())
 			return redirect('home');
 		if(Easol_AuthorizationRoles::hasAccess($allowedRoles)){
-			if(!($this->router->fetch_class()=='schools' && $this->router->fetch_method() == 'choose') && Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) && Easol_Auth::userdata('SchoolId') == false  )
+			if(!($this->router->fetch_class()=='schools' && $this->router->fetch_method() == 'choose') && Easol_AuthorizationRoles::hasAccess(['System Administrator','Data Administrator']) && Easol_Auth::userdata('SchoolId') == FALSE  )
 			{
 				return redirect('schools/choose');
 			}
-			else return true;
+			else return TRUE;
 		}
 
 
@@ -118,18 +121,20 @@ class Easol_Controller extends CI_Controller {
 	 * Access Rules. Should be overridden
 	 * @return array
 	 */
-	protected function accessRules(){
+	protected function accessRules()
+ {
 		return [];
 	}
 
-	protected function processAccessRules(){
+	protected function processAccessRules()
+ {
 
 
-		if(array_key_exists($this->router->fetch_method(),$this->accessRules())){
+		if(array_key_exists($this->router->fetch_method(), $this->accessRules())){
 			return $this->authorize($this->accessRules()[$this->router->fetch_method()]);
 		}
 
-		if(array_key_exists('default',$this->accessRules())){
+		if(array_key_exists('default', $this->accessRules())){
 			return $this->authorize($this->accessRules()['default']);
 		}
 
