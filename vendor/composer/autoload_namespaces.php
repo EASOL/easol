@@ -8,6 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
     'org\\bovigo\\vfs' => array($vendorDir . '/mikey179/vfsStream/src/main/php'),
-    'Symfony\\Component\\DomCrawler\\' => array($vendorDir . '/symfony/dom-crawler'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
 );

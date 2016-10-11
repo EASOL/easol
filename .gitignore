@@ -14,3 +14,4 @@ logs
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
+tests/_output/*
