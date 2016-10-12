@@ -17,11 +17,11 @@
                 </div>
                 <div class="form-group">
                     <label for="gradelevel">Grade Level</label>
-                    <?php echo form_dropdown('filter[GradeLevel]', filter_grade_listing($school_id), '', "class='form-control'")?>
+                    <?php echo form_dropdown('gradelevel', filter_grade_listing($school_id), '', "class='form-control'")?>
                 </div>
                 <div class="form-group">
                     <label for="year">School Year</label>
-                    <?php echo form_dropdown('filter[Year]', filter_year_listing($school_id), $currentYear_default, "class='form-control'")?>
+                    <?php echo form_dropdown('year', filter_year_listing($school_id), $currentYear_default, "class='form-control'")?>
                 </div>
                 <div class="form-group">
                     <label for="term">Term</label>
@@ -34,7 +34,7 @@
               </form>
 
               <div class="datatablegrid">
-                <table id="manageattendance" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
+                <table id="manageattendance" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%" data-filter-option="no">
                   <thead>
                     <tr>
                       <th>Student Name</th>
