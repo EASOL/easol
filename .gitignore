@@ -2,6 +2,7 @@
 *.php~
 .htaccess
 application/config/database.php
+application/config/config.php
 /stw_thumbs
 /docs
 
