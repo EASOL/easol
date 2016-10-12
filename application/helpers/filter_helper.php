@@ -188,3 +188,39 @@ if ( ! function_exists('filter_educators_listing'))
         return $educators_listing;
 	}
 }
+
+if ( ! function_exists('filter_subjects_listing'))
+{
+    function filter_subjects_listing($school_id = '')
+    {
+        $ci = & get_instance();
+
+        $subjects_listing = ['' => 'All Subjects'];
+
+        $q = "SELECT
+                edfi.AcademicSubjectType.CodeValue +'' as Subject
+            FROM edfi.StudentAssessmentScoreResult
+            JOIN edfi.AcademicSubjectDescriptor ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessmentScoreResult
+            .AcademicSubjectDescriptorId
+            JOIN edfi.AcademicSubjectType ON edfi.AcademicSubjectType.AcademicSubjectTypeId = edfi.AcademicSubjectDescriptor
+            .AcademicSubjectTypeId
+            JOIN edfi.GradeLevelDescriptor ON edfi.GradeLevelDescriptor.GradeLevelDescriptorId = edfi.StudentAssessmentScoreResult
+            .AssessedGradeLevelDescriptorId
+            JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
+            .GradeLevelTypeId
+            JOIN edfi.StudentSchoolAssociation ON edfi.StudentSchoolAssociation.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
+            WHERE  1 = 1 AND edfi.StudentSchoolAssociation.SchoolId = ?
+            GROUP BY edfi.AcademicSubjectType.CodeValue";
+        $query = $ci -> db -> query($q, [$school_id]);
+       
+        if ($query -> num_rows())
+        {
+            foreach ($query -> result() as $row)
+            {
+                $subjects_listing[$row -> Subject] = $row -> Subject;
+            }
+        }
+
+        return $subjects_listing;
+    }
+}

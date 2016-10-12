@@ -8,47 +8,31 @@
     <div class="col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-
-              <form class="form-inline" id="dataGridFormFilter">
+ 
+              <form action="" method="get" class="form-inline" name="dataGridFormFilter" id="dataGridFormFilter">
+                <div class="row">
+                  <div class="col-sm-12 margin-bottom">
+                    <input type="text" placeholder="Search..." name="filter[term]" class="form-control" style="width: 100%">
+                  </div> 
+                </div>
                 <div class="form-group">
                     <label for="gradelevel">Grade Level</label>
-                    <select name="gradelevel" class="form-control">
-                        <option value="">All Grade Levels</option>                         
-                        <?php foreach($gradelevels as $k => $v): ?>
-                            <option value="<?php echo $v->CodeValue; ?>"><?php echo $v->CodeValue; ?></option>
-                        <?php endforeach; ?>                        
-                    </select>   
+                    <?php echo form_dropdown('filter[GradeLevel]', filter_grade_listing($school_id), '', "class='form-control'")?>
                 </div>
                 <div class="form-group">
                     <label for="year">School Year</label>
-                    <select name="year" class="form-control">
-                        <option value="">All Years</option>                         
-                        <?php foreach($years as $k => $v): ?>
-                            <option value="<?php echo $k; ?>"<?php if($currentYear == $k) {echo "selected";
-                           } ?>>
-                              <?php echo $v; ?></option>
-                        <?php endforeach; ?>                        
-                    </select>   
+                    <?php echo form_dropdown('filter[Year]', filter_year_listing($school_id), $currentYear_default, "class='form-control'")?>
                 </div>
                 <div class="form-group">
                     <label for="term">Term</label>
-                    <select name="term" class="form-control">
-                        <option value="">All Terms</option>                         
-                        <?php foreach($terms as $k => $v): ?>
-                            <option value="<?php echo $v; ?>">
-                              <?php echo $v; ?>
-                            </option>
-                        <?php endforeach; ?>                        
-                    </select>   
+                    <?php echo form_dropdown('term', filter_terms_listing($school_id), $currentTerm_default, "class='form-control'")?>
                 </div>
                 <div class="form-group">
                    <label for="filter-PageLength">Records Per Page:</label>
-                   <?php echo form_dropdown('filter[PageLength]', ['25'=>'25', '50'=>'50', '100'=>'100'], '', "class='form-control'"); ?>
+                   <?php echo form_dropdown('filter[PageLength]', filter_page_size_listing(), '', "class='form-control'"); ?>
                 </div>
-                                                                    
               </form>
 
-             
               <div class="datatablegrid">
                 <table id="manageattendance" class="table table-striped table-bordered table-widget" cellspacing="0" width="100%">
                   <thead>

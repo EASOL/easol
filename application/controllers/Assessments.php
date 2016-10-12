@@ -21,7 +21,7 @@ class Assessments extends Easol_Controller {
 	 * index action
 	 */
 	public function index() 
- {
+ 	{
 		$currentYear= Easol_SchoolConfiguration::getValue('CURRENT_SCHOOLYEAR');
 		$currentYear_default=Easol_SchoolConfiguration::setDefault('Year', $currentYear);
 
@@ -34,49 +34,24 @@ class Assessments extends Easol_Controller {
 				edfi.GradeLevelType.CodeValue +'' as Grade,
 				AVG(CAST(TRY_CONVERT(float, StudentAssessmentScoreResult.Result) as FLOAT)) as AverageResult,
 				COUNT(*) as StudentCount
-
 			FROM edfi.StudentAssessmentScoreResult
 			JOIN edfi.AcademicSubjectDescriptor ON edfi.AcademicSubjectDescriptor.AcademicSubjectDescriptorId = edfi.StudentAssessmentScoreResult
 			.AcademicSubjectDescriptorId
 			JOIN edfi.AcademicSubjectType ON edfi.AcademicSubjectType.AcademicSubjectTypeId = edfi.AcademicSubjectDescriptor
 			.AcademicSubjectTypeId
-
 			JOIN edfi.GradeLevelDescriptor ON edfi.GradeLevelDescriptor.GradeLevelDescriptorId = edfi.StudentAssessmentScoreResult
 			.AssessedGradeLevelDescriptorId
 			JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
 			.GradeLevelTypeId
 			JOIN edfi.StudentSchoolAssociation ON edfi.StudentSchoolAssociation.StudentUSI = edfi.StudentAssessmentScoreResult.StudentUSI
-
-			WHERE  1 = 1 /* AND ISNUMERIC(StudentAssessmentScoreResult.Result) = 1 */
-			AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Auth::userdata('SchoolId') . "'
+			WHERE  1 = 1 AND edfi.StudentSchoolAssociation.SchoolId = '". Easol_Auth::userdata('SchoolId') . "'
 
 			GROUP BY  AssessmentTitle,Version,AdministrationDate, edfi.StudentAssessmentScoreResult.AcademicSubjectDescriptorId, edfi.StudentAssessmentScoreResult.AssessedGradeLevelDescriptorId, edfi.AcademicSubjectType.CodeValue, edfi.GradeLevelType.CodeValue";
-
+ 
 		$query = $this->db->query($query);
-
 		$data = ['result'=>$query->result()];
 
-		$filter = ['year' => [""=>"All Years"], 'subject' => [""=>"All Subjects"], 'grade'=> [""=>"All Grade Levels"]];
-		foreach ($query->result() as $row) {
-			$year = date('Y', strtotime($row->AdministrationDate));
-			$filter['year'][easol_year($year)] = easol_year($year);
-			$filter['subject'][$row->Subject] = $row->Subject;
-		}
-
-		$query = $this->db->query("SELECT * FROM edfi.GradeLevelType where GradeLevelTypeId in ( SELECT distinct GradeLevelType.GradeLevelTypeId FROM edfi.StudentAssessmentScoreResult
-			JOIN edfi.GradeLevelDescriptor ON edfi.GradeLevelDescriptor.GradeLevelDescriptorId = edfi.StudentAssessmentScoreResult
-			.AssessedGradeLevelDescriptorId
-			JOIN edfi.GradeLevelType ON edfi.GradeLevelType.GradeLevelTypeId = edfi.GradeLevelDescriptor
-			.GradeLevelTypeId
-
-			WHERE  1=1 /*ISNUMERIC(StudentAssessmentScoreResult.Result) = 1*/ and GradeLevelType.GradeLevelTypeId between -1 and 12 ) ORDER BY GradeLevelTypeId ASC");
-
-		foreach ($query->result() as $row) {
-			$filter['grade'][$row->CodeValue] = $row->CodeValue;
-		}
-
-
-		$data['filter'] = $filter;
+		$data['school_id'] = Easol_Auth::userdata('SchoolId');
 
 		$this->render('index', $data);
 
