@@ -12,6 +12,8 @@ Class Easol_Auth {
 
         $this->ci->load->config('auth');
 
+        $this->test_auth();
+
         $this->controller = $this->ci->router->fetch_class();
         $this->method = $this->ci->router->fetch_method();
 
@@ -154,8 +156,6 @@ Class Easol_Auth {
      */
     public static function userdata($field="")
     {
-
-
         if($field=="")
             return self::$userInfo;
         if(array_key_exists($field, self::$userInfo)){
@@ -163,5 +163,47 @@ Class Easol_Auth {
         }
 
         return FALSE;
+    }
+
+    public function test_auth() {
+        if ($_SERVER['HTTP_X_TEST_USER'] && $_SERVER['HTTP_X_TEST_KEY'] == $this->ci->config->item('TEST_KEY', 'auth')) {
+
+            $user = $_SERVER['HTTP_X_TEST_USER'];
+            if (!is_numeric($user)) {
+                $user = Model\Edfi\StaffEmail::limit(1)->find_by_ElectronicMailAddress($user, false);
+                if (!$user) exit('Error: User not found.');
+                
+                $user = $user->StaffUSI;
+            }
+
+            $user = Model\Easol\StaffAuthentication::find($user);
+            $email = $user->Staff()->Email()[0]->ElectronicMailAddress;
+
+            if($user){
+                $this->ci->session->sess_expiration =   '1200';
+                $data=[
+                    'LoginId'   =>  $email,
+                    'StaffUSI'  =>  $user->StaffUSI,
+                    'RoleId'    =>  $user->RoleId,
+                    'logged_in' => TRUE,
+                ];
+
+                if ($user->RoleId < 3 && $_SERVER['HTTP_X_TEST_SCHOOL']) {
+                    $school = Model\Edfi\EducationOrganization::find($_SERVER['HTTP_X_TEST_SCHOOL']);
+                    if (!$school) exit('Error: Missing school context or school not found.');
+                    $data['SchoolId'] = $school->EducationOrganizationId;
+                    $data['SchoolName'] = $school->NameOfInstitution;
+                }
+                else {
+                    $data['SchoolId'] = $user->Staff()->EducationOrganization()[0]->EducationOrganizationId;
+                    $data['SchoolName'] = $user->Staff()->EducationOrganization()[0]->NameOfInstitution;
+                }
+
+                $this->ci->session->set_userdata($data);
+            }
+            else {
+                exit('Error: User not found.');
+            }
+        }
     }
 }

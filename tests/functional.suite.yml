@@ -13,4 +13,3 @@ modules:
               User-Agent: Testing
               X-Test-Key: G3UVVUqTPqrMQxUx4CugVcUE37Wyh6hh
         - \Helper\Functional
-        - CodeIgniter

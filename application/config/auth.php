@@ -96,3 +96,5 @@ $config['auth']['schoolmanagement'] = [
 $config['auth']['system'] = [
 	'*'=>['System Administrator' => TRUE,'Data Administrator' => TRUE]
 ];
+
+$config['auth']['TEST_KEY'] = 'G3UVVUqTPqrMQxUx4CugVcUE37Wyh6hh';
