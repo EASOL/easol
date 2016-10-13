@@ -15,15 +15,14 @@ class RoboFile extends \Robo\Tasks
         $this->update();
         $this->buildDocs();
         $this->publishDocs();
-        $this->installDependenciesForPhp54();
+
         $this->buildPhar54();
-        $this->installDependenciesForPhp56();
         $this->buildPhar();
         $this->revertComposerJsonChanges();
         $this->publishPhar();
         $this->publishGit();
+        $this->publishBase(null, \Codeception\Codecept::VERSION);
         $this->versionBump();
-        $this->publishBase();
     }
 
     public function versionBump($version = '')
@@ -133,7 +132,6 @@ class RoboFile extends \Robo\Tasks
         $this->taskServer(8000)
             ->dir('tests/data/app')
             ->run();
-
     }
 
     public function testCli()
@@ -194,7 +192,9 @@ class RoboFile extends \Robo\Tasks
         if (!file_exists('package/php54')) {
             mkdir('package/php54');
         }
+        $this->installDependenciesForPhp54();
         $this->packPhar('package/php54/codecept.phar');
+        $this->installDependenciesForPhp56();
     }
 
     private function packPhar($pharFileName)
@@ -240,11 +240,13 @@ class RoboFile extends \Robo\Tasks
             ->name('*.tpl.dist')
             ->name('*.html.dist')
             ->exclude('videlalvaro')
+            ->exclude('php-amqplib')
             ->exclude('pheanstalk')
             ->exclude('phpseclib')
             ->exclude('codegyre')
             ->exclude('monolog')
             ->exclude('phpspec')
+            ->exclude('squizlabs')
             ->exclude('Tests')
             ->exclude('tests')
             ->exclude('benchmark')
@@ -296,12 +298,16 @@ class RoboFile extends \Robo\Tasks
                 ->prepend('# '.$moduleName)
                 ->append('<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="'.$source.'">Help us to improve documentation. Edit module reference</a></div>')
                 ->processClassSignature(false)
-                ->processClassDocBlock(function(\ReflectionClass $c, $text) {
-                  return "$text\n\n## Actions";
+                ->processClassDocBlock(function (\ReflectionClass $c, $text) {
+                    return "$text\n\n## Actions";
                 })->processProperty(false)
-                ->filterMethods(function(\ReflectionMethod $method) use ($className) {
-                    if ($method->isConstructor() or $method->isDestructor()) return false;
-                    if (!$method->isPublic()) return false;
+                ->filterMethods(function (\ReflectionMethod $method) use ($className) {
+                    if ($method->isConstructor() or $method->isDestructor()) {
+                        return false;
+                    }
+                    if (!$method->isPublic()) {
+                        return false;
+                    }
                     if (strpos($method->name, '_') === 0) {
                         $doc = $method->getDocComment();
                         try {
@@ -345,7 +351,7 @@ class RoboFile extends \Robo\Tasks
     public function buildDocsUtils()
     {
         $this->say("Util Classes");
-        $utils = ['Autoload', 'Fixtures', 'Stub', 'Locator', 'XmlBuilder', 'JsonType'];
+        $utils = ['Autoload', 'Fixtures', 'Stub', 'Locator', 'XmlBuilder', 'JsonType', 'HttpCode'];
 
         foreach ($utils as $utilName) {
             $className = '\Codeception\Util\\' . $utilName;
@@ -359,9 +365,9 @@ class RoboFile extends \Robo\Tasks
                 )
                 ->processClassDocBlock(function (ReflectionClass $r, $text) {
                     return $text . "\n";
-                })->processMethodSignature(function(ReflectionMethod $r, $text) {
+                })->processMethodSignature(function (ReflectionMethod $r, $text) {
                     return '### ' . $r->getName();
-                })->processMethodDocBlock(function(ReflectionMethod $r, $text) use ($utilName, $source) {
+                })->processMethodDocBlock(function (ReflectionMethod $r, $text) use ($utilName, $source) {
                     $line = $r->getStartLine();
                     if ($r->isStatic()) {
                         $text = "\n*static*\n$text";
@@ -396,7 +402,6 @@ class RoboFile extends \Robo\Tasks
                 return false;
             })
             ->run();
-
     }
 
     public function buildDocsExtensions()
@@ -812,7 +817,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskComposerUpdate()->run();
         $this->taskGitStack()
-            ->add('composer*')
+            ->add('composer.json')
             ->commit('auto-update')
             ->exec("push -f base $tempBranch:$branch")
             ->run();
@@ -827,6 +832,7 @@ class RoboFile extends \Robo\Tasks
         }
 
         $this->taskGitStack()
+            ->checkout('-- composer.json')
             ->checkout($branch)
             ->exec("branch -D $tempBranch")
             ->run();
@@ -846,7 +852,7 @@ class RoboFile extends \Robo\Tasks
             ->arg('.')
             ->arg('--standard=ruleset.xml')
             ->arg('--report=' . $opt['report'])
-            ->arg('--ignore=tests/data,vendor')
+            ->arg('--ignore=tests,vendor,package,docs')
             ->run();
     }
 
@@ -855,7 +861,7 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec('php vendor/bin/phpcbf')
             ->arg('.')
             ->arg('--standard=ruleset.xml')
-            ->arg('--ignore=tests/data,vendor')
+            ->arg('--ignore=tests,vendor,package,docs')
             ->run();
     }
 }

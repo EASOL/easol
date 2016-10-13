@@ -7,5 +7,10 @@
 class_name: FunctionalTester
 modules:
     enabled:
-        # add framework module here
+        - PhpBrowser:
+            url: http://easol
+            headers:
+              User-Agent: Testing
+              X-Test-Key: G3UVVUqTPqrMQxUx4CugVcUE37Wyh6hh
         - \Helper\Functional
+        - CodeIgniter

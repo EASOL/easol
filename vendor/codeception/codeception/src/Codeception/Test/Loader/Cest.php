@@ -47,22 +47,22 @@ class Cest implements LoaderInterface
                     $examples = array_map(
                         function ($v) {
                             return Annotation::arrayValue($v);
-                        }, $rawExamples
+                        },
+                        $rawExamples
                     );
                     $dataProvider = new \PHPUnit_Framework_TestSuite_DataProvider();
                     foreach ($examples as $k => $example) {
                         if ($example === null) {
                             throw new TestParseException(
-                                $file, "Example for $testClass->$method contains invalid data:\n" .
+                                $file,
+                                "Example for $testClass->$method contains invalid data:\n" .
                                 $rawExamples[$k] . "\n" .
                                 "Make sure this is a valid JSON (Hint: \"-char for strings) or a single-line annotation in Doctrine-style"
                             );
                         }
                         $test = new CestFormat($unit, $method, $file);
                         $test->getMetadata()->setCurrent(['example' => $example]);
-
-                        $groups = Annotation::forMethod($unit, $method)->fetchAll('group');
-                        $dataProvider->addTest($test, $groups);
+                        $dataProvider->addTest($test);
                     }
                     $this->tests[] = $dataProvider;
                     continue;
@@ -71,5 +71,4 @@ class Cest implements LoaderInterface
             }
         }
     }
-
 }

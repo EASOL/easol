@@ -3,6 +3,7 @@ namespace Codeception\Test;
 
 use Codeception\Example;
 use Codeception\Lib\Parser;
+use Codeception\Step\Comment;
 use Codeception\Util\Annotation;
 use Codeception\Util\ReflectionHelper;
 
@@ -11,7 +12,11 @@ use Codeception\Util\ReflectionHelper;
  *
  * Handles loading of Cest cases, executing specific methods, following the order from `@before` and `@after` annotations.
  */
-class Cest extends Test implements Interfaces\ScenarioDriven, Interfaces\Reported, Interfaces\Dependent
+class Cest extends Test implements
+    Interfaces\ScenarioDriven,
+    Interfaces\Reported,
+    Interfaces\Dependent,
+    Interfaces\StrictCoverage
 {
     use Feature\ScenarioLoader;
     /**
@@ -43,8 +48,8 @@ class Cest extends Test implements Interfaces\ScenarioDriven, Interfaces\Reporte
 
         // add example params to feature
         if ($this->getMetadata()->getCurrent('example')) {
-            $params = implode(', ', array_values($this->getMetadata()->getCurrent('example')));
-            $this->getScenario()->setFeature($this->getScenario()->getFeature() . ' | '.$params);
+            $step = new Comment('', $this->getMetadata()->getCurrent('example'));
+            $this->getScenario()->setFeature($this->getScenario()->getFeature() . ' | '. $step->getArgumentsAsString(100));
         }
     }
 
@@ -108,7 +113,7 @@ class Cest extends Test implements Interfaces\ScenarioDriven, Interfaces\Reporte
             }
         }
     }
-    
+
     protected function executeContextMethod($context, $I)
     {
         if (method_exists($this->testClassInstance, $context)) {
@@ -131,7 +136,7 @@ class Cest extends Test implements Interfaces\ScenarioDriven, Interfaces\Reporte
     }
     protected function executeTestMethod($I)
     {
-        if (!method_exists($this->testClassInstance,  $this->testMethod)) {
+        if (!method_exists($this->testClassInstance, $this->testMethod)) {
             throw new \Exception("Method {$this->testMethod} can't be found in tested class");
         }
 
@@ -146,7 +151,7 @@ class Cest extends Test implements Interfaces\ScenarioDriven, Interfaces\Reporte
     {
         return sprintf('%s: %s', ReflectionHelper::getClassShortName($this->getTestClass()), ucfirst($this->getFeature()));
     }
-    
+
     public function getSignature()
     {
         return get_class($this->getTestClass()) . ":" . $this->getTestMethod();
@@ -190,5 +195,21 @@ class Cest extends Test implements Interfaces\ScenarioDriven, Interfaces\Reporte
             $names[] = $required;
         }
         return $names;
+    }
+
+    public function getLinesToBeCovered()
+    {
+        $class  = get_class($this->getTestClass());
+        $method = $this->getTestMethod();
+
+        return \PHPUnit_Util_Test::getLinesToBeCovered($class, $method);
+    }
+
+    public function getLinesToBeUsed()
+    {
+        $class  = get_class($this->getTestClass());
+        $method = $this->getTestMethod();
+
+        return \PHPUnit_Util_Test::getLinesToBeUsed($class, $method);
     }
 }
