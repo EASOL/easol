@@ -19,7 +19,7 @@ before_script:
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
   
 script:
-  - vendor/bin/codecept run functional
+  - php vendor/bin/codecept run functional
 
 
 # configure notifications (email, IRC, campfire etc)
