@@ -19,7 +19,7 @@ $db['testing'] = array(
     'database' => $_ENV['CI_DATABASE_NAME'],
     'dbdriver' => 'sqlsrv',
     'dbprefix' => '',
-    'pconnect' => TRUE,
+    'pconnect' => FALSE,
     'db_debug' => TRUE,
     'cache_on' => FALSE,
     'cachedir' => '',
@@ -30,7 +30,6 @@ $db['testing'] = array(
     'compress' => FALSE,
     'stricton' => FALSE,
     'failover' => array(),
-    'save_queries' => TRUE
+    'save_queries' => FALSE
 );
 $db['testing']['port'] = 1433;
-
