@@ -8,8 +8,8 @@ class_name: FunctionalTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://easol
+            url: http://localhost
             headers:
               User-Agent: Testing
-              X-Test-Key: G3UVVUqTPqrMQxUx4CugVcUE37Wyh6hh
+              X-Test-Key: {{test-key}}
         - \Helper\Functional

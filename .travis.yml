@@ -15,6 +15,8 @@ php:
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
   - mv application/config/database.ci.php application/config/database.php
+  - cp tests/functional.suite.template.yml tests/functional.suite.yml
+  - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
   
 script:
   - vendor/bin/codecept run functional
