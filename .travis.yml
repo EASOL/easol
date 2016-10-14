@@ -19,8 +19,7 @@ before_script:
   - wget http://onefinepub.com/wp-content/uploads/2014/03/unixodbc_2.3.2-1_amd64.deb
   - sudo dpkg -i unixodbc_2.3.2-1_amd64.deb
   - wget https://raw.github.com/Andrewpk/Microsoft--SQL-Server--ODBC-Driver-1.0-for-Linux-Fixed-Install-Scripts/master/build_dm.sh
-  - chmod u+x build_dm.sh; sudo ./build_dm.sh --libdir=/usr/lib/x86_64-linux-gnu
-  - YES
+  - chmod u+x build_dm.sh; sudo yes YES | ./build_dm.sh --libdir=/usr/lib/x86_64-linux-gnu
   - sudo su -c 'cd /tmp/unixODBC.XXXX.XXXX.XXXX/unixODBC-2.3.2; make install'
   - sudo apt-get install php-pear
   - sudo apt-get install libcurl3-openssl-dev
