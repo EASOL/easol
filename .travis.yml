@@ -18,10 +18,10 @@ before_script:
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
   - sudo chmod +x vendor/bin/codecept
-  - vendor/bin/codecept build
+  - ./vendor/bin/codecept build
   
 script:
-  - vendor/bin/codecept run functional
+  - ./vendor/bin/codecept run functional
 
 
 # configure notifications (email, IRC, campfire etc)
