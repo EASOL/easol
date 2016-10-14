@@ -17,6 +17,7 @@ before_script:
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
+  - sudo chmod ug+x vendor/codeception/codeception/codecep
   - sudo chmod ug+x vendor/bin/codecept
   - vendor/bin/codecept build
   
