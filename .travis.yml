@@ -6,23 +6,21 @@ php:
   # using major version aliases
   - 7.0
 
-sudo: required
+# optionally specify a list of environments, for example to test different RDBMS
+#env:
+#  - DB=mysql
+#  - DB=pgsql
 
-services:
-  - docker
-
-before_install:
-  - docker pull 1and1internet/ubuntu-16-apache-php-7.0
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - sudo pecl install sqlsrv-4.0.5
-  - sudo pecl install pdo_sqlsrv-4.0.5
-
-  - echo "extension=/usr/lib/php/20151012/sqlsrv.so" >> /etc/php/7.0/apache2/php.ini
-  - echo "extension=/usr/lib/php/20151012/pdo_sqlsrv.so" >> /etc/php/7.0/apache2/php.ini
-  - echo "extension=/usr/lib/php/20151012/sqlsrv.so" >> /etc/php/7.0/cli/php.ini
-  - echo "extension=/usr/lib/php/20151012/pdo_sqlsrv.so" >> /etc/php/7.0/cli/php.ini
+  ## INSTALLING SQLSRV
+  - sudo apt-get remove libodbc1 unixodbc unixodbc-dev
+  - wget http://onefinepub.com/wp-content/uploads/2014/03/unixodbc_2.3.2-1_amd64.deb
+  - sudo dpkg -i unixodbc_2.3.2-1_amd64.deb
+  - wget https://raw.github.com/Andrewpk/Microsoft--SQL-Server--ODBC-Driver-1.0-for-Linux-Fixed-Install-Scripts/master/build_dm.sh
+  - chmod u+x build_dm.sh; sudo ./build_dm.sh --libdir=/usr/lib/x86_64-linux-gnu
+  - sudo su -c 'cd /tmp/unixODBC.XXXX.XXXX.XXXX/unixODBC-2.3.2; make install'
 
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
