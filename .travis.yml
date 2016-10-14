@@ -6,15 +6,16 @@ php:
   # using major version aliases
   - 7.0
 
-# optionally specify a list of environments, for example to test different RDBMS
-#env:
-#  - DB=mysql
-#  - DB=pgsql
+sudo: required
 
+services:
+  - docker
+
+before_install:
+  - docker pull 1and1internet/ubuntu-16-apache-php-7.0
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - sudo apt-get install php-pear
   - sudo pecl install sqlsrv-4.0.5
   - sudo pecl install pdo_sqlsrv-4.0.5
 
