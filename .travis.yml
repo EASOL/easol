@@ -14,7 +14,7 @@ php:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - sudo apt-get install php-pear php7.0-dev
+  - sudo apt-get install php-pear
   - sudo pecl install sqlsrv-4.0.5
   - sudo pecl install pdo_sqlsrv-4.0.5
 
