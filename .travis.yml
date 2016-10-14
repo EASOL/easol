@@ -14,6 +14,12 @@ php:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
+  - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-preview/ wily main" > /etc/apt/sources.list.d/mssqlpreview.list'
+  - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+  - sudo apt-get update
+  - sudo apt-get install msodbcsql
+  - sudo apt-get install unixodbc-dev-utf16
+
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
