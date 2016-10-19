@@ -15,7 +15,7 @@ php:
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
   ## INSTALLING SQLSRV
-  - sudo add-apt-repository ppa:ondrej/php
+  - sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
   - sudo apt-get update
   - sudo apt-get install php-pear php-dev
   - sudo pecl install pdo_sqlsrv-4.0.5 
