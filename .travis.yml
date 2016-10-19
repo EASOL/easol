@@ -30,6 +30,8 @@ before_script:
   - sudo pecl install sqlsrv-4.0.5
   - sudo pecl install pdo_sqlsrv-4.0.5
 
+  - php -m
+
 
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
