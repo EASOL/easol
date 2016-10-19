@@ -15,6 +15,7 @@ php:
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
   ## INSTALLING SQLSRV
+  - sudo apt-get install php-pear php-dev
   - sudo pecl install pdo_sqlsrv-4.0.5 
   - sudo pecl install sqlsrv-4.0.5 
   - wget https://raw.githubusercontent.com/Microsoft/msphpsql/PHP-7.0-Linux/ODBC%20install%20scripts/installodbc_ubuntu.sh
