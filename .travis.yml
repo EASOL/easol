@@ -1,3 +1,6 @@
+sudo: required
+dist: trusty
+
 # see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
 
@@ -11,10 +14,8 @@ php:
 #  - DB=mysql
 #  - DB=pgsql
 
-
-# execute any number of scripts before the test run, custom env's are available as variables
-before_script:
-  ## INSTALLING SQLSRV
+before_install:
+ ## INSTALLING SQLSRV
   - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
   - sudo apt-get update
   - sudo apt-get install php-pear php-dev
@@ -22,7 +23,8 @@ before_script:
   - sudo pecl install sqlsrv-4.0.5 
   - wget https://raw.githubusercontent.com/Microsoft/msphpsql/PHP-7.0-Linux/ODBC%20install%20scripts/installodbc_ubuntu.sh
   - sudo sh installodbc_ubuntu.sh
-
+  
+before_script:
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
