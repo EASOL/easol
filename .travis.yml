@@ -20,7 +20,8 @@ before_install:
   - sudo apt-get install php7.0
   - sudo apt-get install php-pear php-dev
 
-  - pecl search sqlsrv
+  - sudo pecl install sqlsrv-4.0.5
+  - sudo pecl install pdo_sqlsrv-4.0.5
   
 before_script:
   - mv application/config/database.ci.php application/config/database.php
