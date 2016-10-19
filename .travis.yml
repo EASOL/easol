@@ -18,6 +18,8 @@ php:
 
 before_install:
   - docker pull silintl/php7
+  - sudo pecl install sqlsrv-4.0.5
+  - sudo pecl install pdo_sqlsrv-4.0.5
  ## INSTALLING SQLSRV
   
 before_script:
