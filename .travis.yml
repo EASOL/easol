@@ -21,9 +21,13 @@ before_install:
   - sudo apt-get install php-pear php-dev
   - sudo pecl install pdo_sqlsrv-4.0.5 
   - sudo pecl install sqlsrv-4.0.5 
+  - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update
+  - sudo apt-get install gcc-4.9
+  - sudo apt-get upgrade libstdc++6
   - wget https://raw.githubusercontent.com/Microsoft/msphpsql/PHP-7.0-Linux/ODBC%20install%20scripts/installodbc_ubuntu.sh
   - sudo sh installodbc_ubuntu.sh
-  
+
 before_script:
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
