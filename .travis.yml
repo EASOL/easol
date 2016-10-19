@@ -18,8 +18,9 @@ php:
 
 before_install:
   - docker pull silintl/php7
-  - wget https://raw.githubusercontent.com/Microsoft/msphpsql/PHP-7.0-Linux/ODBC%20install%20scripts/installodbc_ubuntu.sh
-  - sudo sh installodbc_ubuntu.sh
+  - sudo apt-get install php-pear php-dev
+  - sudo pecl install sqlsrv-4.0.5
+  - sudo pecl install pdo_sqlsrv-4.0.5
  ## INSTALLING SQLSRV
   
 before_script:
