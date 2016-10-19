@@ -15,7 +15,7 @@ php:
 #  - DB=pgsql
 
 before_install:
-  - sudo yes "" | add-apt-repository ppa:ondrej/php
+  - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
   - sudo apt-get update
   - sudo yes "Y" | sudo apt-get install php7.0
   - sudo yes "Y" | sudo apt-get install php-pear php-dev
