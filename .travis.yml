@@ -1,5 +1,7 @@
 sudo: required
-dist: trusty
+
+services:
+  - docker
 
 # see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
@@ -24,7 +26,7 @@ before_install:
   - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - sudo apt-get update
   - sudo apt-get install gcc-4.9
-  - sudo apt-get upgrade libstdc++6
+  - sudo yes "Y" | sudo apt-get upgrade libstdc++6
   - wget https://raw.githubusercontent.com/Microsoft/msphpsql/PHP-7.0-Linux/ODBC%20install%20scripts/installodbc_ubuntu.sh
   - sudo sh installodbc_ubuntu.sh
 
