@@ -18,7 +18,7 @@ php:
 
 before_install:
   - docker pull silintl/php7
-  - sudo apt-get install php-pear php-dev
+  - sudo apt-get install php-pear
   - sudo pecl install sqlsrv-4.0.5
   - sudo pecl install pdo_sqlsrv-4.0.5
  ## INSTALLING SQLSRV
