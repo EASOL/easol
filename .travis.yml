@@ -17,8 +17,8 @@ php:
 before_install:
   - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
   - sudo apt-get update
-  - sudo yes "Y" | sudo apt-get install php7.0
-  - sudo yes "Y" | sudo apt-get install php-pear php-dev
+  - sudo apt-get install php7.0
+  - sudo apt-get install php-pear php-dev
 
   - pecl search sqlsrv
   
