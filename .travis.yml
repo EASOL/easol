@@ -29,7 +29,7 @@ before_script:
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
   - sudo chmod ug+x vendor/codeception/codeception/codecept
   - sudo chmod ug+x vendor/bin/codecept
-  - php -S localhost:8000 > /dev/null &
+  - sudo service apache2 start
   - vendor/bin/codecept build
   
 script:
