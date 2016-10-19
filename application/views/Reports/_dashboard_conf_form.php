@@ -25,9 +25,9 @@
                         <?php foreach($roles as $role){ ?>
 
                             <?php
-                            $leftOptions='';
-                            $rightOptions='';
-                            $bottomOptions='';
+                            $leftOptions='<option value=""></option>';
+                            $rightOptions='<option value=""></option>';
+                            $bottomOptions='<option value=""></option>';
                             /* @var $dashConf Easol_DashboardConfiguration */
                             $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$role->RoleTypeId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
 

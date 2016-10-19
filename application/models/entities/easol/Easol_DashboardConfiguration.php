@@ -53,12 +53,12 @@ class Easol_DashboardConfiguration extends Easol_BaseEntity {
      * @return array
      */
     public function validationRules(){
-        return [
+        return [ 
             'RoleTypeId' => ['int','Required'],
             'EducationOrganizationId' => ['int','Required'],
-            'LeftChartReportId' => ['int','Required'],
+            /*'LeftChartReportId' => ['int','Required'],
             'RightChartReportId' => ['int','Required'],
-            'BottomTableReportId' => ['int','Required'],
+            'BottomTableReportId' => ['int','Required'],*/
         ];
     }
 

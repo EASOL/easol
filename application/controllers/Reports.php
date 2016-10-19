@@ -24,36 +24,38 @@ class Reports extends Easol_Controller {
      */
     public function index()
     {
+        $this -> load -> model('entities/easol/Easol_Report');
+        $this -> load -> model('entities/easol/Easol_DashboardConfiguration');
 
-        $this->load->model('entities/easol/Easol_Report');
-        $this->load->model('entities/easol/Easol_DashboardConfiguration');
         $report = new Easol_Report();
-        if($this->input->post('dashboardConf')){
-            //print_r($this->input->post('dashboardConf'));
-            foreach($this->input->post('dashboardConf') as $roleId => $conf){
-                $dashConf= (new Easol_DashboardConfiguration())->findOne(['RoleTypeId'=>$roleId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
-                if($dashConf==null){
+
+        if ($this -> input -> post('dashboardConf'))
+        {
+            foreach ($this -> input -> post('dashboardConf') as $roleId => $conf)
+            {
+                $dashConf = (new Easol_DashboardConfiguration()) -> findOne(['RoleTypeId' => $roleId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
+                var_dump($dashConf);
+                if ($dashConf == NULL) 
+                {
                     $dashConf = new Easol_DashboardConfiguration();
-                    $dashConf->RoleTypeId = $roleId;
-                    $dashConf->EducationOrganizationId = Easol_Auth::userdata('SchoolId');
-
-
-                } else{
+                    $dashConf -> RoleTypeId = $roleId;
+                    $dashConf -> EducationOrganizationId = Easol_Auth::userdata('SchoolId');
+                } 
+                else
+                {
                     $dashConf = (new Easol_DashboardConfiguration())->hydrate($dashConf);
-
                 }
-                $dashConf->LeftChartReportId = $conf['left'];
-                $dashConf->RightChartReportId = $conf['right'];
-                $dashConf->BottomTableReportId = $conf['bottom'];
-                $dashConf->save();
+                $dashConf -> LeftChartReportId = $conf['left'];
+                $dashConf -> RightChartReportId = $conf['right'];
+                $dashConf -> BottomTableReportId = $conf['bottom'];
+                $dashConf -> save();
             }
-            $this->session->set_flashdata('message_dash_conf', 'Dashboard Configuration Saved');
+            $this -> session -> set_flashdata('message_dash_conf', 'Dashboard Configuration Saved');
 
             return redirect(site_url("reports/index#dashConf"));
-
         }
 
-        $this->render("index",['reports' => $report->hydrate($report->findAll()->result())]);
+        $this -> render("index", ['reports' => $report -> hydrate($report -> findAll() -> result())]);
     }
 
     /**
