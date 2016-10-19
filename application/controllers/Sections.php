@@ -62,10 +62,10 @@ public function index()
         $this->db->order_by('Grade.LocalCourseCode , Grade.SchoolYear');
 
         $data['results']    = $this->db->where($where)->get()->result();
-
+        $data['years'] = [];
+        
         foreach ($data['results'] as $k => $v)
         {
-
             if(strpos($v->ClassPeriodName, " - ")!== FALSE)
                 list($pCode,$pName) = explode(' - ', $v->ClassPeriodName);
             else 
@@ -73,6 +73,8 @@ public function index()
             $data['results'][$k]->Period = $pCode;
 
             $data['results'][$k]->Educator = $v->FirstName . ' ' . $v->LastSurname;
+
+            $data['years'][easol_year($v->SchoolYear)] = easol_year($v->SchoolYear);
         }
 
         $data['school_id']      = Easol_Auth::userdata('SchoolId');

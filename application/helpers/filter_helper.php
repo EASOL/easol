@@ -189,6 +189,29 @@ if ( ! function_exists('filter_educators_listing'))
 	}
 }
 
+if ( ! function_exists('filter_dynamic_listing'))
+{
+    function filter_dynamic_listing($rows = NULL, $params = [])
+    {
+        if ( ! isset($params['empty_label']))
+        {
+            $params['empty_label'] = 'All Records';
+        }
+        $listing = ['' => $params['empty_label']];
+        if (is_array($rows))
+        {
+            foreach ($rows as $key => $row)
+            {
+                if (isset($row -> {$params['key']}, $row -> {$params['label']}))
+                {
+                    $listing[$row -> {$params['key']}] = $row -> {$params['label']};    
+                }    
+            }
+        }
+        return $listing;
+    }
+}
+
 if ( ! function_exists('filter_subjects_listing'))
 {
     function filter_subjects_listing($school_id = '')

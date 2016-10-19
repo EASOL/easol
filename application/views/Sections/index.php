@@ -16,7 +16,7 @@
                   </div>
                   <div class="form-group">
                       <label for="year">School Year</label>
-                      <?php echo form_dropdown('year', filter_year_listing($school_id), $currentYear_default, 'class="form-control"')?>
+                      <?php echo form_dropdown('year', $years, $currentYear_default, 'class="form-control"')?>
                   </div>
                   <div class="form-group">
                       <label for="course">Course</label>

@@ -21,12 +21,11 @@
 
 				    <div class="form-group">
 					    <label for="filter-Subject">Subject</label>
-
-					    <?php echo form_dropdown('filter[Subject]', filter_subjects_listing($school_id), '', "class='form-control'"); ?>
+					    <?php echo form_dropdown('filter[Subject]', filter_dynamic_listing($result, ['key' => 'Subject', 'label' => 'Subject']), '', "class='form-control'")?>
 				    </div>
 
 				    <div class="form-group">
-                                        <label for="filter-PageLength">Records Per Page:</label>
+                    <label for="filter-PageLength">Records Per Page:</label>
 					<?php echo form_dropdown('filter[PageLength]', filter_page_size_listing(), '', "class='form-control'"); ?>
 				    </div>
 			    </form>
@@ -38,7 +37,7 @@
 				    <tr>
 					    <th>Assessment Name</th>
 					    <th>Grade</th>
-					    <th>Subject</th>
+					    <th>Subject</th> 
 					    <th>Version</th>
 					    <th>Administration Date</th>
 					    <th>Students</th>
