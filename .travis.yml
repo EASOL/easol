@@ -49,6 +49,9 @@ before_script:
   - sudo ./configure 
   - sudo make 
   - sudo make install
+  #TODO: how to make the folder path dynamic?
+  - sudo cp /usr/lib/php/20151012/sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/sqlsrv.so
+  - sudo cp /usr/lib/php/20151012/pdo_sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/pdo_sqlsrv.so
 
   #And finally, add the extension to php.ini. In Travis, do:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
