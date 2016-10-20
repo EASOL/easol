@@ -64,7 +64,6 @@ before_script:
   #And finally, add the extension to php.ini. In Travis, do:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   #- echo "extension = sqlsrv.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - sqlcmd 
 
   #- cd ..
   - mv application/config/database.ci.php application/config/database.php
