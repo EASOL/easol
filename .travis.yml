@@ -1,3 +1,11 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  # Pull container
+  - 'docker pull proudmail/ubuntu-16.04'
+
 # see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
 
@@ -14,41 +22,25 @@ php:
 
 before_script:
   
-  - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
-  - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
-  - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-vivid-preview/ vivid main" > /etc/apt/sources.list.d/mssqlpreview.list'
-  - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-  - sudo apt-get update
-
   # Unix ODBC
   - wget http://www.unixodbc.org/unixODBC-2.3.4.tar.gz
   - tar -zxvf unixODBC-2.3.4.tar.gz
   - cd unixODBC-2.3.4
   - ./configure --enable-gui=no --enable-drivers=no --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE --libdir=/usr/lib/x86_64-linux-gnu --prefix=/usr --sysconfdir=/etc
   - sudo make install
+  - cd ..
 
-  #Microsoft
-  - cd ../travis
-  - sudo tar xvzf msodbcsql-13.0.0.0.tar.gz 
-  - cd msodbcsql-13.0.0.0
-  - sudo ./install.sh install --accept-license --force
-  - cd ../..
-
-
-  # Ubuntu 12.04 issues with libc, gcc, g++
-  - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update
-  - sudo apt-get upgrade
-  - sudo apt-get install libstdc++6
-  - sudo apt-get install gcc-5 g++-5
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
-  - sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-  - sudo update-alternatives --set cc /usr/bin/gcc
-  - sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-  - sudo update-alternatives --set c++ /usr/bin/g++
+  # Microsoft
+  - sudo su
+  - sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-test/ xenial main" > /etc/apt/sources.list.d/mssqlpreview.list'
+  - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+  - apt-get update
+  - apt-get install msodbcsql
+  - apt-get install unixodbc-dev-utf16 
 
   # Pear, Pecl, sqlsrv install
+  - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
+  - sudo apt-get update
   - sudo apt-get install php7.0
   - sudo apt-get install php-pear php7.0-dev
   - pear version
