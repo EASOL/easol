@@ -32,7 +32,7 @@ before_script:
   - sudo tar xvzf msodbcsql-13.0.0.0.tar.gz 
   - cd msodbcsql-13.0.0.0
   - sudo ./install.sh install --accept-license --force
-  - cd ..
+  - cd ../..
 
 
 
