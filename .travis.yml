@@ -44,6 +44,7 @@ before_script:
   - sudo ./configure 
   - sudo make 
   - sudo make install
+  - cd ..
   - sudo tar xvzf pdo_sqlsrv-4.0.5.tgz 
   - cd pdo_sqlsrv-4.0.5/ 
   - sudo phpize
