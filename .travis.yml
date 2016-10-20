@@ -55,14 +55,16 @@ before_script:
   - sudo apt-get install php-pear php5-dev
   - pear version
   - pecl version
-  - sudo pecl search sqlsrv
+  - sudo pecl search sqlsr
+  - sudo pecl install sqlsrv-4.0.5
+  - sudo pecl install pdo_sqlsrv-4.0.5
 
   #And finally, add the extension to php.ini. In Travis, do:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   #- echo "extension = sqlsrv.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - php -m
 
-  - cd ..
+  #- cd ..
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
