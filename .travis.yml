@@ -51,7 +51,8 @@ before_script:
   - sudo make install
 
   #And finally, add the extension to php.ini. In Travis, do:
-  - echo 'extension = "sqlsrv.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  #- echo "extension = sqlsrv.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - php -m
 
   - cd ..
