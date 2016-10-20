@@ -1,3 +1,4 @@
+sudo: required
 # see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
 
@@ -32,7 +33,7 @@ before_install:
 before_script:
 
   # Download SQLSRV and PDO_SQLSRV and install
-  - sudo apt-get install php-dev
+  #- sudo apt-get install php-dev
   - sudo wget https://pecl.php.net/get/sqlsrv-4.0.5.tgz
   - sudo wget https://pecl.php.net/get/pdo_sqlsrv-4.0.5.tgz
   - sudo tar xvzf sqlsrv-4.0.5.tgz 
