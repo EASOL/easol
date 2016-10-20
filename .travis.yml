@@ -35,11 +35,11 @@ before_script:
   - cd ../..
 
 
-
-
   # Ubuntu 12.04 issues with libc, gcc, g++
   - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - sudo apt-get update
+  - sudo apt-get upgrade
+  - sudo apt-get install libstdc++6
   - sudo apt-get install gcc-5 g++-5
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
