@@ -15,7 +15,7 @@ php:
 before_script:
 
   # On ubuntu 12.04, add this repository to install g++-5
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+  - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
 
   - sudo apt-get update
   - sudo rm -rf /tmp/msodbcubuntu
