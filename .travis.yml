@@ -74,9 +74,8 @@ script:
   - vendor/bin/codecept run functional
 
 after_script:
-  -  echo "<?php echo file_get_contents('tests/_output/ReportCept.fail.html');" | php
-  -  echo "<?php echo file_get_contents('application/config/database.php');" | php
   - sqlcmd -S $CI_DATABASE_HOSTNAME -d $CI_DATABASE_NAME -U $CI_DATABASE_USERNAME -P $CI_DATABASE_PASSWORD -I
+  - php test.php
 
 # configure notifications (email, IRC, campfire etc)
 #notifications:
