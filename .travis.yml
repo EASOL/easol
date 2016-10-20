@@ -34,24 +34,28 @@ before_script:
 
   # Download SQLSRV and PDO_SQLSRV and install
   #- sudo apt-get install php-dev
-  - sudo wget https://pecl.php.net/get/sqlsrv-4.0.5.tgz
-  - sudo wget https://pecl.php.net/get/pdo_sqlsrv-4.0.5.tgz
-  - sudo tar xvzf sqlsrv-4.0.5.tgz 
-  - cd sqlsrv-4.0.5/ 
-  - sudo phpize
-  - sudo ./configure 
-  - sudo make 
-  - sudo make install
-  - cd ..
-  - sudo tar xvzf pdo_sqlsrv-4.0.5.tgz 
-  - cd pdo_sqlsrv-4.0.5/ 
-  - sudo phpize
-  - sudo ./configure 
-  - sudo make 
-  - sudo make install
+  #- sudo wget https://pecl.php.net/get/sqlsrv-4.0.5.tgz
+  #- sudo wget https://pecl.php.net/get/pdo_sqlsrv-4.0.5.tgz
+  #- sudo tar xvzf sqlsrv-4.0.5.tgz 
+  #- cd sqlsrv-4.0.5/ 
+  #- sudo phpize
+  #- sudo ./configure 
+  #- sudo make 
+  #- sudo make install
+  #- cd ..
+  #- sudo tar xvzf pdo_sqlsrv-4.0.5.tgz 
+  #- cd pdo_sqlsrv-4.0.5/ 
+  #- sudo phpize
+  #- sudo ./configure 
+  #- sudo make 
+  #- sudo make install
   #TODO: how to make the folder path dynamic?
-  - sudo cp /usr/lib/php/20151012/sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/sqlsrv.so
-  - sudo cp /usr/lib/php/20151012/pdo_sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/pdo_sqlsrv.so
+  #- sudo cp /usr/lib/php/20151012/sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/sqlsrv.so
+  #- sudo cp /usr/lib/php/20151012/pdo_sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/pdo_sqlsrv.so
+  - sudo apt-get install php-pear php-dev
+  - pear version
+  - pecl version
+  - sudo pecl search sqlsrv
 
   #And finally, add the extension to php.ini. In Travis, do:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
