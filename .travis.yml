@@ -75,7 +75,17 @@ before_script:
   - sudo make 1> make_std.log 2> make_err.log
   - sudo make install 1> makeinstall_std.log 2> makeinstall_err.log
   - echo "Downloading the Microsoft ODBC Driver 13 for SQL Server- Ubuntu"
+  - sudo apt-get dist-upgrade
   - cd /tmp/msodbcubuntu/
+ 
+
+  #- sudo wget http://security.ubuntu.com/ubuntu/pool/main/e/eglibc/libc6-dev_2.15-0ubuntu10.15_amd64.deb
+  #-  sudo wget http://mirrors.kernel.org/ubuntu/pool/main/e/eglibc/libc6_2.15-0ubuntu10.15_amd64.deb
+  #- sudo mkdir /home/fakeroot
+  #- sudo dpkg -x libc6-dev_2.15-0ubuntu10.15_amd64.deb /home/fakeroot/
+  #- sudo dpkg -x libc6_2.15-0ubuntu10.15_amd64.deb /home/fakeroot/
+  #- LD_LIBRARY_PATH=/home/fakeroot/lib/x86_64-linux-gnu/
+
   - sudo sudo wget "https://meetsstorenew.blob.core.windows.net/contianerhd/Ubuntu%2013.0%20Tar/msodbcsql-13.0.0.0.tar.gz?st=2016-10-18T17%3A29%3A00Z&se=2022-10-19T17%3A29%3A00Z&sp=rl&sv=2015-04-05&sr=b&sig=cDwPfrouVeIQf0vi%2BnKt%2BzX8Z8caIYvRCmicDL5oknY%3D" -O msodbcsql-13.0.0.0.tar.gz -P /tmp/msodbcubuntu
   - sudo tar xvfz /tmp/msodbcubuntu/msodbcsql-13.0.0.0.tar.gz
   - cd /tmp/msodbcubuntu/msodbcsql-13.0.0.0/
@@ -83,7 +93,7 @@ before_script:
   - echo "Installing Dependencies"
   - sudo apt-get -y install libssl1.0.0
   - sudo apt-get -y install libgss3
-  - sudo echo "/usr/lib64" >> /etc/ld.so.conf
+  - sudo echo "/usr/lib64" >> sudo /etc/ld.so.conf
   - sudo ldconfig
   - echo "Installing the Microsoft ODBC Driver 13 for SQL Server- Ubuntu"
   - sudo bash ./install.sh install --force --accept-license
