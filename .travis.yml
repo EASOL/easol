@@ -30,7 +30,7 @@ before_script:
   - sudo update-alternatives --set c++ /usr/bin/g++
 
   - sudo apt-get remove libodbc1 unixodbc unixodbc-dev odbcinst1debian2
-  - sudo dpkg -i unixodbc_2.3.2-1_amd64.deb
+  - sudo dpkg -i travis/unixodbc_2.3.2-1_amd64.deb
 
 
   # Download SQLSRV and PDO_SQLSRV and install
