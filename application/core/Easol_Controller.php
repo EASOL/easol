@@ -81,8 +81,6 @@ class Easol_Controller extends CI_Controller {
 	 */
 	private function initiateRequiredClass()
 	{
-		//require_once APPPATH.'/core/Easol_Widget.php';
-
 	}
 
 
