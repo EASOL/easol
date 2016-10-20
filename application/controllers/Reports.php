@@ -382,14 +382,14 @@ class Reports extends Easol_Controller {
 
         switch($model->DisplayType){
 
-            case 'table':
-                $response['html'] = $this->load->view("reports/display-table",['model' => $model, 'displayTitle'=>true], true);
+            case 'table': 
+                $response['html'] = $this->load->view("Reports/display-table",['model' => $model, 'displayTitle'=>true], true);
                 break;
             case 'bar-chart':
-                $response['html'] = $this->load->view("reports/display-bar-chart",['model' => $model,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("Reports/display-bar-chart",['model' => $model,'displayTitle'=>true], true);
                 break;
             case 'pie-chart':
-                $response['html'] = $this->load->view("reports/display-pie-chart",['model' => $model,'displayTitle'=>true], true);
+                $response['html'] = $this->load->view("Reports/display-pie-chart",['model' => $model,'displayTitle'=>true], true);
                 break;
             default:
                 throw new \Exception("Invalid Report Display type..");
