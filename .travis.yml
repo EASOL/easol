@@ -55,16 +55,16 @@ before_script:
   #- sudo cp /usr/lib/php/20151012/pdo_sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/pdo_sqlsrv.so
   - sudo apt-get install php7.0
   - sudo apt-get install php-pear php7.0-dev
-  - pear version
-  - pecl version
-  - sudo pecl search sqlsr
+  #- pear version
+  #- pecl version
+  #- sudo pecl search sqlsr
   - sudo pecl install sqlsrv-4.0.5
   - sudo pecl install pdo_sqlsrv-4.0.5
 
   #And finally, add the extension to php.ini. In Travis, do:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   #- echo "extension = sqlsrv.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - php -m
+  - sqlcmd 
 
   #- cd ..
   - mv application/config/database.ci.php application/config/database.php
@@ -81,6 +81,9 @@ script:
 after_script:
   -  echo "<?php echo file_get_contents('tests/_output/ReportCept.fail.html');" | php
   -  echo "<?php echo file_get_contents('application/config/database.php');" | php
+  - printenv
+  - echo $CI_DATABASE_HOSTNAME
+  - sqlcmd -S $CI_DATABASE_HOSTNAME -d $CI_DATABASE_NAME -U $CI_DATABASE_USERNAME -P $CI_DATABASE_PASSWORD -I
 
 # configure notifications (email, IRC, campfire etc)
 #notifications:
