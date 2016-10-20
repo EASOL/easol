@@ -28,8 +28,7 @@ before_script:
   - sudo make install
 
   #Microsoft
-  - cd ..
-  - wget "https://meetsstorenew.blob.core.windows.net/contianerhd/RedHat%2013.0%20Tar/msodbcsql-13.0.0.0.tar.gz?st=2016-10-18T17%3A29%3A00Z&se=2022-10-19T17%3A29%3A00Z&sp=rl&sv=2015-04-05&sr=b&sig=xrQ9LQaE9FsLckIo7IuGJX5Nv3cH5Bs7hgrGyEJHMMI%3D" -O msodbcsql-13.0.0.0.tar.gz
+  - cd ../travis
   - sudo tar xvzf msodbcsql-13.0.0.0.tar.gz 
   - cd msodbcsql-13.0.0.0
   - sudo ./install.sh install --accept-license --force
