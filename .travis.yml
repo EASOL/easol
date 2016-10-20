@@ -36,6 +36,19 @@ before_script:
   - sudo bash install.sh install --accept-license --force
   - sudo apt-get install openssl libkrb5-3 libc6 e2fsprogs
 
+
+  # Ubuntu 12.04 issues with libc, gcc, g++
+  - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update
+  - sudo apt-get install gcc-5 g++-5
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
+  - sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+  - sudo update-alternatives --set cc /usr/bin/gcc
+  - sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+  - sudo update-alternatives --set c++ /usr/bin/g++
+
+  # Pear, Pecl, sqlsrv install
   - sudo apt-get install php7.0
   - sudo apt-get install php-pear php7.0-dev
   - pear version
