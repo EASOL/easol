@@ -12,94 +12,43 @@ php:
 #  - DB=mysql
 #  - DB=pgsql
 
-before_install: 
-  # On ubuntu 12.04, add this repository to install g++-5
+
+before_script:
+  
   - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
   - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
   - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-vivid-preview/ vivid main" > /etc/apt/sources.list.d/mssqlpreview.list'
   - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
   - sudo apt-get update
 
-  - sudo apt-get install gcc-5 g++-5
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
-  - sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-  - sudo update-alternatives --set cc /usr/bin/gcc
-  - sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-  - sudo update-alternatives --set c++ /usr/bin/g++
+  # Unix ODBC
+  - wget http://www.unixodbc.org/unixODBC-2.3.4.tar.gz
+  - tar -zxvf unixODBC-2.3.4.tar.gz
+  - cd unixODBC-2.3.4
+  - ./configure --enable-gui=no --enable-drivers=no --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE --libdir=/usr/lib/x86_64-linux-gnu --prefix=/usr --sysconfdir=/etc
+  - sudo make install
 
-  - sudo apt-get remove libodbc1 unixodbc unixodbc-dev odbcinst1debian2
-  - sudo dpkg -i travis/unixodbc_2.3.2-1_amd64.deb  
+  #Microsoft
+  - cd ..
+  - wget http://download.microsoft.com/download/B/C/D/BCDD264C-7517-4B7D-8159-C99FC5535680/RedHat6/msodbcsql-11.0.2270.0.tar.gz
+  - tar -zxvf msodbcsql-11.0.2270.0.tar.gz
+  - cd msodbcsql-11.0.2270.0
+  - sudo bash install.sh install --accept-license --force
+  - sudo apt-get install openssl libkrb5-3 libc6 e2fsprogs
+  - sudo ln -s /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 /usr/lib/x86_64-linux-gnu/libcrypto.so.10
+  - sudo ln -s /lib/x86_64-linux-gnu/libssl.so.1.0.0 /usr/lib/x86_64-linux-gnu/libssl.so.10
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libodbcinst.so.2.0.0 /usr/lib/x86_64-linux-gnu/libodbcinst.so.1
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libodbc.so.2.0.0 /usr/lib/x86_64-linux-gnu/libodbc.so.1
 
-before_script:
-
-  # Download SQLSRV and PDO_SQLSRV and install
-  #- sudo apt-get install php-dev
-  #- sudo wget https://pecl.php.net/get/sqlsrv-4.0.5.tgz
-  #- sudo wget https://pecl.php.net/get/pdo_sqlsrv-4.0.5.tgz
-  #- sudo tar xvzf sqlsrv-4.0.5.tgz 
-  #- cd sqlsrv-4.0.5/ 
-  #- sudo phpize
-  #- sudo ./configure 
-  #- sudo make 
-  #- sudo make install
-  #- cd ..
-  #- sudo tar xvzf pdo_sqlsrv-4.0.5.tgz 
-  #- cd pdo_sqlsrv-4.0.5/ 
-  #- sudo phpize
-  #- sudo ./configure 
-  #- sudo make 
-  #- sudo make install
-  #TODO: how to make the folder path dynamic?
-  #- sudo cp /usr/lib/php/20151012/sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/sqlsrv.so
-  #- sudo cp /usr/lib/php/20151012/pdo_sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/pdo_sqlsrv.so
   - sudo apt-get install php7.0
   - sudo apt-get install php-pear php7.0-dev
-  #- pear version
-  #- pecl version
-  #- sudo pecl search sqlsr
+  - pear version
+  - pecl version
+  - sudo pecl search sqlsr
   - sudo pecl install sqlsrv-4.0.5
   - sudo pecl install pdo_sqlsrv-4.0.5
 
-  - sudo rm -rf /tmp/msodbcubuntu
-  - sudo mkdir /tmp/msodbcubuntu
-  - sudo wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.1.tar.gz -P /tmp/msodbcubuntu/
-  - cd /tmp/msodbcubuntu
-  - sudo tar -xzf /tmp/msodbcubuntu/unixODBC-2.3.1.tar.gz
-  - cd /tmp/msodbcubuntu/unixODBC-2.3.1/
-  - sudo -i export CPPFLAGS="-DSIZEOF_LONG_INT=8"
-  - sudo apt-get -y install g++-5
-  - echo "Configuring the unixODBC 2.3.1 Driver Manager"
-  - sudo ./configure --prefix=/usr --libdir=/usr/lib64 --sysconfdir=/etc --disable-gui --disable-drivers --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE 1> odbc_con.log 2> make_err.log
-  - echo "Building and Installing the unixODBC 2.3.1 Driver Manager"
-  - sudo make 1> make_std.log 2> make_err.log
-  - sudo make install 1> makeinstall_std.log 2> makeinstall_err.log
-  - echo "Downloading the Microsoft ODBC Driver 13 for SQL Server- Ubuntu"
-  - sudo apt-get dist-upgrade
-  - cd /tmp/msodbcubuntu/
  
-
-  #- sudo wget http://security.ubuntu.com/ubuntu/pool/main/e/eglibc/libc6-dev_2.15-0ubuntu10.15_amd64.deb
-  #-  sudo wget http://mirrors.kernel.org/ubuntu/pool/main/e/eglibc/libc6_2.15-0ubuntu10.15_amd64.deb
-  #- sudo mkdir /home/fakeroot
-  #- sudo dpkg -x libc6-dev_2.15-0ubuntu10.15_amd64.deb /home/fakeroot/
-  #- sudo dpkg -x libc6_2.15-0ubuntu10.15_amd64.deb /home/fakeroot/
-  #- LD_LIBRARY_PATH=/home/fakeroot/lib/x86_64-linux-gnu/
-
-  - sudo sudo wget "https://meetsstorenew.blob.core.windows.net/contianerhd/Ubuntu%2013.0%20Tar/msodbcsql-13.0.0.0.tar.gz?st=2016-10-18T17%3A29%3A00Z&se=2022-10-19T17%3A29%3A00Z&sp=rl&sv=2015-04-05&sr=b&sig=cDwPfrouVeIQf0vi%2BnKt%2BzX8Z8caIYvRCmicDL5oknY%3D" -O msodbcsql-13.0.0.0.tar.gz -P /tmp/msodbcubuntu
-  - sudo tar xvfz /tmp/msodbcubuntu/msodbcsql-13.0.0.0.tar.gz
-  - cd /tmp/msodbcubuntu/msodbcsql-13.0.0.0/
-  - sudo ldd /tmp/msodbcubuntu/msodbcsql-13.0.0.0/lib64/libmsodbcsql-13.0.so.0.0
-  - echo "Installing Dependencies"
-  - sudo apt-get -y install libssl1.0.0
-  - sudo apt-get -y install libgss3
-  - sudo echo "/usr/lib64" >> sudo /etc/ld.so.conf
-  - sudo ldconfig
-  - echo "Installing the Microsoft ODBC Driver 13 for SQL Server- Ubuntu"
-  - sudo bash ./install.sh install --force --accept-license
-  - echo "Cleaning up"
-  - sudo rm -rf /tmp/msodbcubuntu
-
   #And finally, add the extension to php.ini. In Travis, do:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   #- echo "extension = sqlsrv.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
