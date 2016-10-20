@@ -35,10 +35,6 @@ before_script:
   - cd msodbcsql-11.0.2270.0
   - sudo bash install.sh install --accept-license --force
   - sudo apt-get install openssl libkrb5-3 libc6 e2fsprogs
-  - sudo ln -s /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 /usr/lib/x86_64-linux-gnu/libcrypto.so.10
-  - sudo ln -s /lib/x86_64-linux-gnu/libssl.so.1.0.0 /usr/lib/x86_64-linux-gnu/libssl.so.10
-  - sudo ln -s /usr/lib/x86_64-linux-gnu/libodbcinst.so.2.0.0 /usr/lib/x86_64-linux-gnu/libodbcinst.so.1
-  - sudo ln -s /usr/lib/x86_64-linux-gnu/libodbc.so.2.0.0 /usr/lib/x86_64-linux-gnu/libodbc.so.1
 
   - sudo apt-get install php7.0
   - sudo apt-get install php-pear php7.0-dev
