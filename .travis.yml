@@ -35,6 +35,8 @@ before_script:
   - cd msodbcsql-11.0.2270.0
   - sudo bash install.sh install --accept-license --force
   - sudo apt-get install openssl libkrb5-3 libc6 e2fsprogs
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libssl.so.1.0.0 /usr/lib/libssl.so.10
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libcrypto.so.1.0.0 /usr/lib/libcrypto.so.10
 
 
   # Ubuntu 12.04 issues with libc, gcc, g++
@@ -77,8 +79,6 @@ script:
 after_script:
   -  echo "<?php echo file_get_contents('tests/_output/ReportCept.fail.html');" | php
   -  echo "<?php echo file_get_contents('application/config/database.php');" | php
-  - printenv
-  - echo $CI_DATABASE_HOSTNAME
   - sqlcmd -S $CI_DATABASE_HOSTNAME -d $CI_DATABASE_NAME -U $CI_DATABASE_USERNAME -P $CI_DATABASE_PASSWORD -I
 
 # configure notifications (email, IRC, campfire etc)
