@@ -15,6 +15,7 @@ php:
 before_script:
 
   # On ubuntu 12.04, add this repository to install g++-5
+  - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
   - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
   - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-vivid-preview/ vivid main" > /etc/apt/sources.list.d/mssqlpreview.list'
   - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
