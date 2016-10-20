@@ -16,6 +16,8 @@ before_script:
 
   # On ubuntu 12.04, add this repository to install g++-5
   - sudo yes "" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+  - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-vivid-preview/ vivid main" > /etc/apt/sources.list.d/mssqlpreview.list'
+  - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
   - sudo apt-get update
 
   - sudo apt-get install gcc-5 g++-5
@@ -26,11 +28,8 @@ before_script:
   - sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
   - sudo update-alternatives --set c++ /usr/bin/g++
 
-  - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-vivid-preview/ vivid main" > /etc/apt/sources.list.d/mssqlpreview.list'
-  - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-  - sudo apt-get update
-  - sudo apt-get install msodbcsql
-  - sudo apt-get install unixodbc-dev-utf16
+  - wget http://onefinepub.com/wp-content/uploads/2014/03/unixodbc_2.3.2-1_amd64.deb
+  - sudo dpkg -i unixodbc_2.3.2-1_amd64.deb
 
 
   # Download SQLSRV and PDO_SQLSRV and install
