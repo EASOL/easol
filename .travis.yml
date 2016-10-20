@@ -80,7 +80,7 @@ script:
 
 after_script:
   -  echo "<?php echo file_get_contents('tests/_output/ReportCept.fail.html');" | php
-
+  -  echo "<?php echo file_get_contents('application/config/database.php');" | php
 
 # configure notifications (email, IRC, campfire etc)
 #notifications:
