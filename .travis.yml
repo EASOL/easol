@@ -62,7 +62,6 @@ before_script:
   - echo 'extension = sqlsrv.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   #- echo "extension = sqlsrv.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  - cd ..
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
   - sed 's/{{test-key}}/'"$CI_TEST_KEY"'/' -i tests/functional.suite.yml
