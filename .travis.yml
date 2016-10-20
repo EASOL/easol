@@ -52,7 +52,7 @@ before_script:
   #TODO: how to make the folder path dynamic?
   #- sudo cp /usr/lib/php/20151012/sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/sqlsrv.so
   #- sudo cp /usr/lib/php/20151012/pdo_sqlsrv.so ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/pdo_sqlsrv.so
-  - sudo apt-get install php-pear php-dev
+  - sudo apt-get install php-pear php5-dev
   - pear version
   - pecl version
   - sudo pecl search sqlsrv
