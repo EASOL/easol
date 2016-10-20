@@ -14,9 +14,76 @@ php:
   
 before_script:
 
-  - phpize
-  - sudo pecl install sqlsrv-4.0.5
-  - sudo pecl install pdo_sqlsrv-4.0.5
+  # On ubuntu 12.04, add this repository to install g++-5
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+
+  - sudo apt-get update
+  - sudo rm -rf /tmp/msodbcubuntu
+  - sudo mkdir /tmp/msodbcubuntu
+  - sudo wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.1.tar.gz -P /tmp/msodbcubuntu/
+  - sudo cd /tmp/msodbcubuntu
+  - sudo tar -xzf /tmp/msodbcubuntu/unixODBC-2.3.1.tar.gz
+  - sudo cd /tmp/msodbcubuntu/unixODBC-2.3.1/
+  - sudo -i export CPPFLAGS="-DSIZEOF_LONG_INT=8"
+  - sudo apt-get -y install g++-5
+  - echo "Configuring the unixODBC 2.3.1 Driver Manager"
+  - sudo ./configure --prefix=/usr --libdir=/usr/lib64 --sysconfdir=/etc --disable-gui --disable-drivers --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE 1> odbc_con.log 2> make_err.log
+  - echo "Building and Installing the unixODBC 2.3.1 Driver Manager"
+  - sudo make 1> make_std.log 2> make_err.log
+  - sudo make install 1> makeinstall_std.log 2> makeinstall_err.log
+  - echo "Downloading the Microsoft ODBC Driver 13 for SQL Server- Ubuntu"
+  - sudo wget https://download.microsoft.com/download/2/E/5/2E58F097-805C-4AB8-9FC6-71288AB4409D/msodbcsql-13.0.0.0.tar.gz -P /tmp/msodbcubuntu
+  - sudo cd /tmp/msodbcubuntu/
+  - sudo tar xvfz /tmp/msodbcubuntu/msodbcsql-13.0.0.0.tar.gz
+  - sudo cd /tmp/msodbcubuntu/msodbcsql-13.0.0.0/
+  - sudo ldd /tmp/msodbcubuntu/msodbcsql-13.0.0.0/lib64/libmsodbcsql-13.0.so.0.0
+  - echo "Installing Dependencies"
+  - sudo apt-get -y install libssl1.0.0
+  - sudo apt-get -y install libgss3
+  - sudo echo "/usr/lib64" >> /etc/ld.so.conf
+  - sudo ldconfig
+  - echo "Installing the Microsoft ODBC Driver 13 for SQL Server- Ubuntu"
+  - sudo bash ./install.sh install --force --accept-license
+  - echo "Cleaning up"
+  - sudo rm -rf /tmp/msodbcubuntu
+  - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-vivid-preview/ vivid main" > /etc/apt/sources.list.d/mssqlpreview.list'
+  - sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+  - sudo apt-get update
+  - sudo apt-get install msodbcsql
+  - sudo apt-get install unixodbc-dev-utf16
+
+  - sudo update-alternatives --remove-all gcc 
+  - sudo update-alternatives --remove-all g++
+  - sudo apt-get install gcc-5 g++-5
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
+  - sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+  - sudo update-alternatives --set cc /usr/bin/gcc
+  - sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+  - sudo update-alternatives --set c++ /usr/bin/g++
+
+  # Download SQLSRV and PDO_SQLSRV and install
+  - sudo wget https://pecl.php.net/get/sqlsrv-4.0.5.tgz
+  - sudo wget https://pecl.php.net/get/pdo_sqlsrv-4.0.5.tgz
+  - sudo tar xvzf sqlsrv-4.0.5.tgz 
+  - cd sqlsrv-4.0.5/ 
+  - sudo phpize
+  - sudo ./configure 
+  - sudo make 
+  - sudo make install
+  - sudo tar xvzf pdo_sqlsrv-4.0.5.tgz 
+  - cd pdo_sqlsrv-4.0.5/ 
+  - sudo phpize
+  - sudo ./configure 
+  - sudo make 
+  - sudo make install
+
+  #And finally, add the extension to php.ini. In Travis, do:
+  - echo 'extension = "sqlsrv.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+
+
+
 
   - mv application/config/database.ci.php application/config/database.php
   - cp tests/functional.suite.template.yml tests/functional.suite.yml
