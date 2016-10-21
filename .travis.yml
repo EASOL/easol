@@ -25,6 +25,7 @@ before_script:
 
   - cd travis
   - sudo bash Ubuntu-14-04-MSFT-ODBC-Driver.sh 
+  - cd ..
 
   # Pear, Pecl, sqlsrv install
   - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
