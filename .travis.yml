@@ -16,13 +16,6 @@ php:
 
 
 before_script:
-  
-  - wget http://www.unixodbc.org/unixODBC-2.3.4.tar.gz
-  - tar -zxvf unixODBC-2.3.4.tar.gz
-  - cd unixODBC-2.3.4
-  - ./configure --enable-gui=no --enable-drivers=no --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE --libdir=/usr/lib/x86_64-linux-gnu --prefix=/usr --sysconfdir=/etc
-  - sudo make install
-
   - cd travis
   - sudo bash Ubuntu-14-04-MSFT-ODBC-Driver.sh 
   - cd ..
