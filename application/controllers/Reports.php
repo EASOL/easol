@@ -34,9 +34,22 @@ class Reports extends Easol_Controller {
             foreach ($this -> input -> post('dashboardConf') as $roleId => $conf)
             {
                 $dashConf = (new Easol_DashboardConfiguration()) -> findOne(['RoleTypeId' => $roleId,'EducationOrganizationId' => Easol_Auth::userdata('SchoolId')]);
-                var_dump($dashConf);
-                if ($dashConf == NULL) 
+                
+                if (empty($conf['left']))
                 {
+                    $conf['left'] = NULL;
+                }
+                if (empty($conf['right']))
+                {
+                    $conf['right'] = NULL;
+                }
+                if (empty($conf['bottom']))
+                {
+                    $conf['bottom'] = NULL;
+                }
+
+                if ($dashConf == NULL) 
+                { 
                     $dashConf = new Easol_DashboardConfiguration();
                     $dashConf -> RoleTypeId = $roleId;
                     $dashConf -> EducationOrganizationId = Easol_Auth::userdata('SchoolId');
