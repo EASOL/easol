@@ -23,8 +23,8 @@ before_script:
   - ./configure --enable-gui=no --enable-drivers=no --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE --libdir=/usr/lib/x86_64-linux-gnu --prefix=/usr --sysconfdir=/etc
   - sudo make install
 
-  - wget "https://gallery.technet.microsoft.com/scriptcenter/SQLCMD-and-BCP-for-Ubuntu-c88a28cc/file/142121/1/Ubuntu%2014.04%20MSFT%20ODBC%20Driver.sh"
-  - sudo bash Ubuntu\ 14.04\ MSFT\ ODBC\ Driver.sh 
+  - cd travis
+  - sudo bash Ubuntu-14-04-MSFT-ODBC-Driver.sh 
 
   # Pear, Pecl, sqlsrv install
   - sudo yes "" | sudo add-apt-repository ppa:ondrej/php
