@@ -1,0 +1,42 @@
+build: false
+clone_folder: c:\projects\easol
+
+cache:
+  - c:\php -> appveyor.yml
+
+init:
+  - SET PATH=c:\php;%PATH%
+  - SET COMPOSER_NO_INTERACTION=1
+  - SET PHP=1
+
+install:
+  # Install PHP 7
+  - IF EXIST c:\php (SET PHP=0) ELSE (mkdir c:\php)
+  - cd c:\php
+  - IF %PHP%==1 appveyor DownloadFile http://windows.php.net/downloads/releases/archives/php-7.0.0-nts-Win32-VC14-x86.zip
+  - IF %PHP%==1 7z x php-7.0.0-nts-Win32-VC14-x86.zip -y >nul
+  - IF %PHP%==1 del /Q *.zip
+  - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
+  - IF %PHP%==1 copy /Y php.ini-development php.ini
+  - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
+  - IF %PHP%==1 echo variables_order = "EGPCS" >> php.ini
+  - IF %PHP%==1 echo extension_dir=ext >> php.ini
+  - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
+
+  - copy c:\projects\easol\appveyor\*.dll c:\php\ext\.
+  - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
+
+
+before_test:
+  - cd c:\projects\easol
+  - copy application\config\database.ci.php application\config\database.php
+  - vendor\bin\codecept build
+
+test_script:
+  - cd c:\projects\easol
+  - php test.php
+  #- vendor\bin\codecept build run functional
+  
