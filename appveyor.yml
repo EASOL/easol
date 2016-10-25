@@ -34,8 +34,7 @@ before_test:
   - cd c:\projects\easol
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
-  - powershell -Command "(gc tests\functional.suite.template.yml) -replace '{{test-key}}', $env:CI_TEST_KEY | Out-File tests\functional.suite.yml"
-  - Get-Content c:\projects\easol\tests\functional.suite.yml
+  - php appveyor\tests\functional.suite.php
   - vendor\bin\codecept build
 
 test_script:
