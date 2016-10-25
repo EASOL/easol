@@ -2,6 +2,9 @@ build: false
 clone_folder: c:\projects\easol
 clone_depth: 5
 
+services:
+  - iis
+
 cache:
   - c:\php -> appveyor.yml
 
