@@ -2,6 +2,10 @@ build: false
 clone_folder: c:\projects\easol
 clone_depth: 5
 
+deploy:
+  provider: Environment
+  name: Local
+
 cache:
   - c:\php -> appveyor.yml
 
@@ -31,17 +35,17 @@ install:
   - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
   - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
 
-before_test:
-  - wscript.exe "c:\projects\easol\appveyor\php\invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
+after_deploy:
   - cd c:\projects\easol
   - copy appveyor\config\config.php application\config\config.php
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
   - php appveyor\tests\functional.suite.php
   - vendor\bin\codecept build
-  - php test.php
-
-test_script:
-  - cd c:\projects\easol
+  #- php test.php
   - vendor\bin\codecept run functional
+
+#test_script:
+ # - cd c:\projects\easol
+  #- vendor\bin\codecept run functional
   
