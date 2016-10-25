@@ -32,6 +32,9 @@ install:
   - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
 
 before_test:
+
+  - php -S localhost:8000
+
   - cd c:\projects\easol
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
