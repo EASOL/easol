@@ -32,7 +32,7 @@ install:
   - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
 
 before_test:
-  - ps: wscript.exe "c:\projects\easol\appveyor\php\invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
+  - wscript.exe "c:\projects\easol\appveyor\php\invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
   - cd c:\projects\easol
   - copy appveyor\config\config.php application\config\config.php
   - copy appveyor\config\database.php application\config\database.php
