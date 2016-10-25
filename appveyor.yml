@@ -1,4 +1,8 @@
-build: true
+build: false
+clone_folder: c:\projects\easol
+
+cache:
+  - c:\php -> appveyor.yml
 
 init:
   - SET PATH=c:\php;%PATH%
@@ -15,16 +19,23 @@ install:
   - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
   - IF %PHP%==1 copy /Y php.ini-development php.ini
   - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
+  - IF %PHP%==1 echo variables_order = "EGPCS" >> php.ini
   - IF %PHP%==1 echo extension_dir=ext >> php.ini
   - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
   - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
 
-before_script:
+  - copy c:\projects\easol\appveyor\*.dll c:\php\ext\.
+  - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
+
+
+before_test:
   
   #- vendor\bin\codecept build
 
 test_script:
+  - cd c:\projects\easol
   - php test.php
   #- vendor\bin\codecept build run functional
   
