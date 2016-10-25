@@ -25,6 +25,7 @@ install:
   - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
   - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
 
   - copy c:\projects\easol\appveyor\php\*.dll c:\php\ext\.
   - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
