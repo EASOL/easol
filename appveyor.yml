@@ -1,4 +1,4 @@
-build: true
+build: false
 clone_folder: c:\projects\easol
 clone_depth: 5
 
