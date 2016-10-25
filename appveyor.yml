@@ -25,14 +25,15 @@ install:
   - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
 
-  - copy c:\projects\easol\appveyor\*.dll c:\php\ext\.
+  - copy c:\projects\easol\appveyor\php\*.dll c:\php\ext\.
   - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
   - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
 
 
 before_test:
   - cd c:\projects\easol
-  - copy application\config\database.ci.php application\config\database.php
+  - copy appveyor\config\database.php application\config\database.php
+  - copy appveyor\config\carabiner.php application\config\carabiner.php
   - vendor\bin\codecept build
 
 test_script:
