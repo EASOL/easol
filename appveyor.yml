@@ -44,4 +44,5 @@ before_test:
 test_script:
   - cd c:\projects\easol
   - vendor\bin\codecept run functional
+  - ps: get-content tests/_output/ReportCept.fail.html
   
