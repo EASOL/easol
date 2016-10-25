@@ -36,7 +36,7 @@ install:
 
 before_test:
   - cd c:\projects\easol
-  #- php -S localhost:8000
+  - php start -S localhost:8000
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
   - php appveyor\tests\functional.suite.php
