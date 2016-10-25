@@ -33,10 +33,10 @@ install:
   - copy c:\projects\easol\appveyor\php\*.dll c:\php\ext\.
   - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
   - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
+  - wscript.exe "c:\projects\easol\appveyor\php\invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
 
 before_test:
   - cd c:\projects\easol
-  - wscript.exe "appveyor/php/invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
   - copy appveyor\config\config.php application\config\config.php
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
