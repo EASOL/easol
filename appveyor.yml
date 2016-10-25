@@ -39,5 +39,5 @@ before_test:
 test_script:
   - cd c:\projects\easol
   - php test.php
-  #- vendor\bin\codecept build run functional
+  - vendor\bin\codecept build run functional
   
