@@ -1,4 +1,4 @@
-build: false
+build: true
 clone_folder: c:\projects\easol
 clone_depth: 5
 
@@ -35,6 +35,7 @@ before_test:
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
   - powershell -Command "(gc tests\functional.suite.template.yml) -replace '{{test-key}}', $env:CI_TEST_KEY | Out-File tests\functional.suite.yml"
+  - Get-Content c:\projects\easol\tests\functional.suite.yml
   - vendor\bin\codecept build
 
 test_script:
