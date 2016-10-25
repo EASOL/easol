@@ -1,5 +1,6 @@
 build: false
 clone_folder: c:\projects\easol
+clone_depth: 5
 
 cache:
   - c:\php -> appveyor.yml
@@ -29,15 +30,19 @@ install:
   - IF %PHP%==1 echo extension=php_pdo_sqlsrv_7_nts_x86.dll >> php.ini
   - IF %PHP%==1 echo extension=php_sqlsrv_7_nts_x86.dll >> php.ini
 
+  # Powershell, needed to replace text in files
+  - ps: (new-object net.webclient).DownloadFile('https://mysite.com/mypackage.msi', 'mypackage.msi')
+  - ps: msiexec /i mypackage.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2
+
 
 before_test:
   - cd c:\projects\easol
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
+  - powershell -Command "(gc tests\functional.suite.template.yml) -replace '{{test-key}}', $env:CI_TEST_KEY | Out-File tests\functional.suite.yml"
   - vendor\bin\codecept build
 
 test_script:
   - cd c:\projects\easol
-  - php test.php
   - vendor\bin\codecept build run functional
   
