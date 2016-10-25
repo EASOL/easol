@@ -41,7 +41,4 @@ before_test:
 test_script:
   - cd c:\projects\easol
   - vendor\bin\codecept build run functional
-
-after_test:
-  - Get-Content c:\projects\easol\tests\functional.suite.yml
   
