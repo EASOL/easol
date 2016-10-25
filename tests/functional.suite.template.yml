@@ -8,7 +8,7 @@ class_name: FunctionalTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://localhost:8000
+            url: http://localhost
             headers:
               User-Agent: Testing
               X-Test-Key: {{test-key}}
