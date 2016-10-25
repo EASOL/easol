@@ -33,7 +33,7 @@ install:
  # - wscript.exe "c:\projects\easol\appveyor\php/invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
 
 before_test:
-  - ps: $WebServer = Start-Process php -S localhost:8000 -PassThru
+  - ps: start-process "php" "-S localhost:8000" -PassThru
   - cd c:\projects\easol
   - copy appveyor\config\config.php application\config\config.php
   - copy appveyor\config\database.php application\config\database.php
