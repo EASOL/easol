@@ -33,8 +33,8 @@ install:
  # - wscript.exe "c:\projects\easol\appveyor\php/invisible.vbs" "c:\projects\easol\appveyor\php\server.bat"
 
 before_test:
-  - ps: start-process "php" "-S localhost:8000" -PassThru
   - cd c:\projects\easol
+  - ps: start-process "php" "-S localhost:8000" -PassThru
   #- copy appveyor\config\config.php application\config\config.php
   - copy appveyor\config\database.php application\config\database.php
   - copy appveyor\config\carabiner.php application\config\carabiner.php
