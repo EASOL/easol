@@ -22,11 +22,11 @@
 
 
     <?php foreach ($GLOBALS['widget'] as $widget): ?>
-        <?php if (!file_exists(FCPATH."/assets/widgets/$widget/{$widget}.css")) continue; ?>
+        <?php if (!file_exists(FCPATH."assets/widgets/$widget/{$widget}.css")) continue; ?>
         <?php $this->carabiner->css("widgets/$widget/{$widget}.css"); ?>
     <?php endforeach; ?>
 
-    <?php if (file_exists(FCPATH."/assets/css/views/{$this->router->fetch_class()}.css")): ?>
+    <?php if (file_exists(FCPATH."assets/css/views/{$this->router->fetch_class()}.css")): ?>
         <?php $this->carabiner->css('css/views/'.$this->router->fetch_class().'.css'); ?>
     <?php endif; ?>
 
@@ -203,24 +203,24 @@
 <?php $this->carabiner->js('lib/jquery.metisMenu.js'); ?>
 
 <?php $this->carabiner->js('js/custom.js') ?>
-<?php $this->carabiner->js('/js/layout.js') ?>
+<?php $this->carabiner->js('js/layout.js') ?>
 <?php $this->carabiner->js('js/url.js') ?>
 
 <?php foreach ($GLOBALS['js'] as $file): ?>
-    <?php if (!file_exists(FCPATH."/assets/$file")) continue; ?>
+    <?php if (!file_exists(FCPATH."assets/$file")) continue; ?>
     <?php $this->carabiner->js("$file"); ?>
 <?php endforeach; ?>
 
 <?php foreach ($GLOBALS['widget'] as $widget): ?>
-    <?php if (!file_exists(FCPATH."/assets/widgets/$widget/{$widget}.js")) continue; ?>
+    <?php if (!file_exists(FCPATH."assets/widgets/$widget/{$widget}.js")) continue; ?>
     <?php $this->carabiner->js("widgets/$widget/{$widget}.js"); ?>
 <?php endforeach; ?>
 
-<?php if (file_exists(FCPATH."/assets/js/views/{$this->router->fetch_class()}.js")): ?>
+<?php if (file_exists(FCPATH."assets/js/views/{$this->router->fetch_class()}.js")): ?>
     <?php $this->carabiner->js("js/views/{$this->router->fetch_class()}.js"); ?>
 <?php endif; ?>
 
-<?php if (file_exists(FCPATH."/assets/js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js")): ?>
+<?php if (file_exists(FCPATH."assets/js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js")): ?>
     <?php $this->carabiner->js("js/views/{$this->router->fetch_class()}/{$this->router->fetch_method()}.js"); ?>
 <?php endif; ?>
 
